@@ -1,4 +1,4 @@
-package com.example.backend_private;
+package cat.iesmanacor.backend_private;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

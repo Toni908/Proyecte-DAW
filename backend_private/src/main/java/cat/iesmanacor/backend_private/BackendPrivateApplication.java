@@ -1,4 +1,4 @@
-package com.example.backend_private;
+package cat.iesmanacor.backend_private;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

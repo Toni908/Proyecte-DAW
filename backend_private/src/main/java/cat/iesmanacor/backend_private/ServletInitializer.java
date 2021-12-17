@@ -1,4 +1,4 @@
-package com.example.backend_private;
+package cat.iesmanacor.backend_private;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
