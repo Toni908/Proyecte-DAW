@@ -3,6 +3,7 @@
 const gulp = require('gulp');
 const sass = require('gulp-sass')(require('sass'));
 const { watch, series } = require('gulp');
+const uglify = require('gulp-uglify');
 
 function defaultTask(cb) {
     // place code for your default task here
@@ -15,18 +16,13 @@ function buildStyles() {
         .pipe(gulp.dest('./src/main/resources/static/css'));
 };
 
-function buildStyles2() {
-    return gulp.src('./scss/**/*.scss')
-        .pipe(sass().on('error', sass.logError))
-        .pipe(gulp.dest('./css'));
-};
-
-function vetllarSCSS(cb){
-    watch('./lib/bootstrap-5.1.3/scss/**/*.scss', buildStyles);
-    // watch('cssM/*.css', minifyStyles)
-    cb();
+function minifyJs() {
+    return gulp.src('./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js')
+        .pipe(uglify().on('error', sass.logError))
+        .pipe(gulp.dest('./src/main/resources/static/js'));
 }
 
 exports.default = defaultTask
 exports.sass = buildStyles
-exports.sasswatch = vetllarSCSS
+exports.minimitzajs = minifyJs
+exports.build = series(buildStyles, minifyJs)

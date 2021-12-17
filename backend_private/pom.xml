@@ -123,7 +123,7 @@
                         <configuration>
                             <!-- optional: if not specified, it will run gulp's default
                             task (and you can remove this whole <configuration> section.) -->
-                            <arguments>sass</arguments>
+                            <arguments>build</arguments>
                         </configuration>
                     </execution>
                 </executions>
