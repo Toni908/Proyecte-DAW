@@ -29,7 +29,8 @@
 $colors-personalitzats: (
         "iesmanacor": yellow,
         "diw": $indigo-300,
-        "primary": green
+        "primary": green,
+        "baleares": black
 );
 
 $personal-fonts: (
@@ -47,11 +48,18 @@ $font-sizes: map-merge($font-sizes, $personal-fonts);
 //Importar tot el bootstrap
 @import "../../../../../node_modules/bootstrap/scss/bootstrap";
 
-//Estils Personalitzats
-.blacktext{
-  color: black;
-}
+//Importar iconos de bootstrap
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css");
 
-.down{
-  height: 30px;
+//Estils Personalitzats
+.header-top {
+  height: 95px;
+}
+.bg-front {
+  background-image: url("static/img/bg-carusel-1.jpg");
+  background-position: center;
+  background-size: 100%;
+}
+.bg-baleares-contorno {
+  background: red;
 }

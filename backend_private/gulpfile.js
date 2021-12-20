@@ -21,8 +21,12 @@ function minifyJs() {
         .pipe(uglify().on('error', sass.logError))
         .pipe(gulp.dest('./src/main/resources/static/js'));
 }
-
+function buildStylesIcons() {
+    return gulp.src('./node_modules/bootstrap-icons/font/bootstrap-icons.scss')
+        .pipe(sass().on('error', sass.logError))
+        .pipe(gulp.dest('./src/main/resources/static/css'));
+}
 exports.default = defaultTask
 exports.sass = buildStyles
 exports.minimitzajs = minifyJs
-exports.build = series(buildStyles, minifyJs)
+exports.build = series(buildStyles,buildStylesIcons, minifyJs)
