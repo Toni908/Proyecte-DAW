@@ -18169,12 +18169,154 @@ textarea.form-control-lg {
   height: 95px;
 }
 
-.bg-front {
-  background-image: url("static/img/bg-carusel-1.jpg");
-  background-position: center;
-  background-size: 100%;
+.bg-baleares-contorno {
+  background: white;
 }
 
-.bg-baleares-contorno {
-  background: red;
+.animation-1 {
+  animation: fade 500ms linear;
+  animation-fill-mode: forwards;
+  animation-delay: 50ms;
+}
+
+.animation-2 {
+  animation: fade 500ms linear;
+  animation-fill-mode: forwards;
+  animation-delay: 100ms;
+}
+
+.animation-3 {
+  animation: fade 500ms linear;
+  animation-fill-mode: forwards;
+  animation-delay: 150ms;
+}
+
+.animation-4 {
+  animation: fade 500ms linear;
+  animation-fill-mode: forwards;
+  animation-delay: 200ms;
+}
+
+.animation-5 {
+  animation: fade 500ms linear;
+  animation-fill-mode: forwards;
+  animation-delay: 250ms;
+}
+
+.animation-6 {
+  animation: fade 500ms linear;
+  animation-fill-mode: forwards;
+  animation-delay: 300ms;
+}
+
+.animation-7 {
+  animation: fade 500ms linear;
+  animation-fill-mode: forwards;
+  animation-delay: 350ms;
+}
+
+.animation-8 {
+  animation: fade 500ms linear;
+  animation-fill-mode: forwards;
+  animation-delay: 400ms;
+}
+
+.animation-9 {
+  animation: fade 500ms linear;
+  animation-fill-mode: forwards;
+  animation-delay: 450ms;
+}
+
+.animation-10 {
+  animation: fade 500ms linear;
+  animation-fill-mode: forwards;
+  animation-delay: 500ms;
+}
+
+.animation-11 {
+  animation: fade 500ms linear;
+  animation-fill-mode: forwards;
+  animation-delay: 550ms;
+}
+
+.animation-12 {
+  animation: fade 500ms linear;
+  animation-fill-mode: forwards;
+  animation-delay: 600ms;
+}
+
+.animation-13 {
+  animation: fade 500ms linear;
+  animation-fill-mode: forwards;
+  animation-delay: 650ms;
+}
+
+.animation-14 {
+  animation: fade 500ms linear;
+  animation-fill-mode: forwards;
+  animation-delay: 700ms;
+}
+
+.animation-15 {
+  animation: fade 500ms linear;
+  animation-fill-mode: forwards;
+  animation-delay: 750ms;
+}
+
+.animation-16 {
+  animation: fade 500ms linear;
+  animation-fill-mode: forwards;
+  animation-delay: 800ms;
+}
+
+.animation-17 {
+  animation: fade 500ms linear;
+  animation-fill-mode: forwards;
+  animation-delay: 850ms;
+}
+
+.animation-18 {
+  animation: fade 500ms linear;
+  animation-fill-mode: forwards;
+  animation-delay: 900ms;
+}
+
+.animation-19 {
+  animation: fade 500ms linear;
+  animation-fill-mode: forwards;
+  animation-delay: 950ms;
+}
+
+.animation-20 {
+  animation: fade 500ms linear;
+  animation-fill-mode: forwards;
+  animation-delay: 1000ms;
+}
+
+.img-baleares-color-1 {
+  background: green;
+}
+
+.img-baleares-color-2 {
+  background: greenyellow;
+}
+
+.img-baleares-color-3 {
+  background: lightgreen;
+}
+
+.img-baleares-color-4 {
+  background: limegreen;
+}
+
+@keyframes fade {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
 }

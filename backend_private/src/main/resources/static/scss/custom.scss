@@ -55,11 +55,42 @@ $font-sizes: map-merge($font-sizes, $personal-fonts);
 .header-top {
   height: 95px;
 }
-.bg-front {
-  background-image: url("static/img/bg-carusel-1.jpg");
-  background-position: center;
-  background-size: 100%;
-}
 .bg-baleares-contorno {
-  background: red;
+  background: white;
+}
+$anim-speed: 500ms;
+
+.img-baleares {
+
+}
+@for $x from 1 through 20 {
+  .animation-#{$x} {
+    animation: fade $anim-speed linear;
+    animation-fill-mode:forwards;
+    animation-delay: $x * 50ms;
+  }
+}
+.img-baleares-color-1 {
+  background: green;
+}
+.img-baleares-color-2 {
+  background: greenyellow;
+}
+.img-baleares-color-3 {
+  background: lightgreen;
+}
+.img-baleares-color-4 {
+  background: limegreen;
+}
+
+@keyframes fade {
+  0%{
+    opacity: 0;
+  }
+  50%{
+    opacity: 0.5;
+  }
+  100%{
+    opacity: 1;
+  }
 }
