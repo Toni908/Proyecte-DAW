@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class provaController {
     @GetMapping("/prova")
     public String getHome(){
-        return "index";
+        return "home";
     }
 }

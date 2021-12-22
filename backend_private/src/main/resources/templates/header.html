@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ProvaAndres</title>
+    <link th:href="@{/css/custom.css}" rel="stylesheet">
+</head>
+<body>
+<!-- Header -->
+<header id="header1" class="header-top w-100 bg-front m-0 pt-2 pb-2">
+    <nav class="h-100 navbar navbar-light p-0 d-flex justify-content-end border-2 border-secondary border-end" style="margin-right: 15%">
+        <a class="nav-link size-header1 d-lg-none d-block text-white align-self-center p-0 pe-3 ps-3" href="#">Buscador Avanzado</a>
+        <a class="nav-link size-header1 text-white align-self-center p-0 pe-3 ps-3" href="#">Questions</a>
+        <a class="nav-link size-header1 text-white align-self-center p-0 pe-3 ps-3" href="#">About Us</a>
+    </nav>
+</header>
+<header id="header2" class="header-top sticky-top bg-white w-100 ps-lg-5 pe-lg-5">
+    <div class="row w-100 h-100 bg-white m-0 bg-front ps-lg-5 pe-lg-5">
+        <div class="col-lg-3 col-5 h-100">
+            <div class="h-100 w-100 d-flex flex-row justify-content-center">
+                <img class="h-50 align-self-center object-cover" th:src="@{/img/iesmanacor.png}" alt="ies">
+            </div>
+        </div>
+        <div class="col-lg-6 d-none d-lg-block h-100 align-self-center">
+            <nav class="h-100 navbar navbar-light d-flex justify-content-center fw-bold">
+                <div class="w-100 d-flex flex-row justify-content-center">
+                    <i class="bi bi-search fs-3 pe-lg-5 pe-3 align-self-center w-10"></i>
+                    <label class="w-90">
+                        <input class="w-100 p-2" type="text">
+                    </label>
+                </div>
+            </nav>
+        </div>
+        <div class="col-lg-3 col-7 h-100 d-flex flex-row justify-content-end">
+            <i class="bi bi-shop fs-3 pe-lg-5 pe-3 align-self-center"></i>
+            <i class="bi bi-person-fill fs-3 pe-lg-5 pe-3 align-self-center"></i>
+            <i class="bi bi-globe fs-3 pe-lg-5 pe-3 align-self-center"></i>
+        </div>
+    </div>
+</header>
+
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

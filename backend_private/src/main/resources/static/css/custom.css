@@ -1,5 +1,6 @@
 @charset "UTF-8";
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css");
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@300&display=swap");
 :root {
   --bs-blue: #0d6efd;
   --bs-indigo: #6610f2;
@@ -18169,154 +18170,61 @@ textarea.form-control-lg {
   height: 95px;
 }
 
-.bg-baleares-contorno {
-  background: white;
+.size-header1 {
+  font-family: "Raleway", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
 }
 
-.animation-1 {
-  animation: fade 500ms linear;
-  animation-fill-mode: forwards;
-  animation-delay: 50ms;
+#header1 {
+  background: #1F1F1F;
+  height: 40px;
 }
 
-.animation-2 {
-  animation: fade 500ms linear;
-  animation-fill-mode: forwards;
-  animation-delay: 100ms;
+.object-cover {
+  object-fit: cover;
 }
 
-.animation-3 {
-  animation: fade 500ms linear;
-  animation-fill-mode: forwards;
-  animation-delay: 150ms;
+.w-0 {
+  width: 0%;
 }
 
-.animation-4 {
-  animation: fade 500ms linear;
-  animation-fill-mode: forwards;
-  animation-delay: 200ms;
+.w-10 {
+  width: 10%;
 }
 
-.animation-5 {
-  animation: fade 500ms linear;
-  animation-fill-mode: forwards;
-  animation-delay: 250ms;
+.w-20 {
+  width: 20%;
 }
 
-.animation-6 {
-  animation: fade 500ms linear;
-  animation-fill-mode: forwards;
-  animation-delay: 300ms;
+.w-30 {
+  width: 30%;
 }
 
-.animation-7 {
-  animation: fade 500ms linear;
-  animation-fill-mode: forwards;
-  animation-delay: 350ms;
+.w-40 {
+  width: 40%;
 }
 
-.animation-8 {
-  animation: fade 500ms linear;
-  animation-fill-mode: forwards;
-  animation-delay: 400ms;
+.w-50 {
+  width: 50%;
 }
 
-.animation-9 {
-  animation: fade 500ms linear;
-  animation-fill-mode: forwards;
-  animation-delay: 450ms;
+.w-60 {
+  width: 60%;
 }
 
-.animation-10 {
-  animation: fade 500ms linear;
-  animation-fill-mode: forwards;
-  animation-delay: 500ms;
+.w-70 {
+  width: 70%;
 }
 
-.animation-11 {
-  animation: fade 500ms linear;
-  animation-fill-mode: forwards;
-  animation-delay: 550ms;
+.w-80 {
+  width: 80%;
 }
 
-.animation-12 {
-  animation: fade 500ms linear;
-  animation-fill-mode: forwards;
-  animation-delay: 600ms;
+.w-90 {
+  width: 90%;
 }
 
-.animation-13 {
-  animation: fade 500ms linear;
-  animation-fill-mode: forwards;
-  animation-delay: 650ms;
-}
-
-.animation-14 {
-  animation: fade 500ms linear;
-  animation-fill-mode: forwards;
-  animation-delay: 700ms;
-}
-
-.animation-15 {
-  animation: fade 500ms linear;
-  animation-fill-mode: forwards;
-  animation-delay: 750ms;
-}
-
-.animation-16 {
-  animation: fade 500ms linear;
-  animation-fill-mode: forwards;
-  animation-delay: 800ms;
-}
-
-.animation-17 {
-  animation: fade 500ms linear;
-  animation-fill-mode: forwards;
-  animation-delay: 850ms;
-}
-
-.animation-18 {
-  animation: fade 500ms linear;
-  animation-fill-mode: forwards;
-  animation-delay: 900ms;
-}
-
-.animation-19 {
-  animation: fade 500ms linear;
-  animation-fill-mode: forwards;
-  animation-delay: 950ms;
-}
-
-.animation-20 {
-  animation: fade 500ms linear;
-  animation-fill-mode: forwards;
-  animation-delay: 1000ms;
-}
-
-.img-baleares-color-1 {
-  background: green;
-}
-
-.img-baleares-color-2 {
-  background: greenyellow;
-}
-
-.img-baleares-color-3 {
-  background: lightgreen;
-}
-
-.img-baleares-color-4 {
-  background: limegreen;
-}
-
-@keyframes fade {
-  0% {
-    opacity: 0;
-  }
-  50% {
-    opacity: 0.5;
-  }
-  100% {
-    opacity: 1;
-  }
+.w-100 {
+  width: 100%;
 }

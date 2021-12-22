@@ -30,7 +30,6 @@ $colors-personalitzats: (
         "iesmanacor": yellow,
         "diw": $indigo-300,
         "primary": green,
-        "baleares": black
 );
 
 $personal-fonts: (
@@ -51,46 +50,17 @@ $font-sizes: map-merge($font-sizes, $personal-fonts);
 //Importar iconos de bootstrap
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css");
 
-//Estils Personalitzats
-.header-top {
-  height: 95px;
-}
-.bg-baleares-contorno {
-  background: white;
-}
-$anim-speed: 500ms;
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300&display=swap');
 
-.img-baleares {
+@import "header.scss";
 
+//Estils Personalitzats General
+.object-cover {
+  object-fit: cover;
 }
-@for $x from 1 through 20 {
-  .animation-#{$x} {
-    animation: fade $anim-speed linear;
-    animation-fill-mode:forwards;
-    animation-delay: $x * 50ms;
-  }
-}
-.img-baleares-color-1 {
-  background: green;
-}
-.img-baleares-color-2 {
-  background: greenyellow;
-}
-.img-baleares-color-3 {
-  background: lightgreen;
-}
-.img-baleares-color-4 {
-  background: limegreen;
-}
-
-@keyframes fade {
-  0%{
-    opacity: 0;
-  }
-  50%{
-    opacity: 0.5;
-  }
-  100%{
-    opacity: 1;
+@for $x from 0 through 10 {
+  //Custom width
+  .w-#{$x*10} {
+    width: $x * 10%;
   }
 }
