@@ -11,18 +11,22 @@ function defaultTask(cb) {
 }
 
 function buildStyles() {
-    return gulp.src('./src/main/resources/static/scss/*.scss')
+    return gulp.src('./src/main/resources/static/scss/custom.scss')
         .pipe(sass().on('error', sass.logError))
         .pipe(gulp.dest('./src/main/resources/static/css'));
-};
-
+}
 function minifyJs() {
     return gulp.src('./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js')
         .pipe(uglify().on('error', sass.logError))
         .pipe(gulp.dest('./src/main/resources/static/js'));
 }
+function buildStylesIcons() {
+    return gulp.src('./node_modules/bootstrap-icons/font/bootstrap-icons.scss')
+        .pipe(sass().on('error', sass.logError))
+        .pipe(gulp.dest('./src/main/resources/static/css'));
+}
 
 exports.default = defaultTask
 exports.sass = buildStyles
 exports.minimitzajs = minifyJs
-exports.build = series(buildStyles, minifyJs)
+exports.build = series(buildStyles,buildStylesIcons, minifyJs)
