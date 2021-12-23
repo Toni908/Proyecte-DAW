@@ -6825,7 +6825,6 @@ progress {
   --bs-dark: #212529;
   --bs-iesmanacor: yellow;
   --bs-diw: #a370f7;
-  --bs-baleares: black;
   --bs-primary-rgb: green;
   --bs-secondary-rgb: 108, 117, 125;
   --bs-success-rgb: 25, 135, 84;
@@ -6836,7 +6835,6 @@ progress {
   --bs-dark-rgb: 33, 37, 41;
   --bs-iesmanacor-rgb: yellow;
   --bs-diw-rgb: #a370f7;
-  --bs-baleares-rgb: black;
   --bs-white-rgb: 255, 255, 255;
   --bs-black-rgb: 0, 0, 0;
   --bs-body-color-rgb: 33, 37, 41;
@@ -10019,36 +10017,6 @@ textarea.form-control-lg {
   border-color: #a370f7;
 }
 
-.btn-baleares {
-  color: #fff;
-  background-color: black;
-  border-color: black;
-}
-.btn-baleares:hover {
-  color: #fff;
-  background-color: black;
-  border-color: black;
-}
-.btn-check:focus + .btn-baleares, .btn-baleares:focus {
-  color: #fff;
-  background-color: black;
-  border-color: black;
-  box-shadow: 0 0 0 0.25rem rgba(38, 38, 38, 0.5);
-}
-.btn-check:checked + .btn-baleares, .btn-check:active + .btn-baleares, .btn-baleares:active, .btn-baleares.active, .show > .btn-baleares.dropdown-toggle {
-  color: #fff;
-  background-color: black;
-  border-color: black;
-}
-.btn-check:checked + .btn-baleares:focus, .btn-check:active + .btn-baleares:focus, .btn-baleares:active:focus, .btn-baleares.active:focus, .show > .btn-baleares.dropdown-toggle:focus {
-  box-shadow: 0 0 0 0.25rem rgba(38, 38, 38, 0.5);
-}
-.btn-baleares:disabled, .btn-baleares.disabled {
-  color: #fff;
-  background-color: black;
-  border-color: black;
-}
-
 .btn-outline-primary {
   color: green;
   border-color: green;
@@ -10296,31 +10264,6 @@ textarea.form-control-lg {
 }
 .btn-outline-diw:disabled, .btn-outline-diw.disabled {
   color: #a370f7;
-  background-color: transparent;
-}
-
-.btn-outline-baleares {
-  color: black;
-  border-color: black;
-}
-.btn-outline-baleares:hover {
-  color: #fff;
-  background-color: black;
-  border-color: black;
-}
-.btn-check:focus + .btn-outline-baleares, .btn-outline-baleares:focus {
-  box-shadow: 0 0 0 0.25rem rgba(0, 0, 0, 0.5);
-}
-.btn-check:checked + .btn-outline-baleares, .btn-check:active + .btn-outline-baleares, .btn-outline-baleares:active, .btn-outline-baleares.active, .btn-outline-baleares.dropdown-toggle.show {
-  color: #fff;
-  background-color: black;
-  border-color: black;
-}
-.btn-check:checked + .btn-outline-baleares:focus, .btn-check:active + .btn-outline-baleares:focus, .btn-outline-baleares:active:focus, .btn-outline-baleares.active:focus, .btn-outline-baleares.dropdown-toggle.show:focus {
-  box-shadow: 0 0 0 0.25rem rgba(0, 0, 0, 0.5);
-}
-.btn-outline-baleares:disabled, .btn-outline-baleares.disabled {
-  color: black;
   background-color: transparent;
 }
 
@@ -11877,15 +11820,6 @@ textarea.form-control-lg {
   color: #4e3676;
 }
 
-.alert-baleares {
-  color: black;
-  background-color: #cccccc;
-  border-color: #b3b3b3;
-}
-.alert-baleares .alert-link {
-  color: black;
-}
-
 @keyframes progress-bar-stripes {
   0% {
     background-position-x: 1rem;
@@ -12291,20 +12225,6 @@ textarea.form-control-lg {
   color: #fff;
   background-color: #624394;
   border-color: #624394;
-}
-
-.list-group-item-baleares {
-  color: black;
-  background-color: #cccccc;
-}
-.list-group-item-baleares.list-group-item-action:hover, .list-group-item-baleares.list-group-item-action:focus {
-  color: black;
-  background-color: #b8b8b8;
-}
-.list-group-item-baleares.list-group-item-action.active {
-  color: #fff;
-  background-color: black;
-  border-color: black;
 }
 
 .btn-close {
@@ -13374,13 +13294,6 @@ textarea.form-control-lg {
 }
 .link-diw:hover, .link-diw:focus {
   color: #b58df9;
-}
-
-.link-baleares {
-  color: black;
-}
-.link-baleares:hover, .link-baleares:focus {
-  color: black;
 }
 
 .ratio {
@@ -18166,8 +18079,8 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
-.header-top {
-  height: 95px;
+#header2 {
+  height: 110px;
 }
 
 .size-header1 {
@@ -18179,6 +18092,86 @@ textarea.form-control-lg {
 #header1 {
   background: #1F1F1F;
   height: 40px;
+}
+
+.margin-nav-header1 {
+  margin-right: 15%;
+}
+
+.border-e-grey {
+  border-right: solid grey 2px;
+}
+
+@media only screen and (max-width: 600px) {
+  .size-header1 {
+    font-size: 10px;
+  }
+}
+@media only screen and (max-width: 990px) {
+  .margin-nav-header1 {
+    margin-right: 0;
+  }
+
+  .border-e-grey {
+    border: 0;
+  }
+}
+.nav-header-text-1 {
+  color: white;
+  text-decoration-line: none;
+}
+.nav-header-text-1:hover {
+  color: grey;
+}
+
+.nav-header-text-2 {
+  color: black;
+  text-decoration-line: none;
+}
+.nav-header-text-2:hover {
+  color: grey;
+}
+
+.nav-header-bg-1 {
+  background: white;
+}
+
+.nav-header-bg-2 {
+  background: black;
+}
+
+.navbar-toggler-1 {
+  padding-left: 11px;
+  padding-right: 11px;
+  width: 50px;
+  height: 50px;
+  background-color: black;
+  border: white solid 2px;
+}
+
+.navbar-toggler-1 .line {
+  width: 100%;
+  float: left;
+  height: 2px;
+  background-color: white;
+  margin-bottom: 5px;
+}
+
+.navbar-toggler-2 {
+  padding-left: 11px;
+  padding-right: 11px;
+  width: 50px;
+  height: 50px;
+  background-color: white;
+  border-color: black;
+}
+
+.navbar-toggler-2 .line {
+  width: 100%;
+  float: left;
+  height: 2px;
+  background-color: black;
+  margin-bottom: 5px;
 }
 
 .object-cover {
@@ -18227,4 +18220,48 @@ textarea.form-control-lg {
 
 .w-100 {
   width: 100%;
+}
+
+.h-0 {
+  height: 0%;
+}
+
+.h-10 {
+  height: 10%;
+}
+
+.h-20 {
+  height: 20%;
+}
+
+.h-30 {
+  height: 30%;
+}
+
+.h-40 {
+  height: 40%;
+}
+
+.h-50 {
+  height: 50%;
+}
+
+.h-60 {
+  height: 60%;
+}
+
+.h-70 {
+  height: 70%;
+}
+
+.h-80 {
+  height: 80%;
+}
+
+.h-90 {
+  height: 90%;
+}
+
+.h-100 {
+  height: 100%;
 }

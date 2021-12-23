@@ -64,3 +64,9 @@ $font-sizes: map-merge($font-sizes, $personal-fonts);
     width: $x * 10%;
   }
 }
+@for $x from 0 through 10 {
+  //Custom width
+  .h-#{$x*10} {
+    height: $x * 10%;
+  }
+}

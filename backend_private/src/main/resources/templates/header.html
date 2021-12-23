@@ -4,41 +4,244 @@
     <meta charset="UTF-8">
     <title>Header</title>
     <link th:href="@{/css/custom.css}" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
+
 <!-- Header -->
-<header id="header1" class="header-top w-100 bg-front m-0 pt-2 pb-2">
-    <nav class="h-100 navbar navbar-light p-0 d-flex justify-content-end border-2 border-secondary border-end" style="margin-right: 15%">
-        <a class="nav-link size-header1 d-lg-none d-block text-white align-self-center p-0 pe-3 ps-3" href="#">Buscador Avanzado</a>
-        <a class="nav-link size-header1 text-white align-self-center p-0 pe-3 ps-3" href="#">Questions</a>
-        <a class="nav-link size-header1 text-white align-self-center p-0 pe-3 ps-3" href="#">About Us</a>
-    </nav>
-</header>
-<header id="header2" class="header-top sticky-top bg-white w-100 ps-lg-5 pe-lg-5">
-    <div class="row w-100 h-100 bg-white m-0 bg-front ps-lg-5 pe-lg-5">
-        <div class="col-lg-3 col-5 h-100">
-            <div class="h-100 w-100 d-flex flex-row justify-content-center">
-                <img class="h-50 align-self-center object-cover" th:src="@{/img/iesmanacor.png}" alt="ies">
-            </div>
-        </div>
-        <div class="col-lg-6 d-none d-lg-block h-100 align-self-center">
-            <nav class="h-100 navbar navbar-light d-flex justify-content-center fw-bold">
-                <div class="w-100 d-flex flex-row justify-content-center">
-                    <i class="bi bi-search fs-3 pe-lg-5 pe-3 align-self-center w-10"></i>
-                    <label class="w-90">
-                        <input class="w-100 p-2" type="text">
-                    </label>
-                </div>
-            </nav>
-        </div>
-        <div class="col-lg-3 col-7 h-100 d-flex flex-row justify-content-end">
-            <i class="bi bi-shop fs-3 pe-lg-5 pe-3 align-self-center"></i>
-            <i class="bi bi-person-fill fs-3 pe-lg-5 pe-3 align-self-center"></i>
-            <i class="bi bi-globe fs-3 pe-lg-5 pe-3 align-self-center"></i>
-        </div>
+<header id="header1" class="w-100 bg-front m-0">
+    <div class="h-100 pt-2 pb-2 margin-nav-header1">
+        <nav class="h-100 navbar navbar-light p-0 d-flex justify-content-lg-end justify-content-center border-e-grey">
+            <a class="nav-link size-header1 d-lg-none d-block text-white align-self-center p-0 pe-3 ps-3" href="#">Buscadar Avanzado</a>
+            <a class="nav-link size-header1 text-white align-self-center p-0 pe-3 ps-3" href="#">Preguntas</a>
+            <a class="nav-link size-header1 text-white align-self-center p-0 pe-3 ps-3" href="#">Quien Somos?</a>
+        </nav>
     </div>
 </header>
+<header id="header2" class="sticky-top w-100">
+    <nav class="navbar navbar-expand-lg navbar-light h-100">
+        <div class="container-fluid flex-row h-100 w-100 p-0">
+            <div class="d-lg-none d-block h-100 col-sm-4 col-3 d-flex flex-row justify-content-center">
+                <!--<button id="navbar-button-header" class="navbar-toggler align-self-center ms-lg-5 ms-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offCanvasHeader" aria-controls="offCanvasHeader">
+                    <span class="navbar-toggler-icon"></span>
+                </button>-->
+                <button id="navbar-button-header" class="align-self-center border-white" type="button" data-bs-toggle="offcanvas" data-bs-target="#offCanvasHeader" aria-controls="offCanvasHeader">
+                    <span class="line"></span>
+                    <span class="line"></span>
+                    <span class="line" style="margin-bottom: 0;"></span>
+                </button>
+            </div>
+            <div class="col-lg-3 col-sm-4 col-5 h-100">
+                <div class="h-100 w-100 d-flex flex-row justify-content-center">
+                    <img id="logoHeader1" class="h-100 align-self-center" th:src="@{/img/ies_manacor_black.png}" alt="ies">
+                    <img id="logoHeader2" class="h-100 align-self-center" th:src="@{/img/ies_manacor_white.png}" alt="ies">
+                </div>
+            </div>
+            <div id="navbarContent" class="col-lg-6 d-lg-block d-none h-100 p-0">
+                <nav class="h-100 d-flex flex-row justify-content-center navbar navbar-light fw-bold">
+                    <a class="align-self-center p-0 pe-3 ps-3" href="#">Casa</a>
+                    <a class="align-self-center p-0 pe-3 ps-3" href="#">Crear Restaurante</a>
+                    <a class="align-self-center p-0 pe-3 ps-3" href="#">Mis Reservas</a>
+                </nav>
+            </div>
+            <form class="col-lg-3 col-4 d-flex flex-row justify-content-end">
+                <i class="bi bi-shop fs-3 pe-lg-5 pe-3 align-self-center"></i>
+                <i class="bi bi-person-fill fs-3 pe-lg-5 pe-3 align-self-center"></i>
+                <i class="bi bi-globe fs-3 pe-lg-5 pe-3 align-self-center"></i>
+            </form>
+        </div>
+    </nav>
+</header>
 
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offCanvasHeader" aria-labelledby="offCanvasHeaderLabel">
+    <div class="offcanvas-header d-flex flex-row justify-content-end">
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+
+    </div>
+</div>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/js/jquery-3.6.0.min.js}"></script>
+<script>
+    //Changes on header
+    var header = $("#header2");
+    var headerItems1 = $("#header2 .bi");
+    var headerItems2 = $("#navbar-button-header");
+    var headerItems3 = $("#navbarContent nav a");
+    var logoHeader1 = $("#logoHeader1");
+    var logoHeader2 = $("#logoHeader2");
+
+    window.onload = function () {
+        if ($(window).scrollTop() < 40) {
+            onTop();
+        } else {
+            onScrollHeader();
+        }
+    }
+    window.onscroll = function() {
+        var distanceScrolled = document.documentElement.scrollTop;
+        if (distanceScrolled < 40) {
+            onTop();
+        } else {
+            onScrollHeader();
+        }
+    }
+
+    function onTop() {
+        header.addClass("nav-header-bg-1");
+        header.removeClass("nav-header-bg-2");
+        headerItems1.addClass("nav-header-text-2");
+        headerItems1.removeClass("nav-header-text-1");
+        headerItems2.addClass("navbar-toggler-2");
+        headerItems2.removeClass("navbar-toggler-1");
+        headerItems3.addClass("nav-header-text-2");
+        headerItems3.removeClass("nav-header-text-1");
+        logoHeader1.css("display","block");
+        logoHeader2.css("display","none");
+    }
+    function onScrollHeader() {
+        header.addClass("nav-header-bg-2");
+        header.removeClass("nav-header-bg-1");
+        headerItems1.addClass("nav-header-text-1");
+        headerItems1.removeClass("nav-header-text-2");
+        headerItems2.addClass("navbar-toggler-1");
+        headerItems2.removeClass("navbar-toggler-2");
+        headerItems3.addClass("nav-header-text-1");
+        headerItems3.removeClass("nav-header-text-2");
+        logoHeader1.css("display","none");
+        logoHeader2.css("display","block");
+    }
+</script>
 </body>
 </html>
