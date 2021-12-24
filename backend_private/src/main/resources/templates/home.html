@@ -21,33 +21,135 @@
 <header id="header2" class="sticky-top w-100">
     <nav class="navbar navbar-expand-lg navbar-light h-100">
         <div class="container-fluid flex-row h-100 w-100 p-0">
-            <div class="d-lg-none d-block h-100 col-sm-4 col-3 d-flex flex-row justify-content-center">
+            <div class="d-xl-none d-block h-100 col-lg-4 col-3 d-flex flex-row justify-content-center">
                 <button id="navbar-button-header" class="align-self-center border-white" type="button" data-bs-toggle="offcanvas" data-bs-target="#offCanvasHeader" aria-controls="offCanvasHeader">
                     <span class="line"></span>
                     <span class="line"></span>
                     <span class="line" style="margin-bottom: 0;"></span>
                 </button>
             </div>
-            <div class="col-lg-3 col-sm-4 col-5 h-100">
+            <div class="col-xl-3 col-sm-4 col-5 h-100">
                 <div class="h-100 w-100 d-flex flex-row justify-content-center">
                     <img id="logoHeader1" class="h-100 align-self-center" th:src="@{/img/ies_manacor_black.png}" alt="ies">
                     <img id="logoHeader2" class="h-100 align-self-center" th:src="@{/img/ies_manacor_white.png}" alt="ies">
                 </div>
             </div>
-            <div id="navbarContent" class="col-lg-6 d-lg-block d-none h-100 p-0">
-                <nav class="h-100 d-flex flex-row justify-content-center navbar navbar-light fw-bold">
+            <div class="col-lg-6 d-xl-block d-none h-100 p-0">
+                <nav id="navbarContent" class="h-100 d-flex flex-row justify-content-center navbar navbar-light fw-bold">
                     <a class="align-self-center p-0 pe-3 ps-3" href="#">Casa</a>
                     <a class="align-self-center p-0 pe-3 ps-3" href="#">Crear Restaurante</a>
                     <a class="align-self-center p-0 pe-3 ps-3" href="#">Mis Reservas</a>
                 </nav>
+                <section id="buscadorHeaderTop" class="d-none w-100 h-100 m-0 p-0 flex-row justify-content-center mt-2 mb-5">
+                    <div id="buscadorTop" class="w-100 h-100 m-0">
+                        <div class="background-search d-flex flex-row rounded-pill border border-2" style="height: 75px">
+                            <div class="w-30 h-100 rounded-pill">
+                                <button class="localidad bg-items text-start button-search-s1 border-0 h-100 w-100 p-0 rounded-pill ps-2" onclick="openLocalizacion()">
+                                    <div class="container_search w-100">
+                                        <div class="title_search">Localizacion</div>
+                                        <div class="description_search w-100">¿A donde?</div>
+                                    </div>
+                                </button>
+                            </div>
+                            <div class="separator1 border-end border-2 mt-3 mb-3 border-grey-100"><!-- Separator --></div>
+                            <div class="w-20 h-100 rounded-pill">
+                                <button class="llegada bg-items button-search-s1 border-0 h-100 w-100 p-0 text-start rounded-pill" onclick="">
+                                    <div class="container_search w-100">
+                                        <div class="title_search">Hora</div>
+                                        <div class="description_search w-100">¿Que hora?</div>
+                                    </div>
+                                </button>
+                            </div>
+                            <div class="separator2 border-end border-2 mt-3 mb-3 border-grey-100"><!-- Separator --></div>
+                            <div class="w-20 h-100 rounded-pill">
+                                <button class="salida bg-items button-search-s1 border-0 h-100 w-100 p-0 text-start rounded-pill" onclick="">
+                                    <div class="container_search w-100">
+                                        <div class="title_search">Dia</div>
+                                        <div class="description_search w-100">¿Que dia?</div>
+                                    </div>
+                                </button>
+                            </div>
+                            <div class="separator3 border-end border-2 mt-3 mb-3 border-grey-100"><!-- Separator --></div>
+                            <div class="w-30 h-100 rounded-pill">
+                                <button class="etiqueta bg-items button-search-s1 border-0 h-100 w-100 p-0 text-start rounded-pill" onclick="">
+                                    <div class="container_search w-100">
+                                        <div class="title_search">Etiquetas</div>
+                                        <div class="description_search w-100">¿Que te gusta?</div>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
             </div>
             <form class="col-lg-3 col-4 d-flex flex-row justify-content-end">
-                <i class="bi bi-shop fs-3 pe-lg-5 pe-3 align-self-center"></i>
-                <i class="bi bi-person-fill fs-3 pe-lg-5 pe-3 align-self-center"></i>
-                <i class="bi bi-globe fs-3 pe-lg-5 pe-3 align-self-center"></i>
+                <i class="bi bi-shop fs-3 pe-xl-5 pe-3 align-self-center"></i>
+                <i class="bi bi-person-fill fs-3 pe-xl-5 pe-3 align-self-center"></i>
+                <i class="bi bi-globe fs-3 pe-xl-5 pe-3 align-self-center"></i>
             </form>
         </div>
     </nav>
+    <section id="buscadorHeader" class="d-xl-flex d-none w-100 h-100 m-0 p-0 flex-row justify-content-center mt-2">
+        <div id="buscador" class="h-100 m-0">
+            <div class="background-search d-flex flex-row rounded-pill border border-2" style="height: 75px">
+                <div class="w-30 h-100 rounded-pill">
+                    <button class="localidad bg-items text-start button-search-s1 border-0 h-100 w-100 p-0 rounded-pill ps-2" onclick="openLocalizacion()">
+                        <div class="container_search w-100">
+                            <div class="title_search">Localizacion</div>
+                            <div class="description_search w-100">¿A donde?</div>
+                        </div>
+                    </button>
+                </div>
+                <div class="separator1 border-end border-2 mt-3 mb-3 border-grey-100"><!-- Separator --></div>
+                <div class="w-20 h-100 rounded-pill">
+                    <button class="llegada bg-items button-search-s1 border-0 h-100 w-100 p-0 text-start rounded-pill" onclick="">
+                        <div class="container_search w-100">
+                            <div class="title_search">Hora</div>
+                            <div class="description_search w-100">¿Que hora?</div>
+                        </div>
+                    </button>
+                </div>
+                <div class="separator2 border-end border-2 mt-3 mb-3 border-grey-100"><!-- Separator --></div>
+                <div class="w-20 h-100 rounded-pill">
+                    <button class="salida bg-items button-search-s1 border-0 h-100 w-100 p-0 text-start rounded-pill" onclick="">
+                        <div class="container_search w-100">
+                            <div class="title_search">Dia</div>
+                            <div class="description_search w-100">¿Que dia?</div>
+                        </div>
+                    </button>
+                </div>
+                <div class="separator3 border-end border-2 mt-3 mb-3 border-grey-100"><!-- Separator --></div>
+                <div class="w-30 h-100 rounded-pill">
+                    <button class="etiqueta bg-items button-search-s1 border-0 h-100 w-100 p-0 text-start rounded-pill" onclick="">
+                        <div class="container_search w-100">
+                            <div class="title_search">Etiquetas</div>
+                            <div class="description_search w-100">¿Que te gusta?</div>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="w-100 h-100 p-0 m-0">
+        <div class="d-xl-flex flex-row justify-content-center w-100 h-100 d-none">
+            <div class="d-xl-flex flex-row w-50">
+                <div id="localidadCard" class="d-none w-60 mt-3" style="height: 175px;border-radius: 60px">
+                    <div class="card h-100 align-self-center" style="border-radius: 60px">
+                        <div class="card-body h-100 mt-3">
+                            <div class="d-flex flex-row justify-content-between">
+                                <h5 class="card-title fw-bold nav-header-text-2 ps-5" style="font-size: 15px">VIAJA DONDE SEA, CUANDO SEA</h5>
+                                <a class="nav-header-text-2 pe-5" style="z-index: 1" onclick="closeLocalizacion()"><i class="bi bi-x-lg nav-header-text-2"></i></a>
+                            </div>
+                            <label class="w-100 rounded-pill h-50 mt-4">
+                                <input type="text" class="w-100 h-100 rounded-pill ps-5">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </header>
 <section class="offcanvas offcanvas-start" tabindex="-1" id="offCanvasHeader" aria-labelledby="offCanvasHeaderLabel">
     <div class="offcanvas-header d-flex flex-row justify-content-end">
@@ -58,87 +160,139 @@
     </div>
 </section>
 
-<section class="d-lg-flex d-none w-100 h-100 m-0 p-0 flex-row justify-content-center">
-    <div class="w-50 h-100 m-0">
-        <div class="bg-white d-flex flex-row rounded-pill border border-2" style="height: 65px">
-            <div class="w-30 h-100 rounded-pill">
-                <button id="localidad" class="bg-white border-0 h-100 w-100 p-0 text-start rounded-pill ps-5" onclick="openDestino()">
-                    <a class="text-black text-decoration-none fw-bold" style="font-size: 14px">Destino</a><br>
-                    <a class="text-secondary text-decoration-none" style="font-size: 14px">¿A dónde viajas?</a>
-                </button>
-            </div>
-            <div class="border-end border-2 border-secondary mt-3 mb-3"><!-- Separator --></div>
-            <div id="llegada" class="w-20 h-100 rounded-pill">
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 
-            </div>
-            <div class="border-end border-2 border-secondary mt-3 mb-3"><!-- Separator --></div>
-            <div id="salida" class="w-20 h-100 rounded-pill">
-
-            </div>
-            <div class="border-end border-2 border-secondary mt-3 mb-3"><!-- Separator --></div>
-            <div id="buscar"  class="w-30 h-100 rounded-pill">
-
-            </div>
-        </div>
-    </div>
-</section>
-<section class="d-lg-flex d-none w-100 h-100 m-0 p-0 flex-row justify-content-center">
-    <div class="w-50 h-100 m-0">
-        <div class="bg-black d-flex flex-row rounded-pill border border-2" style="height: 65px">
-            <div class="w-30 h-100 rounded-pill">
-                <button id="localidad1" class="border-0 h-100 w-100 p-0 text-start rounded-pill ps-5" onclick="openDestino()">
-                    <a class="text-white text-decoration-none fw-bold" style="font-size: 14px">Destino</a><br>
-                    <a class="text-secondary text-decoration-none" style="font-size: 14px">¿A dónde viajas?</a>
-                </button>
-            </div>
-            <div class="border-end border-2 border-secondary mt-3 mb-3"><!-- Separator --></div>
-            <div id="llegada2" class="w-20 h-100 rounded-pill">
-
-            </div>
-            <div class="border-end border-2 border-secondary mt-3 mb-3"><!-- Separator --></div>
-            <div id="salida3" class="w-20 h-100 rounded-pill">
-
-            </div>
-            <div class="border-end border-2 border-secondary mt-3 mb-3"><!-- Separator --></div>
-            <div id="buscar4"  class="w-30 h-100 rounded-pill">
-
-            </div>
-        </div>
-    </div>
-</section>
-<section class="w-100 h-100 p-0 m-0 ">
-    <div id="localidadCard"></div>
-</section>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
 <script>
-    //Changes on home
-    function openDestino() {
+    // Home Changes
+    let localidad = $(".localidad");
+    let llegada = $(".llegada");
+    let salida = $(".salida");
+    let etiqueta = $(".etiqueta");
 
-    }
-</script>
-<script>
+    let separator1 = $(".separator1");
+    let separator2 = $(".separator2");
+    let separator3 = $(".separator3");
+
+    localidad.hover(function () {
+        separator1.css("visibility","hidden");
+    });
+    localidad.mouseleave(function () {
+        separator1.css("visibility","visible");
+    });
+
+    llegada.hover(function () {
+        separator1.css("visibility","hidden");
+        separator2.css("visibility","hidden");
+    });
+    llegada.mouseleave(function () {
+        separator1.css("visibility","visible");
+        separator2.css("visibility","visible");
+    });
+
+    salida.hover(function () {
+        separator2.css("visibility","hidden");
+        separator3.css("visibility","hidden");
+    });
+    salida.mouseleave(function () {
+        separator2.css("visibility","visible");
+        separator3.css("visibility","visible");
+    });
+
+    etiqueta.hover(function () {
+        separator3.css("visibility","hidden");
+    });
+    etiqueta.mouseleave(function () {
+        separator3.css("visibility","visible");
+    });
+
     //Changes on header
-    var header = $("#header2");
-    var headerItems1 = $("#header2 .bi");
-    var headerItems2 = $("#navbar-button-header");
-    var headerItems3 = $("#navbarContent nav a");
-    var logoHeader1 = $("#logoHeader1");
-    var logoHeader2 = $("#logoHeader2");
+    let header = $("#header2");
+    let headerItems1 = $("#header2 form .bi");
+    let headerItems2 = $("#navbar-button-header");
+    let headerItems3 = $("#navbarContent a");
+    let logoHeader1 = $("#logoHeader1");
+    let logoHeader2 = $("#logoHeader2");
+
+    let buscadorHeader = $("#buscadorHeader");
+    let navbarContent = $("#navbarContent");
+    let buscadorHeaderTop1 = $("#buscadorHeaderTop");
 
     window.onload = function () {
         if ($(window).scrollTop() < 40) {
             onTop();
+            apareceSearchBottom();
         } else {
             onScrollHeader();
+            desapareceSearchBottom();
         }
     }
     window.onscroll = function() {
         var distanceScrolled = document.documentElement.scrollTop;
         if (distanceScrolled < 40) {
             onTop();
+            apareceSearchBottom();
         } else {
             onScrollHeader();
+            desapareceSearchBottom();
         }
     }
 
@@ -165,6 +319,28 @@
         headerItems3.removeClass("nav-header-text-2");
         logoHeader1.css("display","none");
         logoHeader2.css("display","block");
+    }
+
+    function apareceSearchBottom() {
+        buscadorHeader.addClass("d-xl-flex");
+        navbarContent.removeClass("d-none");
+        buscadorHeaderTop1.removeClass("d-xl-flex");
+    }
+    function desapareceSearchBottom() {
+        buscadorHeader.removeClass("d-xl-flex");
+        navbarContent.addClass("d-none");
+        buscadorHeaderTop1.addClass("d-xl-flex");
+    }
+
+    var localidadID = $("#localidadCard");
+
+    function openLocalizacion() {
+        localidadID.removeClass("d-none");
+        localidadID.addClass("d-block");
+    }
+    function closeLocalizacion() {
+        localidadID.addClass("d-none");
+        localidadID.removeClass("d-block");
     }
 </script>
 </body>
