@@ -53,6 +53,7 @@ $font-sizes: map-merge($font-sizes, $personal-fonts);
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300&display=swap');
 
 @import "header.scss";
+@import "home.scss";
 
 //Estils Personalitzats General
 .object-cover {
