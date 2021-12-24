@@ -1,7 +1,8 @@
-$header-primary: #1F1F1F;
-$header-secondary-1: white;
-$header-secondary-2: black;
-$header-hover-1: grey;
+$color-primary: #1F1F1F;
+$color-secondary-1: white;
+$color-secondary-2: #535BF8;
+$color-hover-1: grey;
+$color-hover-2: #EBEBEB;
 
 #header2 {
   height: 110px;
@@ -12,7 +13,7 @@ $header-hover-1: grey;
   font-weight: 600;
 }
 #header1 {
-  background: $header-primary;
+  background: $color-primary;
   height: 40px;
 }
 .margin-nav-header1 {
@@ -39,23 +40,23 @@ $header-hover-1: grey;
 .nav-header {
   &-text-#{1} {
     text-decoration-line: none;
-    color: $header-secondary-1;
+    color: $color-secondary-1;
     &:hover {
-      color: $header-hover-1;
+      color: $color-hover-1;
     }
   }
   &-text-#{2} {
     text-decoration-line: none;
-    color: $header-secondary-2;
+    color: $color-secondary-2;
     &:hover {
-      color: $header-hover-1;
+      color: $color-hover-1;
     }
   }
   &-bg-#{1} {
-    background: $header-secondary-1;
+    background: $color-secondary-1;
   }
   &-bg-#{2} {
-    background: $header-secondary-2;
+    background: $color-secondary-2;
   }
 }
 .navbar-toggler {
@@ -64,14 +65,14 @@ $header-hover-1: grey;
     padding-right: 11px;
     width: 50px;
     height: 50px;
-    background-color: $header-secondary-2;
-    border: $header-secondary-1 solid 2px;
+    background-color: $color-secondary-2;
+    border: $color-secondary-1 solid 2px;
     .line {
       width: 100%;
       float: left;
       height: 2px;
       margin-bottom: 5px;
-      background-color: $header-secondary-1;
+      background-color: $color-secondary-1;
     }
   }
   &-t#{2} {
@@ -79,14 +80,54 @@ $header-hover-1: grey;
     padding-right: 11px;
     width: 50px;
     height: 50px;
-    background-color: $header-secondary-1;
-    border-color: $header-secondary-2;
+    background-color: $color-secondary-1;
+    border-color: $color-secondary-2;
     .line {
       width: 100%;
       float: left;
       height: 2px;
       margin-bottom: 5px;
-      background-color: $header-secondary-2;
+      background-color: $color-secondary-2;
     }
   }
+}
+
+#buscador {
+  width: 50%;
+}
+.background-search {
+  background: $color-secondary-1;
+}
+@media only screen and (max-width: 1500px) {
+  #buscador {
+    width: 75%;
+  }
+}
+.border-grey-100 {
+  border: #FFFFFF;
+}
+.button-search-s1 {
+  background: $color-secondary-1;
+}
+.bg-items:hover {
+  background: $color-hover-2;
+  border-radius: 50rem !important;
+}
+.container_search {
+  padding: 14px 24px;
+  white-space: nowrap;
+}
+.title_search {
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  padding-bottom: 2px;
+  color: $color-secondary-2;
+}
+.description_search {
+  font-size: 14px;
+  line-height: 18px;
+  color: #717171;
+  font-weight: 400;
 }

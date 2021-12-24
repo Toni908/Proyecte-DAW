@@ -18125,7 +18125,7 @@ textarea.form-control-lg {
 }
 .nav-header-text-2 {
   text-decoration-line: none;
-  color: black;
+  color: #535BF8;
 }
 .nav-header-text-2:hover {
   color: grey;
@@ -18134,7 +18134,7 @@ textarea.form-control-lg {
   background: white;
 }
 .nav-header-bg-2 {
-  background: black;
+  background: #535BF8;
 }
 
 .navbar-toggler-t1 {
@@ -18142,7 +18142,7 @@ textarea.form-control-lg {
   padding-right: 11px;
   width: 50px;
   height: 50px;
-  background-color: black;
+  background-color: #535BF8;
   border: white solid 2px;
 }
 .navbar-toggler-t1 .line {
@@ -18158,24 +18158,61 @@ textarea.form-control-lg {
   width: 50px;
   height: 50px;
   background-color: white;
-  border-color: black;
+  border-color: #535BF8;
 }
 .navbar-toggler-t2 .line {
   width: 100%;
   float: left;
   height: 2px;
   margin-bottom: 5px;
-  background-color: black;
+  background-color: #535BF8;
 }
 
-.button-search .-s1 {
-  color: white;
+#buscador {
+  width: 50%;
 }
-.button-search .-s2 {
-  color: black;
+
+.background-search {
+  background: white;
 }
-.button-search:hover {
-  color: grey;
+
+@media only screen and (max-width: 1500px) {
+  #buscador {
+    width: 75%;
+  }
+}
+.border-grey-100 {
+  border: #FFFFFF;
+}
+
+.button-search-s1 {
+  background: white;
+}
+
+.bg-items:hover {
+  background: #EBEBEB;
+  border-radius: 50rem !important;
+}
+
+.container_search {
+  padding: 14px 24px;
+  white-space: nowrap;
+}
+
+.title_search {
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  padding-bottom: 2px;
+  color: #535BF8;
+}
+
+.description_search {
+  font-size: 14px;
+  line-height: 18px;
+  color: #717171;
+  font-weight: 400;
 }
 
 .object-cover {
