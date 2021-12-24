@@ -18117,30 +18117,27 @@ textarea.form-control-lg {
   }
 }
 .nav-header-text-1 {
-  color: white;
   text-decoration-line: none;
+  color: white;
 }
 .nav-header-text-1:hover {
   color: grey;
 }
-
 .nav-header-text-2 {
-  color: black;
   text-decoration-line: none;
+  color: black;
 }
 .nav-header-text-2:hover {
   color: grey;
 }
-
 .nav-header-bg-1 {
   background: white;
 }
-
 .nav-header-bg-2 {
   background: black;
 }
 
-.navbar-toggler-1 {
+.navbar-toggler-t1 {
   padding-left: 11px;
   padding-right: 11px;
   width: 50px;
@@ -18148,16 +18145,14 @@ textarea.form-control-lg {
   background-color: black;
   border: white solid 2px;
 }
-
-.navbar-toggler-1 .line {
+.navbar-toggler-t1 .line {
   width: 100%;
   float: left;
   height: 2px;
-  background-color: white;
   margin-bottom: 5px;
+  background-color: white;
 }
-
-.navbar-toggler-2 {
+.navbar-toggler-t2 {
   padding-left: 11px;
   padding-right: 11px;
   width: 50px;
@@ -18165,13 +18160,22 @@ textarea.form-control-lg {
   background-color: white;
   border-color: black;
 }
-
-.navbar-toggler-2 .line {
+.navbar-toggler-t2 .line {
   width: 100%;
   float: left;
   height: 2px;
-  background-color: black;
   margin-bottom: 5px;
+  background-color: black;
+}
+
+.button-search .-s1 {
+  color: white;
+}
+.button-search .-s2 {
+  color: black;
+}
+.button-search:hover {
+  color: grey;
 }
 
 .object-cover {

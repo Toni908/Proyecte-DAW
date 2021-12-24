@@ -36,48 +36,56 @@ $header-hover-1: grey;
   }
 }
 
-.nav-header-text {
-  text-decoration-line: none;
-  .-#{1} {
+.nav-header {
+  &-text-#{1} {
+    text-decoration-line: none;
     color: $header-secondary-1;
+    &:hover {
+      color: $header-hover-1;
+    }
   }
-  .-#{2} {
+  &-text-#{2} {
+    text-decoration-line: none;
     color: $header-secondary-2;
+    &:hover {
+      color: $header-hover-1;
+    }
   }
-  &:hover {
-    color: $header-hover-1;
-  }
-}
-.nav-header-bg {
-  .-#{1} {
+  &-bg-#{1} {
     background: $header-secondary-1;
   }
-  .-#{2} {
+  &-bg-#{2} {
     background: $header-secondary-2;
   }
 }
 .navbar-toggler {
-  padding-left: 11px;
-  padding-right: 11px;
-  width: 50px;
-  height: 50px;
-  .-#{1} {
+  &-t#{1} {
+    padding-left: 11px;
+    padding-right: 11px;
+    width: 50px;
+    height: 50px;
     background-color: $header-secondary-2;
     border: $header-secondary-1 solid 2px;
-  }
-  .-#{2} {
-    background-color: $header-secondary-1;
-    border-color: $header-secondary-2;
-  }
-  .line{
-    width: 100%;
-    float: left;
-    height: 2px;
-    margin-bottom: 5px;
-    .-#{1} {
+    .line {
+      width: 100%;
+      float: left;
+      height: 2px;
+      margin-bottom: 5px;
       background-color: $header-secondary-1;
     }
-    .-#{2} {
+  }
+  &-t#{2} {
+    padding-left: 11px;
+    padding-right: 11px;
+    width: 50px;
+    height: 50px;
+    background-color: $header-secondary-1;
+    border-color: $header-secondary-2;
+    .line {
+      width: 100%;
+      float: left;
+      height: 2px;
+      margin-bottom: 5px;
       background-color: $header-secondary-2;
     }
   }
