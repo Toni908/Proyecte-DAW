@@ -44,7 +44,7 @@
                     <div id="buscadorTop" class="w-100 h-100 m-0">
                         <div class="background-search d-flex flex-row rounded-pill border border-2" style="height: 75px">
                             <div class="w-30 h-100 rounded-pill">
-                                <button class="localidad bg-items text-start button-search-s1 border-0 h-100 w-100 p-0 rounded-pill ps-2" data-bs-toggle="modal" data-bs-target="#staticLocalizacion">
+                                <button class="localidad bg-items text-start button-search-s1 border-0 h-100 w-100 p-0 rounded-pill ps-2" onclick="openSection(1)">
                                     <div class="container_search w-100">
                                         <div class="title_search">Localizacion</div>
                                         <div class="description_search w-100">¿A donde?</div>
@@ -53,7 +53,7 @@
                             </div>
                             <div class="separator1 border-end border-2 mt-3 mb-3 border-grey-100"><!-- Separator --></div>
                             <div class="w-20 h-100 rounded-pill">
-                                <button class="llegada bg-items button-search-s1 border-0 h-100 w-100 p-0 text-start rounded-pill" data-bs-toggle="modal" data-bs-target="#staticHora">
+                                <button class="llegada bg-items button-search-s1 border-0 h-100 w-100 p-0 text-start rounded-pill" onclick="openSection(2)">
                                     <div class="container_search w-100">
                                         <div class="title_search">Hora</div>
                                         <div class="description_search w-100">¿Que hora?</div>
@@ -62,7 +62,7 @@
                             </div>
                             <div class="separator2 border-end border-2 mt-3 mb-3 border-grey-100"><!-- Separator --></div>
                             <div class="w-20 h-100 rounded-pill">
-                                <button class="salida bg-items button-search-s1 border-0 h-100 w-100 p-0 text-start rounded-pill" data-bs-toggle="modal" data-bs-target="#staticDia">
+                                <button class="salida bg-items button-search-s1 border-0 h-100 w-100 p-0 text-start rounded-pill" onclick="openSection(3)">
                                     <div class="container_search w-100">
                                         <div class="title_search">Dia</div>
                                         <div class="description_search w-100">¿Que dia?</div>
@@ -71,7 +71,7 @@
                             </div>
                             <div class="separator3 border-end border-2 mt-3 mb-3 border-grey-100"><!-- Separator --></div>
                             <div class="w-30 h-100 rounded-pill">
-                                <button class="etiqueta bg-items button-search-s1 border-0 h-100 w-100 p-0 text-start rounded-pill" data-bs-toggle="modal" data-bs-target="#staticEtiquetas">
+                                <button class="etiqueta bg-items button-search-s1 border-0 h-100 w-100 p-0 text-start rounded-pill" onclick="openSection(4)">
                                     <div class="container_search w-100">
                                         <div class="title_search">Etiquetas</div>
                                         <div class="description_search w-100">¿Que te gusta?</div>
@@ -93,7 +93,7 @@
         <div id="buscador" class="h-100 m-0">
             <div class="background-search d-flex flex-row rounded-pill border border-2" style="height: 75px">
                 <div class="w-30 h-100 rounded-pill">
-                    <button class="localidad bg-items text-start button-search-s1 border-0 h-100 w-100 p-0 rounded-pill ps-2" data-bs-toggle="modal" data-bs-target="#staticLocalizacion">
+                    <button class="localidad bg-items text-start button-search-s1 border-0 h-100 w-100 p-0 rounded-pill ps-2" onclick="openSection(1)">
                         <div class="container_search w-100">
                             <div class="title_search">Localizacion</div>
                             <div class="description_search w-100">¿A donde?</div>
@@ -102,7 +102,7 @@
                 </div>
                 <div class="separator1 border-end border-2 mt-3 mb-3 border-grey-100"><!-- Separator --></div>
                 <div class="w-20 h-100 rounded-pill">
-                    <button class="llegada bg-items button-search-s1 border-0 h-100 w-100 p-0 text-start rounded-pill" data-bs-toggle="modal" data-bs-target="#staticHora">
+                    <button class="llegada bg-items button-search-s1 border-0 h-100 w-100 p-0 text-start rounded-pill" onclick="openSection(2)">
                         <div class="container_search w-100">
                             <div class="title_search">Hora</div>
                             <div class="description_search w-100">¿Que hora?</div>
@@ -111,7 +111,7 @@
                 </div>
                 <div class="separator2 border-end border-2 mt-3 mb-3 border-grey-100"><!-- Separator --></div>
                 <div class="w-20 h-100 rounded-pill">
-                    <button class="salida bg-items button-search-s1 border-0 h-100 w-100 p-0 text-start rounded-pill" data-bs-toggle="modal" data-bs-target="#staticDia">
+                    <button class="salida bg-items button-search-s1 border-0 h-100 w-100 p-0 text-start rounded-pill" onclick="openSection(3)">
                         <div class="container_search w-100">
                             <div class="title_search">Dia</div>
                             <div class="description_search w-100">¿Que dia?</div>
@@ -120,7 +120,7 @@
                 </div>
                 <div class="separator3 border-end border-2 mt-3 mb-3 border-grey-100"><!-- Separator --></div>
                 <div class="w-30 h-100 rounded-pill">
-                    <button class="etiqueta bg-items button-search-s1 border-0 h-100 w-100 p-0 text-start rounded-pill" data-bs-toggle="modal" data-bs-target="#staticEtiquetas">
+                    <button class="etiqueta bg-items button-search-s1 border-0 h-100 w-100 p-0 text-start rounded-pill" onclick="openSection(4)">
                         <div class="container_search w-100">
                             <div class="title_search">Etiquetas</div>
                             <div class="description_search w-100">¿Que te gusta?</div>
@@ -130,54 +130,82 @@
             </div>
         </div>
     </section>
+    <section class="w-100 h-100 p-0 m-0 position-relative">
+
+        <!-- Localizacion -->
+        <section id="localizacion" class="sectionHeader d-none flex-column justify-content-center pt-3 position-absolute top-0">
+            <div class="w-50 h-100 border-secondary border border-1 p-3 bg-white" style="margin-left: 500px; border-radius: 30px">
+                <div class="container_search w-100">
+                    <div class="title_search">Localizacion</div>
+                    <div class="description_search w-100">¿Donde esta el restaurante que busca?</div>
+                </div>
+                <div class="w-100 h-100 p-0">
+                    <label class="w-100 h-100 ps-3 pe-3">
+                        <input class="w-100 h-100 p-2 ps-5 rounded-3 fw-bold" type="text">
+                    </label>
+                </div>
+                <div class="w-100 h-100 pt-3 ps-3">
+                    <button type="button" class="btn btn-secondary" onclick="closeSection(1)">Cerrar</button>
+                    <button type="button" class="btn btn-primary" onclick="">Buscar</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Hora -->
+        <section id="hora" class="sectionHeader d-none flex-column justify-content-center pt-3 position-absolute top-0">
+            <div class="w-50 h-100 border-secondary border border-1 p-3 bg-white" style="margin-left: 500px; border-radius: 30px">
+                <div class="container_search w-100">
+                    <div class="title_search">Hora</div>
+                    <div class="description_search w-100">¿Que rango de horas quiere que este abierto?</div>
+                </div>
+                <div class="modal-body ps-3 pe-3 p-0 d-flex flex-column justify-content-between">
+                    <div class="w-100 d-flex flex-row justify-content-center">
+                        <p class="w-50 mb-1">Hora Inicio</p>
+                        <p class="w-50 ps-3 mb-1">Hora Final</p>
+                    </div>
+                    <div class="w-100 d-flex flex-row justify-content-center">
+                        <label for="time1"></label><input class="text-center w-50 fs-4 rounded-4 me-3" type="time" id="time1" name="time">
+                        <label for="time2"></label><input class="text-center w-50 fs-4 rounded-4 ms-3" type="time" id="time2" name="time">
+                    </div>
+                </div>
+                <div class="w-100 h-100 pt-3 ps-3">
+                    <button type="button" class="btn btn-secondary" onclick="closeSection(2)">Cerrar</button>
+                    <button type="button" class="btn btn-primary" onclick="">Buscar</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dia -->
+        <section id="dia" class="sectionHeader d-none flex-column justify-content-center pt-3 position-absolute top-0">
+            <div class="w-50 h-100 border-secondary border border-1 p-3 bg-white" style="margin-left: 500px; border-radius: 30px">
+                <div class="container_search w-100">
+                    <div class="title_search">Dia</div>
+                    <div class="description_search w-100">¿Que dia desea quieres que este abierto?</div>
+                </div>
+                DatePicker Discord
+                <div class="w-100 h-100 pt-3 ps-3">
+                    <button type="button" class="btn btn-secondary" onclick="closeSection(3)">Cerrar</button>
+                    <button type="button" class="btn btn-primary" onclick="">Buscar</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Etiquetas -->
+        <section id="etiquetas" class="sectionHeader d-none flex-column justify-content-center pt-3 position-absolute top-0">
+            <div class="w-50 h-100 border-secondary border border-1 p-3 bg-white" style="margin-left: 500px; border-radius: 30px">
+                <div class="container_search w-100">
+                    <div class="title_search">Etiquetas</div>
+                    <div class="description_search w-100">¿Que te gusta?</div>
+                </div>
+                Etiquetas
+            </div>
+        </section>
+    </section>
 </header>
-<!-- Modal Localizacion -->
-<div class="modal fade" style="top: 100px" id="staticLocalizacion" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticLocalizacionLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content rounded rounded-2">
-            <div class="modal-header justify-content-center">
-                <h5 class="modal-title text-center nav-header-text-2" id="staticLocalizacionLabel">Buscar Por Localizacion</h5>
-            </div>
-            <div class="modal-body w-100 h-100 p-0 rounded-pill">
-                <label class="w-100 h-100 ps-3 pe-3">
-                    <input class="w-100 h-100 p-2 ps-5 rounded-pill" type="text">
-                </label>
-            </div>
-            <div class="modal-footer justify-content-center">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary">Buscar</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Modal Hora -->
-<div class="modal fade" style="top: 100px" id="staticHora" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticHoraLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header justify-content-center">
-                <h5 class="modal-title nav-header-text-2" id="staticHoraLabel">Buscar Hora Apertura</h5>
-            </div>
-            <div class="modal-body d-flex flex-row justify-content-between">
-                <label class="d-flex flex-column w-40">
-                    Hora
-                    <select class="form-select form-select-sm" id="hora">
-                    </select>
-                </label>
-                <label class="d-flex flex-column w-40">
-                    Minutos
-                    <select class="form-select form-select-sm" id="minutos">
-                    </select>
-                </label>
-            </div>
-            <div class="modal-footer justify-content-center">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary">Buscar</button>
-            </div>
-        </div>
-    </div>
-</div>
+<!--<section style="width: 100%; height: 10000px; background-color: red"></section>-->
+
 <!-- Modal Dia -->
-<div class="modal fade" id="staticDia" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticDiaLabel" aria-hidden="true">
+<!--<div class="modal fade" id="staticDia" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticDiaLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -193,9 +221,9 @@
             </div>
         </div>
     </div>
-</div>
+</div>-->
 <!-- Modal Etiquetas -->
-<div class="modal fade" id="staticEtiquetas" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticEtiquetasLabel" aria-hidden="true">
+<!--<div class="modal fade" id="staticEtiquetas" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticEtiquetasLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -211,7 +239,7 @@
             </div>
         </div>
     </div>
-</div>
+</div>-->
 
 <section class="offcanvas offcanvas-start" tabindex="-1" id="offCanvasHeader" aria-labelledby="offCanvasHeaderLabel">
     <div class="offcanvas-header d-flex flex-row justify-content-end">
@@ -397,7 +425,7 @@
     }
 
     //Modal hora
-    var hora = $("#hora");
+    var hora = $("#horas");
     var minutos = $("#minutos");
 
     for (let i = 0; i < 24; i++) {
@@ -405,6 +433,55 @@
     }
     for (let i = 0; i < 60; i++) {
         minutos.append("<option value='"+i+"'>"+i+"</option>")
+    }
+
+
+    function openSection(section) {
+        let sectionType;
+        let sectionHeader = $(".sectionHeader");
+        switch (section) {
+            case 1:
+                sectionType = $("#localizacion");
+                break;
+            case 2:
+                sectionType = $("#hora");
+                break;
+            case 3:
+                sectionType = $("#dia");
+                break;
+            case 4:
+                sectionType = $("#etiquetas");
+                break;
+        }
+        for (let i = 1; i-1 < sectionHeader.length; i++) {
+            closeSection(i);
+        }
+        if (!sectionType.hasClass("d-flex")) {
+            sectionType.removeClass("d-none").addClass("d-flex").addClass("fadeIn");
+            setTimeout(function () {sectionType.removeClass("fadeIn")}, 1000);
+        }
+    }
+    function closeSection(section) {
+        let sectionType;
+        switch (section) {
+            default:
+                sectionType = $("#localizacion");
+                break;
+            case 2:
+                sectionType = $("#hora");
+                break;
+            case 3:
+                sectionType = $("#dia");
+                break;
+            case 4:
+                sectionType = $("#etiquetas");
+                break;
+        }
+        if (!sectionType.hasClass("d-none")) {
+            sectionType.addClass("fadeOut");
+            setTimeout(function () {sectionType.removeClass("d-flex").addClass("d-none")}, 900);
+            setTimeout(function () {sectionType.removeClass("fadeOut")}, 900);
+        }
     }
 </script>
 </body>
