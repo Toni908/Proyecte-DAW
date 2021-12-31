@@ -35,3 +35,5 @@ build/
 /node
 /node_modules
 .mvn
+
+/src/main/resources/application.properties
