@@ -9,4 +9,9 @@ public class HomeController {
     public String getHome(){
         return "home";
     }
+
+    @GetMapping("/configuration/cards")
+    public String getCards(){
+        return "cards";
+    }
 }
