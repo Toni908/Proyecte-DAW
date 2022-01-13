@@ -14,29 +14,22 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 @Entity
-@Table(name = "Carta")
+@Table(name = "carta")
 public class Carta implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idCarta;
+    private Long id_carta;
 
     @Column(nullable = false)
     private String nombre;
-    @Column(nullable = true)
     private String url_img;
-    @Column(nullable = false)
-    private boolean usaIMG;
-    @Column(nullable = false)
+    private boolean usa_img;
     private boolean visible;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "CategoriaPlatos")
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name="id_categoria")
     private List<Categoria> categories;
 
-    /*
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idRestaurante", referencedColumnName = "idRestaurante")
-    private com.example.prueba_thymeleaf.entities.Categoria categoria;
-    */
 
 }

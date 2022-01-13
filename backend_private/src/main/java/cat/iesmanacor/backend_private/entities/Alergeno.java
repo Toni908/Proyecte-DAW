@@ -14,22 +14,21 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 @Entity
-@Table(name = "Alergenos")
+@Table(name = "alergenos")
 public class Alergeno implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idAlergeno;
+    private Long id_alergeno;
 
     @Column(nullable = false)
     private String nombre;
-    @Column(nullable = true)
     private String icono;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "PlatosAlergenos",
-            joinColumns = { @JoinColumn(name = "idAlergeno") },
-            inverseJoinColumns = { @JoinColumn(name = "idCarta")})
+    @JoinTable(name = "platos_alergenos",
+            joinColumns = { @JoinColumn(name = "id_alergeno") },
+            inverseJoinColumns = { @JoinColumn(name = "id_plato")})
     private List<Plato> platos;
 
 }

@@ -14,21 +14,21 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 @Entity
-@Table(name = "CategoriaPlatos")
+@Table(name = "categoria_platos")
 public class Categoria implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idCategoria;
+    private Long id_categoria;
 
     @Column(nullable = false)
     private String nombre;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idCarta", referencedColumnName = "idCarta")
+    @JoinColumn(name = "id_carta")
     private Carta carta;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "Platos")
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name="id_plato")
     private List<Plato> platos;
-
 }

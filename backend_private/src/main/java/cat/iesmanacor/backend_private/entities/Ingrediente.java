@@ -14,17 +14,17 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 @Entity
-@Table(name = "Ingredientes")
+@Table(name = "ingredientes")
 public class Ingrediente implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idIngediente;
+    private Long id_ingrediente;
 
     @Column(nullable = false)
     private String nombre;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idPlato", referencedColumnName = "idPlato")
+    @JoinColumn(name = "id_plato")
     private Plato plato;
 }

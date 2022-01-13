@@ -14,31 +14,30 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 @Entity
-@Table(name = "Platos")
+@Table(name = "platos")
 public class Plato implements Serializable {
 
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Long idPlato;
+        private Long id_plato;
 
         @Column(nullable = false)
         private String nombre;
-        @Column(nullable = false)
         private String descripcion;
-        @Column(nullable = false)
         private float precio;
 
         @ManyToOne(fetch = FetchType.LAZY)
-        @JoinColumn(name = "idCategoriaPlato", referencedColumnName = "idCategoria")
-        private Carta carta;
+        @JoinColumn(name = "id_categoria_plato", referencedColumnName = "id_categoria")
+        private Categoria categoria;
 
-        @OneToMany(fetch = FetchType.LAZY, mappedBy = "CategoriaPlatos")
-        private List<Categoria> categories;
+        @OneToMany(fetch = FetchType.LAZY)
+        @JoinColumn(name="id_ingrediente")
+        private List<Ingrediente> ingredientes;
 
         @ManyToMany(cascade = CascadeType.ALL)
-        @JoinTable(name = "PlatosAlergenos",
-                joinColumns = { @JoinColumn(name = "idCarta") },
-                inverseJoinColumns = { @JoinColumn(name = "idAlergeno")})
-        private List<Alergeno> alergeno;
+        @JoinTable(name = "platos_alergenos",
+                joinColumns = { @JoinColumn(name = "id_plato") },
+                inverseJoinColumns = { @JoinColumn(name = "id_alergeno")})
+        private List<Alergeno> alergenos;
 
 }
