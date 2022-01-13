@@ -4,12 +4,13 @@ import cat.iesmanacor.backend_private.entities.Carta;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.Optional;
 
 
 public interface CartaService {
 
-    public Iterable<Carta> findAll();
+    public List<Carta> findAll();
 
     public Page<Carta> findAll(Pageable pageable);
 

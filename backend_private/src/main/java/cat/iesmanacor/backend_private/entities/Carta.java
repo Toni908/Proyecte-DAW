@@ -19,6 +19,7 @@ public class Carta implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_carta")
     private Long id_carta;
 
     @Column(nullable = false)
@@ -30,6 +31,5 @@ public class Carta implements Serializable {
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name="id_categoria")
     private List<Categoria> categories;
-
 
 }
