@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 @Entity
-@Table(name = "catalegpelicules")
+@Table(name = "Carta")
 public class Carta implements Serializable {
 
     @Id
@@ -23,97 +23,20 @@ public class Carta implements Serializable {
 
     @Column(nullable = false)
     private String nombre;
+    @Column(nullable = true)
     private String url_img;
+    @Column(nullable = false)
     private boolean usaIMG;
-    private Long idRestaurant;
+    @Column(nullable = false)
+    private boolean visible;
 
-/*
-    public Pelicula(Long id, String tittle, int year, String director, String gender){
-        this.id = id;
-        this.tittle = tittle;
-        this.year = year;
-        this.director = director;
-        this.gender = gender;
-    }
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "CategoriaPlatos")
+    private List<Categoria> categories;
 
-    public Pelicula(String tittle, int year, String director, String gender){
-        this.tittle = tittle;
-        this.year = year;
-        this.director = director;
-        this.gender = gender;
-    }
+    /*
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idRestaurante", referencedColumnName = "idRestaurante")
+    private com.example.prueba_thymeleaf.entities.Categoria categoria;
+    */
 
-    public Pelicula(String tittle, String director, String gender){
-        this.tittle = tittle;
-        this.director = director;
-        this.gender = gender;
-    }
-
-    public Pelicula(String tittle, int year, String gender){
-        this.tittle = tittle;
-        this.year = year;
-        this.gender = gender;
-    }
-
-    public Pelicula(String tittle, String gender){
-        this.tittle = tittle;
-        this.gender = gender;
-    }
-
-    public Pelicula(Long id){
-        this.id = id;
-    }
-
-    public Pelicula(){
-
-    }
-*/
-    public Long getId(){ return idCarta; }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public String getUrl_img() {
-        return url_img;
-    }
-
-    public boolean getUsaIMG() {
-        return usaIMG;
-    }
-
-    public Long getIdRestaurant() {
-        return idRestaurant;
-    }
-
-    public void setId(Long idCarta){
-        this.idCarta = idCarta;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public void setUrl_img(String url_img) {
-        this.url_img = url_img;
-    }
-
-    public void setUsaIMG(boolean usaIMG) {
-        this.usaIMG = usaIMG;
-    }
-
-    public void setIdRestaurant(Long idRestaurant) {
-        this.idRestaurant = idRestaurant;
-    }
-
-    @Override
-    public String toString() {
-        return "Carta{" +
-                "idCarta=" + idCarta +
-                ", nombre='" + nombre + '\'' +
-                ", url_img='" + url_img + '\'' +
-                ", usaIMG=" + usaIMG +
-                ", idRestaurant=" + idRestaurant +
-                '}';
-    }
 }

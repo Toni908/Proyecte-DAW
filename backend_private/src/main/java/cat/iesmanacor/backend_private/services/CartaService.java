@@ -15,7 +15,7 @@ public interface CartaService {
 
     public Optional<Carta> findById(Long id);
 
-    public Carta save(Carta pelicula);
+    public Carta save(Carta carta);
 
     public void deleteById(Long id);
 }

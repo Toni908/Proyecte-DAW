@@ -1,7 +1,8 @@
 package cat.iesmanacor.backend_private.services;
 
-import cat.iesmanacor.backend_private.entities.Carta;
-import cat.iesmanacor.backend_private.repositories.CartaDAO;
+import cat.iesmanacor.backend_private.entities.Categoria;
+import cat.iesmanacor.backend_private.entities.Plato;
+import cat.iesmanacor.backend_private.repositories.PlatoDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,38 +12,39 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @Service
-public class CartaServiceImpl implements CartaService {
+public class PlatoServiceImpl implements PlatoService{
 
     @Autowired
-    private CartaDAO cartaDAO;
+    private PlatoDAO platoDAO;
 
     @Override
     @Transactional(readOnly = true)
-    public Iterable<Carta> findAll() {
-        return cartaDAO.findAll();
+    public Iterable<Plato> findAll() {
+        return platoDAO.findAll();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Page<Carta> findAll(Pageable pageable) {
-        return cartaDAO.findAll(pageable);
+    public Page<Plato> findAll(Pageable pageable) {
+        return platoDAO.findAll(pageable);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Carta> findById(Long id) {
-        return cartaDAO.findById(id);
+    public Optional<Plato> findById(Long id) {
+        return platoDAO.findById(id);
     }
 
     @Override
     @Transactional
-    public Carta save(Carta carta) {
-        return cartaDAO.save(carta);
+    public Plato save(Plato plato) {
+        return platoDAO.save(plato);
     }
 
     @Override
     @Transactional
     public void deleteById(Long id) {
-        cartaDAO.deleteById(id);
+        platoDAO.deleteById(id);
     }
+
 }
