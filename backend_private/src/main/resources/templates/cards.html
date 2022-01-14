@@ -3,18 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <title>Cards</title>
-    <link th:href="@{/css/custom.css}" rel="stylesheet"></head>
+    <link th:href="@{/css/custom.css}" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css"/>
+    <link rel="stylesheet" href="https://cdn.datatables.net/select/1.3.3/css/select.dataTables.min.css"/>
+</head>
 <body>
 <div th:insert="shared/header :: header"/>
-<main>
-    <h3 class="mt-4">Productos Table</h3>
-    <table class="table table-striped">
+<main class="mt-5 pt-5 mx-auto w-75">
+    <h3 class="mt-5">Cartas</h3>
+    <table id="card_table" class="display" style="width:100%">
         <thead class="thead-dark">
-        <th scope="row">Id</th>
-        <th scope="row">Name</th>
-        <th scope="row">url_img</th>
-        <th scope="row">usa_img</th>
-        <th scope="row">Visible</th>
+            <th scope="row">Id</th>
+            <th scope="row">Name</th>
+            <th scope="row">url_img</th>
+            <th scope="row">usa_img</th>
+            <th scope="row">Visible</th>
         </thead>
         <tbody>
         <tr th:each="carta : ${cartas}">
@@ -26,11 +29,29 @@
         </tr>
         </tbody>
     </table>
-    <button class="btn btn-primary mt-4"><a href="/product/create">Create Product</a></button>
+    <button class="btn btn-primary mt-2">Create Card</button>
 </main>
 
     <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
     <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
     <script th:src="@{/js/header.js}"></script></main>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var table = $('#card_table').DataTable({
+                select: {
+                    style: 'single'
+                }
+            });
+
+            table.on('select', function () {
+                alert(table.row( { selected: true } ).data()[0]);
+            })
+
+        });
+    </script>
 </body>
 </html>
