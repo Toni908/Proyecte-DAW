@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <link th:href="@{/css/custom.css}" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@600&display=swap');
+    </style>
+</head>
+<body>
+<div th:insert="components/header :: header" class="sticky-top top-0"></div>
+<section>
+    <section class="w-100 h-100 pb-5 p-0 d-flex flex-row justify-content-center bg-black">
+        <div class="position-relative w-80">
+            <h2 class="text-white title_principal position-absolute bottom-0 text-center w-100 pb-5" style=" padding-top: 400px;">
+                ¿No tienes claro dónde ir?
+                <p>¡Te ayudamos a encontrarlo!</p>
+                <button class="rounded-pill fs-5 p-3 ps-5 pe-5">Buscador</button>
+            </h2>
+            <img class="principal w-100" style="height: 75vh; margin-top: 100px; border-radius: 20px" th:src="@{/img/imgFront.jpg}" alt="front" />
+        </div>
+    </section>
+    <section class="w-100 h-100 p-0 d-flex flex-row justify-content-center gradient-black">
+        <div class="position-relative w-80">
+            <div class="principal w-100 border border-2 d-flex flex-row" style="height: 75vh; margin-top: 100px; border-radius: 20px; background-color: #ebebeb">
+                <div class="w-50 h-100 d-flex justify-content-center text-center align-items-center">
+                    <h2 class="title_principal">¡Tambien puedes<br> añadir <br>tu restaurante!</h2>
+                </div>
+                <aside class="w-50"><img class="w-100 h-100" style="object-fit: cover; border-radius: 20px" th:src="@{/img/pngsection2.png}" alt="png better"/></aside>
+            </div>
+        </div>
+    </section>
+</section>
+
+<br>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+
+<section>
+
+    <aside>
+
+    </aside>
+
+    <div>
+        <article th:each="restaurante : ${restaurantes}">
+
+        </article>
+    </div>
+</section>
+
+<div th:replace="components/footer :: footer"></div>
+</body>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/js/jquery-3.6.0.min.js}"></script>
+<script th:src="@{/js/header.js}"></script>
+</html>
