@@ -1,7 +1,7 @@
 package cat.iesmanacor.backend_private.services;
 
-import cat.iesmanacor.backend_private.entities.Carta;
-import cat.iesmanacor.backend_private.repositories.CartaDAO;
+import cat.iesmanacor.backend_private.entities.Ingrediente;
+import cat.iesmanacor.backend_private.repositories.IngredienteDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,36 +12,39 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class CartaServiceImpl implements CartaService {
+public class IngredienteServiceImpl implements IngredienteService{
 
     @Autowired
-    private CartaDAO cartaDAO;
+    private IngredienteDAO ingredienteDAO;
 
     @Override
     @Transactional(readOnly = true)
-    public List<Carta> findAll() { return cartaDAO.findAll(); }
-
-    @Override
-    @Transactional(readOnly = true)
-    public Page<Carta> findAll(Pageable pageable) {
-        return cartaDAO.findAll(pageable);
+    public List<Ingrediente> findAll() {
+        return ingredienteDAO.findAll();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Carta> findById(Long id) {
-        return cartaDAO.findById(id);
+    public Page<Ingrediente> findAll(Pageable pageable) {
+        return ingredienteDAO.findAll(pageable);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<Ingrediente> findById(Long id) {
+        return ingredienteDAO.findById(id);
     }
 
     @Override
     @Transactional
-    public Carta save(Carta carta) {
-        return cartaDAO.save(carta);
+    public Ingrediente save(Ingrediente ingrediente) {
+        return ingredienteDAO.save(ingrediente);
     }
 
     @Override
     @Transactional
     public void deleteById(Long id) {
-        cartaDAO.deleteById(id);
+        ingredienteDAO.deleteById(id);
     }
+
 }

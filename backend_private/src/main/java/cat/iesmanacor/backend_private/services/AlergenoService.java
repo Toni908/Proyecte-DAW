@@ -1,5 +1,6 @@
 package cat.iesmanacor.backend_private.services;
 
+import cat.iesmanacor.backend_private.entities.Alergeno;
 import cat.iesmanacor.backend_private.entities.Carta;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -7,16 +8,16 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.Optional;
 
+public interface AlergenoService {
 
-public interface CartaService {
+    public List<Alergeno> findAll();
 
-    public List<Carta> findAll();
+    public Page<Alergeno> findAll(Pageable pageable);
 
-    public Page<Carta> findAll(Pageable pageable);
+    public Optional<Alergeno> findById(Long id);
 
-    public Optional<Carta> findById(Long id);
-
-    public Carta save(Carta carta);
+    public Alergeno save(Alergeno alergeno);
 
     public void deleteById(Long id);
+
 }
