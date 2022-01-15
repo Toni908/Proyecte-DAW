@@ -1,8 +1,18 @@
 $color-primary: #1F1F1F;
+$color-secondary-1: black;
+$color-secondary-2: white;
+$color-hover-1: grey;
+$color-hover-2: #EBEBEB;
+$color-seach: white;
+
+/* BEFORE
+$color-primary: #1F1F1F;
 $color-secondary-1: white;
 $color-secondary-2: #535BF8;
 $color-hover-1: grey;
 $color-hover-2: #EBEBEB;
+$color-seach: black;
+ */
 
 #header2 {
   height: 110px;
@@ -96,7 +106,7 @@ $color-hover-2: #EBEBEB;
   width: 50%;
 }
 .background-search {
-  background: $color-secondary-1;
+  background: $color-seach;
 }
 @media only screen and (max-width: 1500px) {
   #buscador {
@@ -107,7 +117,7 @@ $color-hover-2: #EBEBEB;
   border: #FFFFFF;
 }
 .button-search-s1 {
-  background: $color-secondary-1;
+  background: $color-seach;
 }
 .bg-items:hover {
   background: $color-hover-2;
@@ -123,7 +133,7 @@ $color-hover-2: #EBEBEB;
   font-weight: 800;
   letter-spacing: 0.04em;
   padding-bottom: 2px;
-  color: $color-secondary-2;
+  color: $color-primary;
 }
 .description_search {
   font-size: 14px;
