@@ -30,8 +30,10 @@ public class Plato implements Serializable {
         @JoinColumn(name = "id_categoria_plato", referencedColumnName = "id_categoria")
         private Categoria categoria;
 
-        @OneToMany(fetch = FetchType.LAZY)
-        @JoinColumn(name="id_ingrediente")
+        @ManyToMany(fetch = FetchType.LAZY)
+        @JoinTable(name="platos_ingredientes",
+                joinColumns = { @JoinColumn(name = "id_plato") },
+                inverseJoinColumns = { @JoinColumn(name = "id_ingrediente")})
         private List<Ingrediente> ingredientes;
 
         @ManyToMany(cascade = CascadeType.ALL)

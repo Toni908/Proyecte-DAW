@@ -24,7 +24,9 @@ public class Ingrediente implements Serializable {
     @Column(nullable = false)
     private String nombre;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_plato")
-    private Plato plato;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name="platos_ingredientes",
+            joinColumns = { @JoinColumn(name = "id_ingrediente") },
+            inverseJoinColumns = { @JoinColumn(name = "id_plato")})
+    private List<Ingrediente> ingredientes;
 }
