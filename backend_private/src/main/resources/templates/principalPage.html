@@ -10,7 +10,7 @@
     </style>
 </head>
 <body>
-<div th:insert="shared/header :: header" class="sticky-top top-0"></div>
+<div th:insert="shared/headerVersion1 :: header" class="sticky-top top-0"></div>
 <section>
     <section class="w-100 h-100 pb-5 p-0 d-flex flex-row justify-content-center bg-black">
         <div class="position-relative w-80">
@@ -38,7 +38,7 @@
     <h3 class="text-center fw-bold text-uppercase">Best Restaurants</h3>
 
     <div class="d-flex flex-row justify-content-center flex-wrap">
-        <article th:each="restaurante,iterador : ${restaurantes}" style="width: 25%;" class="mt-5 m-3">
+        <article th:each="restaurante,iterador : ${restaurantes}" th:if="${iterador.index}<6" style="width: 25%;" class="mt-5 m-3">
             <div class="card" style="width: 100%;">
                 <img src="..." class="card-img-top" alt="...">
                 <div class="card-body">

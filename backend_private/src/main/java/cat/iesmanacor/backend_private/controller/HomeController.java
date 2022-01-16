@@ -1,6 +1,9 @@
 package cat.iesmanacor.backend_private.controller;
 
+import cat.iesmanacor.backend_private.entities.Localidad;
+import cat.iesmanacor.backend_private.entities.Restaurant;
 import cat.iesmanacor.backend_private.entities.Useracount;
+import cat.iesmanacor.backend_private.services.LocalidadService;
 import cat.iesmanacor.backend_private.services.RestaurantService;
 import cat.iesmanacor.backend_private.services.UseracountService;
 import org.apache.catalina.User;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,17 +28,28 @@ public class HomeController {
     @Autowired
     UseracountService useracountService;
 
+    @Autowired
+    LocalidadService localidadService;
+
     @GetMapping("/home")
     public String getHome(ModelMap model){
         model.addAttribute("restaurantes",restaurantService.findAllRestaurants());
         return "principalPage";
     }
 
+    // LISTAS DE RESTURANTES POR X USUARIO
+
     @GetMapping("/lista/restaurantes")
     public String userRestaurant(@ModelAttribute Session session, ModelMap model){
         List<Useracount> useracount = useracountService.findAllUseracount();
         model.addAttribute("restaurantesUser",restaurantService.findRestaurantByUseracount(useracount.get(1).getId_user()));
         return "listRestaurants";
+    }
+
+    // ADMIN SECTION DATATABLE RESTAURANTES
+    @GetMapping("/restaurante/admin")
+    public String adminRestaurantes(ModelMap model){
+        return "formularios/restaurante";
     }
 
     @GetMapping("/configuration/cards")

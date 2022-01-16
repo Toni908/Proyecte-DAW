@@ -1,28 +1,27 @@
 package cat.iesmanacor.backend_private.controller;
 
 import cat.iesmanacor.backend_private.controllersImplements.RestaurantControllers;
-import cat.iesmanacor.backend_private.entities.Localidad;
-import cat.iesmanacor.backend_private.entities.Membresia;
-import cat.iesmanacor.backend_private.entities.Restaurant;
-import cat.iesmanacor.backend_private.entities.Useracount;
-import cat.iesmanacor.backend_private.services.LocalidadService;
-import cat.iesmanacor.backend_private.services.MembresiaService;
-import cat.iesmanacor.backend_private.services.RestaurantService;
-import cat.iesmanacor.backend_private.services.UseracountService;
+import cat.iesmanacor.backend_private.converters.StringToTimestampConverter;
+import cat.iesmanacor.backend_private.entities.*;
+import cat.iesmanacor.backend_private.files.FileUploadUtil;
+import cat.iesmanacor.backend_private.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.validation.Valid;
+import javax.xml.crypto.Data;
 import java.math.BigInteger;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 
@@ -40,33 +39,35 @@ public class RestaurantControllerImpl implements RestaurantControllers {
     @Autowired
     LocalidadService localidadService;
 
+    @Autowired
+    ImgService imgService;
 
-    private final String __route_formularis = "formularis/layout-form";
+    private final String __route_formulari_create = "formularios/restaurante-create";
+    private final String __route_formulari_update = "formularios/restaurante-update";
+    private final String __path_file = "src/main/resources/static/img/restaurants/";
     private final String __route_table = "tables/layout-table";
-    private final String __route_home = "links";
+    private final String __route_home = "home";
 
     //////////////         RESTAURANTES   FORMULARIOS      ////////////////////
 
     @RequestMapping(value = "/restaurant/create", method = RequestMethod.GET)
     public String create(ModelMap model) {
-        model.addAttribute("type","restaurant-create");
         model.addAttribute("object",new Restaurant());
-        model.addAttribute("array",getRelationsWithRestaurant());
-        return __route_formularis;
+        model.addAttribute("array",localidadService.findAllLocalidad());
+        return __route_formulari_create;
     }
 
     @RequestMapping(value = "/restaurant/update/{id}", method = RequestMethod.GET)
     public String update(@PathVariable BigInteger id, ModelMap model) {
+        //Comprovacion que el usuario en session sea el que tiene el restaurante que pide
         if (id!=null) {
             Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
             if (restaurant.isPresent()) {
-                model.addAttribute("type", "restaurant-update");
                 model.addAttribute("object", restaurant.get());
-                model.addAttribute("array", getRelationsWithRestaurant());
-                return __route_formularis;
+                model.addAttribute("array",localidadService.findAllLocalidad());
+                return __route_formulari_update;
             }
         }
-        model.addAttribute("error","RESTAURANT SELECTED DOESNT PRESENT");
         return __route_home;
     }
 
@@ -74,28 +75,27 @@ public class RestaurantControllerImpl implements RestaurantControllers {
     //////////////         RESTAURANTES   ACTIONS      ////////////////////
 
     @RequestMapping(value = "/restaurant/save")
-    public String save(@ModelAttribute @Valid Restaurant restaurant, BindingResult errors, ModelMap model) {
+    @Transactional(readOnly = false)
+    public String save(@ModelAttribute @Valid Restaurant restaurant, BindingResult errors, ModelMap model, @RequestParam("image") MultipartFile multipartFile) {
         inicializeModelMap(model);
 
         if (errors.hasErrors()) {
             return "redirect:/restaurant/create";
         }
-        String validation = checkRelationsExist(restaurant);
-        if (!validation.equals("OK")) {
-            model.addAttribute("error",validation);
-            return __route_home;
-        }
 
-        if (checkNameisEmpty(restaurant.getNombre())) {
-            if (checkMembresiaisEmpty(restaurant.getMembresia().getId_membresia())) {
-                saveRestaurant(restaurant);
-            } else {
-                model.addAttribute("error","membresia relation is already taken");
-            }
-        } else {
-            model.addAttribute("error","name for your restaurant already taken");
+        if (!checkNameisEmpty(restaurant.getNombre())) {
+            // El nombre de restaurante ya esta cogido
+            model.addAttribute("error","Restaurant name already taken");
+            return create(model);
         }
-        return show(model);
+        //Cogo usuario random pero tengo que poner que sea de la session
+        Optional<Useracount> useracount = useracountService.findUseracountById(useracountService.findAllUseracount().get(1).getId_user());
+        if (useracount.isPresent()) {
+            restaurant.setUseracount(useracount.get());
+            saveRestaurant(restaurant);
+            saveImageRestaurant(multipartFile,restaurant);
+        }
+        return "redirect:/lista/restaurantes";
     }
 
     @RequestMapping(value = "/restaurant/put")
@@ -104,12 +104,6 @@ public class RestaurantControllerImpl implements RestaurantControllers {
 
         if (errors.hasErrors()) {
             return "redirect:/restaurants";
-        }
-
-        String validation = checkRelationsExist(restaurant);
-        if (!validation.equals("OK")) {
-            model.addAttribute("error",validation);
-            return __route_home;
         }
 
         if (restaurant.getId_restaurante()!=null) {
@@ -170,27 +164,6 @@ public class RestaurantControllerImpl implements RestaurantControllers {
         restaurantService.updateRestaurant(restaurantNew);
     }
 
-    public String checkRelationsExist(Restaurant restaurant) {
-        if (restaurant.getMembresia().getId_membresia() !=null
-                && restaurant.getLocalidad().getId_localidad() !=null
-                && restaurant.getUseracount().getId_user() !=null) {
-            Optional<Localidad> localidad = localidadService.findLocalidadById(restaurant.getLocalidad().getId_localidad());
-            Optional<Membresia> membresia = membresiaService.findMembresiaById(restaurant.getMembresia().getId_membresia());
-            Optional<Useracount> useracount = useracountService.findUseracountById(restaurant.getUseracount().getId_user());
-
-            if (localidad.isEmpty()) {
-                return "LOCALIDAD IS NOT PRESENT";
-            }
-            if (membresia.isEmpty()) {
-                return "MEMBRESIA IS NOT PRESENT";
-            }
-            if (useracount.isEmpty()) {
-                return "USERACOUNT IS NOT PRESENT";
-            }
-        }
-        return "OK";
-    }
-
     public void inicializeModelMap(ModelMap model) {
         model.remove("restaurant");
         model.remove("restaurants");
@@ -246,5 +219,19 @@ public class RestaurantControllerImpl implements RestaurantControllers {
         }
         updateRestaurant(restaurant);
         return model;
+    }
+
+    public Img saveImageRestaurant(MultipartFile multipartFile, Restaurant restaurant) {
+        String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
+        Img img = new Img();
+        img.setRestaurant(restaurant);
+        try {
+            FileUploadUtil.saveFile(__path_file, fileName, multipartFile);
+            img.setUrl(fileName);
+            imgService.saveImg(img);
+        } catch (Exception e) {
+            //
+        }
+        return img;
     }
 }

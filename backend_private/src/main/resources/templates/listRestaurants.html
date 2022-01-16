@@ -21,13 +21,14 @@
 </head>
 <body>
 <!-- VISTA DE RESTAURANTES POR UN USUARIO -->
-<div th:insert="shared/header :: header" class="sticky-top top-0"></div>
+<div th:insert="shared/headerVersion2 :: header" class="sticky-top top-0"></div>
 <div class="d-flex justify-content-center" style="padding-top: 100px">
     <article th:each="restaurante, iteration : ${restaurantesUser}" style="width: 25%; padding: 10px">
         <div class="card">
             <img class="p-3" style="border-radius: 20px" th:src="@{/img/imgFront.jpg}" alt="Img Restaurant (1)">
             <div class="container">
                 <h4><b th:text="${restaurante.nombre}"></b></h4>
+                <!-- Horario inicio y fin -->
                 <p th:text="${restaurante.telefono_restaurante}"></p>
             </div>
         </div>

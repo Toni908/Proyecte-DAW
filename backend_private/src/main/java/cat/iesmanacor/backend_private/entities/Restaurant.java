@@ -40,12 +40,10 @@ public class Restaurant {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_membresia")
-    @NotNull(message = "id_membresia cant be null")
     private Membresia membresia;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_user")
-    @NotNull(message = "id_user cant be null")
     private Useracount useracount;
 
     @Column(name = "visible")

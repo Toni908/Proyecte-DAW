@@ -17,7 +17,6 @@ public class Membresia {
     private BigInteger id_membresia;
 
     @Column(name = "fecha_inicio")
-    @NotNull(message = "fecha_inicio cant be null")
     private Timestamp fecha_inicio;
 
     @Column(name = "fecha_fin")
