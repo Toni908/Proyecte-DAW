@@ -42,7 +42,7 @@ public class ImgControllerImpl implements ImgController {
 
     //////////////         FACTURAS FORMULARIOS        ////////////////////
 
-    @RequestMapping(value = "/img/create", method = RequestMethod.GET)
+    @RequestMapping(value = "/imagen/create", method = RequestMethod.GET)
     public String create(ModelMap model) {
         model.addAttribute("type","img-create");
         model.addAttribute("object",new Img());
@@ -50,7 +50,7 @@ public class ImgControllerImpl implements ImgController {
         return __route_formularis;
     }
 
-    @RequestMapping(value = "/img/update/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/imagen/update/{id}", method = RequestMethod.GET)
     public String update(@PathVariable BigInteger id, ModelMap model) {
         if (id!=null) {
             Optional<Img> img = imgService.findImgById(id);
@@ -69,11 +69,11 @@ public class ImgControllerImpl implements ImgController {
     //////////////         ROUTES        ////////////////////
 
 
-    @RequestMapping(value = "/img/save",method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/imagen/save",method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
     public String save(@ModelAttribute @Valid Img img, BindingResult errors, ModelMap model, @RequestParam("image") MultipartFile multipartFile) throws IOException {
         inicializeModelMap(model);
         if (errors.hasErrors()) {
-            return "redirect:/img/create";
+            return "redirect:/imagen/create";
         }
 
         if (img.getId_img()!=null) {
@@ -95,11 +95,11 @@ public class ImgControllerImpl implements ImgController {
     }
 
 
-    @RequestMapping(value = "/img/put",method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/imagen/put",method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
     public String put(@ModelAttribute @Valid Img img, ModelMap model, Errors errors, @RequestParam("image") MultipartFile multipartFile) throws IOException {
         inicializeModelMap(model);
         if (errors.hasErrors()) {
-            return "redirect:/imgs";
+            return "redirect:/imagenes";
         }
 
 
@@ -125,7 +125,7 @@ public class ImgControllerImpl implements ImgController {
         return show(model);
     }
 
-    @RequestMapping(value = "/img/delete/{id}", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/imagen/delete/{id}", method = RequestMethod.GET, produces = "application/json")
     public RedirectView delete(@PathVariable BigInteger id, ModelMap model) {
         if (id!=null) {
             Optional<Img> img = imgService.findImgById(id);
@@ -135,24 +135,24 @@ public class ImgControllerImpl implements ImgController {
                 model.addAttribute("error", "FACTURA NOT FOUNDED");
             }
         }
-        return new RedirectView("/imgs");
+        return new RedirectView("/imagenes");
     }
 
 
-    @RequestMapping(value = "/imgs",method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/imagenes",method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
     @Override
     public String show(ModelMap model) {
-        model.addAttribute("imgs",imgService.findAllImgs());
+        model.addAttribute("imagenes",imgService.findAllImgs());
         return __route_table;
     }
 
-    @RequestMapping(value = "/img/{id}",method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/imagen/{id}",method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
     @Override
     public String findImgById(@PathVariable BigInteger id, ModelMap model) {
         if (id!=null) {
             Optional<Img> img = imgService.findImgById(id);
             if (img.isPresent()) {
-                model.addAttribute("img", img.get());
+                model.addAttribute("imagen", img.get());
                 return __route_table;
             }
         }
