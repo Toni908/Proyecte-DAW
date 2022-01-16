@@ -97,3 +97,23 @@ $font-sizes: map-merge($font-sizes, $personal-fonts);
     opacity: 1;
   }
 }
+.message_error {
+  background-color: indianred;
+  border-radius: 20px;
+  color: white;
+  padding: 10px;
+  width: auto;
+  position: fixed;
+  bottom: 30px;
+  right: 100px;
+}
+.message_success {
+  background-color: forestgreen;
+  border-radius: 20px;
+  color: white;
+  padding: 10px;
+  width: auto;
+  position: fixed;
+  bottom: 30px;
+  right: 100px;
+}

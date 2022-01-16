@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:fragment="messages">
+
+  <div th:if="${error}!=null" th:text="${error}" class="message_error"></div>
+
+  <div th:if="${success}!=null" th:text="${success}" class="message_success"></div>
+
+</div>
+</body>
+</html>

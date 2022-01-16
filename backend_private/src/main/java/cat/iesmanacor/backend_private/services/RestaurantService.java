@@ -27,4 +27,6 @@ public interface RestaurantService {
     List<Restaurant> findRestaurantByNombre(String nombre);
 
     List<Restaurant> findRestaurantById_Membresia(BigInteger id_membresia);
+
+    List<Restaurant> findRestaurantByUseracount(BigInteger id_user);
 }

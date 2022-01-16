@@ -23,4 +23,8 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, BigInteg
     //ID MEMBRESIA IS ALREADY VINCULADA
     @Query(value = "SELECT * FROM restaurante WHERE id_membresia = ?1",nativeQuery = true)
     List<Restaurant> findRestaurantById_Membresia(BigInteger id_membresia);
+
+    //ID MEMBRESIA IS ALREADY VINCULADA
+    @Query(value = "SELECT * FROM restaurante WHERE id_user = ?1",nativeQuery = true)
+    List<Restaurant> findRestaurantByUseracount(BigInteger id_user);
 }
