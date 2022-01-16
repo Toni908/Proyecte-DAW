@@ -37,9 +37,9 @@
 <section class="w-100" style="padding-top: 100px">
     <h3 class="text-center fw-bold text-uppercase">Best Restaurants</h3>
 
-    <div class="d-flex flex-row justify-content-center">
-        <article th:each="restaurante,iterador : ${restaurantes}" th:if="${iterador.index}<${iterador.size}/4">
-            <div class="card" style="width: 18rem;">
+    <div class="d-flex flex-row justify-content-center flex-wrap">
+        <article th:each="restaurante,iterador : ${restaurantes}" style="width: 25%;" class="mt-5 m-3">
+            <div class="card" style="width: 100%;">
                 <img src="..." class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title" th:text="${restaurante.nombre}"></h5>

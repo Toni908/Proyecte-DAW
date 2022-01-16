@@ -4,6 +4,7 @@ import cat.iesmanacor.backend_private.entities.Useracount;
 import cat.iesmanacor.backend_private.repositories.UseracountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -16,16 +17,19 @@ public class UseracountServiceImpl implements UseracountService {
     UseracountRepository useracountRepository;
 
     @Override
+    @Transactional
     public List<Useracount> findAllUseracount() {
         return useracountRepository.findAll();
     }
 
     @Override
+    @Transactional
     public Optional<Useracount> findUseracountById(BigInteger id) {
         return useracountRepository.findById(id);
     }
 
     @Override
+    @Transactional
     public Useracount saveUseracount(Useracount useracountnew) {
         if (useracountnew != null) {
             return useracountRepository.save(useracountnew);
@@ -34,6 +38,7 @@ public class UseracountServiceImpl implements UseracountService {
     }
 
     @Override
+    @Transactional
     public void deleteUseracount(BigInteger id) {
         if (useracountRepository.findById(id).isPresent()) {
             useracountRepository.deleteById(id);
@@ -41,6 +46,7 @@ public class UseracountServiceImpl implements UseracountService {
     }
 
     @Override
+    @Transactional
     public void updateUseracount(Useracount useracount) {
         BigInteger num = useracount.getId_user();
         if (useracountRepository.findById(num).isPresent()) {
@@ -60,9 +66,12 @@ public class UseracountServiceImpl implements UseracountService {
         }
     }
 
+    @Transactional
     public List<Useracount> findUseracountsByEmail(String email) {
         return useracountRepository.findUseracountsByCorreo(email);
     }
+
+    @Transactional
     public List<Useracount> findUseracountByUsername(String username) {
         return useracountRepository.findUseracountsByUsername(username);
     }
