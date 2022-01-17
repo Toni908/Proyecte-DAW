@@ -15,22 +15,26 @@
             <thead class="thead-dark">
             <th scope="row">Id</th>
             <th scope="row">Name</th>
+            <th scope="row">Precio</th>
+            <th scope="row">Descripcion</th>
             <th scope="row"></th>
             </thead>
             <tbody>
-            <tr th:each="category : ${carta.categories}">
-                <td th:text="${category.id_categoria}"></td>
-                <td th:text="${category.nombre}"></td>
+            <tr th:each="plato : ${category.platos}">
+                <td th:text="${plato.id_plato}"></td>
+                <td th:text="${plato.nombre}"></td>
+                <td th:text="${plato.precio}"></td>
+                <td th:text="${plato.descripcion}"></td>
                 <td>
-                    <a class="text-decoration-none text-white" th:href="@{'/restaurant/admin/category/edit/' + ${category.id_categoria}}"><button type='button' class='editar btn btn-primary'>Editar</button></a>
+                    <a class="text-decoration-none text-white" th:href="@{'/restaurant/admin/dish/edit/' + ${plato.id_plato}}"><button type='button' class='editar btn btn-primary'>Editar</button></a>
                     <button type='button' class='eliminar btn btn-danger' onclick="loadModalEliminar()">Eliminar</button>
-                    <a class="text-decoration-none text-white" th:href="@{'/restaurant/admin/category/' + ${category.id_categoria} + '/dishes'}"><button type='button' class='editar btn btn-info'>Platos</button></a>
+                    <a class="text-decoration-none text-white" th:href="@{'/restaurant/admin/card/category/ingredients/' + ${plato.id_plato}}"><button type='button' class='editar btn btn-info'>Categorias</button></a>
                 </td>
             </tr>
             </tbody>
         </table>
-        <a th:href="@{'/restaurant/admin/card/'+ ${carta.id_carta} +'/category/create'}"><button class="btn btn-primary mt-2">Create Card</button></a>
-        <a href="/restaurant/admin/cards"><button class="btn btn-secondary mt-2">Volver</button></a>
+        <a th:href="@{'/restaurant/admin/category/'+ ${category.id_categoria} +'/dish/create'}"><button class="btn btn-primary mt-2">Create Card</button></a>
+        <a th:href="@{'/restaurant/admin/card/'+ ${category.carta.id_carta} +'/categories'}"><button class="btn btn-secondary mt-2">Volver</button></a>
     </div>
 
     <div th:insert="shared/modals/modal_eliminar :: section"/>
@@ -73,7 +77,7 @@
     $('#eliminarbutton').click( function () {
         obtener_data("#card_table", card_table, "button.eliminar");
         var id = data[0];
-        var link = "/restaurant/admin/category/delete/" + id;
+        var link = "/restaurant/admin/dish/delete/" + id;
         $.ajax(link);
         tablee.remove().draw();
         $("#modalEliminar").modal("hide");

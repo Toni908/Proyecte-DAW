@@ -40,12 +40,13 @@
             <td>
                 <a class="text-decoration-none text-white" th:href="@{'/restaurant/admin/card/edit/' + ${carta.id_carta}}"><button type='button' class='editar btn btn-primary'>Editar</button></a>
                 <button type='button' class='eliminar btn btn-danger' onclick="loadModalEliminar()">Eliminar</button>
-                <a class="text-decoration-none text-white" th:href="@{'/restaurant/admin/card/categories/' + ${carta.id_carta}}"><button type='button' class='editar btn btn-info'>Categorias</button></a>
+                <a class="text-decoration-none text-white" th:href="@{'/restaurant/admin/card/' + ${carta.id_carta} + '/categories'}"><button type='button' class='editar btn btn-info'>Categorias</button></a>
             </td>
         </tr>
         </tbody>
     </table>
-        <a href="/restaurant/admin/card/create"><button class="btn btn-primary mt-2">Create Card</button></a>
+        <a href="/restaurant/admin/card/create"><button class="btn btn-primary mt-2">Crear Carta</button></a>
+        <a href="#"><button class="btn btn-secondary mt-2">Volver</button></a>
     </div>
 
     <div th:insert="shared/modals/modal_eliminar :: section"/>
