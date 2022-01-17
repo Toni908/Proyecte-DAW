@@ -1,6 +1,7 @@
 package cat.iesmanacor.backend_private.services;
 
 
+import cat.iesmanacor.backend_private.entities.Img;
 import cat.iesmanacor.backend_private.entities.Restaurant;
 
 import java.math.BigInteger;

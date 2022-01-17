@@ -1,5 +1,6 @@
 package cat.iesmanacor.backend_private.services;
 
+import cat.iesmanacor.backend_private.entities.Img;
 import cat.iesmanacor.backend_private.entities.Restaurant;
 import cat.iesmanacor.backend_private.repositories.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;

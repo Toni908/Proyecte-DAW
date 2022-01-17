@@ -3,9 +3,7 @@ package cat.iesmanacor.backend_private.controller;
 import cat.iesmanacor.backend_private.entities.Localidad;
 import cat.iesmanacor.backend_private.entities.Restaurant;
 import cat.iesmanacor.backend_private.entities.Useracount;
-import cat.iesmanacor.backend_private.services.LocalidadService;
-import cat.iesmanacor.backend_private.services.RestaurantService;
-import cat.iesmanacor.backend_private.services.UseracountService;
+import cat.iesmanacor.backend_private.services.*;
 import org.apache.catalina.User;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +29,9 @@ public class HomeController {
     @Autowired
     LocalidadService localidadService;
 
+    @Autowired
+    ImgService imgService;
+
     @GetMapping("/home")
     public String getHome(ModelMap model){
         model.addAttribute("restaurantes",restaurantService.findAllRestaurants());
@@ -43,6 +44,7 @@ public class HomeController {
     public String userRestaurant(@ModelAttribute Session session, ModelMap model){
         List<Useracount> useracount = useracountService.findAllUseracount();
         model.addAttribute("restaurantesUser",restaurantService.findRestaurantByUseracount(useracount.get(1).getId_user()));
+        model.addAttribute("images",imgService.findImgFromRestaurantByUseracount(useracount.get(1).getId_user()));
         return "listRestaurants";
     }
 
