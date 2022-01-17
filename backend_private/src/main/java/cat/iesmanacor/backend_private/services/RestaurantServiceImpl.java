@@ -24,7 +24,6 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
-    @Transactional
     public Optional<Restaurant> findRestaurantById(BigInteger id) {
         Optional<Restaurant> restaurant = restaurantRepository.findById(id);
         return restaurant;

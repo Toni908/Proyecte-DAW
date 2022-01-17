@@ -38,7 +38,7 @@ public class Restaurant {
     @NotNull(message = "id_localidad cant be null")
     private Localidad localidad;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = true)
     @JoinColumn(name = "id_membresia")
     private Membresia membresia;
 

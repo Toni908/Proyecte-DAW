@@ -35,10 +35,10 @@
           <input th:case="false" id="c_invalidated" type="checkbox" class="form-check-input"/>
           <input th:case="true" id="c_validated" type="checkbox" class="form-check-input"/>
         </td>
-        <td th:text="${restaurante.localidad.id_localidad}"></td>
+        <td th:text="${restaurante.localidad.nombre_localidad}"></td>
         <td th:if="${restaurante.membresia}!=null" th:text="${restaurante.membresia.id_membresia}"></td>
         <td th:unless="${restaurante.membresia}!=null">null</td>
-        <td th:text="${restaurante.useracount.id_user}"></td>
+        <td th:text="${restaurante.useracount.nombre_usuario}"></td>
         <td th:switch="${restaurante.visible}">
           <input th:case="false" id="c_invisible" type="checkbox" class="form-check-input"/>
           <input th:case="true" id="c_visible" type="checkbox" class="form-check-input"/>
