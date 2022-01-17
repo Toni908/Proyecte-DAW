@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
   <link th:href="@{/css/custom.css}" rel="stylesheet"/>
+  <link th:href="@{/css/form.css}" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css"/>
   <link rel="stylesheet" href="https://cdn.datatables.net/select/1.3.3/css/select.dataTables.min.css"/>
 </head>
@@ -31,25 +32,131 @@
         <td th:text="${restaurante.nombre}"></td>
         <td th:text="${restaurante.dies_anticipacion_reservas}"></td>
         <td th:text="${restaurante.telefono_restaurante}"></td>
-        <td th:switch="${restaurante.validated}">
-          <input th:case="false" id="c_invalidated" type="checkbox" class="form-check-input"/>
-          <input th:case="true" id="c_validated" type="checkbox" class="form-check-input"/>
-        </td>
+        <td th:text="${restaurante.validated}"></td>
         <td th:text="${restaurante.localidad.nombre_localidad}"></td>
         <td th:if="${restaurante.membresia}!=null" th:text="${restaurante.membresia.id_membresia}"></td>
         <td th:unless="${restaurante.membresia}!=null">null</td>
         <td th:text="${restaurante.useracount.nombre_usuario}"></td>
-        <td th:switch="${restaurante.visible}">
-          <input th:case="false" id="c_invisible" type="checkbox" class="form-check-input"/>
-          <input th:case="true" id="c_visible" type="checkbox" class="form-check-input"/>
+        <td th:text="${restaurante.visible}"></td>
+        <td>
+          <button th:data-thing="${restaurante}" onclick="editar_restaurante(this.getAttribute('data-thing'))" data-bs-toggle="modal" data-bs-target="#exampleModal">Editar</button>
         </td>
-        <td><button class="" th:onclick="'javascript:editar_restaurante(' + ${restaurante.id_restaurante} + ')'">Editar</button></td>
+        <td>
+          <button th:data-thing="${restaurante}" onclick="make_visible(this.getAttribute('data-thing'))">Make visible</button>
+        </td>
       </tr>
       </tbody>
     </table>
-    <button class="btn btn-primary mt-2">Create Card</button>
   </div>
 
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form class="container form-container" th:action="@{/restaurant/put}" method="POST" th:object="${updateRestaurant}">
+          <div class="title_form">
+            <h1 class="text-center">Your Restaurant</h1>
+            <h4 class="text-center sub_comment_title">Modificar el restaurante?</h4>
+          </div>
+          <div class="body_form">
+            <div class="d-flex justify-content-center">
+              <div class="mb-3 p-0" style="width: 80%">
+                <div class="ps-3 paraf_form">ID Resturante</div>
+                <label class="w-100 field_form_principal">
+                  <input id="restaurant_id" class="input-text" th:field="*{id_restaurante}" required>
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="body_form pt-0">
+            <div class="d-flex justify-content-center">
+              <div class="mb-3 p-0" style="width: 80%">
+                <div class="ps-3 paraf_form">Nombre</div>
+                <label class="w-100 field_form_principal">
+                  <input id="restaurant_nombre" class="input-text" th:field="*{nombre}" type="text" maxlength="40" required>
+                </label>
+              </div>
+            </div>
+            <div class="form_section_2">
+              <div class="container-responsive-form">
+                <div class="p-0 form_2">
+                  <div class="ps-3 paraf_form">Anticipacion reservas</div>
+                  <label class="w-100 field_form_section">
+                    <input id="restaurant_dies_anticipacion_reservas" class="input-text" type="number" th:field="*{dies_anticipacion_reservas}" oninput="this.value = Math.abs(this.value)" required>
+                  </label>
+                </div>
+              </div>
+              <div class="container-responsive-form">
+                <div class="p-0 form_2">
+                  <div class="ps-3 paraf_form">Telefono</div>
+                  <label class="w-100 field_form_section">
+                    <input id="restaurante_telefono_restaurante" class="input-text" type="number" th:field="*{telefono_restaurante}" oninput="this.value = Math.abs(this.value)" required>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="form_section_2">
+              <div class="container-responsive-form">
+                <div class="p-0 form_2">
+                  <div class="ps-3 paraf_form">Useracount</div>
+                  <label class="w-100 field_form_section">
+                    <input id="restaurant_user" class="input-text" type="number" th:field="*{useracount}" oninput="this.value = Math.abs(this.value)" required>
+                  </label>
+                </div>
+              </div>
+              <div class="container-responsive-form">
+                <div class="p-0 form_2">
+                  <div class="ps-3 paraf_form">Membresia</div>
+                  <label class="w-100 field_form_section">
+                    <input id="restaurant_membresia" class="input-text" type="number" th:field="*{membresia}" oninput="this.value = Math.abs(this.value)" required>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="body_form pt-0">
+              <div class="d-flex justify-content-center">
+                <div class="mb-3 p-0" style="width: 80%">
+                  <div class="ps-3 paraf_form">Localidad</div>
+                  <label class="w-100 field_form_principal">
+                    <input id="restaurant_localidad" class="input-text" th:field="*{localidad}" type="text" maxlength="40" required>
+                  </label>
+                </div>
+              </div>
+            <div class="body_form pt-0">
+              <div class="d-flex justify-content-center">
+                <div class="mb-3 p-0" style="width: 80%">
+                  <div class="ps-3 paraf_form">Validated</div>
+                  <label class="w-100">
+                    <select id="restaurant_validated" class="input-text" th:field="*{validated}">
+                      <option th:value="true">True</option>
+                      <option th:value="false">False</option>
+                    </select>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="body_form pt-0">
+              <div class="d-flex justify-content-center">
+                <div class="mb-3 p-0" style="width: 80%">
+                  <div class="ps-3 paraf_form">Visible</div>
+                  <label class="w-100">
+                    <select id="restaurant_visible" class="input-text" th:field="*{visible}">
+                      <option th:value="true">True</option>
+                      <option th:value="false">False</option>
+                    </select>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="pt-3 row d-flex flex-row justify-content-center gap-5">
+              <input class="w-20 pt-2 pb-2 paraf_form rounded" type="submit" value="Submit" />
+            </div>
+          </div>
+        </form>
+        <button type="button" class="btn btn-secondary mt-3" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
 </main>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
@@ -59,20 +166,94 @@
 <script src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script>
 <script>
   $(document).ready(function() {
-
     var restaurant_table = $('#restaurant_table').DataTable({
       select: {
         style: 'single'
       }
     });
-
-    $('#c_validated').prop("checked", true);
-    $('#i_visible').prop("checked", true);
-
   });
 
-  function editar_restaurante(number){
+  function editar_restaurante(restaurante){
+    getUseracountFromDatathing(restaurante);
+    // var readyRestaurant = getRestaurantFromDataThing(restaurante);
+    // $("#restaurant_nombre").val(readyRestaurant["nombre"]);
+    // $("#restaurant_dies_anticipacion_reservas").val(readyRestaurant["dias_anticipacion"]);
+    // $("#restaurante_telefono_restaurante").val(readyRestaurant["telefono_restaurante"]);
+    // $("#restaurant_id").val(readyRestaurant["id_restaurante"]);
+    // $("#restaurant_validated").val(readyRestaurant["validated"]);
+    // $("#restaurant_visible").val(readyRestaurant["visible"]);
+    //
+    // $("#restaurant_user").val(readyRestaurant[4]);
+    // $("#restaurant_localidad").val(readyRestaurant[4]);
+    // $("#restaurant_membresia").val(readyRestaurant[4]);
+  }
 
+  function make_visible(restaurante) {
+    var readyRestaurant = convertDataThingIntoArrayRestaurant(restaurante);
+    // enviar directamente un form donde lo unico que cambia es para poner valated rapidamente
+  }
+
+
+  function convertDataThingIntoArrayRestaurant (restaurante) {
+    //Open formulari pera hacer un update del restaurante
+    var resultMembresia = []; var resultLocalidad = [];
+
+    var string = ""; var boolean = false;
+    for (var i = 0; i < restaurante.length; i++) {
+      if (restaurante[i] === '=' || boolean === true) {
+        if (boolean === true) {
+          string += restaurante[i];
+        }
+        boolean = true;
+        if (restaurante[i] === ',') {
+          boolean = false;
+        }
+      }
+    }
+    alert(string)
+    string = string.split(',');
+    string[0].replace('undefined','');
+    return string;
+  }
+
+  function getUseracountFromDatathing(string) {
+    string = convertDataThingIntoArrayRestaurant(string)
+    for (var i = 0; i+1 < string.length; i++) {
+      string[i] = string[i].replace('=','')
+      alert(string[i]);
+    }
+    return {
+      "id_user": string[0],
+      "username": string[1],
+      "password": string[2],
+      "gmail": string[3],
+      "phone": string[4],
+      "name": fixedVisible(string[string.length-1]),
+      "apellido1": "yes",
+      "apellido2": "no",
+      "dni": "",
+      "admin": ""
+    };
+  }
+
+  function getRestaurantFromDataThing (string) {
+    string = convertDataThingIntoArrayRestaurant(string)
+    return {
+      "id_restaurante": string[0],
+      "nombre": string[1],
+      "dias_anticipacion": string[2],
+      "telefono_restaurante": string[3],
+      "validated": string[4],
+      "visible": fixedVisible(string[string.length-1])
+    };
+  }
+
+  function fixedVisible(string) {
+    var result = "";
+    for (var i = 0; i+1 < string.length; i++) {
+      result += string[i];
+    }
+    return result;
   }
 </script>
 </body>
