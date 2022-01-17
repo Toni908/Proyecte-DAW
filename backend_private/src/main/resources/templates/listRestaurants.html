@@ -22,6 +22,11 @@
 </head>
 <body>
 <!-- VISTA DE RESTAURANTES POR UN USUARIO -->
+<div th:insert="shared/missage :: messages"></div>
+
+<div th:if="${error}!=null" th:text="${error}" class="message_error"></div>
+<div th:if="${success}!=null" th:text="${success}" class="message_success"></div>
+
 <div th:insert="shared/headerVersion2 :: header" class="sticky-top top-0"></div>
     <h2 class="text-center pt-5 fw-bold" style="font-family: 'Outfit', sans-serif;">Tus Restaurantes - (name user)</h2>
     <div class="d-flex flex-row justify-content-center w-100 gap-3 fw-bold" style="color: darkgrey;">

@@ -38,16 +38,6 @@ public class HomeController {
         return "principalPage";
     }
 
-    // LISTAS DE RESTURANTES POR X USUARIO
-
-    @GetMapping("/lista/restaurantes")
-    public String userRestaurant(@ModelAttribute Session session, ModelMap model){
-        List<Useracount> useracount = useracountService.findAllUseracount();
-        model.addAttribute("restaurantesUser",restaurantService.findRestaurantByUseracount(useracount.get(1).getId_user()));
-        model.addAttribute("images",imgService.findImgFromRestaurantByUseracount(useracount.get(1).getId_user()));
-        return "listRestaurants";
-    }
-
     // ADMIN SECTION DATATABLE RESTAURANTES
     @GetMapping("/restaurante/admin")
     public String adminRestaurantes(ModelMap model){
