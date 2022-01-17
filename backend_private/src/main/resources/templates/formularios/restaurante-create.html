@@ -4,78 +4,86 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link th:href="@{/css/custom.css}" rel="stylesheet">
-    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <link th:href="@{/css/form.css}" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@500&display=swap');
     </style>
 </head>
-<body>
+<body class="bg-black">
 <!-- FORMULARIO RESTAURANTE -->
 <div th:insert="shared/headerVersion2 :: header" class="sticky-top top-0"></div>
 <div th:insert="shared/missage :: messages"></div>
-<form class="container form-container" th:action="@{/restaurant/save}" method="POST" enctype="multipart/form-data" th:object="${object}">
-    <div class="title_form">
-        <h1 class="text-center">Your Restaurant</h1>
-        <h4 class="text-center sub_comment_title">Que contiene tu restaurante?</h4>
+<div class="d-flex flex-row justify-content-center bg-black">
+    <div class="form_section">
+        <form class="container form-container" th:action="@{/restaurant/save}" method="POST" enctype="multipart/form-data" th:object="${restaurant}">
+            <div class="title_form">
+                <h1 class="text-center">Your Restaurant</h1>
+                <h4 class="text-center sub_comment_title">Que contiene tu restaurante?</h4>
+            </div>
+            <div class="body_form">
+                <div class="d-flex justify-content-center">
+                    <div class="mb-3 p-0" style="width: 80%">
+                        <div class="ps-3 paraf_form">Nombre</div>
+                        <label class="w-100 field_form_principal">
+                            <input class="input-text" th:field="*{nombre}" type="text" maxlength="40" placeholder="NOMBRE RESTAURANTE" required>
+                        </label>
+                    </div>
+                </div>
+                <div class="form_section_2">
+                    <div class="container-responsive-form">
+                        <div class="p-0 form_2">
+                            <div class="ps-3 paraf_form">Anticipacion reservas</div>
+                            <label class="w-100 field_form_section">
+                                <input class="input-text" type="number" th:field="*{dies_anticipacion_reservas}" oninput="this.value = Math.abs(this.value)" required>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="container-responsive-form">
+                        <div class="p-0 form_2">
+                            <div class="ps-3 paraf_form">Telefono</div>
+                            <label class="w-100 field_form_section">
+                                <input class="input-text" type="number" th:field="*{telefono_restaurante}" oninput="this.value = Math.abs(this.value)" required>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="pt-1 row d-flex flex-row justify-content-center">
+                    <div class="mb-3 p-0" style="width: 50%">
+                        <div class="ps-3 paraf_form">Localidad</div>
+                        <label class="w-100" th:if="${array}!=null">
+                            <select class="input-text" th:field="*{localidad}">
+                                <option th:each="localidad : ${array}" th:value="${localidad.id_localidad}" th:text="${localidad.nombre_localidad}">
+                            </select>
+                        </label>
+                    </div>
+                </div>
+                <div class="pt-1 row d-flex flex-row justify-content-center">
+                    <div class="mb-3 p-0" style="width: 50%">
+                        <div class="ps-3 paraf_form">Image</div>
+                        <label>
+                            <input class="input-text" name="image" type="file" maxlength="80" placeholder="URL" required>
+                        </label>
+                    </div>
+                </div>
+                <div class="pt-3 row d-flex flex-row justify-content-center gap-5">
+                    <input class="w-20 pt-2 pb-2 paraf_form rounded" type="submit" value="Submit" />
+                </div>
+                <div type="hidden">
+                    <label>
+                        <input th:field="*{validated}" type="hidden"/>
+                    </label>
+                    <label>
+                        <input th:field="*{visible}" type="hidden"/>
+                    </label>
+                    <label>
+                        <input th:field="*{id_restaurante}" type="hidden">
+                    </label>
+                </div>
+            </div>
+        </form>
     </div>
-    <div class="body_form">
-        <div class="d-flex justify-content-center">
-            <div class="field_form_principal mb-3">
-                <label class="w-100">
-                    <input class="input-text" th:field="*{nombre}" type="text" maxlength="40" placeholder="NOMBRE RESTAURANTE" required>
-                </label>
-            </div>
-        </div>
-        <div class="pt-2 row d-flex flex-row justify-content-center gap-5">
-            <div class="mb-3 p-0" style="width: 30%">
-                <div class="ps-3 paraf_form">Dias anticipacion reservas</div>
-                <label class="w-100 field_form_section">
-                    <input class="input-text" type="number" th:field="*{dies_anticipacion_reservas}" oninput="this.value = Math.abs(this.value)" required>
-                </label>
-            </div>
-            <div class="mb-3 p-0" style="width: 30%">
-                <div class="ps-3 paraf_form">Telefono</div>
-                <label class="w-100 field_form_section">
-                    <input class="input-text" type="number" th:field="*{telefono_restaurante}" oninput="this.value = Math.abs(this.value)" required>
-                </label>
-            </div>
-        </div>
-        <div class="pt-1 row d-flex flex-row justify-content-center">
-            <div class="mb-3 p-0" style="width: 50%">
-                <div class="ps-3 paraf_form">Localidad</div>
-                <label class="w-100" th:if="${array}!=null">
-                    <select class="input-text" th:field="*{localidad}">
-                        <option th:each="localidad : ${array}" th:value="${localidad.id_localidad}" th:text="${localidad.nombre_localidad}">
-                    </select>
-                </label>
-            </div>
-        </div>
-        <div class="pt-1 row d-flex flex-row justify-content-center">
-            <div class="mb-3 p-0" style="width: 50%">
-                <div class="ps-3 paraf_form">File</div>
-                <label>
-                    <input class="input-text" name="image" type="file" maxlength="80" placeholder="URL" required>
-                </label>
-            </div>
-        </div>
-        <div class="pt-3 row d-flex flex-row justify-content-center gap-5">
-            <input class="w-20 pt-2 pb-2 paraf_form rounded" type="submit" value="Submit" />
-        </div>
-        <div type="hidden">
-            <label>
-                <input th:field="*{validated}" type="hidden"/>
-            </label>
-            <label>
-                <input th:field="*{visible}" type="hidden"/>
-            </label>
-            <label>
-                <input th:field="*{id_restaurante}" type="hidden">
-            </label>
-        </div>
-    </div>
-</form>
-
+</div>
 <!--Footer-->
 </body>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>

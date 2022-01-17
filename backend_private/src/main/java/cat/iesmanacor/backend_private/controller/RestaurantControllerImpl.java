@@ -5,6 +5,7 @@ import cat.iesmanacor.backend_private.converters.StringToTimestampConverter;
 import cat.iesmanacor.backend_private.entities.*;
 import cat.iesmanacor.backend_private.files.FileUploadUtil;
 import cat.iesmanacor.backend_private.services.*;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,11 +49,21 @@ public class RestaurantControllerImpl implements RestaurantControllers {
     private final String __route_table = "tables/layout-table";
     private final String __route_home = "home";
 
+    // LISTAS DE RESTURANTES POR X USUARIO
+
+    @GetMapping("/lista/restaurantes")
+    public String listRestaurants(ModelMap model){
+        List<Useracount> useracount = useracountService.findAllUseracount();
+        model.addAttribute("restaurantesUser",restaurantService.findRestaurantByUseracount(useracount.get(1).getId_user()));
+        model.addAttribute("images",imgService.findImgFromRestaurantByUseracount(useracount.get(1).getId_user()));
+        return "listRestaurants";
+    }
+
     //////////////         RESTAURANTES   FORMULARIOS      ////////////////////
 
     @RequestMapping(value = "/restaurant/create", method = RequestMethod.GET)
     public String create(ModelMap model) {
-        model.addAttribute("object",new Restaurant());
+        model.addAttribute("restaurant",new Restaurant());
         model.addAttribute("array",localidadService.findAllLocalidad());
         return __route_formulari_create;
     }
@@ -63,7 +74,7 @@ public class RestaurantControllerImpl implements RestaurantControllers {
         if (id!=null) {
             Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
             if (restaurant.isPresent()) {
-                model.addAttribute("object", restaurant.get());
+                model.addAttribute("restaurant", restaurant.get());
                 model.addAttribute("array",localidadService.findAllLocalidad());
                 return __route_formulari_update;
             }
@@ -94,8 +105,10 @@ public class RestaurantControllerImpl implements RestaurantControllers {
             restaurant.setUseracount(useracount.get());
             saveRestaurant(restaurant);
             saveImageRestaurant(multipartFile,restaurant);
+            model.addAttribute("success","Restaurante creado correctamente");
+            return create(model);
         }
-        return "redirect:/lista/restaurantes";
+        return "redirect:/"+__route_home;
     }
 
     @RequestMapping(value = "/restaurant/put")

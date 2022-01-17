@@ -2,6 +2,7 @@ package cat.iesmanacor.backend_private.services;
 
 
 import cat.iesmanacor.backend_private.entities.Img;
+import org.springframework.data.jpa.repository.Query;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -21,4 +22,6 @@ public interface ImgService {
     // QUERY
 
     public List<Img> findImgByUrl(String url);
+
+    List<Img> findImgFromRestaurantByUseracount(BigInteger id);
 }

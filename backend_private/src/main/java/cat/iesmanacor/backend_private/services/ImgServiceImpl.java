@@ -56,4 +56,9 @@ public class ImgServiceImpl implements ImgService {
     public List<Img> findImgByUrl(String url) {
         return imgRepository.findImgByUrl(url);
     }
+
+    @Override
+    public List<Img> findImgFromRestaurantByUseracount(BigInteger id) {
+        return imgRepository.findImgFromRestaurantByUseracount(id);
+    }
 }

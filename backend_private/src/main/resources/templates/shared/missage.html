@@ -6,11 +6,8 @@
 </head>
 <body>
 <div th:fragment="messages">
-
   <div th:if="${error}!=null" th:text="${error}" class="message_error"></div>
-
   <div th:if="${success}!=null" th:text="${success}" class="message_success"></div>
-
 </div>
 </body>
 </html>

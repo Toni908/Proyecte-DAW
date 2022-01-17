@@ -4,36 +4,45 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link th:href="@{/css/custom.css}" rel="stylesheet">
+    <link th:href="@{/css/list_restaurants_useracount.css}" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@600&display=swap');
-        .card {
-            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-            transition: 0.3s;
-        }
-        .card:hover {
-            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-        }
-        .container {
-            padding: 2px 16px;
-        }
-    </style>
 </head>
 <body>
-<!-- VISTA DE RESTAURANTES POR UN USUARIO -->
 <div th:insert="shared/headerVersion2 :: header" class="sticky-top top-0"></div>
-<div class="d-flex justify-content-center" style="padding-top: 100px">
-    <article th:each="restaurante, iteration : ${restaurantesUser}" style="width: 25%; padding: 10px">
-        <div class="card">
-            <img class="p-3" style="border-radius: 20px" th:src="@{/img/imgFront.jpg}" alt="Img Restaurant (1)">
-            <div class="container">
-                <h4><b th:text="${restaurante.nombre}"></b></h4>
-                <!-- Horario inicio y fin -->
-                <p th:text="${restaurante.telefono_restaurante}"></p>
-            </div>
+    <h2 class="text-center pt-5 fw-bold title_principal">Tus Restaurantes - (name user)</h2>
+    <div class="d-flex flex-row justify-content-center w-100 gap-3 fw-bold sub_comment_title">
+        Numeros de Restaurantes
+        <div th:text="' '+${restaurantesUser.size()}"></div>
+    </div>
+    <div class="d-flex justify-content-center">
+        <div class="container_restaurants">
+            <article class="single_restaurant" th:each="restaurante, iteration : ${restaurantesUser}">
+                <a class="text-decoration-none text-black" th:href="@{'/restaurant/update/'+${restaurante.id_restaurante}}">
+                    <div class="card">
+                        <img class="img-restaurant p-3 w-100" th:each="img : ${images}" th:if="${restaurante.id_restaurante}==${img.restaurant.id_restaurante}" th:src="@{'/img/restaurants/'+${img.url}}" alt="Img Restaurant (1)">
+                        <img class="img-restaurant p-3 w-100" th:each="img : ${images}" th:unless="${restaurante.id_restaurante}==${img.restaurant.id_restaurante}" th:src="@{/img/imgFront.jpg}" alt="Img Restaurant (1)">
+                        <div class="container">
+                            <h4 class="d-flex justify-content-center w-100"><b th:text="${restaurante.nombre}"></b></h4>
+                            <!-- Horario inicio y fin -->
+                            <div class="d-flex flex-row gap-2 fw-bold">
+                                Tef:
+                                <p class="mb-1 fw-normal" th:text="${restaurante.telefono_restaurante}"></p>
+                            </div>
+                            <div class="d-flex flex-row gap-2 fw-bold">
+                                Localidad:
+                                <p class="mb-1 fw-normal" th:text="${restaurante.localidad.nombre_localidad}"></p>
+                            </div>
+                            <div class="d-flex flex-row justify-content-center gap-2">
+                                Visibilidad:
+                                <div th:if="${restaurante.isVisible()}" class="text-success pb-2">Visible</div>
+                                <div th:unless="${restaurante.isVisible()}" class="text-secondary pb-2">Invisible</div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </article>
         </div>
-    </article>
-</div>
+    </div>
 </body>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
