@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!-- container -->
+
+<!-- Modal Edita Model -->
+<section>
+<div id="modalEdita" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <!-- header modal -->
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edita Carroceria</h5>
+                <button data-bs-dismiss="modal" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <!-- body modal -->
+
+            <div class="modal-body">
+                <form role="form" name="formEdita" action="edita.php" method="get">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Id:</label>
+                            <input id="idc" type="text" class="form-control" placeholder="Id Carta" readonly="readonly" name="id">
+                        </div>
+                        <div class="col-md-6">
+                            <label>Nom:</label>
+                            <input id="nomc" type="text"class="form-control" placeholder="Nombre Carta:" name="nom">
+                        </div>
+                        <div class="col-md-6" id="useimgdiv">
+                            <label>Usar Imagen:</label>
+                            <!--div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="flexSwitchCheck">
+                                <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked>
+                            </div-->
+                        </div>
+                        <div class="col-md-6" id="visiblediv">
+                            <label>Poner en Uso:</label>
+                            <!--div class="form-check form-switch">
+                                <input th:if="${carta.visible == false}" class="form-check-input" type="checkbox" id="flexSwitchCheck">
+                                <input th:unless="${carta.visible == false}" class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked>
+                            </div-->
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- footer modal -->
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" data-bs-dismiss="modal">Tancar</button>
+                <button id="editarButton" type="button" class="btn btn-primary">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+</body>
+</html>
