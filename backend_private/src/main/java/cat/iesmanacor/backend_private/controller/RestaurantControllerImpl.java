@@ -63,7 +63,7 @@ public class RestaurantControllerImpl implements RestaurantControllers {
 
     @RequestMapping(value = "/restaurant/create", method = RequestMethod.GET)
     public String create(ModelMap model) {
-        model.addAttribute("object",new Restaurant());
+        model.addAttribute("restaurant",new Restaurant());
         model.addAttribute("array",localidadService.findAllLocalidad());
         return __route_formulari_create;
     }
@@ -74,7 +74,7 @@ public class RestaurantControllerImpl implements RestaurantControllers {
         if (id!=null) {
             Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
             if (restaurant.isPresent()) {
-                model.addAttribute("object", restaurant.get());
+                model.addAttribute("restaurant", restaurant.get());
                 model.addAttribute("array",localidadService.findAllLocalidad());
                 return __route_formulari_update;
             }
@@ -106,9 +106,9 @@ public class RestaurantControllerImpl implements RestaurantControllers {
             saveRestaurant(restaurant);
             saveImageRestaurant(multipartFile,restaurant);
             model.addAttribute("success","Restaurante creado correctamente");
-            listRestaurants(model);
+            return create(model);
         }
-        return "redirect:/lista/restaurantes";
+        return "redirect:/"+__route_home;
     }
 
     @RequestMapping(value = "/restaurant/put")

@@ -39,9 +39,11 @@ public class HomeController {
     }
 
     // ADMIN SECTION DATATABLE RESTAURANTES
-    @GetMapping("/restaurante/admin")
+    @GetMapping("/restaurante/configuration/admin")
     public String adminRestaurantes(ModelMap model){
-        return "formularios/restaurante";
+        //Condition if is admin
+        model.addAttribute("restaurantes",restaurantService.findAllRestaurants());
+        return "restaurantesAdmin";
     }
 
     @GetMapping("/configuration/cards")
