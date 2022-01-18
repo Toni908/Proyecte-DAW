@@ -6,17 +6,16 @@ import cat.iesmanacor.backend_private.services.EtiquetasService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.validation.Valid;
 import java.math.BigInteger;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -29,31 +28,20 @@ public class EtiquetasControllerImpl implements EtiquetasController {
     @Autowired
     EtiquetasService etiquetasService;
 
-    //////////////         FACTURAS FORMULARIOS        ////////////////////
-
-    @RequestMapping(value = "/etiqueta/create", method = RequestMethod.GET)
-    public String create(ModelMap model) {
-        model.addAttribute("type","etiquetas-create");
-        model.addAttribute("object",new Etiquetas());
-        return __route_formularis;
-    }
-
-    @RequestMapping(value = "/etiqueta/update/{id}", method = RequestMethod.GET)
-    public String update(@PathVariable BigInteger id, ModelMap model) {
-        if (id!=null) {
-            Optional<Etiquetas> etiquetas = etiquetasService.findEtiquetaById(id);
-            if (etiquetas.isPresent()) {
-                model.addAttribute("type", "etiquetas-update");
-                model.addAttribute("object", etiquetas.get());
-                return __route_formularis;
-            }
-        }
-        model.addAttribute("error","ETIQUETAS SELECTED DOESNT PRESENT");
-        return __route_home;
-    }
-
     //////////////         ROUTES        ////////////////////
 
+    @RequestMapping(value = "/etiqueta/array/save",method = RequestMethod.POST)
+    public String saveArrayEtiquetas(@RequestParam(value="myArray[]") List<String> myArray, ModelMap model) {
+        inicializeModelMap(model);
+        for (String s : myArray) {
+            Etiquetas generatedEtiquetas = new Etiquetas();
+            generatedEtiquetas.setNombre(s);
+            if (checkNameIsEmpty(generatedEtiquetas)) {
+                saveEtiquetas(generatedEtiquetas);
+            }
+        }
+        return show(model);
+    }
 
     @RequestMapping(value = "/etiqueta/save",method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
     public String save(@ModelAttribute @Valid Etiquetas etiquetas, BindingResult errors, ModelMap model) {
