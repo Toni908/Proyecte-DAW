@@ -21,7 +21,7 @@
             <th scope="row"></th>
         </thead>
         <tbody>
-        <tr th:each="carta : ${cartas}">
+        <tr th:each="carta : ${restaurant.cartas}">
             <td th:text="${carta.id_carta}"></td>
             <td th:text="${carta.nombre}"></td>
             <td th:text="${carta.url_img}"></td>
@@ -45,7 +45,7 @@
         </tr>
         </tbody>
     </table>
-        <a href="/restaurant/admin/card/create"><button class="btn btn-primary mt-2">Crear Carta</button></a>
+        <a th:href="@{'/restaurant/admin/' + ${restaurant.id_restaurante} + '/card/create'}"><button class="btn btn-primary mt-2">Crear Carta</button></a>
         <a href="#"><button class="btn btn-secondary mt-2">Volver</button></a>
     </div>
 
