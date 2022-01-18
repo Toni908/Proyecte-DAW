@@ -41,6 +41,12 @@ public class RestaurantControllerImpl implements RestaurantControllers {
     LocalidadService localidadService;
 
     @Autowired
+    EtiquetasService etiquetasService;
+
+    @Autowired
+    MunicipioService municipioService;
+
+    @Autowired
     ImgService imgService;
 
     private final String __route_formulari_create = "formularios/restaurante-create";
@@ -64,7 +70,10 @@ public class RestaurantControllerImpl implements RestaurantControllers {
     @RequestMapping(value = "/restaurant/create", method = RequestMethod.GET)
     public String create(ModelMap model) {
         model.addAttribute("restaurant",new Restaurant());
-        model.addAttribute("array",localidadService.findAllLocalidad());
+        model.addAttribute("etiqueta", new Etiquetas());
+        model.addAttribute("localidades",localidadService.findAllLocalidad());
+        model.addAttribute("municipios",municipioService.findAllMunicipios());
+        model.addAttribute("etiquetas",etiquetasService.findAllEtiquetas());
         return __route_formulari_create;
     }
 

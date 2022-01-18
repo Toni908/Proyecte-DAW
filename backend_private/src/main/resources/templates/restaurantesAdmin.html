@@ -175,13 +175,13 @@
 
   function editar_restaurante(restaurante){
     getUseracountFromDatathing(restaurante);
-    // var readyRestaurant = getRestaurantFromDataThing(restaurante);
-    // $("#restaurant_nombre").val(readyRestaurant["nombre"]);
-    // $("#restaurant_dies_anticipacion_reservas").val(readyRestaurant["dias_anticipacion"]);
-    // $("#restaurante_telefono_restaurante").val(readyRestaurant["telefono_restaurante"]);
-    // $("#restaurant_id").val(readyRestaurant["id_restaurante"]);
-    // $("#restaurant_validated").val(readyRestaurant["validated"]);
-    // $("#restaurant_visible").val(readyRestaurant["visible"]);
+    var readyRestaurant = getRestaurantFromDataThing(restaurante);
+    $("#restaurant_nombre").val(readyRestaurant["nombre"]);
+    $("#restaurant_dies_anticipacion_reservas").val(readyRestaurant["dias_anticipacion"]);
+    $("#restaurante_telefono_restaurante").val(readyRestaurant["telefono_restaurante"]);
+    $("#restaurant_id").val(readyRestaurant["id_restaurante"]);
+    $("#restaurant_validated").val(readyRestaurant["validated"]);
+    $("#restaurant_visible").val(readyRestaurant["visible"]);
     //
     // $("#restaurant_user").val(readyRestaurant[4]);
     // $("#restaurant_localidad").val(readyRestaurant[4]);
@@ -210,7 +210,7 @@
         }
       }
     }
-    alert(string)
+    // alert(string)
     string = string.split(',');
     string[0].replace('undefined','');
     return string;
@@ -220,7 +220,7 @@
     string = convertDataThingIntoArrayRestaurant(string)
     for (var i = 0; i+1 < string.length; i++) {
       string[i] = string[i].replace('=','')
-      alert(string[i]);
+      // alert(string[i]);
     }
     return {
       "id_user": string[0],

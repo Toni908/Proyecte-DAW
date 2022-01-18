@@ -82,6 +82,18 @@ public class EtiquetasControllerImpl implements EtiquetasController {
         return show(model);
     }
 
+    @RequestMapping(value = "/etiqueta/save/{name}",method = RequestMethod.POST)
+    public void save(@PathVariable String name) {
+        Etiquetas etiquetas = new Etiquetas();
+        etiquetas.setNombre(name);
+
+        if (name!=null) {
+            if (checkNameIsEmpty(etiquetas)) {
+                saveEtiquetas(etiquetas);
+            }
+        }
+    }
+
 
     @RequestMapping(value = "/etiqueta/put",method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
     public String put(@ModelAttribute @Valid Etiquetas etiquetas, ModelMap model, Errors errors) {
