@@ -27,7 +27,7 @@ public class Plato implements Serializable {
         private float precio;
 
         @ManyToOne(fetch = FetchType.LAZY)
-        @JoinColumn(name = "id_categoria_plato", referencedColumnName = "id_categoria")
+        @JoinColumn(name = "id_categoria")
         private Categoria categoria;
 
         @ManyToMany(fetch = FetchType.LAZY)

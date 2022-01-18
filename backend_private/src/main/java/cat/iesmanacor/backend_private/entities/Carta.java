@@ -28,8 +28,7 @@ public class Carta implements Serializable {
     private boolean usa_img;
     private boolean visible;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name="id_categoria")
+    @OneToMany(fetch = FetchType.LAZY,  mappedBy = "carta")
     private List<Categoria> categories;
 
 }

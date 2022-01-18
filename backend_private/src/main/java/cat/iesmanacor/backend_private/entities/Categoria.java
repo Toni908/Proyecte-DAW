@@ -28,7 +28,8 @@ public class Categoria implements Serializable {
     @JoinColumn(name = "id_carta")
     private Carta carta;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name="id_plato")
+    @OneToMany(mappedBy = "categoria")
     private List<Plato> platos;
+
 }
+

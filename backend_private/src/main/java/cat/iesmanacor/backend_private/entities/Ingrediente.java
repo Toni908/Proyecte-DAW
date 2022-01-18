@@ -28,5 +28,5 @@ public class Ingrediente implements Serializable {
     @JoinTable(name="platos_ingredientes",
             joinColumns = { @JoinColumn(name = "id_ingrediente") },
             inverseJoinColumns = { @JoinColumn(name = "id_plato")})
-    private List<Ingrediente> ingredientes;
+    private List<Plato> platos;
 }
