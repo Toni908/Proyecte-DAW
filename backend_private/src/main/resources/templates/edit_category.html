@@ -10,7 +10,7 @@
 
 <main class="mt-5 pt-5 mx-auto w-50">
     <h3> Editar Carta </h3>
-    <form method="post" th:action="@{/restaurant/admin/category/edit/{id}(id=${category.id_categoria})}">
+    <form th method="post" th:action="@{/restaurant/admin/category/edit/{id}(id=${category.id_categoria})}">
 
         <label class="my-1">Id: </label></br>
         <input type="text" id="id" name="id" class="mb-3 bg-secondary w-100" th:value="${category.id_categoria}" readonly/></br>
