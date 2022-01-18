@@ -21,7 +21,7 @@
             <th scope="row"></th>
         </thead>
         <tbody>
-        <tr th:each="carta : ${cartas}">
+        <tr th:each="carta : ${restaurant.cartas}">
             <td th:text="${carta.id_carta}"></td>
             <td th:text="${carta.nombre}"></td>
             <td th:text="${carta.url_img}"></td>
@@ -45,13 +45,15 @@
         </tr>
         </tbody>
     </table>
-        <a href="/restaurant/admin/card/create"><button class="btn btn-primary mt-2">Crear Carta</button></a>
+        <a th:href="@{'/restaurant/admin/' + ${restaurant.id_restaurante} + '/card/create'}"><button class="btn btn-primary mt-2">Crear Carta</button></a>
         <a href="#"><button class="btn btn-secondary mt-2">Volver</button></a>
     </div>
 
     <div th:insert="shared/modals/modal_eliminar :: section"/>
 
 </main>
+
+<div th:insert="shared/footer :: footer"/>
 
     <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
     <script th:src="@{/js/jquery-3.6.0.min.js}"></script>

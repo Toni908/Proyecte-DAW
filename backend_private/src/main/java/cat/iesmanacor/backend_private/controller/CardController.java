@@ -1,9 +1,6 @@
 package cat.iesmanacor.backend_private.controller;
 
-import cat.iesmanacor.backend_private.entities.Alergeno;
-import cat.iesmanacor.backend_private.entities.Carta;
-import cat.iesmanacor.backend_private.entities.Categoria;
-import cat.iesmanacor.backend_private.entities.Plato;
+import cat.iesmanacor.backend_private.entities.*;
 import cat.iesmanacor.backend_private.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +13,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigInteger;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -26,7 +24,7 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("/")
-public class HttpController {
+public class CardController {
 
     @Autowired
     private AlergenoService alergenoService;
@@ -38,13 +36,15 @@ public class HttpController {
     private IngredienteService ingredienteService;
     @Autowired
     private PlatoService platoService;
+    @Autowired
+    private RestaurantService restaurantService;
 
     //card Controllers
 
-    @GetMapping("/restaurant/admin/cards")
-    public String getCards(Model model){
-        List<Carta> cartas = cartaService.findAll();
-        model.addAttribute("cartas", cartas);
+    @GetMapping("/restaurant/admin/{id}/cards")
+    public String getCards(@PathVariable(value = "id") BigInteger id, Model model){
+        Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
+        model.addAttribute("restaurant", restaurant.get());
 
         return "cards";
     }
@@ -67,6 +67,7 @@ public class HttpController {
     @PostMapping("/restaurant/admin/card/edit/{id_card}")
     public RedirectView updateCard(@PathVariable(value = "id_card") Long id, WebRequest request){
         Optional<Carta> carta = cartaService.findById(id);
+
         String name = request.getParameter("name");
         String useimg = request.getParameter("useimg");
         String visible = request.getParameter("visible");
@@ -81,7 +82,7 @@ public class HttpController {
 
         if(visible != null) {
             if (visible.equals("1") && !carta.get().isVisible()) {
-                List<Carta> cartas = cartaService.findAll();
+                List<Carta> cartas = carta.get().getRestaurant().getCartas();
                 for (int i = 0; i < cartas.size(); i++) {
                     Carta c = cartas.get(i);
                     if (c.isVisible()) {
@@ -97,18 +98,23 @@ public class HttpController {
 
         cartaService.save(carta.get());
 
-        return new RedirectView("/restaurant/admin/cards");
+        BigInteger idr = carta.get().getRestaurant().getId_restaurante();
+
+        String url = "/restaurant/admin/"+ idr +"/cards";
+        return new RedirectView(url);
     }
 
-    @GetMapping("/restaurant/admin/card/create")
-    public String createCard(Model model){
+    @GetMapping("/restaurant/admin/{id}/card/create")
+    public String createCard(@PathVariable(value = "id") BigInteger id, Model model){
+        model.addAttribute("id", id);
 
         return "create_card";
     }
 
-    @PostMapping("/restaurant/admin/card/create")
-    public RedirectView saveCard(WebRequest request, @RequestParam("img") MultipartFile img){
+    @PostMapping("/restaurant/admin/{id}/card/create")
+    public RedirectView saveCard(@PathVariable(value = "id") BigInteger id, WebRequest request, @RequestParam("img") MultipartFile img){
         Carta carta = new Carta();
+        Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
         String name = request.getParameter("name");
         String useimg = request.getParameter("useimg");
 
@@ -134,10 +140,12 @@ public class HttpController {
         }
 
         carta.setVisible(false);
+        carta.setRestaurant(restaurant.get());
 
         cartaService.save(carta);
 
-        return new RedirectView("/restaurant/admin/cards");
+        String url = "/restaurant/admin/"+ id +"/cards";
+        return new RedirectView(url);
     }
 
     // Category controllers

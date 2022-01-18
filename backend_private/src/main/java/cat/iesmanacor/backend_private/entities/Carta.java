@@ -31,4 +31,8 @@ public class Carta implements Serializable {
     @OneToMany(fetch = FetchType.LAZY,  mappedBy = "carta")
     private List<Categoria> categories;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_restaurante")
+    private Restaurant restaurant;
+
 }
