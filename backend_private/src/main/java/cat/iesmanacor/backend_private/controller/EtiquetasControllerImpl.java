@@ -2,7 +2,11 @@ package cat.iesmanacor.backend_private.controller;
 
 import cat.iesmanacor.backend_private.controllersImplements.EtiquetasController;
 import cat.iesmanacor.backend_private.entities.Etiquetas;
+import cat.iesmanacor.backend_private.entities.Restaurant;
+import cat.iesmanacor.backend_private.entities.Restaurante_Etiquetas;
+import cat.iesmanacor.backend_private.entities.Restaurante_EtiquetasId;
 import cat.iesmanacor.backend_private.services.EtiquetasService;
+import cat.iesmanacor.backend_private.services.Restaurante_EtiquetasService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -13,8 +17,10 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,22 +34,13 @@ public class EtiquetasControllerImpl implements EtiquetasController {
     @Autowired
     EtiquetasService etiquetasService;
 
+    @Autowired
+    Restaurante_EtiquetasService restaurante_etiquetasService;
+
     //////////////         ROUTES        ////////////////////
 
-    @RequestMapping(value = "/etiqueta/array/save",method = RequestMethod.POST)
-    public String saveArrayEtiquetas(@RequestParam(value="myArray[]") List<String> myArray, ModelMap model) {
-        inicializeModelMap(model);
-        for (String s : myArray) {
-            Etiquetas generatedEtiquetas = new Etiquetas();
-            generatedEtiquetas.setNombre(s);
-            if (checkNameIsEmpty(generatedEtiquetas)) {
-                saveEtiquetas(generatedEtiquetas);
-            }
-        }
-        return show(model);
-    }
-
-    @RequestMapping(value = "/etiqueta/save",method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/etiqueta/save",method = RequestMethod.POST)
+    @Transactional
     public String save(@ModelAttribute @Valid Etiquetas etiquetas, BindingResult errors, ModelMap model) {
         inicializeModelMap(model);
         if (errors.hasErrors()) {
@@ -60,13 +57,13 @@ public class EtiquetasControllerImpl implements EtiquetasController {
             }
         }
 
-        if (etiquetas.getNombre()!=null) {
-            if (checkNameIsEmpty(etiquetas)) {
-                saveEtiquetas(etiquetas);
-            } else {
-                model.addAttribute("error", "ETIQUETA name already taken");
-            }
-        }
+//        if (etiquetas.getNombre()!=null) {
+//            if (checkNameIsEmpty(etiquetas)) {
+//                saveEtiquetas(etiquetas);
+//            } else {
+//                model.addAttribute("error", "ETIQUETA name already taken");
+//            }
+//        }
         return show(model);
     }
 
@@ -75,11 +72,11 @@ public class EtiquetasControllerImpl implements EtiquetasController {
         Etiquetas etiquetas = new Etiquetas();
         etiquetas.setNombre(name);
 
-        if (name!=null) {
-            if (checkNameIsEmpty(etiquetas)) {
-                saveEtiquetas(etiquetas);
-            }
-        }
+//        if (name!=null) {
+//            if (checkNameIsEmpty(etiquetas)) {
+//                saveEtiquetas(etiquetas);
+//            }
+//        }
     }
 
 
@@ -90,24 +87,24 @@ public class EtiquetasControllerImpl implements EtiquetasController {
             return "redirect:/etiquetas";
         }
 
-        if (etiquetas.getId_etiqueta()!=null) {
-            Optional<Etiquetas> etiquetasOptional = etiquetasService.findEtiquetaById(etiquetas.getId_etiqueta());
-            if (etiquetasOptional.isPresent()) {
-                if (etiquetas.getId_etiqueta().equals(etiquetasOptional.get().getId_etiqueta())) {
-                    if (etiquetas.getNombre()!=null && etiquetas.getId_etiqueta()!=null) {
-                        if (checkNameIsEmpty(etiquetas)) {
-                            updateEtiquetas(etiquetas);
-                        } else {
-                            model.addAttribute("error", "ETIQUETA name already taken");
-                        }
-                    }
-                } else {
-                    model.addAttribute("error","factura id doesnt match with the actual factura id");
-                }
-            } else {
-                model.addAttribute("error","factura id doesnt exit");
-            }
-        }
+//        if (etiquetas.getId_etiqueta()!=null) {
+//            Optional<Etiquetas> etiquetasOptional = etiquetasService.findEtiquetaById(etiquetas.getId_etiqueta());
+//            if (etiquetasOptional.isPresent()) {
+//                if (etiquetas.getId_etiqueta().equals(etiquetasOptional.get().getId_etiqueta())) {
+//                    if (etiquetas.getNombre()!=null && etiquetas.getId_etiqueta()!=null) {
+//                        if (checkNameIsEmpty(etiquetas)) {
+//                            updateEtiquetas(etiquetas);
+//                        } else {
+//                            model.addAttribute("error", "ETIQUETA name already taken");
+//                        }
+//                    }
+//                } else {
+//                    model.addAttribute("error","factura id doesnt match with the actual factura id");
+//                }
+//            } else {
+//                model.addAttribute("error","factura id doesnt exit");
+//            }
+//        }
         return show(model);
     }
 
@@ -160,13 +157,6 @@ public class EtiquetasControllerImpl implements EtiquetasController {
     @Override
     public void updateEtiquetas(Etiquetas etiquetasNew) {
         etiquetasService.updateEtiqueta(etiquetasNew);
-    }
-
-    public boolean checkNameIsEmpty(Etiquetas etiquetas) {
-        if (etiquetas.getNombre()!=null) {
-            return etiquetasService.findEtiquetaByName(etiquetas.getNombre()).isEmpty();
-        }
-        return false;
     }
 
     public void inicializeModelMap(ModelMap model) {

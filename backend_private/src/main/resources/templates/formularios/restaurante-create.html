@@ -29,7 +29,7 @@
                     <div class="text-center mb-3 p-0" style="width: 80%">
                         <div class="ps-3 paraf_form">Nombre</div>
                         <label class="w-100 field_form_principal">
-                            <input class="text-center input-text" th:field="*{nombre}" type="text" maxlength="40" placeholder="NOMBRE RESTAURANTE" required>
+                            <input class="text-center input-text" id="nombre" th:field="*{nombre}" type="text" maxlength="40" placeholder="NOMBRE RESTAURANTE" required>
                         </label>
                     </div>
                 </div>
@@ -87,10 +87,10 @@
                         </div>
                         <div class="w-100 d-flex flex-row gap-4" style="border-radius: 10px" th:if="${etiquetas}!=null">
                             <label class="field_form_section" style="width: 50%">
-                                <input id="selectText" class="input-text" type="text" required>
+                                <input id="selectText" class="input-text" type="text">
                             </label>
                             <label class="field_form_section" style="width: 50%">
-                                <select class="input-text" th:field="*{nombre}" id="selectEtiquetas">
+                                <select class="input-text" id="selectEtiquetas">
                                 </select>
                                 <input class="input-text p-3 border border-2 border-success" id="create_etiqueta" onclick="addEtiqueta()" type="hidden" value="Create">
                             </label>
@@ -107,7 +107,7 @@
                 <div class="pt-3 row d-flex flex-row justify-content-center gap-5">
                     <input id="submit" class="w-20 pt-2 pb-2 paraf_form rounded" type="submit" value="Submit" />
                 </div>
-                <div type="hidden">
+                <div>
                     <label>
                         <input th:field="*{validated}" type="hidden"/>
                     </label>
@@ -171,7 +171,7 @@
             if (value == null) {
                 if (isEtiquetaAdded($("#selectText").val())===false) {
                     if ($("#selectText").val().length<15) {
-                        $("#etiquetas_box").append("<article class='text-center d-flex flex-row flex-wrap' onclick='deleteEtiqueta(this)'><a class='text-decoration-none text-black align-self-center'>" + $("#selectText").val() + "</a><input class='align-self-center rounded-circle fw-bold border-0 bg-danger text-white pt-0' style='font-size: 10px; width: 20px; height: 20px' type='button' value='X'></article>");
+                        $("#etiquetas_box").append("<div onclick='deleteEtiqueta(this)' class='text-center d-flex flex-row flex-wrap'><input name='etiquetas' class='border-0 text-center' style='background-color: lightgray' value='"+$("#selectText").val()+"' readonly><input class='align-self-center rounded-circle fw-bold border-0 bg-danger text-white pt-0' style='font-size: 10px; width: 20px; height: 20px' type='button' value='X'></div>");
                         etiquetasAdded.push($("#selectText").val());
                         numEtiquetas--;
                     } else {
@@ -187,7 +187,7 @@
             } else {
                 if (isEtiquetaAdded(value)===false) {
                     if (value.length<30) {
-                        $("#etiquetas_box").append("<article class='text-center d-flex flex-row flex-wrap' onclick='deleteEtiqueta(this)'><a class='text-decoration-none text-black align-self-center'>" + value + "</a><input class='align-self-center rounded-circle fw-bold border-0 bg-danger text-white pt-0' style='font-size: 10px; width: 20px; height: 20px' type='button' value='X'></article>");
+                        $("#etiquetas_box").append("<div onclick='deleteEtiqueta(this)' class='text-center d-flex flex-row flex-wrap'><input name='etiquetas' class='border-0 text-center' style='background-color: lightgray' value='"+value+"' readonly><input class='align-self-center rounded-circle fw-bold border-0 bg-danger text-white pt-0' style='font-size: 10px; width: 20px; height: 20px' type='button' value='X'></div>");
                         etiquetasAdded.push(value);
                         numEtiquetas--;
                     } else {
@@ -209,7 +209,7 @@
     }
 
     function deleteEtiqueta(etiqueta) {
-        etiquetasAdded = etiquetasAdded.filter(value => value !== etiqueta.innerText);
+        etiquetasAdded = etiquetasAdded.filter(value => value !== etiqueta.firstChild.value);
         etiqueta.remove();
         numEtiquetas++;
     }
@@ -222,21 +222,16 @@
         }
         return false;
     }
-    $("#submit").submit(function () {
-        //Conprovacion que todo se a enviado
-        $.ajax({
-            type : "POST",
-            url : "/etiqueta/array/save",
-            data : {
-                myArray: etiquetasAdded
-            },
-            success : function(response) {
-                // do something ...
-            },
-            error : function(e) {
-                alert('Error: ' + e);
-            }
-        });
+    $("#submit").on('click',function () {
+        // var nameRestaurant = $("#nombre").text();
+        // console.log(nameRestaurant);
+        // $.ajax({
+        //     type : "POST",
+        //     url : "/etiqueta/array/save",
+        //     data : {
+        //         myArray: etiquetasAdded
+        //     },
+        // });
     });
 </script>
 </body>

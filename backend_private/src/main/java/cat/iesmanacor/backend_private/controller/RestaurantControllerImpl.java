@@ -47,6 +47,9 @@ public class RestaurantControllerImpl implements RestaurantControllers {
     MunicipioService municipioService;
 
     @Autowired
+    Restaurante_EtiquetasService restaurante_etiquetasService;
+
+    @Autowired
     ImgService imgService;
 
     private final String __route_formulari_create = "formularios/restaurante-create";
@@ -96,26 +99,46 @@ public class RestaurantControllerImpl implements RestaurantControllers {
 
     @RequestMapping(value = "/restaurant/save")
     @Transactional(readOnly = false)
-    public String save(@ModelAttribute @Valid Restaurant restaurant, BindingResult errors, ModelMap model, @RequestParam("image") MultipartFile multipartFile) {
+    public String save(@ModelAttribute @Valid Restaurant restaurant,
+                       BindingResult errors,
+                       ModelMap model,
+                       @RequestParam("image") MultipartFile multipartFile,
+                       @RequestParam("etiquetas") List<String> etiquetas) {
+        EtiquetasControllerImpl etiquetasController = new EtiquetasControllerImpl();
         inicializeModelMap(model);
 
+        //Errores redirect
         if (errors.hasErrors()) {
             return "redirect:/restaurant/create";
         }
 
-        if (!checkNameisEmpty(restaurant.getNombre())) {
-            // El nombre de restaurante ya esta cogido
-            model.addAttribute("error","Restaurant name already taken");
-            return create(model);
+
+        if (restaurant.getNombre()!=null) {
+            if (!checkNameisEmpty(restaurant.getNombre())) {
+                model.addAttribute("error", "Restaurant name already taken");
+                return create(model);
+            }
         }
+
         //Cogo usuario random pero tengo que poner que sea de la session
         Optional<Useracount> useracount = useracountService.findUseracountById(useracountService.findAllUseracount().get(1).getId_user());
+
+
         if (useracount.isPresent()) {
             restaurant.setUseracount(useracount.get());
+
             saveRestaurant(restaurant);
+
+            saveEtiquetas(etiquetas);
+
+            List<Restaurant> restaurantCreated = restaurantService.findRestaurantByNombre(restaurant.getNombre());
+            if (restaurantCreated.size()==1) {
+                makeRelationsRestauranteEtiquetas(etiquetas, restaurantCreated.get(0));
+            }
+
             saveImageRestaurant(multipartFile,restaurant);
-            model.addAttribute("success","Restaurante creado correctamente");
-            return create(model);
+
+            return create(model.addAttribute("success","Restaurante creado correctamente"));
         }
         return "redirect:/"+__route_home;
     }
@@ -221,6 +244,7 @@ public class RestaurantControllerImpl implements RestaurantControllers {
         }
         return true;
     }
+
     public boolean isMembresiaRestaurantTaken(Restaurant restaurant, Restaurant restaurantBefore) {
         if (restaurant.getMembresia().getId_membresia()!=null) {
             if (restaurant.getMembresia().getId_membresia().equals(restaurantBefore.getMembresia().getId_membresia())) {
@@ -255,5 +279,52 @@ public class RestaurantControllerImpl implements RestaurantControllers {
             //
         }
         return img;
+    }
+
+
+    // ETIQUETA RESTAURANT RELATION
+
+    public boolean checkNameIsEmpty(Etiquetas etiquetas) {
+        if (etiquetas.getNombre()!=null) {
+            return etiquetasService.findEtiquetaByName(etiquetas.getNombre()).isEmpty();
+        }
+        return false;
+    }
+
+    public void saveEtiquetas(List<String> myArray) {
+        List<Etiquetas> etiquetas = stringToArrayOfEtiquetas(myArray);
+        for (Etiquetas etiqueta : etiquetas) {
+            if (checkNameIsEmpty(etiqueta)) {
+                etiquetasService.saveEtiqueta(etiqueta);
+            }
+        }
+    }
+
+    public List<Etiquetas> stringToArrayOfEtiquetas(List<String> myArray) {
+        List<Etiquetas> etiquetas = new ArrayList<>();
+        for (String s : myArray) {
+            etiquetas.add(new Etiquetas(null, s));
+        }
+        return etiquetas;
+    }
+
+    public List<Etiquetas> getEtiquetasFromDDBB(List<Etiquetas> etiquetas) {
+        List<Etiquetas> etiquetasList = new ArrayList<>();
+        for (Etiquetas etiqueta : etiquetas) {
+            etiquetasList.add(etiquetasService.findEtiquetaByName(etiqueta.getNombre()).get(0));
+        }
+        return etiquetasList;
+    }
+
+    public void makeRelationsRestauranteEtiquetas(List<String> etiquetas, Restaurant restaurant) {
+        if (etiquetas!=null && restaurant != null) {
+            List<Etiquetas> etiquetasEntity = getEtiquetasFromDDBB(stringToArrayOfEtiquetas(etiquetas));
+            for (Etiquetas etiqueta : etiquetasEntity) {
+                Restaurante_Etiquetas restaurante_etiquetas = new Restaurante_Etiquetas();
+                Restaurante_EtiquetasId restaurante_etiquetasId = new Restaurante_EtiquetasId(restaurant, etiqueta);
+                restaurante_etiquetas.setId(restaurante_etiquetasId);
+                restaurante_etiquetasService.saveRestaurante_Etiquetas(restaurante_etiquetas);
+            }
+        }
     }
 }
