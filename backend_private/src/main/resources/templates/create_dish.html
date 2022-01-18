@@ -7,7 +7,7 @@
     <link th:href="@{/css/create_dish.css}" rel="stylesheet"/>
 </head>
 <body>
-<div th:insert="shared/header :: header"/>
+<div th:insert="shared/headerVersion2 :: header"/>
 
 <main class="mt-4">
     <form method="post" th:action="@{'/restaurant/admin/category/'+ ${id} +'/dish/create' }" class="w-50 mx-auto mt-4 d-flex flex-wrap p-3">

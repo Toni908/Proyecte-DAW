@@ -6,7 +6,7 @@
     <link th:href="@{/css/custom.css}" rel="stylesheet"/>
 </head>
 <body>
-<div th:insert="shared/header :: header"/>
+<div th:insert="shared/headerVersion2 :: header"/>
 
 <main class="mt-5 pt-5 mx-auto w-50">
     <form method="post" th:action="@{/restaurant/admin/dish/edit/{id}(id=${plato.id_plato})}">
