@@ -2,21 +2,26 @@ package cat.iesmanacor.backend_private.controller;
 
 import cat.iesmanacor.backend_private.controllersImplements.EtiquetasController;
 import cat.iesmanacor.backend_private.entities.Etiquetas;
+import cat.iesmanacor.backend_private.entities.Restaurant;
+import cat.iesmanacor.backend_private.entities.Restaurante_Etiquetas;
+import cat.iesmanacor.backend_private.entities.Restaurante_EtiquetasId;
 import cat.iesmanacor.backend_private.services.EtiquetasService;
+import cat.iesmanacor.backend_private.services.Restaurante_EtiquetasService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -29,33 +34,13 @@ public class EtiquetasControllerImpl implements EtiquetasController {
     @Autowired
     EtiquetasService etiquetasService;
 
-    //////////////         FACTURAS FORMULARIOS        ////////////////////
-
-    @RequestMapping(value = "/etiqueta/create", method = RequestMethod.GET)
-    public String create(ModelMap model) {
-        model.addAttribute("type","etiquetas-create");
-        model.addAttribute("object",new Etiquetas());
-        return __route_formularis;
-    }
-
-    @RequestMapping(value = "/etiqueta/update/{id}", method = RequestMethod.GET)
-    public String update(@PathVariable BigInteger id, ModelMap model) {
-        if (id!=null) {
-            Optional<Etiquetas> etiquetas = etiquetasService.findEtiquetaById(id);
-            if (etiquetas.isPresent()) {
-                model.addAttribute("type", "etiquetas-update");
-                model.addAttribute("object", etiquetas.get());
-                return __route_formularis;
-            }
-        }
-        model.addAttribute("error","ETIQUETAS SELECTED DOESNT PRESENT");
-        return __route_home;
-    }
+    @Autowired
+    Restaurante_EtiquetasService restaurante_etiquetasService;
 
     //////////////         ROUTES        ////////////////////
 
-
-    @RequestMapping(value = "/etiqueta/save",method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/etiqueta/save",method = RequestMethod.POST)
+    @Transactional
     public String save(@ModelAttribute @Valid Etiquetas etiquetas, BindingResult errors, ModelMap model) {
         inicializeModelMap(model);
         if (errors.hasErrors()) {
@@ -72,14 +57,26 @@ public class EtiquetasControllerImpl implements EtiquetasController {
             }
         }
 
-        if (etiquetas.getNombre()!=null) {
-            if (checkNameIsEmpty(etiquetas)) {
-                saveEtiquetas(etiquetas);
-            } else {
-                model.addAttribute("error", "ETIQUETA name already taken");
-            }
-        }
+//        if (etiquetas.getNombre()!=null) {
+//            if (checkNameIsEmpty(etiquetas)) {
+//                saveEtiquetas(etiquetas);
+//            } else {
+//                model.addAttribute("error", "ETIQUETA name already taken");
+//            }
+//        }
         return show(model);
+    }
+
+    @RequestMapping(value = "/etiqueta/save/{name}",method = RequestMethod.POST)
+    public void save(@PathVariable String name) {
+        Etiquetas etiquetas = new Etiquetas();
+        etiquetas.setNombre(name);
+
+//        if (name!=null) {
+//            if (checkNameIsEmpty(etiquetas)) {
+//                saveEtiquetas(etiquetas);
+//            }
+//        }
     }
 
 
@@ -90,24 +87,24 @@ public class EtiquetasControllerImpl implements EtiquetasController {
             return "redirect:/etiquetas";
         }
 
-        if (etiquetas.getId_etiqueta()!=null) {
-            Optional<Etiquetas> etiquetasOptional = etiquetasService.findEtiquetaById(etiquetas.getId_etiqueta());
-            if (etiquetasOptional.isPresent()) {
-                if (etiquetas.getId_etiqueta().equals(etiquetasOptional.get().getId_etiqueta())) {
-                    if (etiquetas.getNombre()!=null && etiquetas.getId_etiqueta()!=null) {
-                        if (checkNameIsEmpty(etiquetas)) {
-                            updateEtiquetas(etiquetas);
-                        } else {
-                            model.addAttribute("error", "ETIQUETA name already taken");
-                        }
-                    }
-                } else {
-                    model.addAttribute("error","factura id doesnt match with the actual factura id");
-                }
-            } else {
-                model.addAttribute("error","factura id doesnt exit");
-            }
-        }
+//        if (etiquetas.getId_etiqueta()!=null) {
+//            Optional<Etiquetas> etiquetasOptional = etiquetasService.findEtiquetaById(etiquetas.getId_etiqueta());
+//            if (etiquetasOptional.isPresent()) {
+//                if (etiquetas.getId_etiqueta().equals(etiquetasOptional.get().getId_etiqueta())) {
+//                    if (etiquetas.getNombre()!=null && etiquetas.getId_etiqueta()!=null) {
+//                        if (checkNameIsEmpty(etiquetas)) {
+//                            updateEtiquetas(etiquetas);
+//                        } else {
+//                            model.addAttribute("error", "ETIQUETA name already taken");
+//                        }
+//                    }
+//                } else {
+//                    model.addAttribute("error","factura id doesnt match with the actual factura id");
+//                }
+//            } else {
+//                model.addAttribute("error","factura id doesnt exit");
+//            }
+//        }
         return show(model);
     }
 
@@ -160,13 +157,6 @@ public class EtiquetasControllerImpl implements EtiquetasController {
     @Override
     public void updateEtiquetas(Etiquetas etiquetasNew) {
         etiquetasService.updateEtiqueta(etiquetasNew);
-    }
-
-    public boolean checkNameIsEmpty(Etiquetas etiquetas) {
-        if (etiquetas.getNombre()!=null) {
-            return etiquetasService.findEtiquetaByName(etiquetas.getNombre()).isEmpty();
-        }
-        return false;
     }
 
     public void inicializeModelMap(ModelMap model) {
