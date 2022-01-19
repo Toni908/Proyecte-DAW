@@ -47,7 +47,8 @@ public class LocaliadadServiceImpl implements LocalidadService {
             Localidad localidadUpdate = new Localidad(
                     localidad.getId_localidad(),
                     localidad.getNombre_localidad(),
-                    localidad.getCodigo_postal()
+                    localidad.getCodigo_postal(),
+                    localidad.getId_municipio()
             );
             localidadRepository.save(localidadUpdate);
         }

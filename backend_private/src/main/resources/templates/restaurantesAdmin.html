@@ -42,7 +42,7 @@
           <button th:data-thing="${restaurante}" onclick="editar_restaurante(this.getAttribute('data-thing'))" data-bs-toggle="modal" data-bs-target="#exampleModal">Editar</button>
         </td>
         <td>
-          <button th:data-thing="${restaurante}" onclick="make_visible(this.getAttribute('data-thing'))">Make visible</button>
+          <button th:data-thing="${restaurante}" onclick="make_visible(this.getAttribute('data-thing'))">Make validated</button>
         </td>
       </tr>
       </tbody>
@@ -220,7 +220,9 @@
     string = convertDataThingIntoArrayRestaurant(string)
     for (var i = 0; i+1 < string.length; i++) {
       string[i] = string[i].replace('=','')
-      // alert(string[i]);
+      string[i] = string[i].replace('(','')
+      string[i] = string[i].replace('Localidadid_localidad','')
+      alert(string[i]);
     }
     return {
       "id_user": string[0],

@@ -6,6 +6,7 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
+import java.math.BigInteger;
 
 @AllArgsConstructor
 @ToString
@@ -14,13 +15,13 @@ import javax.validation.constraints.Max;
 @Table(name = "municipio")
 public class Municipios {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_municipio")
+    BigInteger id_municipio;
+
     @Column(name = "nombre_municipio")
     @Max(40)
     String nombre_municipio;
-
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "id_localidad")
-    private Localidad localidad;
 
     public Municipios() {
 
