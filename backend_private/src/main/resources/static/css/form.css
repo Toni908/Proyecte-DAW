@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@500&display=swap');
 .form-container {
     padding-top: 50px;
     display: flex;
@@ -13,6 +14,7 @@
 }
 .paraf_form {
     font-family: 'Outfit', sans-serif;
+    font-size: 18px;
 }
 .sub_comment_title {
     color: #5B5B5B;
@@ -45,7 +47,6 @@
 .form_section {
     background-color: #F3F3F3;
     border-radius: 20px;
-    width: 40%;
     margin-top: 20px;
     margin-bottom: 20px;
 }

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit cards</title>
+    <link th:href="@{/css/custom.css}" rel="stylesheet"/>
+    <link th:href="@{/css/custom.css}" rel="stylesheet"/>
+</head>
+<body>
+<div th:insert="shared/headerVersion2 :: header"/>
+
+<main class="mt-5 pt-5 mx-auto w-50">
+    <h3 th:if="${plato.id_plato != null}"> Editar Plato </h3>
+    <h3 th:unless="${plato.id_plato != null}"> Crear Plato </h3>
+
+    <form method="post" th:action="@{'/restaurant/admin/'+ ${plato.categoria.id_categoria} +'/dish/save' }" enctype="multipart/form-data">
+
+        <label th:if="${plato.id_plato != null}" class="w-100">Id del Plato: </label>
+        <input th:if="${plato.id_plato != null}" type="text" id="id" name="id" th:value="${plato.id_plato}" readonly class="w-100 ms-3"/>
+
+        <label class="w-100">Nombre del Plato: </label>
+        <input type="text" id="name" name="name" th:value="${plato.nombre}" class="w-100 ms-3"/>
+
+        <label class="w-100">Precio del Plato: </label>
+        <input type="number" id="precio" name="precio" th:value="${plato.precio}" class="w-100 ms-3"/>
+
+        <label class="w-100">Descripción del Plato: (Opcional)</label>
+        <textarea rows="5" cols="30" id="descripcion" name="descripcion" th:text="${plato.descripcion}" class="w-100 ms-3"> </textarea>
+
+        <h1 class="mt-3">Alergenos del Plato</h1>
+
+        <ul>
+            <li>
+                <input type="checkbox" id="cb1" name="cb1" value="1"/>
+                <label for="cb1"><img src="./alergenos/gluten.png" class="rounded-3"/></label>
+            </li>
+            <li>
+                <input type="checkbox" id="cb2" name="cb2" value="2"/>
+                <label for="cb2"><img src="./alergenos/crustaceos.png" class="rounded-3"/></label>
+            </li>
+            <li>
+                <input type="checkbox" id="cb3" name="cb3" value="3"/>
+                <label for="cb3"><img src="./alergenos/huevos.png" class="rounded-3"/></label>
+            </li>
+            <li>
+                <input type="checkbox" id="cb4" name="cb4" value="4"/>
+                <label for="cb4"><img src="./alergenos/pescado.png" class="rounded-3"/></label>
+            </li>
+            <li>
+                <input type="checkbox" id="cb5" name="cb5" value="5"/>
+                <label for="cb5"><img src="./alergenos/cacahuete.png" class="rounded-3"/></label>
+            </li>
+            <li>
+                <input type="checkbox" id="cb6" name="cb6" value="6"/>
+                <label for="cb6"><img src="./alergenos/soja.png" class="rounded-3"/></label>
+            </li>
+            <li>
+                <input type="checkbox" id="cb7" name="cb7" value="7"/>
+                <label for="cb7"><img src="./alergenos/lacteos.png" class="rounded-3"/></label>
+            </li>
+            <li>
+                <input type="checkbox" id="cb8" name="cb8" value="8"/>
+                <label for="cb8"><img src="./alergenos/frutos_secos.png" class="rounded-3"/></label>
+            </li>
+            <li>
+                <input type="checkbox" id="cb9" name="cb9" value="9"/>
+                <label for="cb9"><img src="./alergenos/apio.png" class="rounded-3"/></label>
+            </li>
+            <li>
+                <input type="checkbox" id="cb10" name="cb10" value="10"/>
+                <label for="cb10"><img src="./alergenos/mostaza.png" class="rounded-3"/></label>
+            </li>
+            <li>
+                <input type="checkbox" id="cb11" name="cb11" value="11"/>
+                <label for="cb11"><img src="./alergenos/sesamo.png" class="rounded-3"/></label>
+            </li>
+            <li>
+                <input type="checkbox" id="cb12" name="cb12" value="12"/>
+                <label for="cb12"><img src="./alergenos/so2.png" class="rounded-3"/></label>
+            </li>
+            <li>
+                <input type="checkbox" id="cb13" name="cb13" value="13"/>
+                <label for="cb13"><img src="./alergenos/altramuces.png" class="rounded-3"/></label>
+            </li>
+            <li>
+                <input type="checkbox" id="cb14" name="cb14" value="14"/>
+                <label for="cb14"><img src="./alergenos/moluscos.png" class="rounded-3"/></label>
+            </li>
+        </ul>
+           <div class="d-none" th:each="alergeno : ${plato.alergenos}">
+               <span  th:id="${alergeno.id_alergeno}" th:text="${alergeno.id_alergeno}"></span>
+           </div>
+        <button type="submit">Enviar</button>
+    </form>
+
+</main>
+
+
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/js/jquery-3.6.0.min.js}"></script>
+<script th:src="@{/js/header.js}"></script>
+
+<script>
+    $(document).ready(function() {
+        for(var x = 1 ; x <= 14 ; x++){
+            var myId = document.getElementById(x);
+            if(myId){
+                var myId = $("#"+x).text();
+                var id = "cb" + myId;
+                $("#" + id).prop('checked', true);
+            }
+        }
+    });
+</script>
+</body>
+</html>

@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css"/>
 </head>
 <body>
-<div th:insert="shared/header :: header"/>
+<div th:insert="shared/headerVersion2 :: header"/>
 <main class="mt-5 pt-5 mx-auto w-75">
     <div id="Cards">
         <h3 class="mt-5">Cartas</h3>
@@ -30,7 +30,7 @@
             </tbody>
         </table>
         <a th:href="@{'/restaurant/admin/card/'+ ${carta.id_carta} +'/category/create'}"><button class="btn btn-primary mt-2">Create Card</button></a>
-        <a href="/restaurant/admin/cards"><button class="btn btn-secondary mt-2">Volver</button></a>
+        <a th:href="@{'/restaurant/admin/' + ${carta.restaurant.id_restaurante} + '/cards'}"><button class="btn btn-secondary mt-2">Volver</button></a>
     </div>
 
     <div th:insert="shared/modals/modal_eliminar :: section"/>

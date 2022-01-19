@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.math.BigInteger;
+import java.util.List;
 
 @Data
 @Entity
@@ -49,6 +50,9 @@ public class Restaurant {
     @Column(name = "visible")
     @NotNull(message = "visible cant be null")
     private boolean visible;
+
+    @OneToMany(fetch = FetchType.LAZY,  mappedBy = "restaurant")
+    private List<Carta> cartas;
 
     public Restaurant() {
 
