@@ -59,30 +59,47 @@ public class CardController {
     @GetMapping("/restaurant/admin/card/edit/{id}")
     public String editCard(@PathVariable(value = "id") Long id, Model model){
         Optional<Carta> carta = cartaService.findById(id);
-        model.addAttribute("carta", carta.get());
+        model.addAttribute("card", carta.get());
 
-        return "edit_card";
+        return "card_modify";
     }
 
-    @PostMapping("/restaurant/admin/card/edit/{id_card}")
-    public RedirectView updateCard(@PathVariable(value = "id_card") Long id, WebRequest request){
-        Optional<Carta> carta = cartaService.findById(id);
+    @GetMapping("/restaurant/admin/{id}/card/create")
+    public String createCard(@PathVariable(value = "id") BigInteger id, Model model){
+        Carta carta = new Carta();
+        Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
+        carta.setRestaurant(restaurant.get());
+        model.addAttribute("card", carta);
 
+        return "card_modify";
+    }
+
+    @PostMapping("/restaurant/admin/{id}/card/save")
+    public RedirectView saveCard(@PathVariable(value = "id") BigInteger id, WebRequest request, @RequestParam("img") MultipartFile img){
+        Carta carta = new Carta();
+        Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
         String name = request.getParameter("name");
         String useimg = request.getParameter("useimg");
         String visible = request.getParameter("visible");
+        String idcs = request.getParameter("id");
 
-        carta.get().setNombre(name);
+        if(idcs != null){
+            Long idl = Long.parseLong(idcs);
+            Optional<Carta> cartas = cartaService.findById(idl);
+            carta = cartas.get();
+        }
+
+        carta.setNombre(name);
 
         if(useimg != null) {
-            carta.get().setUsa_img(true);
-        }else {
-            carta.get().setUsa_img(false);
+            carta.setUsa_img(true);
+        } else {
+            carta.setUsa_img(false);
         }
 
         if(visible != null) {
-            if (visible.equals("1") && !carta.get().isVisible()) {
-                List<Carta> cartas = carta.get().getRestaurant().getCartas();
+            if (visible.equals("1") && !carta.isVisible()) {
+                List<Carta> cartas = carta.getRestaurant().getCartas();
                 for (int i = 0; i < cartas.size(); i++) {
                     Carta c = cartas.get(i);
                     if (c.isVisible()) {
@@ -90,47 +107,19 @@ public class CardController {
                         break;
                     }
                 }
-                carta.get().setVisible(true);
+                carta.setVisible(true);
             }
-        }else if(carta.get().isVisible()) {
-            carta.get().setVisible(false);
-        }
-
-        cartaService.save(carta.get());
-
-        BigInteger idr = carta.get().getRestaurant().getId_restaurante();
-
-        String url = "/restaurant/admin/"+ idr +"/cards";
-        return new RedirectView(url);
-    }
-
-    @GetMapping("/restaurant/admin/{id}/card/create")
-    public String createCard(@PathVariable(value = "id") BigInteger id, Model model){
-        model.addAttribute("id", id);
-
-        return "create_card";
-    }
-
-    @PostMapping("/restaurant/admin/{id}/card/create")
-    public RedirectView saveCard(@PathVariable(value = "id") BigInteger id, WebRequest request, @RequestParam("img") MultipartFile img){
-        Carta carta = new Carta();
-        Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
-        String name = request.getParameter("name");
-        String useimg = request.getParameter("useimg");
-
-        carta.setNombre(name);
-        if(useimg != null) {
-            carta.setUsa_img(true);
-        } else {
-            carta.setUsa_img(false);
+        }else if(carta.isVisible()) {
+            carta.setVisible(false);
         }
 
         Path uploadPath = Paths.get("C:\\Users\\Fadrique\\Documents\\Toni\\SEGUNDO_AÑO\\Proyecto\\img");
 
         if(img != null){
             String fileName = StringUtils.cleanPath(img.getOriginalFilename());
-            carta.setUrl_img(fileName);
-
+            if (!fileName.equals("")) {
+                carta.setUrl_img(fileName);
+            }
             try (InputStream inputStream = img.getInputStream()){
                 Path filePath = uploadPath.resolve(fileName);
                 Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
@@ -139,7 +128,6 @@ public class CardController {
             }
         }
 
-        carta.setVisible(false);
         carta.setRestaurant(restaurant.get());
 
         cartaService.save(carta);
@@ -167,23 +155,14 @@ public class CardController {
 
     @GetMapping("/restaurant/admin/card/{id}/category/create")
     public String createCategory(@PathVariable(value = "id") Long id, Model model){
-        model.addAttribute("id", id);
-
-        return "create_category";
-    }
-
-    @PostMapping("/restaurant/admin/card/{id}/category/create")
-    public RedirectView saveCategory(@PathVariable(value = "id") Long id, WebRequest request){
         Categoria category = new Categoria();
-        String name = request.getParameter("name");
-
         Optional<Carta> carta = cartaService.findById(id);
-        category.setNombre(name);
+
         category.setCarta(carta.get());
 
-        categoriaService.save(category);
+        model.addAttribute("category", category);
 
-        return new RedirectView("/restaurant/admin/card/"+ id +"/categories");
+        return "category_modify";
     }
 
     @GetMapping("/restaurant/admin/category/edit/{id}")
@@ -191,19 +170,25 @@ public class CardController {
         Optional<Categoria> category = categoriaService.findById(id);
         model.addAttribute("category", category.get());
 
-        return "edit_category";
+        return "category_modify";
     }
 
-    @PostMapping("/restaurant/admin/category/edit/{id}")
-    public RedirectView updateCategory(@PathVariable(value = "id") Long id, WebRequest request){
-        Optional<Categoria> category = categoriaService.findById(id);
+    @PostMapping("/restaurant/admin/card/{id}/category/save")
+    public RedirectView updateCategory(@PathVariable(value = "id") Long idc, WebRequest request){
+        String idcs = request.getParameter("id");
+        Categoria category = new Categoria();
+        if(idcs != null){
+            Long id = Long.parseLong(idcs);
+            Optional<Categoria> categorys = categoriaService.findById(id);
+            category = categorys.get();
+        }
+
         String name = request.getParameter("name");
+        category.setNombre(name);
+        Optional<Carta> carta = cartaService.findById(idc);
+        category.setCarta(carta.get());
 
-        category.get().setNombre(name);
-
-        categoriaService.save(category.get());
-
-        Long idc = category.get().getCarta().getId_carta();
+        categoriaService.save(category);
 
         return new RedirectView("/restaurant/admin/card/"+ idc +"/categories");
     }
@@ -227,17 +212,27 @@ public class CardController {
 
     @GetMapping("/restaurant/admin/category/{id}/dish/create")
     public String createDish(@PathVariable(value = "id") Long id, Model model){
-        model.addAttribute("id", id);
+        Plato plato = new Plato();
+        Optional<Categoria> categoria = categoriaService.findById(id);
+        plato.setCategoria(categoria.get());
+        model.addAttribute("plato", plato);
 
-        return "create_dish";
+        return "dish_modify";
     }
 
-    @PostMapping("/restaurant/admin/category/{id}/dish/create")
+    @PostMapping("/restaurant/admin/{id}/dish/save")
     public RedirectView saveDish(@PathVariable(value = "id") Long id, WebRequest request){
         Plato plato = new Plato();
+        String idcategory = request.getParameter("id");
         String name = request.getParameter("name");
         float precio = Float.parseFloat(request.getParameter("precio"));
         String descripcio = request.getParameter("descripcion");
+
+        if(idcategory != null){
+            Long idl = Long.parseLong(idcategory);
+            Optional<Plato> platos = platoService.findById(idl);
+            plato = platos.get();
+        }
 
         Optional<Categoria> category = categoriaService.findById(id);
         plato.setNombre(name);
@@ -268,37 +263,6 @@ public class CardController {
         Optional<Plato> plato = platoService.findById(id);
         model.addAttribute("plato", plato.get());
 
-        return "edit_dish";
-    }
-
-    @PostMapping("/restaurant/admin/dish/edit/{id}")
-    public RedirectView updateDish(@PathVariable(value = "id") Long id, WebRequest request){
-        Optional<Plato> plato = platoService.findById(id);
-        String name = request.getParameter("name");
-        float precio = Float.parseFloat(request.getParameter("precio"));
-        String descripcio = request.getParameter("descripcion");
-
-        plato.get().setNombre(name);
-        plato.get().setPrecio(precio);
-        plato.get().setDescripcion(descripcio);
-
-        List<Alergeno> lista = new ArrayList<>();
-        for(int x = 1 ; x <= 14 ; x++){
-            String n = "cb" + Integer.toString(x);
-            String p = request.getParameter(n);
-            if(p != null){
-                Long idA = Long.parseLong(p);
-                Optional<Alergeno> alergeno = alergenoService.findById(idA);
-                lista.add(alergeno.get());
-            }
-        }
-
-        plato.get().setAlergenos(lista);
-
-        Long idC = plato.get().getCategoria().getId_categoria();
-
-        platoService.save(plato.get());
-
-        return new RedirectView("/restaurant/admin/category/"+ idC +"/dishes");
+        return "dish_modify";
     }
 }
