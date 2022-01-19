@@ -1,9 +1,11 @@
 package cat.iesmanacor.backend_private.controller;
 
 import cat.iesmanacor.backend_private.entities.Etiquetas;
+import cat.iesmanacor.backend_private.entities.Localidad;
 import cat.iesmanacor.backend_private.entities.Municipios;
 import cat.iesmanacor.backend_private.entities.Restaurant;
 import cat.iesmanacor.backend_private.services.EtiquetasService;
+import cat.iesmanacor.backend_private.services.LocalidadService;
 import cat.iesmanacor.backend_private.services.MunicipioService;
 import cat.iesmanacor.backend_private.services.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +25,10 @@ public class jsonController {
     @Autowired
     MunicipioService municipioService;
 
-    @GetMapping(value = "/get/restaurantes/admin/json/suuu", produces = { "application/json" })
+    @Autowired
+    LocalidadService localidadService;
+
+    @GetMapping(value = "/get/restaurantes/admin/json", produces = { "application/json" })
     public List<Restaurant> getRestaurantes(){
         return  restaurantService.findAllRestaurants();
     }
@@ -36,5 +41,9 @@ public class jsonController {
     @GetMapping(value = "/get/municipios/admin/json", produces = { "application/json" })
     public List<Municipios> getMunicipios(){
         return  municipioService.findAllMunicipios();
+    }
+    @GetMapping(value = "/get/localidades/admin/json", produces = { "application/json" })
+    public List<Localidad> getLocalidades(){
+        return  localidadService.findAllLocalidad();
     }
 }

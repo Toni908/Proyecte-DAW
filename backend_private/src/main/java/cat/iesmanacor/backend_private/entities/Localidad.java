@@ -27,10 +27,15 @@ public class Localidad {
     @Min(0)
     private int codigo_postal;
 
-    public Localidad(BigInteger id_localidad, String nombre_localidad, int codigo_postal) {
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "id_municipio")
+    private Municipios id_municipio;
+
+    public Localidad(BigInteger id_localidad, String nombre_localidad, int codigo_postal, Municipios municipios) {
         this.id_localidad = id_localidad;
         this.nombre_localidad = nombre_localidad;
         this.codigo_postal = codigo_postal;
+        this.id_municipio = municipios;
     }
 
     public Localidad() {
