@@ -9,8 +9,13 @@
 <body>
 <div th:insert="shared/headerVersion2 :: header"/>
 <main class="mt-5 pt-5 mx-auto w-75">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active" aria-current="page" th:text="${restaurant.nombre}"></li>
+        </ol>
+    </nav>
     <div id="Cards">
-    <h3 class="mt-5">Cartas</h3>
+    <h3 class="mt-5" th:text="${restaurant.nombre}"> </h3>
     <table id="card_table" class="display" style="width:100%">
         <thead class="thead-dark">
             <th scope="row">Id</th>
