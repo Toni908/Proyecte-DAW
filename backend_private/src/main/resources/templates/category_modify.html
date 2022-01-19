@@ -7,7 +7,15 @@
     <link th:href="@{/css/form.css}" rel="stylesheet"/>
 </head>
 <body>
-<div th:insert="shared/headerVersion2 :: header" class="sticky-top top-0"/>
+<div th:insert="shared/headerVersion2 :: header"/>
+
+
+<a class="d-flex flex-row justify-content-center my-5 text-decoration-none" th:if="${category.id_categoria != null}" th:href="@{'/restaurant/admin/category/' + ${category.id_categoria} + '/dishes'}">
+    <button class="w-20 pt-2 pb-2 paraf_form rounded" value="Editar Platos"> Modificar Platos de la Carta </button>
+</a>
+
+<hr class="w-75 mx-auto">
+
 
 <main class="d-flex flex-row justify-content-center">
 
