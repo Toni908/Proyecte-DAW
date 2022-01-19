@@ -20,11 +20,11 @@
         </div>
 
         <div class="body_form">
-            <div class="d-flex justify-content-center">
+            <div th:if="${category.id_categoria != null}" class="d-flex justify-content-center">
                 <div class="mb-3 p-0 text-center" style="width: 80%">
                     <div class="ps-3 paraf_form">Id:</div>
                     <label class="w-100 field_form_principal">
-                        <input class="input-text" th:value="${category.id_categoria}" type="text" readonly>
+                        <input class="input-text" id="id" name="id" th:value="${category.id_categoria}" type="text" readonly>
                     </label>
                 </div>
             </div>
@@ -33,7 +33,7 @@
                 <div class="mb-3 p-0 text-center" style="width: 80%">
                     <div class="ps-3 paraf_form">Nombre:</div>
                     <label class="w-100 field_form_principal">
-                        <input class="input-text" th:value="${category.nombre}" type="text" maxlength="50" required>
+                        <input class="input-text" id="name" name="name" th:value="${category.nombre}" type="text" maxlength="50" required>
                     </label>
                 </div>
             </div>
