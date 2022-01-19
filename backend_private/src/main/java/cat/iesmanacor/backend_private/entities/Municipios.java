@@ -15,12 +15,7 @@ import java.math.BigInteger;
 @Table(name = "municipio")
 public class Municipios {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_municipio")
-    BigInteger id_municipio;
-
     @Column(name = "nombre_municipio")
-    @Max(40)
     String nombre_municipio;
 
     public Municipios() {

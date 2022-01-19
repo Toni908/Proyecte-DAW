@@ -44,7 +44,6 @@ public class MunicipioServiceImpl implements MunicipioService{
         String num = municipios.getNombre_municipio();
         if (municipioRepository.findById(num).isPresent()) {
             Municipios municipio = new Municipios(
-                    municipios.getId_municipio(),
                     municipios.getNombre_municipio()
             );
             municipioRepository.save(municipio);
