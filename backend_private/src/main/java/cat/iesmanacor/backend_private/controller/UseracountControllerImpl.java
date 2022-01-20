@@ -1,6 +1,5 @@
 package cat.iesmanacor.backend_private.controller;
 
-import cat.iesmanacor.backend_private.controllersImplements.UseracountController;
 import cat.iesmanacor.backend_private.entities.Useracount;
 import cat.iesmanacor.backend_private.services.UseracountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,7 @@ import java.math.BigInteger;
 import java.util.Optional;
 
 @Controller
-public class UseracountControllerImpl implements UseracountController {
+public class UseracountControllerImpl {
 
     @Autowired
     UseracountService useracountService;
@@ -129,14 +128,12 @@ public class UseracountControllerImpl implements UseracountController {
     }
 
     @RequestMapping(value = "/users", method = RequestMethod.GET, produces = "application/json")
-    @Override
     public String show(ModelMap model) {
         model.addAttribute("useracounts",useracountService.findAllUseracount());
         return __route_table;
     }
 
     @RequestMapping(value = "/user/{id}", method = RequestMethod.GET, produces = "application/json")
-    @Override
     public String getUseracountById(@PathVariable BigInteger id, ModelMap model) {
         if (id!=null) {
             Optional<Useracount> useracount = useracountService.findUseracountById(id);
@@ -155,19 +152,16 @@ public class UseracountControllerImpl implements UseracountController {
 
 
 
-    @Override
     public void saveUseracount(Useracount useracount) {
         if (useracount != null) {
             useracountService.saveUseracount(useracount);
         }
     }
 
-    @Override
     public void deleteUseracountById(@PathVariable BigInteger id) {
         useracountService.deleteUseracount(id);
     }
 
-    @Override
     public void updateUseracount(Useracount useracountNew) {
         useracountService.updateUseracount(useracountNew);
     }

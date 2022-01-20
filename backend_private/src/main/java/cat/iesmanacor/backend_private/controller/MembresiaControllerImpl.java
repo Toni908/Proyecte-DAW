@@ -1,6 +1,5 @@
 package cat.iesmanacor.backend_private.controller;
 
-import cat.iesmanacor.backend_private.controllersImplements.MembresiaController;
 import cat.iesmanacor.backend_private.entities.Factura;
 import cat.iesmanacor.backend_private.entities.Membresia;
 import cat.iesmanacor.backend_private.services.FacturaService;
@@ -21,7 +20,7 @@ import java.math.BigInteger;
 import java.util.Optional;
 
 @Controller
-public class MembresiaControllerImpl implements MembresiaController {
+public class MembresiaControllerImpl {
 
     @Autowired
     MembresiaService membresiaService;
@@ -128,14 +127,12 @@ public class MembresiaControllerImpl implements MembresiaController {
     }
 
     @RequestMapping(value = "/membresias",method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
-    @Override
     public String show(ModelMap model) {
         model.addAttribute("membresias",membresiaService.findAllMembresia());
         return __route_table;
     }
 
     @RequestMapping(value = "/membresia/{id}",method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
-    @Override
     public String findMembresiaById(@PathVariable BigInteger id, ModelMap model) {
         if (id!=null) {
             Optional<Membresia> membresia = membresiaService.findMembresiaById(id);
@@ -160,14 +157,12 @@ public class MembresiaControllerImpl implements MembresiaController {
 
 
 
-    @Override
     public void saveMembresia(Membresia membresia) {
         if (membresia!=null) {
             membresiaService.saveMembresia(membresia);
         }
     }
 
-    @Override
     public void deleteMembresiaById(BigInteger id) {
         membresiaService.deleteMembresia(id);
     }
@@ -177,7 +172,6 @@ public class MembresiaControllerImpl implements MembresiaController {
         return !membresiaService.findMembresiaByNum_Factura(num_factura).isEmpty();
     }
 
-    @Override
     public void updateMembresia(Membresia membresiaNew) {
         membresiaService.updateMembresia(membresiaNew);
     }

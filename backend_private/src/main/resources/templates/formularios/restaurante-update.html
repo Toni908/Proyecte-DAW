@@ -51,6 +51,7 @@
 </head>
 <body>
 <div th:insert="shared/headerVersion2 :: header" class="sticky-top top-0"></div>
+<div th:insert="shared/missage :: messages"></div>
 
 <div id="error" class="message_error"></div>
 
@@ -60,6 +61,11 @@
             <a class="w-100 select-info text-decoration-none text-black ps-5" href="#restauranteFixed">
                 <i class="bi bi-shop" style="font-size: 25px"></i>
                 Restaurante
+            </a>
+            <a class="w-100 select-info text-decoration-none text-black ps-5" href="#privacidadFixed">
+                <i th:if="${restaurant.visible} == true" class="bi bi-eye-fill" style="font-size: 25px"></i>
+                <i th:if="${restaurant.visible} == false" class="bi bi-eye-slash-fill"style="font-size: 25px"></i>
+                Privacidad
             </a>
             <a class="w-100 select-info text-decoration-none text-black ps-5" href="#etiquetasFixed">
                 <i class="bi bi-tags" style="font-size: 25px"></i>
@@ -98,6 +104,7 @@
                 <div class="d-flex flex-row justify-content-center">
                     <div class="d-flex flex-column justify-content-center" style="width: 70%;">
                         <div class="border border-secondary border-1 mt-5 p-4" style=" border-radius: 10px">
+                            <input type="hidden" th:field="*{id_restaurante}" hidden>
                             <h4 class="fw-normal text-start text-black" style="font-family: 'Quicksand', sans-serif;">Informacion General</h4>
                             <p class="paraf_form text-start fw-normal" style="font-size: small;color: #808080">Estos son los datos generales del restaurante, como podria ser el nombre, los dias de anticipacio de reservas y el telefono movil enlazado con el restaurante</p>
                             <div class="ps-3 text-lg-start text-center">Nombre:</div>
@@ -136,23 +143,25 @@
                                     <div class="col-sm">
                                         <label class="w-100">
                                             Localidad:
-                                            <select id="localidad" class="input-text validateLocalidadResponse" th:field="*{localidad}">
+                                            <select id="localidad" class="input-text validateLocalidadResponse">
+
                                             </select>
                                         </label>
                                         <div id="validateLocalidadResponse"></div>
                                     </div>
+                                    <label for='myLocalidadChanged'></label><input type='text' id='myLocalidadChanged' name='myLocalidadChanged' hidden/>
                                 </div>
                                 <div class="row" id="localidadMunicipioActual">
                                     <div class="col-sm">
                                         <label class="w-100">
                                             Municipio:
-                                            <input type="text" class="input-text" th:value="${restaurant.localidad.nombre_municipio.nombre_municipio}" readonly/>
+                                            <input type="text" class="input-text" disabled="disabled" th:value="${restaurant.localidad.nombre_municipio.nombre_municipio}" readonly/>
                                         </label>
                                     </div>
                                     <div class="col-sm">
                                         <label class="w-100">
                                             Localidad:
-                                            <input type="text" class="input-text" th:field="*{localidad.nombre_localidad}" readonly/>
+                                            <input name="myLocalidad" type="text" class="input-text" th:value="${restaurant.localidad.nombre_localidad}" readonly/>
                                         </label>
                                     </div>
                                 </div>
@@ -162,6 +171,40 @@
                                     Deseas cambiar?
                                     <input class="form-check-input m-0 fs-3" type="checkbox" id="changeLocalidad">
                                 </label>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-row justify-content-center pt-4">
+                            <button type="submit" class="btn btn-dark">Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </form>
+    <form class="d-flex flex-row justify-content-center" onsubmit="return validatePrivacidad()" th:action="@{/restaurant/visibility}" method="POST">
+        <main class="d-flex flex-column justify-content-center body-info">
+            <section class="pt-5" id="privacidadFixed">
+                <h3 class="title_section-info">Privacidad</h3>
+                <div class="d-flex flex-row justify-content-center pt-2">
+                    <p class="paraf_form text-start fw-normal" style="width: 70%; color: #808080; font-size: 12px">
+                        Puede ser que estes haciendo cambios en tus datos o que basicamente no quieras que se muestre tu restaurante, no te preocupes puedes hacerlo con esta opcion.
+                    </p>
+                </div>
+                <div class="d-flex flex-row justify-content-center">
+                    <div class="d-flex flex-column justify-content-center" style="width: 70%;">
+                        <div class="border border-secondary border-1 mt-2 p-4" style=" border-radius: 10px">
+                            <h4 class="fw-normal text-start text-black" style="font-family: 'Quicksand', sans-serif;">Que significa la visibilidad?</h4>
+                            <p class="paraf_form text-start fw-normal" style="font-size: small;color: #808080">
+                                La visibilidad es una manera de hacer que tu restaurante no se muestre a tus usuarios, ni en la pagina, de esta forma podras realizar los cambios sin necesidad de procuparte de que otra gente vea esos cambios.
+                            </p>
+                            <label for='idRestaurante'></label><input type='text' id='idRestaurante' name='idRestaurante' th:value="${restaurant.id_restaurante}" hidden/>
+                            <div class="container pt-3 m-0 w-100 px-0">
+                                <div class="form-check form-switch d-flex flex-row justify-content-center pt-4">
+                                    <label class="w-100 d-flex flex-row justify-content-center">
+                                        <input th:if="${restaurant.visible} == true" type="checkbox" name="visibilty" class="form-check-input m-0 fs-3" checked>
+                                        <input th:if="${restaurant.visible} == false" type="checkbox" name="visibilty" class="form-check-input m-0 fs-3">
+                                    </label>
+                                </div>
                             </div>
                         </div>
                         <div class="d-flex flex-row justify-content-center pt-4">
@@ -214,8 +257,8 @@
                                 <div class="d-flex flex-row justify-content-center flex-wrap gap-2" id="etiquetas_box">
                                     <div class="border border-2 w-auto" style="border-color: #808080;border-radius: 15px" th:each="etiqueta : ${etiquetas}" onclick='deleteEtiqueta(this)'>
                                         <i class='bi bi-tag ps-2'></i>
-                                        <label th:for="${etiqueta.id_etiqueta}" class="w-auto">
-                                            <input th:id="${etiqueta.id_etiqueta}" name='etiquetas' class='singleEtiqueta border-0 ps-2' style="border-radius: 15px;" th:value="${etiqueta.nombre}" readonly/>
+                                        <label class="w-auto">
+                                            <input name='etiquetas' class='singleEtiqueta border-0 ps-2' style="border-radius: 15px;" th:value="${etiqueta.nombre}" readonly/>
                                         </label>
                                     </div>
                                 </div>
@@ -503,6 +546,9 @@
         if( $(this).is(':checked') ){
             changeMunicipioLocalidad.show();
             actualMunicipioLocalidad.hide();
+            actualMunicipioLocalidad.find("input[type=text]").disable = true;
+            changeMunicipioLocalidad.find("input[type=text]").disable = false;
+
             $.getJSON("http://127.0.0.1:8080/get/municipios/admin/json", function (data) {
                 municipios.empty();
                 $.each(data, function (key, object) {
@@ -513,13 +559,15 @@
         } else {
             changeMunicipioLocalidad.hide();
             actualMunicipioLocalidad.show();
+            actualMunicipioLocalidad.find("input[type=text]").disable = false;
+            changeMunicipioLocalidad.find("input[type=text]").disable = true;
         }
     });
 
     // MUNICIPIO Y LOCALIDADES
 
     municipios.on('change', function () {
-        $("#localidadText").show();
+        $("#localidad").show();
         showLocalidades();
     });
 
@@ -564,6 +612,7 @@
         $("#validateTelefonoResponse").empty();
         $("#validateDiasAnticipacionResponse").empty();
         $("#validateLocalidadResponse").empty();
+        $("#insertLocalidad input[name=myLocalidad]").remove();
     }
 
     function validateGeneral() {
@@ -596,14 +645,27 @@
             $(".validateTelefonoResponse").addClass("border border-success border-2")
         }
 
-        if ($("#localidad option:selected").text()==="<-Seleciona antes un Municipio") {
-            errors++;
-            $(".validateLocalidadResponse").addClass("border border-danger border-2")
-            $("#validateLocalidadResponse").append("<p class='text-danger fw-bold pt-2'>No has selecionado ninguna localidad</p>");
-        } else {
-            $(".validateLocalidadResponse").addClass("border border-success border-2")
+        if( $("#checkMiembro").is(':checked') ){
+            if ($("#localidad option:selected").text()==="<-Seleciona antes un Municipio") {
+                errors++;
+                $(".validateLocalidadResponse").addClass("border border-danger border-2")
+                $("#validateLocalidadResponse").append("<p class='text-danger fw-bold pt-2'>No has selecionado ninguna localidad</p>");
+            } else {
+                $(".validateLocalidadResponse").addClass("border border-success border-2")
+            }
         }
-        return false;
+        $("#myLocalidadChanged").val($("#localidad option:selected").text());
+
+        return errors===0;
+    }
+
+    function validatePrivacidad() {
+        if ($("#visibilty").is(':checked')) {
+            $("#visibilty").val("true")
+        } else {
+            $("#visibilty").val("false")
+        }
+        return true;
     }
 
     function validateMembresia() {

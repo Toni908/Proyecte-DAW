@@ -1,6 +1,5 @@
 package cat.iesmanacor.backend_private.controller;
 
-import cat.iesmanacor.backend_private.controllersImplements.RestaurantControllers;
 import cat.iesmanacor.backend_private.entities.*;
 import cat.iesmanacor.backend_private.files.FileUploadUtil;
 import cat.iesmanacor.backend_private.services.*;
@@ -23,7 +22,7 @@ import java.util.Optional;
 
 
 @Controller
-public class RestaurantControllerImpl implements RestaurantControllers {
+public class RestaurantControllerImpl {
     @Autowired
     RestaurantService restaurantService;
 
@@ -133,37 +132,64 @@ public class RestaurantControllerImpl implements RestaurantControllers {
             }
             return create(model.addAttribute("error", "Localizacion no selecionado"));
         }
-        return "redirect:/"+__route_home;
+        return "redirect:/restaurant/create";
     }
 
     @RequestMapping(value = "/restaurant/put")
-    public String put(@ModelAttribute @Valid Restaurant restaurant, BindingResult errors, ModelMap model) {
+    public String put(@ModelAttribute @Valid Restaurant restaurant, @RequestParam("myLocalidad") String localidadName, @RequestParam("myLocalidadChanged") String myLocalidadChanged, BindingResult errors, ModelMap model) {
         inicializeModelMap(model);
 
         if (errors.hasErrors()) {
-            return "redirect:/restaurants";
+            return "redirect:/"+__route_home;
+        }
+
+        Localidad localidad = new Localidad();
+
+        if (myLocalidadChanged.equals("<-Seleciona antes un Municipio")) {
+            localidad.setNombre_localidad(localidadName);
+        } else {
+            localidad.setNombre_localidad(myLocalidadChanged);
         }
 
         if (restaurant.getId_restaurante()!=null) {
-            Optional<Restaurant> restaurantBefore = restaurantService.findRestaurantById(restaurant.getId_restaurante());
-            if (restaurantBefore.isPresent()) {
-                model = checkToUpdate(restaurant, restaurantBefore.get(), model);
-            } else {
-                return "redirect:/restaurants";
+            if (localidad.getNombre_localidad()!=null) {
+                List<Localidad> localidadFindInfo = localidadService.findLocalidadByNombre_localidad(localidad.getNombre_localidad());
+                if (!localidadFindInfo.isEmpty()) {
+                    restaurant.setLocalidad(localidadFindInfo.get(0));
+                }
+                Optional<Restaurant> restaurantBefore = restaurantService.findRestaurantById(restaurant.getId_restaurante());
+                if (restaurantBefore.isPresent()) {
+                    // Valores que no deberian cambiarse con esta operacion
+                    restaurant.setMembresia(restaurantBefore.get().getMembresia());
+                    restaurant.setUseracount(restaurantBefore.get().getUseracount());
+                    restaurant.setCartas(restaurantBefore.get().getCartas());
+                    restaurant.setVisible(restaurantBefore.get().isVisible());
+                    restaurant.setValidated(restaurantBefore.get().isValidated());
+                    model = checkToUpdate(restaurant, restaurantBefore.get(), model);
+                    model.addAttribute("success","Cambios realizados correctamente");
+                } else {
+                    return "redirect:/restaurant/update/"+restaurant.getId_restaurante();
+                }
+                return update(restaurant.getId_restaurante(),model);
             }
         }
-        return show(model);
+        return "redirect:/restaurant/update/"+restaurant.getId_restaurante();
     }
 
-    @RequestMapping(value = "/restaurants", method = RequestMethod.GET, produces = "application/json")
-    @Override
-    public String show(ModelMap model) {
-        model.addAttribute("restaurants",restaurantService.findAllRestaurants());
-        return __route_table;
+    @RequestMapping(value = "/restaurant/visibility", method = RequestMethod.POST, produces = "application/json")
+    public String visibility(@RequestParam("idRestaurante") BigInteger id,@RequestParam(name = "visibilty",defaultValue = "false") boolean visibilidad, ModelMap model) {
+        if (id!=null) {
+            Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
+
+            if (restaurant.isPresent()) {
+                restaurant.get().setVisible(visibilidad);
+                updateRestaurant(restaurant.get());
+            }
+        }
+        return "redirect:/restaurant/update/"+id;
     }
 
     @RequestMapping(value = "/restaurant/{id}", method = RequestMethod.GET, produces = "application/json")
-    @Override
     public String getRestaurantById(@PathVariable BigInteger id, ModelMap model) {
         if (id!=null) {
             Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
@@ -178,13 +204,11 @@ public class RestaurantControllerImpl implements RestaurantControllers {
 
     /* ------------------------------------------ */
 
-    @Override
     public void saveRestaurant(Restaurant restaurant) {
         restaurantService.saveRestaurant(restaurant);
     }
 
     @RequestMapping(value = "/restaurant/delete/{id}", method = RequestMethod.GET, produces = "application/json")
-    @Override
     public RedirectView delete(@PathVariable BigInteger id, ModelMap model) {
         if (id!=null) {
             Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
@@ -197,7 +221,6 @@ public class RestaurantControllerImpl implements RestaurantControllers {
         return new RedirectView("/restaurants");
     }
 
-    @Override
     public void updateRestaurant(Restaurant restaurantNew) {
         restaurantService.updateRestaurant(restaurantNew);
     }
@@ -237,10 +260,6 @@ public class RestaurantControllerImpl implements RestaurantControllers {
     public ModelMap checkToUpdate(Restaurant restaurant, Restaurant restaurantBefore, ModelMap model) {
         if (isNameRestaurantTaken(restaurant,restaurantBefore)) {
             model.addAttribute("error","name restaurant is taken");
-            return model;
-        }
-        if (isMembresiaRestaurantTaken(restaurant,restaurantBefore)) {
-            model.addAttribute("error","membresia relation is taken");
             return model;
         }
         updateRestaurant(restaurant);

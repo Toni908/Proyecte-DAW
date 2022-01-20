@@ -1,6 +1,5 @@
 package cat.iesmanacor.backend_private.controller;
 
-import cat.iesmanacor.backend_private.controllersImplements.FacturaController;
 import cat.iesmanacor.backend_private.entities.Factura;
 import cat.iesmanacor.backend_private.services.FacturaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,7 @@ import javax.validation.Valid;
 import java.util.Optional;
 
 @Controller
-public class FacturaControllerImpl implements FacturaController {
+public class FacturaControllerImpl {
 
     private final String __route_formularis = "formularis/layout-form";
     private final String __route_table = "tables/layout-table";
@@ -111,14 +110,12 @@ public class FacturaControllerImpl implements FacturaController {
     }
 
     @RequestMapping(value = "/facturas",method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
-    @Override
     public String show(ModelMap model) {
         model.addAttribute("facturas",facturaService.findAllFactura());
         return __route_table;
     }
 
     @RequestMapping(value = "/factura/{id}",method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
-    @Override
     public String findFacturaById(@PathVariable String id, ModelMap model) {
         if (id!=null) {
             Optional<Factura> factura = facturaService.findFacturaById(id);
@@ -135,19 +132,16 @@ public class FacturaControllerImpl implements FacturaController {
     /* ------------------------------------------ */
 
 
-    @Override
     public void saveFactura(Factura factura) {
         if (factura!=null) {
             facturaService.saveFactura(factura);
         }
     }
 
-    @Override
     public void deleteFacturaById(String id) {
         facturaService.deleteFactura(id);
     }
 
-    @Override
     public void updateFactura(Factura facturaNew) {
         facturaService.updateFactura(facturaNew);
     }

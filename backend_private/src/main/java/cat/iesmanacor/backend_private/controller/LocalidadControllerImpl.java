@@ -1,6 +1,5 @@
 package cat.iesmanacor.backend_private.controller;
 
-import cat.iesmanacor.backend_private.controllersImplements.LocalidadController;
 import cat.iesmanacor.backend_private.entities.Localidad;
 import cat.iesmanacor.backend_private.services.LocalidadService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,7 @@ import java.math.BigInteger;
 import java.util.Optional;
 
 @Controller
-public class LocalidadControllerImpl implements LocalidadController {
+public class LocalidadControllerImpl {
 
     private final String __route_formularis = "formularis/layout-form";
     private final String __route_table = "tables/layout-table";
@@ -125,14 +124,12 @@ public class LocalidadControllerImpl implements LocalidadController {
     }
 
     @RequestMapping(value = "/localidades",method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
-    @Override
     public String show(ModelMap model) {
         model.addAttribute("localidades",localidadService.findAllLocalidad());
         return __route_table;
     }
 
     @RequestMapping(value = "/localidad/{id}",method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
-    @Override
     public String findLocalidadById(@PathVariable BigInteger id, ModelMap model) {
         if (id!=null) {
             Optional<Localidad> Localidad = localidadService.findLocalidadById(id);
@@ -149,7 +146,6 @@ public class LocalidadControllerImpl implements LocalidadController {
     /* ------------------------------------------ */
 
 
-    @Override
     public void saveLocalidad(Localidad localidad) {
         if (localidad!=null) {
             localidadService.saveLocalidad(localidad);
@@ -160,12 +156,10 @@ public class LocalidadControllerImpl implements LocalidadController {
         return !localidadService.findLocalidadByNombre_localidad(name).isEmpty();
     }
 
-    @Override
     public void deleteLocalidadById(BigInteger id) {
         localidadService.deleteLocalidad(id);
     }
 
-    @Override
     public void updateLocalidad(Localidad localidadNew) {
         localidadService.updateLocalidad(localidadNew);
     }

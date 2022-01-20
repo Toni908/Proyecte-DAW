@@ -1,6 +1,5 @@
 package cat.iesmanacor.backend_private.controller;
 
-import cat.iesmanacor.backend_private.controllersImplements.ComentariosController;
 import cat.iesmanacor.backend_private.entities.Comentarios;
 import cat.iesmanacor.backend_private.services.ComentariosService;
 import cat.iesmanacor.backend_private.services.ReservasService;
@@ -21,7 +20,7 @@ import java.math.BigInteger;
 import java.util.Optional;
 
 @Controller
-public class ComentariosControllerImpl implements ComentariosController {
+public class ComentariosControllerImpl {
 
     private final String __route_formularis = "formularis/layout-form";
     private final String __route_table = "tables/layout-table";
@@ -108,7 +107,6 @@ public class ComentariosControllerImpl implements ComentariosController {
     }
 
     @RequestMapping(value = "/comentarios",method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
-    @Override
     public String show(ModelMap model) {
         model.addAttribute("comentarios",comentariosService.findAllComentarios());
         return __route_table;
@@ -129,7 +127,6 @@ public class ComentariosControllerImpl implements ComentariosController {
 
 
     @RequestMapping(value = "/comentario/{id}",method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
-    @Override
     public String findComentarioById(@PathVariable BigInteger id, ModelMap model) {
         if (id!=null) {
             Optional<Comentarios> comentarios = comentariosService.findComentarioById(id);
@@ -145,19 +142,16 @@ public class ComentariosControllerImpl implements ComentariosController {
     /* ------------------------------------------ */
 
 
-    @Override
     public void saveComentario(Comentarios comentarios) {
         if (comentarios!=null) {
             comentariosService.saveComentario(comentarios);
         }
     }
 
-    @Override
     public void deleteComentarioById(BigInteger id) {
         comentariosService.deleteComentario(id);
     }
 
-    @Override
     public void updateComentario(Comentarios comentariosNew) {
         comentariosService.updateComentario(comentariosNew);
     }
