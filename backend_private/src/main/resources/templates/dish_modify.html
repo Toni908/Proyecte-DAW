@@ -37,7 +37,7 @@
                 <div class="mb-3 p-0 text-center" style="width: 100%">
                     <div class="ps-3 paraf_form">Id:</div>
                     <label class="w-100 field_form_principal p-0">
-                        <input class="input-text" id="id" name="id" th:value="${plato.id_plato}" type="text" readonly>
+                        <input class="input-text" id="id_plato" name="id_plato" th:value="${plato.id_plato}" type="text" readonly>
                     </label>
                 </div>
             </div>
@@ -46,8 +46,9 @@
                 <div class="mb-3 p-0 text-center" style="width: 100%">
                     <div class="ps-3 paraf_form">Nombre del Plato:</div>
                     <label class="w-100 field_form_principal p-0">
-                        <input class="input-text" id="name" name="name" th:value="${plato.nombre}" type="text" maxlength="50" required>
+                        <input class="input-text" id="nombre" name="nombre" th:value="${plato.nombre}" type="text" maxlength="50" required>
                     </label>
+                    <div th:if="${error != null && error.containsKey('nombre')}" th:text="${error.nombre}" style="font-size: 14px; color: red;"></div>
                 </div>
             </div>
 
@@ -56,8 +57,9 @@
                 <div class="mb-3 p-0 text-center" style="width: 100%">
                     <div class="ps-3 paraf_form">Precio del Plato:</div>
                     <label class="w-100 field_form_principal p-0">
-                        <input type="number" step="0.01" class="input-text" id="precio" name="precio" th:value="${plato.precio}" required>
+                        <input type="float" step="0.01" class="input-text" id="precio" name="precio" th:value="${plato.precio}" >
                     </label>
+                    <div th:if="${error != null && error.containsKey('precio')}" th:text="${error.precio}" style="font-size: 14px; color: red;"></div>
                 </div>
             </div>
 
@@ -67,6 +69,7 @@
                     <label class="w-100 field_form_principal p-0">
                         <textarea class="input-text" id="descripcion" name="descripcion" th:text="${plato.descripcion}" required></textarea>
                     </label>
+                    <div th:if="${error != null && error.containsKey('descripcion')}" th:text="${error.descripcion}" style="font-size: 14px; color: red;"></div>
                 </div>
             </div>
                 </div>
@@ -79,59 +82,59 @@
         <ul>
             <li>
                 <input type="checkbox" id="cb1" name="cb1" value="1"/>
-                <label for="cb1"><img src="./alergenos/gluten.png" class="rounded-3"/></label>
+                <label for="cb1"><img th:src="@{/img/alergenos/gluten.png}" alt="gluten" class="rounded-3"/></label>
             </li>
             <li>
                 <input type="checkbox" id="cb2" name="cb2" value="2"/>
-                <label for="cb2"><img src="./alergenos/crustaceos.png" class="rounded-3"/></label>
+                <label for="cb2"><img th:src="@{/img/alergenos/crustaceos.png}" alt="crustaceos" class="rounded-3"/></label>
             </li>
             <li>
                 <input type="checkbox" id="cb3" name="cb3" value="3"/>
-                <label for="cb3"><img src="./alergenos/huevos.png" class="rounded-3"/></label>
+                <label for="cb3"><img th:src="@{/img/alergenos/huevos.png}" alt="huevos" class="rounded-3"/></label>
             </li>
             <li>
                 <input type="checkbox" id="cb4" name="cb4" value="4"/>
-                <label for="cb4"><img src="./alergenos/pescado.png" class="rounded-3"/></label>
+                <label for="cb4"><img th:src="@{/img/alergenos/pescado.png}" alt="pescado" class="rounded-3"/></label>
             </li>
             <li>
                 <input type="checkbox" id="cb5" name="cb5" value="5"/>
-                <label for="cb5"><img src="./alergenos/cacahuete.png" class="rounded-3"/></label>
+                <label for="cb5"><img th:src="@{/img/alergenos/cacahuete.png}" alt="cacahuete" class="rounded-3"/></label>
             </li>
             <li>
                 <input type="checkbox" id="cb6" name="cb6" value="6"/>
-                <label for="cb6"><img src="./alergenos/soja.png" class="rounded-3"/></label>
+                <label for="cb6"><img th:src="@{/img/alergenos/soja.png}" alt="soja" class="rounded-3"/></label>
             </li>
             <li>
                 <input type="checkbox" id="cb7" name="cb7" value="7"/>
-                <label for="cb7"><img src="./alergenos/lacteos.png" class="rounded-3"/></label>
+                <label for="cb7"><img th:src="@{/img/alergenos/lacteos.png}" alt="lacteos" class="rounded-3"/></label>
             </li>
             <li>
                 <input type="checkbox" id="cb8" name="cb8" value="8"/>
-                <label for="cb8"><img src="./alergenos/frutos_secos.png" class="rounded-3"/></label>
+                <label for="cb8"><img th:src="@{/img/alergenos/frutos_secos.png}" alt="frutos_secos" class="rounded-3"/></label>
             </li>
             <li>
                 <input type="checkbox" id="cb9" name="cb9" value="9"/>
-                <label for="cb9"><img src="./alergenos/apio.png" class="rounded-3"/></label>
+                <label for="cb9"><img th:src="@{/img/alergenos/apio.png}" alt="apio" class="rounded-3"/></label>
             </li>
             <li>
                 <input type="checkbox" id="cb10" name="cb10" value="10"/>
-                <label for="cb10"><img src="./alergenos/mostaza.png" class="rounded-3"/></label>
+                <label for="cb10"><img th:src="@{/img/alergenos/mostaza.png}" alt="mostaza" class="rounded-3"/></label>
             </li>
             <li>
                 <input type="checkbox" id="cb11" name="cb11" value="11"/>
-                <label for="cb11"><img src="./alergenos/sesamo.png" class="rounded-3"/></label>
+                <label for="cb11"><img th:src="@{/img/alergenos/sesamo.png}" alt="sesamo" class="rounded-3"/></label>
             </li>
             <li>
                 <input type="checkbox" id="cb12" name="cb12" value="12"/>
-                <label for="cb12"><img src="./alergenos/so2.png" class="rounded-3"/></label>
+                <label for="cb12"><img th:src="@{/img/alergenos/so2.png}" alt="so2" class="rounded-3"/></label>
             </li>
             <li>
                 <input type="checkbox" id="cb13" name="cb13" value="13"/>
-                <label for="cb13"><img src="./alergenos/altramuces.png" class="rounded-3"/></label>
+                <label for="cb13"><img th:src="@{/img/alergenos/altramuces.png}" alt="altramuces" class="rounded-3"/></label>
             </li>
             <li>
                 <input type="checkbox" id="cb14" name="cb14" value="14"/>
-                <label for="cb14"><img src="./alergenos/moluscos.png" class="rounded-3"/></label>
+                <label for="cb14"><img th:src="@{/img/alergenos/moluscos.png}" alt="moluscos" class="rounded-3"/></label>
             </li>
         </ul>
            <div class="d-none" th:each="alergeno : ${plato.alergenos}">

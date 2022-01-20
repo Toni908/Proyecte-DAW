@@ -230,23 +230,8 @@ public class CardController {
     }
 
     @PostMapping("/restaurant/admin/{id}/dish/save")
-    public RedirectView saveDish(@PathVariable(value = "id") Long id, WebRequest request){
-        Plato plato = new Plato();
-        String idcategory = request.getParameter("id");
-        String name = request.getParameter("name");
-        float precio = Float.parseFloat(request.getParameter("precio"));
-        String descripcio = request.getParameter("descripcion");
-
-        if(idcategory != null){
-            Long idl = Long.parseLong(idcategory);
-            Optional<Plato> platos = platoService.findById(idl);
-            plato = platos.get();
-        }
-
+    public String saveDish(@Valid Plato plato, BindingResult result, @PathVariable(value = "id") Long id, Model model, WebRequest request){
         Optional<Categoria> category = categoriaService.findById(id);
-        plato.setNombre(name);
-        plato.setPrecio(precio);
-        plato.setDescripcion(descripcio);
         plato.setCategoria(category.get());
 
         List<Alergeno> lista = new ArrayList<>();
@@ -262,9 +247,19 @@ public class CardController {
 
         plato.setAlergenos(lista);
 
+        if(result.hasErrors()){
+            Map<String, String> errores = new HashMap<>();
+            result.getFieldErrors().forEach(err ->{
+                errores.put(err.getField(), "El campo ".concat(err.getField()).concat(" ").concat(err.getDefaultMessage()));
+            });
+            model.addAttribute("error", errores);
+            model.addAttribute("plato", plato);
+            return "dish_modify";
+        }
+
         platoService.save(plato);
 
-        return new RedirectView("/restaurant/admin/category/"+ id +"/dishes");
+        return "redirect:/restaurant/admin/category/"+ id +"/dishes";
     }
 
     @GetMapping("/restaurant/admin/dish/edit/{id}")
