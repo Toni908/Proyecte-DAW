@@ -1,16 +1,11 @@
 package cat.iesmanacor.backend_private.controller;
 
-import cat.iesmanacor.backend_private.controllersImplements.EtiquetasController;
 import cat.iesmanacor.backend_private.entities.Etiquetas;
-import cat.iesmanacor.backend_private.entities.Restaurant;
-import cat.iesmanacor.backend_private.entities.Restaurante_Etiquetas;
-import cat.iesmanacor.backend_private.entities.Restaurante_EtiquetasId;
 import cat.iesmanacor.backend_private.services.EtiquetasService;
 import cat.iesmanacor.backend_private.services.Restaurante_EtiquetasService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
@@ -20,12 +15,10 @@ import org.springframework.web.servlet.view.RedirectView;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Controller
-public class EtiquetasControllerImpl implements EtiquetasController {
+public class EtiquetasControllerImpl {
 
     private final String __route_formularis = "formularis/layout-form";
     private final String __route_table = "tables/layout-table";
@@ -122,14 +115,12 @@ public class EtiquetasControllerImpl implements EtiquetasController {
     }
 
     @RequestMapping(value = "/etiquetas",method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
-    @Override
     public String show(ModelMap model) {
         model.addAttribute("etiquetas",etiquetasService.findAllEtiquetas());
         return __route_table;
     }
 
     @RequestMapping(value = "/etiqueta/{id}",method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
-    @Override
     public String findEtiquetasById(@PathVariable BigInteger id, ModelMap model) {
         if (id!=null) {
             Optional<Etiquetas> etiquetas = etiquetasService.findEtiquetaById(id);
@@ -144,17 +135,14 @@ public class EtiquetasControllerImpl implements EtiquetasController {
 
     /* ------------------------------------------ */
 
-    @Override
     public void saveEtiquetas(Etiquetas etiquetas) {
         etiquetasService.saveEtiqueta(etiquetas);
     }
 
-    @Override
     public void deleteEtiquetasById(BigInteger id) {
         etiquetasService.deleteEtiqueta(id);
     }
 
-    @Override
     public void updateEtiquetas(Etiquetas etiquetasNew) {
         etiquetasService.updateEtiqueta(etiquetasNew);
     }

@@ -1,20 +1,682 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
     <link th:href="@{/css/custom.css}" rel="stylesheet">
+    <link th:href="@{/css/form.css}" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
+        .float-info {
+            margin-top: 20px;
+           position: fixed;
+            left: 0;
+            top: 150px;
+            width: 15%;
+        }
+        .body-info {
+            background-color: white;
+            width: 60%;
+            text-align: center;
+        }
+        @media only screen and (max-width: 1105px) {
+            .float-info {
+                display: none;
+            }
+            .body-info {
+                width: 100%;
+            }
+        }
+        .select-info {
+            height: 50px;
+            display: flex;
+            flex-direction: row;
+            justify-content: start;
+            align-items: center;
+            gap: 20px;
+        }
+        .select-info:hover {
+            background-color: lightgrey;
+            border-end-end-radius: 20px;
+            border-top-right-radius: 20px;
+        }
+
+        .title_section-info {
+            color: #404040;
+            font-weight: normal;
+            text-transform: capitalize;
+        }
+    </style>
 </head>
 <body>
 <div th:insert="shared/headerVersion2 :: header" class="sticky-top top-0"></div>
-IN PROGRESS
+<div th:insert="shared/missage :: messages"></div>
 
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<div id="error" class="message_error"></div>
 
-</body>
+<main class="w-100 p-0 m-0">
+    <aside class="float-info">
+        <div class="container-info">
+            <a class="w-100 select-info text-decoration-none text-black ps-5" href="#restauranteFixed">
+                <i class="bi bi-shop" style="font-size: 25px"></i>
+                Restaurante
+            </a>
+            <a class="w-100 select-info text-decoration-none text-black ps-5" href="#privacidadFixed">
+                <i th:if="${restaurant.visible} == true" class="bi bi-eye-fill" style="font-size: 25px"></i>
+                <i th:if="${restaurant.visible} == false" class="bi bi-eye-slash-fill"style="font-size: 25px"></i>
+                Privacidad
+            </a>
+            <a class="w-100 select-info text-decoration-none text-black ps-5" href="#etiquetasFixed">
+                <i class="bi bi-tags" style="font-size: 25px"></i>
+                Etiquetas
+            </a>
+            <a class="w-100 select-info text-decoration-none text-black ps-5" href="#calendarioFixed">
+                <i class="bi bi-calendar-week" style="font-size: 25px"></i>
+                Calendario
+            </a>
+            <a class="w-100 select-info text-decoration-none text-black ps-5" th:href="@{'/reservas/'+${restaurant.id_restaurante}}">
+                <i class="bi bi-receipt" style="font-size: 25px"></i>
+                Reservas
+            </a>
+            <a class="w-100 select-info text-decoration-none text-black ps-5" href="#membresiaFixed">
+                <i class="bi bi-inboxes" style="font-size: 25px"></i>
+                Membresia
+            </a>
+            <a class="w-100 select-info text-decoration-none text-black ps-5" href="#imagenesFixed">
+                <i class="bi bi-image" style="font-size: 25px"></i>
+                Imagenes
+            </a>
+            <hr>
+            <a class="w-100 select-info text-decoration-none text-black ps-5" th:href="@{'/restaurant/'+${restaurant.getId_restaurante()}}">
+                <i class="bi bi-eye" style="font-size: 25px"></i>
+                Ver Restaurante
+            </a>
+        </div>
+    </aside>
+    <form class="d-flex flex-row justify-content-center" onsubmit="return validateGeneral()" id="info" th:action="@{/restaurant/put}" method="POST" th:object="${restaurant}">
+        <main class="d-flex flex-column justify-content-center body-info">
+            <section class="pt-5" id="restauranteFixed">
+                <h3 class="title_section-info">Mi Restaurante</h3>
+                <div class="d-flex flex-row justify-content-center pt-2">
+                    <p class="paraf_form text-center fw-normal" style="width: 70%; color: #808080">Aqui encontraras todas las opciones para poder realizar las modificaciones que deseas actualizar, si tienes alguna pregunta sobre este apartado puedes preguntarlo en la secion de preguntas situada arriba a la derecha</p>
+                </div>
+                <div class="d-flex flex-row justify-content-center">
+                    <div class="d-flex flex-column justify-content-center" style="width: 70%;">
+                        <div class="border border-secondary border-1 mt-5 p-4" style=" border-radius: 10px">
+                            <input type="hidden" th:field="*{id_restaurante}" hidden>
+                            <h4 class="fw-normal text-start text-black" style="font-family: 'Quicksand', sans-serif;">Informacion General</h4>
+                            <p class="paraf_form text-start fw-normal" style="font-size: small;color: #808080">Estos son los datos generales del restaurante, como podria ser el nombre, los dias de anticipacio de reservas y el telefono movil enlazado con el restaurante</p>
+                            <div class="ps-3 text-lg-start text-center">Nombre:</div>
+                            <label class="w-100">
+                                <input type="text" class="input-text validateNameResponse" th:field="*{nombre}">
+                            </label>
+                            <div id="validateNameResponse"></div>
+                            <div class="container pt-3 m-0 w-100 px-0">
+                                <div class="row">
+                                    <div class="col-sm p-0">
+                                        <label class="w-100 ps-2 pe-3">
+                                            Dias de Anticipacion:
+                                            <input type="number" class="input-text validateDiasAnticipacionResponse" th:field="*{dies_anticipacion_reservas}">
+                                        </label>
+                                        <div id="validateDiasAnticipacionResponse"></div>
+                                    </div>
+                                    <div class="col-sm p-0">
+                                        <label class="w-100 pe-2 ps-3">
+                                            Telefono:
+                                            <input type="number" class="input-text validateTelefonoResponse" th:field="*{telefono_restaurante}">
+                                        </label>
+                                        <div id="validateTelefonoResponse"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <p class="paraf_form text-start fw-normal pt-3" style="font-size: small;color: #808080">Estos son los datos generales del restaurante, como podria ser el nombre, los dias de anticipacio de reservas y el telefono movil enlazado con el restaurante</p>
+                            <div class="container pt-3 m-0 w-100 px-0">
+                                <div class="row" id="localidadMunicipioChange">
+                                    <div class="col-sm">
+                                        <label class="w-100">
+                                            Municipio:
+                                            <select class="input-text" id="municipio"></select>
+                                        </label>
+                                    </div>
+                                    <div class="col-sm">
+                                        <label class="w-100">
+                                            Localidad:
+                                            <select id="localidad" class="input-text validateLocalidadResponse">
+
+                                            </select>
+                                        </label>
+                                        <div id="validateLocalidadResponse"></div>
+                                    </div>
+                                    <label for='myLocalidadChanged'></label><input type='text' id='myLocalidadChanged' name='myLocalidadChanged' hidden/>
+                                </div>
+                                <div class="row" id="localidadMunicipioActual">
+                                    <div class="col-sm">
+                                        <label class="w-100">
+                                            Municipio:
+                                            <input type="text" class="input-text" disabled="disabled" th:value="${restaurant.localidad.nombre_municipio.nombre_municipio}" readonly/>
+                                        </label>
+                                    </div>
+                                    <div class="col-sm">
+                                        <label class="w-100">
+                                            Localidad:
+                                            <input name="myLocalidad" type="text" class="input-text" th:value="${restaurant.localidad.nombre_localidad}" readonly/>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-check form-switch d-flex flex-row justify-content-center pt-4">
+                                <label class="w-100 d-flex flex-row justify-content-center">
+                                    Deseas cambiar?
+                                    <input class="form-check-input m-0 fs-3" type="checkbox" id="changeLocalidad">
+                                </label>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-row justify-content-center pt-4">
+                            <button type="submit" class="btn btn-dark">Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </form>
+    <form class="d-flex flex-row justify-content-center" onsubmit="return validatePrivacidad()" th:action="@{/restaurant/visibility}" method="POST">
+        <main class="d-flex flex-column justify-content-center body-info">
+            <section class="pt-5" id="privacidadFixed">
+                <h3 class="title_section-info">Privacidad</h3>
+                <div class="d-flex flex-row justify-content-center pt-2">
+                    <p class="paraf_form text-start fw-normal" style="width: 70%; color: #808080; font-size: 12px">
+                        Puede ser que estes haciendo cambios en tus datos o que basicamente no quieras que se muestre tu restaurante, no te preocupes puedes hacerlo con esta opcion.
+                    </p>
+                </div>
+                <div class="d-flex flex-row justify-content-center">
+                    <div class="d-flex flex-column justify-content-center" style="width: 70%;">
+                        <div class="border border-secondary border-1 mt-2 p-4" style=" border-radius: 10px">
+                            <h4 class="fw-normal text-start text-black" style="font-family: 'Quicksand', sans-serif;">Que significa la visibilidad?</h4>
+                            <p class="paraf_form text-start fw-normal" style="font-size: small;color: #808080">
+                                La visibilidad es una manera de hacer que tu restaurante no se muestre a tus usuarios, ni en la pagina, de esta forma podras realizar los cambios sin necesidad de procuparte de que otra gente vea esos cambios.
+                            </p>
+                            <label for='idRestaurante'></label><input type='text' id='idRestaurante' name='idRestaurante' th:value="${restaurant.id_restaurante}" hidden/>
+                            <div class="container pt-3 m-0 w-100 px-0">
+                                <div class="form-check form-switch d-flex flex-row justify-content-center pt-4">
+                                    <label class="w-100 d-flex flex-row justify-content-center">
+                                        <input th:if="${restaurant.visible} == true" type="checkbox" name="visibilty" class="form-check-input m-0 fs-3" checked>
+                                        <input th:if="${restaurant.visible} == false" type="checkbox" name="visibilty" class="form-check-input m-0 fs-3">
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-row justify-content-center pt-4">
+                            <button type="submit" class="btn btn-dark">Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </form>
+    <form class="d-flex flex-row justify-content-center" onsubmit="return validateEtiquetas()" th:action="@{'/etiquetas/put/'+${restaurant.id_restaurante}}" method="POST">
+        <main class="d-flex flex-column justify-content-center body-info">
+            <section class="pt-5" id="etiquetasFixed">
+                <h3 class="title_section-info">Mis Etiquetas</h3>
+                <div class="d-flex flex-row justify-content-center pt-2">
+                    <p class="paraf_form text-start fw-normal" style="width: 70%; color: #808080; font-size: 12px">
+                        Estos son las etiquetas que actualmente tienes activadas en tu restaurante, para cambiarlos solo tienes que dar click encima y desapareceran, recuerda que solo puedes tener 7 activas
+                    </p>
+                </div>
+                <div class="d-flex flex-row justify-content-center">
+                    <div class="d-flex flex-column justify-content-center" style="width: 70%;">
+                        <div class="border border-secondary border-1 mt-2 p-4" style=" border-radius: 10px">
+                            <h4 class="fw-normal text-start text-black" style="font-family: 'Quicksand', sans-serif;">Etiquetas</h4>
+                            <p class="paraf_form text-start fw-normal" style="font-size: small;color: #808080">
+                                Para poder insertar etiquetas tienes en la parte izquierda un buscador y creador (sino encuentra ninguno), donde este buscara en todas las etiquetas existentes y asin podras añadir las etiquetas que mas se usan segun tu estilo de restaurante
+                            </p>
+                            <div class="container pt-3 m-0 w-100 px-0">
+                                <div class="row">
+                                    <div class="col-sm">
+                                        <label class="text-center w-100">
+                                            Etiquetas
+                                            <input id="selectText" class="input-text" type="text">
+                                        </label>
+                                    </div>
+                                    <div class="col-sm">
+                                        <label class="text-center w-100">
+                                            Buscador
+                                            <select class="input-text" id="selectEtiquetas">
+                                            </select>
+                                            <input class="input-text p-3 border border-2 border-success" id="create_etiqueta" onclick="addEtiqueta()" type="hidden" value="Create">
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- BOX OF ETIQUETAS SELECTED -->
+                        <div class="align-self-center mt-4 pt-2" style="width: 100%;">
+                            <div class="text-center paraf_form">Etiquetas selecionadas</div>
+                            <section class="h-100 p-4 h-auto" th:if="${etiquetas}!=null">
+                                <div class="d-flex flex-row justify-content-center flex-wrap gap-2" id="etiquetas_box">
+                                    <div class="border border-2 w-auto" style="border-color: #808080;border-radius: 15px" th:each="etiqueta : ${etiquetas}" onclick='deleteEtiqueta(this)'>
+                                        <i class='bi bi-tag ps-2'></i>
+                                        <label class="w-auto">
+                                            <input name='etiquetas' class='singleEtiqueta border-0 ps-2' style="border-radius: 15px;" th:value="${etiqueta.nombre}" readonly/>
+                                        </label>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="d-flex flex-row justify-content-center pt-4">
+                            <button type="submit" class="btn btn-dark">Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </form>
+    <form class="d-flex flex-row justify-content-center" onsubmit="return validateHorario()" th:action="@{/horario/put}" method="POST">
+        <main class="d-flex flex-column justify-content-center body-info">
+            <section class="pt-5" id="calendarioFixed">
+                <h3 class="title_section-info">Calendario</h3>
+                <div class="d-flex flex-row justify-content-center pt-2">
+                    <p class="paraf_form text-start fw-normal" style="width: 70%; color: #808080; font-size: 12px">
+                        Aqui podras implementar y actualizar el horario de tu restaurante, tanto quando se habre
+                    </p>
+                </div>
+                <div class="d-flex flex-row justify-content-center">
+                    <div class="d-flex flex-column justify-content-center" style="width: 70%;">
+                        <div class="border border-secondary border-1 mt-2 p-4" style=" border-radius: 10px">
+                            <h4 class="fw-normal text-start text-black" style="font-family: 'Quicksand', sans-serif;">Mis horarios</h4>
+                            <p class="paraf_form text-start fw-normal" style="font-size: small;color: #808080">
+                                Para poder insertar etiquetas tienes en la parte izquierda un buscador y creador (sino encuentra ninguno), donde este buscara en todas las etiquetas existentes y asin podras añadir las etiquetas que mas se usan segun tu estilo de restaurante
+                            </p>
+                            <div class="container pt-3 m-0 w-100 px-0">
+                                <div class="row">
+                                    <div class="col-sm">
+                                        <label>
+                                            <input type="datetime-local" />
+                                        </label>
+                                    </div>
+                                    <div class="col-sm">
+                                        <label>
+                                            <input type="datetime-local" />
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-row justify-content-center pt-4">
+                            <button type="submit" class="btn btn-dark">Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </form>
+    <form class="d-flex flex-row justify-content-center" onsubmit="return validateMembresia()" th:action="@{'/membresia/put/'+${restaurant.id_restaurante}}" method="POST">
+        <main class="d-flex flex-column justify-content-center body-info">
+            <section class="pt-5" id="membresiaFixed">
+                <h3 class="title_section-info">Membresia</h3>
+                <div class="d-flex flex-row justify-content-center pt-2">
+                    <p class="paraf_form fw-normal text-center" style="width: 70%; color: #808080; font-size: 16px">
+                        Quieres mas ventajas que nadie, pues hazte miembro y consigue ventajas muy buenas para extender tu restaurante por todo el mundo.
+                    </p>
+                </div>
+                <div class="d-flex flex-row justify-content-center">
+                    <div class="d-flex flex-column justify-content-center" style="width: 70%;">
+                        <div class="border border-secondary border-1 mt-2 p-4" style=" border-radius: 10px">
+                            <h4 class="fw-normal text-start text-black" style="font-family: 'Quicksand', sans-serif;">Quieres hacerte miembro?</h4>
+                            <p class="paraf_form text-start fw-normal" style="font-size: medium;color: #808080">
+                                Al ser miembro conseguiras ventajas:
+                            </p>
+                            <p class="paraf_form text-start fw-normal p-0" style="font-size: small;color: #808080">
+                                Como salir mas arriba en la pagina de inicio, con esto conseguiras que mas gente visite tu restaurante.
+                            </p>
+                            <p class="paraf_form text-start fw-normal p-0" style="font-size: small;color: #808080">
+                                Estaras en nuestros priorides en cuento a preguntas y ayuda al cliete.
+                            </p>
+                            <div class="form-check form-switch p-0">
+                                <div>Deseas hacerte miembro?</div>
+                                <label class="w-100 d-flex justify-content-center">
+                                    <input class="form-check-input ms-2 fs-3" type="checkbox" id="checkMiembro">
+                                </label>
+                            </div>
+                            <div class="container pt-3 m-0 w-100 px-0" id="hacerseMiembro">
+                                <div class="row">
+                                    <div class="col-sm">
+                                        <label class="w-100">
+                                            Nombre Descriptivo:
+                                            <input type="text" class="input-text"/>
+                                        </label>
+                                    </div>
+                                    <div class="col-sm">
+                                        <label class="w-100">
+                                            Direccion correo:
+                                            <input type="text" class="input-text"/>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-row justify-content-center pt-4">
+                            <button type="submit" class="btn btn-dark">Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </form>
+    <form class="d-flex flex-row justify-content-center" onsubmit="return validateEtiquetas()" th:action="@{'/images/put/'+${restaurant.id_restaurante}}" method="POST">
+        <main class="d-flex flex-column justify-content-center body-info">
+            <section class="pt-5" id="imagenesFixed">
+                <h3 class="title_section-info">Tus imagenes</h3>
+                <div class="d-flex flex-row justify-content-center pt-2">
+                    <p class="paraf_form fw-normal text-center" style="width: 70%; color: #808080; font-size: 16px">
+                        Quieres mas ventajas que nadie, pues hazte miembro y consigue ventajas muy buenas para extender tu restaurante por todo el mundo.
+                    </p>
+                </div>
+                <div class="d-flex flex-row justify-content-center">
+                    <div class="d-flex flex-column justify-content-center" style="width: 70%;">
+                        <div class="border border-secondary border-1 mt-2 p-4" style=" border-radius: 10px">
+                            <div class="mb-3 p-0">
+                                <div class="ps-3 paraf_form">Insert images</div>
+                                <label class="w-100 field_form_principal">
+                                    <input class="input-text validateImagenResponse" id="image" name="image" multiple accept="image/jpeg, image/jpg, image/png, image/gif" type="file" maxlength="80" placeholder="URL" required>
+                                </label>
+                                <div id="validateImagenResponse"></div>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-row justify-content-center pt-4">
+                            <button type="submit" class="btn btn-dark">Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </form>
+</main>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
 <script th:src="@{/js/headerv2.js}"></script>
+<script>
+    const selectEtiqueta = $("#selectEtiquetas");
+    let numEtiquetas = 7;
+    let etiquetasAdded = [];
+    getEtiquetasGenerated();
+
+    const actualMunicipioLocalidad = $("#localidadMunicipioActual");
+    const changeMunicipioLocalidad = $("#localidadMunicipioChange");
+    changeMunicipioLocalidad.hide();
+
+    const municipios = $("#municipio");
+    hideLocalidad();
+    municipios.show();
+
+    $("#hacerseMiembro").hide();
+
+    const error = $("#error");
+
+
+    error.hide();
+
+    const selectEtiquetas = $('#selectEtiquetas');
+    const createEtiqueta = $("#create_etiqueta");
+
+    selectEtiqueta.append("<option selected><-- Buscador</option>");
+    createEtiqueta.attr("type","hidden");
+    selectEtiqueta.show();
+
+    $('#selectText').on('input',function(){
+        createEtiqueta.attr("type","hidden");
+        selectEtiquetas.show();
+        searchEtiquetas($("#selectText").val());
+    });
+
+    selectEtiquetas.on('change', function () {
+        let valueSelected = this.value;
+        addEtiqueta(valueSelected)
+    });
+
+    function searchEtiquetas(etiquetaSearched) {
+        $.getJSON( "http://127.0.0.1:8080/get/etiquetas/admin/json", function( data ) {
+            let length = 0;
+            selectEtiqueta.empty();
+            $.each( data, function(key, object) {
+                if (object.nombre.includes(etiquetaSearched)) {
+                    selectEtiqueta.append("<option id='" + object.id_etiqueta + "'>" + object.nombre + "</option>");
+                    length++;
+                }
+            });
+
+            if (selectEtiqueta.text()==="") {
+                selectEtiquetas.hide();
+                $("#create_etiqueta").attr("type","button");
+            } else {
+                $("#selectEtiquetas").prepend("<option selected value='null'>Find "+length+" occurences</option>");
+            }
+        });
+    }
+    function addEtiqueta(value) {
+        let selectText = $("#selectText");
+        if (numEtiquetas!==0) {
+            if (value == null) {
+                if (isEtiquetaAdded(selectText.val())===false) {
+                    if (selectText.val().length<15) {
+                        if (selectText.val().length>2) {
+                            $("#etiquetas_box").append(getEtiquetaHTML(selectText.val()));
+                            etiquetasAdded.push(selectText.val());
+                            numEtiquetas--;
+                        } else {
+                            error.text("Etiqueta too short");
+                            error.show();
+                            setTimeout(function() {$("#error").hide()}, 1200);
+                        }
+                    } else {
+                        error.text("Etiqueta too long");
+                        error.show();
+                        setTimeout(function() {$("#error").hide()}, 1200);
+                    }
+                } else {
+                    error.text("Etiqueta already added");
+                    error.show();
+                    setTimeout(function() {$("#error").hide()}, 1200);
+                }
+            } else {
+                if (isEtiquetaAdded(value)===false) {
+                    if (value.length<15) {
+                        if (value.length>2) {
+                            $("#etiquetas_box").append(getEtiquetaHTML(value));
+                            etiquetasAdded.push(value);
+                            numEtiquetas--;
+                        } else {
+                            error.text("Etiqueta too short");
+                            error.show();
+                            setTimeout(function () {
+                                $("#error").hide()
+                            }, 1200);
+                        }
+                    } else {
+                        error.text("Etiqueta too long");
+                        error.show();
+                        setTimeout(function() {$("#error").hide()}, 1200);
+                    }
+                } else {
+                    error.text("Etiqueta already added");
+                    error.show();
+                    setTimeout(function() {$("#error").hide()}, 1200);
+                }
+            }
+        } else {
+            error.text("Max length is 7 for etiquetas");
+            error.show();
+            setTimeout(function() {$("#error").hide()}, 1200);
+        }
+    }
+
+    function getEtiquetaHTML(value) {
+        return "" +
+            "<div class=\"border border-2 w-auto\" style=\"border-color: #808080;border-radius: 15px\" onclick='deleteEtiqueta(this)'>" +
+                "<i class='bi bi-tag ps-2'></i>" +
+                "<label class=\"w-auto\">" +
+                    "<input name='etiquetas' class='border-0 ps-2' style=\"border-radius: 15px;\" value='"+value+"' readonly/>" +
+                "</label>" +
+            "</div>";
+    }
+
+    function deleteEtiqueta(etiqueta) {
+        etiquetasAdded = etiquetasAdded.filter(value => value !== etiqueta.firstChild.value);
+        etiqueta.remove();
+        numEtiquetas++;
+    }
+
+    function isEtiquetaAdded(value) {
+        for (let i = 0; i < etiquetasAdded.length; i++) {
+            if (etiquetasAdded[i] === value) {
+                return true;
+            }
+        }
+        return false;
+    }
+    function getEtiquetasGenerated() {
+        const etiquetas = $("input[name='etiquetas']");
+        for (let i = 0; i < etiquetas.length; i++) {
+            etiquetasAdded.push(etiquetas.eq(i).val())
+        }
+    }
+
+    $('#changeLocalidad').on( 'click', function() {
+        if( $(this).is(':checked') ){
+            changeMunicipioLocalidad.show();
+            actualMunicipioLocalidad.hide();
+            actualMunicipioLocalidad.find("input[type=text]").disable = true;
+            changeMunicipioLocalidad.find("input[type=text]").disable = false;
+
+            $.getJSON("http://127.0.0.1:8080/get/municipios/admin/json", function (data) {
+                municipios.empty();
+                $.each(data, function (key, object) {
+                    $("#municipio").append("<option value='" + key + "'>" + object.nombre_municipio + "</option>")
+                });
+                municipios.prepend("<option value='' selected>-- Municipios --</option>");
+            });
+        } else {
+            changeMunicipioLocalidad.hide();
+            actualMunicipioLocalidad.show();
+            actualMunicipioLocalidad.find("input[type=text]").disable = false;
+            changeMunicipioLocalidad.find("input[type=text]").disable = true;
+        }
+    });
+
+    // MUNICIPIO Y LOCALIDADES
+
+    municipios.on('change', function () {
+        $("#localidad").show();
+        showLocalidades();
+    });
+
+    function showLocalidades() {
+        let municipioSelected = $("#municipio option:selected").text();
+
+        if (municipioSelected!=="-- Municipios --") {
+            $.getJSON("http://127.0.0.1:8080/get/localidades/admin/json", function (dataLocalidad) {
+                $("#localidad").empty();
+                $.each(dataLocalidad, function (key, object) {
+                    if (object.nombre_municipio.nombre_municipio === municipioSelected) {
+                        $("#localidad").append("<option value='" + key + "'>" + object.nombre_localidad + "</option>")
+                    }
+                });
+            });
+        } else {
+            hideLocalidad();
+        }
+    }
+    $( '#checkMiembro' ).on( 'click', function() {
+        if( $(this).is(':checked') ){
+            $("#hacerseMiembro").show();
+        } else {
+            $("#hacerseMiembro").hide();
+        }
+    });
+
+    function hideLocalidad() {
+        $("#localidad").empty();
+        $("#localidad").append("<option value=\"\"><-Seleciona antes un Municipio</option>")
+    }
+
+    function checkNamePattern(){
+        const re = /^[A-Za-z][a-z]+(?:[ ]+[A-Za-z][a-z]+)*$/;
+        return re.test($("#nombre").val());
+    }
+
+
+    // VALIDATIONS
+    function vaciarValidateGeneral() {
+        $("#validateNameResponse").empty();
+        $("#validateTelefonoResponse").empty();
+        $("#validateDiasAnticipacionResponse").empty();
+        $("#validateLocalidadResponse").empty();
+        $("#insertLocalidad input[name=myLocalidad]").remove();
+    }
+
+    function validateGeneral() {
+        let errors = 0;
+        vaciarValidateGeneral();
+        if ($("#nombre").val()==null) {
+            errors++;
+        }
+        if (!checkNamePattern()) {
+            errors++;
+            $(".validateNameResponse").addClass("border border-danger border-2");
+            $("#validateNameResponse").append("<p class='text-danger fw-bold pt-2'>El nombre no puede contener numberos y tiene que ser minuscula menos la primera letra</p>");
+        } else {
+            $(".validateNameResponse").addClass("border border-success border-2")
+        }
+
+        if (!Number.isInteger(parseInt($("#dies_anticipacion_reservas").val()))) {
+            errors++;
+            $(".validateDiasAnticipacionResponse").addClass("border border-danger border-2");
+            $("#validateDiasAnticipacionResponse").append("<p class='text-danger fw-bold pt-2'>Tiene que ser un numero</p>");
+        } else {
+            $(".validateDiasAnticipacionResponse").addClass("border border-success border-2");
+        }
+
+        if ($("#telefono_restaurante").val()==="") {
+            errors++;
+            $(".validateTelefonoResponse").addClass("border border-danger border-2")
+            $("#validateTelefonoResponse").append("<p class='text-danger fw-bold pt-2'>No has selecionado ningun telefono</p>");
+        } else {
+            $(".validateTelefonoResponse").addClass("border border-success border-2")
+        }
+
+        if( $("#checkMiembro").is(':checked') ){
+            if ($("#localidad option:selected").text()==="<-Seleciona antes un Municipio") {
+                errors++;
+                $(".validateLocalidadResponse").addClass("border border-danger border-2")
+                $("#validateLocalidadResponse").append("<p class='text-danger fw-bold pt-2'>No has selecionado ninguna localidad</p>");
+            } else {
+                $(".validateLocalidadResponse").addClass("border border-success border-2")
+            }
+        }
+        $("#myLocalidadChanged").val($("#localidad option:selected").text());
+
+        return errors===0;
+    }
+
+    function validatePrivacidad() {
+        if ($("#visibilty").is(':checked')) {
+            $("#visibilty").val("true")
+        } else {
+            $("#visibilty").val("false")
+        }
+        return true;
+    }
+
+    function validateMembresia() {
+        return false;
+    }
+    function validateEtiquetas() {
+        return false;
+    }
+    function validateHorario() {
+        return false;
+    }
+</script>
+</body>
 </html>

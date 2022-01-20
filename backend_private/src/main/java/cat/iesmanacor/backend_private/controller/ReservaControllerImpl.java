@@ -1,6 +1,5 @@
 package cat.iesmanacor.backend_private.controller;
 
-import cat.iesmanacor.backend_private.controllersImplements.ReservaController;
 import cat.iesmanacor.backend_private.entities.Reservas;
 import cat.iesmanacor.backend_private.services.ReservasService;
 import cat.iesmanacor.backend_private.services.RestaurantService;
@@ -21,7 +20,7 @@ import java.math.BigInteger;
 import java.util.Optional;
 
 @Controller
-public class ReservaControllerImpl implements ReservaController {
+public class ReservaControllerImpl {
 
     private final String __route_formularis = "formularis/layout-form";
     private final String __route_table = "tables/layout-table";
@@ -105,14 +104,12 @@ public class ReservaControllerImpl implements ReservaController {
     }
 
     @RequestMapping(value = "/reservas",method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
-    @Override
     public String show(ModelMap model) {
         model.addAttribute("reservas",reservasService.findAllReservass());
         return __route_table;
     }
 
     @RequestMapping(value = "/reserva/{id}",method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
-    @Override
     public String findReservaById(@PathVariable BigInteger id, ModelMap model) {
         if (id!=null) {
             Optional<Reservas> reservas = reservasService.findReservaById(id);
@@ -129,7 +126,6 @@ public class ReservaControllerImpl implements ReservaController {
     /* ------------------------------------------ */
 
 
-    @Override
     public void saveReserva(Reservas reservas) {
         if (reservas!=null) {
             reservasService.saveReserva(reservas);
@@ -149,12 +145,10 @@ public class ReservaControllerImpl implements ReservaController {
         return new RedirectView("/reservas");
     }
 
-    @Override
     public void deleteReservaById(BigInteger id) {
         restaurantService.deleteRestaurant(id);
     }
 
-    @Override
     public void updateReserva(Reservas reservasNew) {
         if (reservasNew!=null) {
             reservasService.updateReserva(reservasNew);

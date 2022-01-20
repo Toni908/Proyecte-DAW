@@ -55,6 +55,14 @@
                 </div>
                 <div class="container-responsive-form d-flex justify-content-center flex-row">
                     <div class="p-0 form_2 pe-2" style="width: 40%">
+                        <div class="ps-3 paraf_form">Municipio</div>
+                        <label class="w-100 field_form_section">
+                            <select class="input-text" id="municipio">
+
+                            </select>
+                        </label>
+                    </div>
+                    <div class="p-0 form_2 ps-2" style="width: 40%">
                         <div class="ps-3 paraf_form">Localidad</div>
                         <label class="w-100 field_form_section">
                             <select id="localidad" class="input-text validateLocalidadResponse" th:field="*{localidad}">
@@ -62,14 +70,6 @@
                             </select>
                         </label>
                         <div id="validateLocalidadResponse"></div>
-                    </div>
-                    <div class="p-0 form_2 ps-2" style="width: 40%">
-                        <div class="ps-3 paraf_form">Municipio</div>
-                        <label class="w-100 field_form_section">
-                            <select class="input-text" id="municipio">
-
-                            </select>
-                        </label>
                     </div>
                 </div>
                 <div class="d-flex justify-content-center">
@@ -110,25 +110,15 @@
                 <div class="pt-3 row d-flex flex-row justify-content-center gap-5">
                     <input id="submit" class="w-20 pt-2 pb-2 paraf_form rounded" type="submit" value="Submit" />
                 </div>
-                <div>
-                    <label>
-                        <input th:field="*{validated}" type="hidden"/>
-                    </label>
-                    <label>
-                        <input th:field="*{visible}" type="hidden"/>
-                    </label>
-                    <label>
-                        <input th:field="*{id_restaurante}" type="hidden">
-                    </label>
-                </div>
             </div>
         </form>
     </div>
 </div>
 <!--Footer-->
+
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
-<script th:src="@{/js/header.js}"></script>
+<script th:src="@{/js/headerv2.js}"></script>
 <script>
     var selectEtiqueta = $("#selectEtiquetas");
     var numEtiquetas = 7;
@@ -184,9 +174,15 @@
             if (value == null) {
                 if (isEtiquetaAdded(selectText.val())===false) {
                     if (selectText.val().length<15) {
-                        $("#etiquetas_box").append("<div onclick='deleteEtiqueta(this)' class='text-center d-flex flex-row flex-wrap'><i class='bi bi-tag-fill'><input name='etiquetas' class='border-0 text-center' style='background-color: lightgray; width: 8vw; height: 10px' value='"+selectText.val()+"' readonly><input class='align-self-center rounded-circle fw-bold border-0 bg-danger text-white pt-0' style='font-size: 10px; width: 20px; height: 20px' type='button' value='X'></div>");
-                        etiquetasAdded.push(selectText.val());
-                        numEtiquetas--;
+                        if (selectText.val().length>2) {
+                            $("#etiquetas_box").append("<div onclick='deleteEtiqueta(this)' class='text-center d-flex flex-row flex-wrap' ><i class='bi bi-tag-fill'><input name='etiquetas' class='border-0 text-center' style='background-color: lightgray; width: 8vw; height: auto' value='" + selectText.val() + "' readonly><input class='align-self-center rounded-circle fw-bold border-0 bg-danger text-white pt-0' style='font-size: 10px; width: 20px; height: 20px' type='button' value='X'></div>");
+                            etiquetasAdded.push(selectText.val());
+                            numEtiquetas--;
+                        } else {
+                            error.text("Etiqueta too short");
+                            error.show();
+                            setTimeout(function() {$("#error").hide()}, 1200);
+                        }
                     } else {
                         error.text("Etiqueta too long");
                         error.show();
@@ -199,10 +195,18 @@
                 }
             } else {
                 if (isEtiquetaAdded(value)===false) {
-                    if (value.length<30) {
-                        $("#etiquetas_box").append("<div onclick='deleteEtiqueta(this)' class='text-center d-flex flex-row flex-wrap' style='width: 30px; height: 10px'><i class='bi bi-tag-fill'></i><input name='etiquetas' class='border-0 text-center' style='background-color: lightgray; width: 8vw; height: 10px' value='"+value+"' readonly><input class='align-self-center rounded-circle fw-bold border-0 bg-danger text-white pt-0' style='font-size: 10px; width: 20px; height: 20px' type='button' value='X'></div>");
-                        etiquetasAdded.push(value);
-                        numEtiquetas--;
+                    if (value.length<15) {
+                        if (value.length>2) {
+                            $("#etiquetas_box").append("<div onclick='deleteEtiqueta(this)' class='text-center d-flex flex-row flex-wrap'><i class='bi bi-tag-fill'></i><input name='etiquetas' class='border-0 text-center' style='background-color: lightgray; width: 8vw; height: auto' value='" + value + "' readonly><input class='align-self-center rounded-circle fw-bold border-0 bg-danger text-white pt-0' style='font-size: 10px; width: 20px; height: 20px' type='button' value='X'></div>");
+                            etiquetasAdded.push(value);
+                            numEtiquetas--;
+                        } else {
+                            error.text("Etiqueta too short");
+                            error.show();
+                            setTimeout(function () {
+                                $("#error").hide()
+                            }, 1200);
+                        }
                     } else {
                         error.text("Etiqueta too long");
                         error.show();
@@ -270,7 +274,7 @@
 
     function hideLocalidad() {
         $("#localidad").empty();
-        $("#localidad").append("<option value=\"\">Seleciona antes un Municipio-></option>")
+        $("#localidad").append("<option value=\"\"><-Seleciona antes un Municipio</option>")
     }
 
     function validate() {
@@ -292,7 +296,7 @@
         } else {
             $(".validateTelefonoResponse").addClass("border border-success border-2")
         }
-        if ($("#localidad option:selected").text()==="Seleciona antes un Municipio->") {
+        if ($("#localidad option:selected").text()==="<-Seleciona antes un Municipio") {
             errors++;
             $(".validateLocalidadResponse").addClass("border border-danger border-2")
             $("#validateLocalidadResponse").append("<p class='text-danger fw-bold pt-2'>No has selecionado ninguna localidad</p>");

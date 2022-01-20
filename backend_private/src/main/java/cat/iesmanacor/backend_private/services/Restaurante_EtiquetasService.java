@@ -1,9 +1,11 @@
 package cat.iesmanacor.backend_private.services;
 
 
+import cat.iesmanacor.backend_private.entities.Etiquetas;
 import cat.iesmanacor.backend_private.entities.Restaurante_Etiquetas;
 import cat.iesmanacor.backend_private.entities.Restaurante_EtiquetasId;
 
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,4 +19,10 @@ public interface Restaurante_EtiquetasService {
     public void deleteRestaurante_Etiquetas(Restaurante_EtiquetasId id);
 
     public void updateRestaurante_Etiquetas(Restaurante_Etiquetas reservas);
+
+    //  QUERY
+
+    List<Restaurante_Etiquetas> getRestaurant_EtiquetasFromIdRestaurant(BigInteger id);
+
+    List<Restaurante_Etiquetas> findByIdEtiquetas(BigInteger id);
 }

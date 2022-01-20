@@ -1,6 +1,5 @@
 package cat.iesmanacor.backend_private.controller;
 
-import cat.iesmanacor.backend_private.controllersImplements.ImgController;
 import cat.iesmanacor.backend_private.entities.Img;
 import cat.iesmanacor.backend_private.files.FileUploadUtil;
 import cat.iesmanacor.backend_private.services.ImgService;
@@ -26,7 +25,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Controller
-public class ImgControllerImpl implements ImgController {
+public class ImgControllerImpl {
 
     private final String __route_formularis = "formularis/layout-form";
     private final String __route_table = "tables/layout-table";
@@ -140,14 +139,12 @@ public class ImgControllerImpl implements ImgController {
 
 
     @RequestMapping(value = "/imagenes",method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
-    @Override
     public String show(ModelMap model) {
         model.addAttribute("imagenes",imgService.findAllImgs());
         return __route_table;
     }
 
     @RequestMapping(value = "/imagen/{id}",method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
-    @Override
     public String findImgById(@PathVariable BigInteger id, ModelMap model) {
         if (id!=null) {
             Optional<Img> img = imgService.findImgById(id);
@@ -164,14 +161,12 @@ public class ImgControllerImpl implements ImgController {
     /* ------------------------------------------ */
 
 
-    @Override
     public void saveImg(Img img) {
         if (img != null) {
             imgService.saveImg(img);
         }
     }
 
-    @Override
     public void deleteImgById(BigInteger id) {
         Optional<Img> img = imgService.findImgById(id);
         if (img.isPresent()) {
@@ -180,7 +175,6 @@ public class ImgControllerImpl implements ImgController {
         }
     }
 
-    @Override
     public void updateImg(Img imgNew) {
         imgService.updateImg(imgNew);
     }

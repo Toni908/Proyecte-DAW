@@ -30,13 +30,11 @@ public class Restaurant {
     @Column(name = "telefono_restaurante")
     private long telefono_restaurante;
 
-    @Column(name = "validated")
-    @NotNull(message = "validated cant be null")
+    @Column(name = "validated",columnDefinition="boolean default '0'")
     private boolean validated;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_localidad")
-    @NotNull(message = "id_localidad cant be null")
     private Localidad localidad;
 
     @ManyToOne(optional = true)
@@ -47,8 +45,7 @@ public class Restaurant {
     @JoinColumn(name = "id_user")
     private Useracount useracount;
 
-    @Column(name = "visible")
-    @NotNull(message = "visible cant be null")
+    @Column(name = "visible",columnDefinition="boolean default '0'")
     private boolean visible;
 
     @OneToMany(fetch = FetchType.LAZY,  mappedBy = "restaurant")
