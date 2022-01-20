@@ -12,7 +12,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a th:href="@{'/restaurant/admin/' + ${category.carta.restaurant.id_restaurante} + '/cards'}">Cartas</a></li>
-            <li class="breadcrumb-item"><a th:href="@{'/restaurant/admin/card' + ${category.carta.id_carta} + '/categories'}">Categorias</a></li>
+            <li class="breadcrumb-item"><a th:href="@{'/restaurant/admin/card/' + ${category.carta.id_carta} + '/categories'}">Categorias</a></li>
             <li class="breadcrumb-item active" aria-current="page">Platos</li>
         </ol>
     </nav>

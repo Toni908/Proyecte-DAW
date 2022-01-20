@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.List;
 
@@ -22,6 +24,8 @@ public class Categoria implements Serializable {
     private Long id_categoria;
 
     @Column(nullable = false)
+    @NotNull(message = "nombre cant be null")
+    @Size(min=2, max=255, message = "Length of the name must be between 2 and 255")
     private String nombre;
 
     @ManyToOne(fetch = FetchType.LAZY)
