@@ -1,17 +1,85 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
     <link th:href="@{/css/custom.css}" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .float-info {
+            margin-top: 20px;
+           position: fixed;
+            left: 0;
+            top: 150px;
+            width: 15%;
+        }
+        .select-info {
+            height: 50px;
+            display: flex;
+            flex-direction: row;
+            justify-content: start;
+            align-items: center;
+            gap: 20px;
+        }
+        .select-info:hover {
+            background-color: lightgrey;
+            border-end-end-radius: 20px;
+            border-top-right-radius: 20px;
+        }
+        .body-info {
+            background-color: white;
+            width: 50%;
+            text-align: center;
+        }
+        .title_section-info {
+            color: #404040;
+            font-weight: normal;
+            text-transform: capitalize;
+        }
+    </style>
 </head>
 <body>
 <div th:insert="shared/headerVersion2 :: header" class="sticky-top top-0"></div>
-IN PROGRESS
 
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<main class="w-100 p-0 m-0">
+    <aside class="float-info">
+        <div class="container-info">
+            <a class="w-100 select-info text-decoration-none text-black ps-5" href="#restaurante">
+                <i class="bi bi-shop" style="font-size: 25px"></i>
+                Restaurante
+            </a>
+            <a class="w-100 select-info text-decoration-none text-black ps-5">
+                <i class="bi bi-tags" style="font-size: 25px"></i>
+                Etiquetas
+            </a>
+            <a class="w-100 select-info text-decoration-none text-black ps-5">
+                <i class="bi bi-calendar-week" style="font-size: 25px"></i>
+                Calendario
+            </a>
+            <a class="w-100 select-info text-decoration-none text-black ps-5">
+                <i class="bi bi-receipt" style="font-size: 25px"></i>
+                Reservas
+            </a>
+            <a class="w-100 select-info text-decoration-none text-black ps-5">
+                <i class="bi bi-inboxes" style="font-size: 25px"></i>
+                Membresia
+            </a>
+            <hr>
+            <a class="w-100 select-info text-decoration-none text-black ps-5" th:href="@{'/restaurant/'+${restaurant.getId_restaurante()}}">
+                <i class="bi bi-eye" style="font-size: 25px"></i>
+                Ver Restaurante
+            </a>
+        </div>
+    </aside>
+    <main class="d-flex flex-row justify-content-center">
+        <section class="body-info pt-5" id="restaurante">
+            <h3 class="title_section-info">Mi Restaurante</h3>
+            <div class="d-flex flex-row justify-content-center pt-2">
+                <p class="paraf_form text-center fw-normal" style="width: 70%; color: #808080">Aqui encontraras todas las opciones para poder realizar las modificaciones que deseas actualizar, si tienes alguna pregunta sobre este apartado puedes preguntarlo en la secion de preguntas situada arriba a la derecha</p>
+            </div>
+        </section>
+    </main>
+</main>
 
 </body>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
