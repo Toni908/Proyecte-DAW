@@ -1,11 +1,15 @@
 package cat.iesmanacor.backend_private.services;
 
+import cat.iesmanacor.backend_private.entities.Etiquetas;
+import cat.iesmanacor.backend_private.entities.Restaurant;
 import cat.iesmanacor.backend_private.entities.Restaurante_Etiquetas;
 import cat.iesmanacor.backend_private.entities.Restaurante_EtiquetasId;
 import cat.iesmanacor.backend_private.repositories.Restaurante_EtiquetasRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,5 +52,15 @@ public class Restaurante_EtiquetasServiceImpl implements Restaurante_EtiquetasSe
             );
             restaurante_etiquetasRepository.save(restaurante_etiquetas);
         }
+    }
+
+    @Override
+    public List<Restaurante_Etiquetas> getRestaurant_EtiquetasFromIdRestaurant(BigInteger id) {
+        return restaurante_etiquetasRepository.findByIdRestaurant(id);
+    }
+
+    @Override
+    public List<Restaurante_Etiquetas> findByIdEtiquetas(BigInteger id) {
+        return restaurante_etiquetasRepository.findByIdEtiquetas(id);
     }
 }

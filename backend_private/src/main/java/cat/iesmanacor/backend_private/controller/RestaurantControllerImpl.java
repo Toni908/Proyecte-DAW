@@ -82,7 +82,7 @@ public class RestaurantControllerImpl implements RestaurantControllers {
             if (restaurant.isPresent()) {
                 model.addAttribute("restaurant", restaurant.get());
                 model.addAttribute("etiqueta", new Etiquetas());
-                model.addAttribute("etiquetas",etiquetasService.findAllEtiquetas());
+                model.addAttribute("etiquetas",getEtiquetasFromRestaurant_Etiqueta(restaurant.get().getId_restaurante()));
                 model.addAttribute("array",localidadService.findAllLocalidad());
                 return __route_formulari_update;
             }
@@ -273,14 +273,20 @@ public class RestaurantControllerImpl implements RestaurantControllers {
     public void saveEtiquetas(List<String> myArray, Restaurant restaurant) {
         List<Etiquetas> etiquetas = stringToArrayOfEtiquetas(myArray);
         for (Etiquetas etiqueta : etiquetas) {
+            Restaurante_Etiquetas restaurante_etiquetas = new Restaurante_Etiquetas();
+            Restaurante_EtiquetasId restaurante_etiquetasId = new Restaurante_EtiquetasId();
+
             if (checkNameEtiquetasIsEmpty(etiqueta)) {
                 etiquetasService.saveEtiqueta(etiqueta);
-
-                Restaurante_Etiquetas restaurante_etiquetas = new Restaurante_Etiquetas();
-                Restaurante_EtiquetasId restaurante_etiquetasId = new Restaurante_EtiquetasId(restaurant, etiqueta);
-                restaurante_etiquetas.setId(restaurante_etiquetasId);
-                restaurante_etiquetasService.saveRestaurante_Etiquetas(restaurante_etiquetas);
+                restaurante_etiquetasId = new Restaurante_EtiquetasId(restaurant, etiqueta);
+            } else {
+                List<Etiquetas> etiquetaFound = etiquetasService.findEtiquetaByName(etiqueta.getNombre());
+                if (etiquetaFound!=null) {
+                    restaurante_etiquetasId = new Restaurante_EtiquetasId(restaurant, etiquetaFound.get(0));
+                }
             }
+            restaurante_etiquetas.setId(restaurante_etiquetasId);
+            restaurante_etiquetasService.saveRestaurante_Etiquetas(restaurante_etiquetas);
         }
     }
 
@@ -288,6 +294,16 @@ public class RestaurantControllerImpl implements RestaurantControllers {
         List<Etiquetas> etiquetas = new ArrayList<>();
         for (String s : myArray) {
             etiquetas.add(new Etiquetas(null, s));
+        }
+        return etiquetas;
+    }
+
+    public List<Etiquetas> getEtiquetasFromRestaurant_Etiqueta(BigInteger id) {
+        List<Restaurante_Etiquetas> restaurante_etiquetas = restaurante_etiquetasService.getRestaurant_EtiquetasFromIdRestaurant(id);
+        List<Etiquetas> etiquetas = new ArrayList<>();
+        for (Restaurante_Etiquetas restaurante_etiqueta : restaurante_etiquetas) {
+            Optional<Etiquetas> etiqueta = etiquetasService.findEtiquetaById(restaurante_etiqueta.getId().getEtiquetas().getId_etiqueta());
+            etiqueta.ifPresent(etiquetas::add);
         }
         return etiquetas;
     }

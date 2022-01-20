@@ -111,17 +111,6 @@
                 <div class="pt-3 row d-flex flex-row justify-content-center gap-5">
                     <input id="submit" class="w-20 pt-2 pb-2 paraf_form rounded" type="submit" value="Submit" />
                 </div>
-                <div>
-                    <label>
-                        <input th:field="*{validated}" type="hidden"/>
-                    </label>
-                    <label>
-                        <input th:field="*{visible}" type="hidden"/>
-                    </label>
-                    <label>
-                        <input th:field="*{id_restaurante}" type="hidden">
-                    </label>
-                </div>
             </div>
         </form>
     </div>
@@ -186,9 +175,15 @@
             if (value == null) {
                 if (isEtiquetaAdded(selectText.val())===false) {
                     if (selectText.val().length<15) {
-                        $("#etiquetas_box").append("<div onclick='deleteEtiqueta(this)' class='text-center d-flex flex-row flex-wrap'><i class='bi bi-tag-fill'><input name='etiquetas' class='border-0 text-center' style='background-color: lightgray; width: 8vw; height: auto' value='"+selectText.val()+"' readonly><input class='align-self-center rounded-circle fw-bold border-0 bg-danger text-white pt-0' style='font-size: 10px; width: 20px; height: 20px' type='button' value='X'></div>");
-                        etiquetasAdded.push(selectText.val());
-                        numEtiquetas--;
+                        if (selectText.val().length>2) {
+                            $("#etiquetas_box").append("<div onclick='deleteEtiqueta(this)' class='text-center d-flex flex-row flex-wrap' ><i class='bi bi-tag-fill'><input name='etiquetas' class='border-0 text-center' style='background-color: lightgray; width: 8vw; height: auto' value='" + selectText.val() + "' readonly><input class='align-self-center rounded-circle fw-bold border-0 bg-danger text-white pt-0' style='font-size: 10px; width: 20px; height: 20px' type='button' value='X'></div>");
+                            etiquetasAdded.push(selectText.val());
+                            numEtiquetas--;
+                        } else {
+                            error.text("Etiqueta too short");
+                            error.show();
+                            setTimeout(function() {$("#error").hide()}, 1200);
+                        }
                     } else {
                         error.text("Etiqueta too long");
                         error.show();
@@ -201,10 +196,18 @@
                 }
             } else {
                 if (isEtiquetaAdded(value)===false) {
-                    if (value.length<30) {
-                        $("#etiquetas_box").append("<div onclick='deleteEtiqueta(this)' class='text-center d-flex flex-row flex-wrap' style='width: 30px; height: 10px'><i class='bi bi-tag-fill'></i><input name='etiquetas' class='border-0 text-center' style='background-color: lightgray; width: 8vw; height: auto' value='"+value+"' readonly><input class='align-self-center rounded-circle fw-bold border-0 bg-danger text-white pt-0' style='font-size: 10px; width: 20px; height: 20px' type='button' value='X'></div>");
-                        etiquetasAdded.push(value);
-                        numEtiquetas--;
+                    if (value.length<15) {
+                        if (value.length>2) {
+                            $("#etiquetas_box").append("<div onclick='deleteEtiqueta(this)' class='text-center d-flex flex-row flex-wrap'><i class='bi bi-tag-fill'></i><input name='etiquetas' class='border-0 text-center' style='background-color: lightgray; width: 8vw; height: auto' value='" + value + "' readonly><input class='align-self-center rounded-circle fw-bold border-0 bg-danger text-white pt-0' style='font-size: 10px; width: 20px; height: 20px' type='button' value='X'></div>");
+                            etiquetasAdded.push(value);
+                            numEtiquetas--;
+                        } else {
+                            error.text("Etiqueta too short");
+                            error.show();
+                            setTimeout(function () {
+                                $("#error").hide()
+                            }, 1200);
+                        }
                     } else {
                         error.text("Etiqueta too long");
                         error.show();
