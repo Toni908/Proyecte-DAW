@@ -1,11 +1,9 @@
 package cat.iesmanacor.backend_private.controller;
 
 import cat.iesmanacor.backend_private.controllersImplements.RestaurantControllers;
-import cat.iesmanacor.backend_private.converters.StringToTimestampConverter;
 import cat.iesmanacor.backend_private.entities.*;
 import cat.iesmanacor.backend_private.files.FileUploadUtil;
 import cat.iesmanacor.backend_private.services.*;
-import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,9 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.validation.Valid;
-import javax.xml.crypto.Data;
 import java.math.BigInteger;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -85,6 +81,8 @@ public class RestaurantControllerImpl implements RestaurantControllers {
             Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
             if (restaurant.isPresent()) {
                 model.addAttribute("restaurant", restaurant.get());
+                model.addAttribute("etiqueta", new Etiquetas());
+                model.addAttribute("etiquetas",etiquetasService.findAllEtiquetas());
                 model.addAttribute("array",localidadService.findAllLocalidad());
                 return __route_formulari_update;
             }
@@ -96,7 +94,7 @@ public class RestaurantControllerImpl implements RestaurantControllers {
     //////////////         RESTAURANTES   ACTIONS      ////////////////////
 
     @RequestMapping(value = "/restaurant/save")
-    @Transactional(readOnly = false)
+    @Transactional()
     public String save(@ModelAttribute @Valid Restaurant restaurant,
                        BindingResult errors,
                        ModelMap model,
@@ -208,19 +206,6 @@ public class RestaurantControllerImpl implements RestaurantControllers {
         model.remove("restaurant");
         model.remove("restaurants");
         model.remove("error");
-    }
-
-    public List<Object> getRelationsWithRestaurant() {
-        List<Localidad> localidads = localidadService.findAllLocalidad();
-        List<Membresia> membresias = membresiaService.findAllMembresia();
-        List<Useracount> useracounts = useracountService.findAllUseracount();
-
-        ArrayList<Object> all = new ArrayList<>();
-
-        all.add(localidads);
-        all.add(membresias);
-        all.add(useracounts);
-        return all;
     }
 
     public boolean checkNameisEmpty(String name) {

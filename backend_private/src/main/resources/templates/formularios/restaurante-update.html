@@ -4,14 +4,29 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link th:href="@{/css/custom.css}" rel="stylesheet">
+    <link th:href="@{/css/form.css}" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
         .float-info {
             margin-top: 20px;
            position: fixed;
             left: 0;
             top: 150px;
             width: 15%;
+        }
+        .body-info {
+            background-color: white;
+            width: 50%;
+            text-align: center;
+        }
+        @media only screen and (max-width: 1105px) {
+            .float-info {
+                display: none;
+            }
+            .body-info {
+                width: 100%;
+            }
         }
         .select-info {
             height: 50px;
@@ -26,11 +41,7 @@
             border-end-end-radius: 20px;
             border-top-right-radius: 20px;
         }
-        .body-info {
-            background-color: white;
-            width: 50%;
-            text-align: center;
-        }
+
         .title_section-info {
             color: #404040;
             font-weight: normal;
@@ -44,11 +55,11 @@
 <main class="w-100 p-0 m-0">
     <aside class="float-info">
         <div class="container-info">
-            <a class="w-100 select-info text-decoration-none text-black ps-5" href="#restaurante">
+            <a class="w-100 select-info text-decoration-none text-black ps-5" href="#restauranteFixed">
                 <i class="bi bi-shop" style="font-size: 25px"></i>
                 Restaurante
             </a>
-            <a class="w-100 select-info text-decoration-none text-black ps-5">
+            <a class="w-100 select-info text-decoration-none text-black ps-5" href="#etiquetasFixed">
                 <i class="bi bi-tags" style="font-size: 25px"></i>
                 Etiquetas
             </a>
@@ -64,6 +75,10 @@
                 <i class="bi bi-inboxes" style="font-size: 25px"></i>
                 Membresia
             </a>
+            <a class="w-100 select-info text-decoration-none text-black ps-5">
+                <i class="bi bi-image" style="font-size: 25px"></i>
+                Imagenes
+            </a>
             <hr>
             <a class="w-100 select-info text-decoration-none text-black ps-5" th:href="@{'/restaurant/'+${restaurant.getId_restaurante()}}">
                 <i class="bi bi-eye" style="font-size: 25px"></i>
@@ -71,18 +86,196 @@
             </a>
         </div>
     </aside>
-    <main class="d-flex flex-row justify-content-center">
-        <section class="body-info pt-5" id="restaurante">
-            <h3 class="title_section-info">Mi Restaurante</h3>
-            <div class="d-flex flex-row justify-content-center pt-2">
-                <p class="paraf_form text-center fw-normal" style="width: 70%; color: #808080">Aqui encontraras todas las opciones para poder realizar las modificaciones que deseas actualizar, si tienes alguna pregunta sobre este apartado puedes preguntarlo en la secion de preguntas situada arriba a la derecha</p>
-            </div>
-        </section>
-    </main>
-</main>
+    <form class="d-flex flex-row justify-content-center" onsubmit="return validate()" id="info" th:action="@{/restaurant/put}" method="POST" enctype="multipart/form-data" th:object="${restaurant}">
+        <main class="d-flex flex-column justify-content-center body-info">
+            <section class="pt-5" id="restauranteFixed">
+                <h3 class="title_section-info">Mi Restaurante</h3>
+                <div class="d-flex flex-row justify-content-center pt-2">
+                    <p class="paraf_form text-center fw-normal" style="width: 70%; color: #808080">Aqui encontraras todas las opciones para poder realizar las modificaciones que deseas actualizar, si tienes alguna pregunta sobre este apartado puedes preguntarlo en la secion de preguntas situada arriba a la derecha</p>
+                </div>
+                <div class="d-flex flex-row justify-content-center">
+                    <div class="d-flex flex-column justify-content-center" style="width: 70%;">
+                        <div class="border border-secondary border-1 mt-5 p-4" style=" border-radius: 10px">
+                            <h4 class="fw-normal text-start text-black" style="font-family: 'Quicksand', sans-serif;">Informacion General</h4>
+                            <p class="paraf_form text-start fw-normal" style="font-size: small;color: #808080">Estos son los datos generales del restaurante, como podria ser el nombre, los dias de anticipacio de reservas y el telefono movil enlazado con el restaurante</p>
+                            <div class="ps-3 text-lg-start text-center">Nombre:</div>
+                            <label class="w-100">
+                                <input type="text" class="input-text" th:field="*{nombre}">
+                            </label>
+                            <div class="container pt-3 m-0 w-100 px-0">
+                                <div class="row">
+                                    <div class="col-sm">
+                                        <label class="text-center">
+                                            Dias de Anticipacion:
+                                            <input type="text" class="input-text" th:field="*{dies_anticipacion_reservas}">
+                                        </label>
+                                    </div>
+                                    <div class="col-sm">
+                                        <label class="text-center">
+                                            Telefono:
+                                            <input type="text" class="input-text" th:field="*{telefono_restaurante}">
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-row justify-content-center pt-4">
+                            <a type="button" class="btn btn-dark w-20" href="#submit">Ir Guardar</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="pt-5" id="etiquetasFixed">
+                <h3 class="title_section-info">Mis Etiquetas</h3>
+                <div class="d-flex flex-row justify-content-center pt-2">
+                    <p class="paraf_form text-start fw-normal" style="width: 70%; color: #808080; font-size: 12px">
+                        Estos son las etiquetas que actualmente tienes activadas en tu restaurante, para cambiarlos solo tienes que dar click encima y desapareceran, recuerda que solo puedes tener 7 activas
+                    </p>
+                </div>
+                <div class="d-flex flex-row justify-content-center">
+                    <div class="d-flex flex-column justify-content-center" style="width: 70%;">
+                        <div class="border border-secondary border-1 mt-2 p-4" style=" border-radius: 10px">
+                            <h4 class="fw-normal text-start text-black" style="font-family: 'Quicksand', sans-serif;">Etiquetas</h4>
+                            <p class="paraf_form text-start fw-normal" style="font-size: small;color: #808080">
+                                Para poder insertar etiquetas tienes en la parte izquierda un buscador y creador (sino encuentra ninguno), donde este buscara en todas las etiquetas existentes y asin podras añadir las etiquetas que mas se usan segun tu estilo de restaurante
+                            </p>
+                            <div class="d-flex justify-content-center">
+                                <div class="mb-3 p-0" style="width: 80%">
+                                    <div class="w-100 d-flex flex-row gap-4">
+                                        <div class="text-center ps-3 paraf_form" style="width: 50%">Etiquetas</div>
+                                        <div class="text-center ps-3 paraf_form" style="width: 50%">Resultados</div>
+                                    </div>
+                                    <div class="w-100 d-flex flex-row gap-4" style="border-radius: 10px" th:if="${etiquetas}!=null">
+                                        <label class="field_form_section" style="width: 50%">
+                                            <input id="selectText" class="input-text" type="text">
+                                        </label>
+                                        <label class="field_form_section" style="width: 50%">
+                                            <select class="input-text" id="selectEtiquetas">
+                                            </select>
+                                            <input class="input-text p-3 border border-2 border-success" id="create_etiqueta" onclick="addEtiqueta()" type="hidden" value="Create">
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- BOX OF ETIQUETAS SELECTED -->
+                        <div class="field_form_section align-self-center mt-4 pt-2" style="width: 80%;min-height: 40px">
+                            <div class="text-center paraf_form">Etiquetas selecionadas</div>
+                            <section class="h-100 d-flex flex-row flex-wrap gap-5 p-4 h-auto validateEtiquetasResponse" id="etiquetas_box">
 
-</body>
+                            </section>
+                        </div>
+                        <div class="d-flex flex-row justify-content-center pt-4">
+                            <a type="button" class="btn btn-dark w-20" href="#submit">Ir Guardar</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </form>
+</main>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
 <script th:src="@{/js/headerv2.js}"></script>
+<script>
+    var selectEtiqueta = $("#selectEtiquetas");
+    var numEtiquetas = 7;
+    var etiquetasAdded = [];
+
+    var selectEtiquetas = $('#selectEtiquetas');
+    var createEtiqueta = $("#create_etiqueta");
+
+    selectEtiqueta.append("<option selected><-- Buscador</option>");
+    createEtiqueta.attr("type","hidden");
+    selectEtiqueta.show();
+
+    $('#selectText').on('input',function(){
+        createEtiqueta.attr("type","hidden");
+        selectEtiquetas.show();
+        searchEtiquetas($("#selectText").val());
+    });
+
+    selectEtiquetas.on('change', function () {
+        let valueSelected = this.value;
+        addEtiqueta(valueSelected)
+    });
+
+    function searchEtiquetas(etiquetaSearched) {
+        $.getJSON( "http://127.0.0.1:8080/get/etiquetas/admin/json", function( data ) {
+            let length = 0;
+            selectEtiqueta.empty();
+            $.each( data, function(key, object) {
+                if (object.nombre.includes(etiquetaSearched)) {
+                    selectEtiqueta.append("<option id='" + object.id_etiqueta + "'>" + object.nombre + "</option>");
+                    length++;
+                }
+            });
+
+            if (selectEtiqueta.text()==="") {
+                selectEtiquetas.hide();
+                $("#create_etiqueta").attr("type","button");
+            } else {
+                $("#selectEtiquetas").prepend("<option selected value='null'>Find "+length+" occurences</option>");
+            }
+        });
+    }
+    function addEtiqueta(value) {
+        let selectText = $("#selectText");
+        if (numEtiquetas!==0) {
+            if (value == null) {
+                if (isEtiquetaAdded(selectText.val())===false) {
+                    if (selectText.val().length<15) {
+                        $("#etiquetas_box").append("<div onclick='deleteEtiqueta(this)' class='text-center d-flex flex-row flex-wrap'><i class='bi bi-tag-fill'><input name='etiquetas' class='border-0 text-center' style='background-color: lightgray; width: 8vw; height: auto' value='"+selectText.val()+"' readonly><input class='align-self-center rounded-circle fw-bold border-0 bg-danger text-white pt-0' style='font-size: 10px; width: 20px; height: 20px' type='button' value='X'></div>");
+                        etiquetasAdded.push(selectText.val());
+                        numEtiquetas--;
+                    } else {
+                        error.text("Etiqueta too long");
+                        error.show();
+                        setTimeout(function() {$("#error").hide()}, 1200);
+                    }
+                } else {
+                    error.text("Etiqueta already added");
+                    error.show();
+                    setTimeout(function() {$("#error").hide()}, 1200);
+                }
+            } else {
+                if (isEtiquetaAdded(value)===false) {
+                    if (value.length<30) {
+                        $("#etiquetas_box").append("<div onclick='deleteEtiqueta(this)' class='text-center d-flex flex-row flex-wrap' style='width: 30px; height: 10px'><i class='bi bi-tag-fill'></i><input name='etiquetas' class='border-0 text-center' style='background-color: lightgray; width: 8vw; height: auto' value='"+value+"' readonly><input class='align-self-center rounded-circle fw-bold border-0 bg-danger text-white pt-0' style='font-size: 10px; width: 20px; height: 20px' type='button' value='X'></div>");
+                        etiquetasAdded.push(value);
+                        numEtiquetas--;
+                    } else {
+                        error.text("Etiqueta too long");
+                        error.show();
+                        setTimeout(function() {$("#error").hide()}, 1200);
+                    }
+                } else {
+                    error.text("Etiqueta already added");
+                    error.show();
+                    setTimeout(function() {$("#error").hide()}, 1200);
+                }
+            }
+        } else {
+            error.text("Max length is 7 for etiquetas");
+            error.show();
+            setTimeout(function() {$("#error").hide()}, 1200);
+        }
+    }
+
+    function deleteEtiqueta(etiqueta) {
+        etiquetasAdded = etiquetasAdded.filter(value => value !== etiqueta.firstChild.value);
+        etiqueta.remove();
+        numEtiquetas++;
+    }
+
+    function isEtiquetaAdded(value) {
+        for (let i = 0; i < etiquetasAdded.length; i++) {
+            if (etiquetasAdded[i] === value) {
+                return true;
+            }
+        }
+        return false;
+    }
+</script>
+</body>
 </html>
