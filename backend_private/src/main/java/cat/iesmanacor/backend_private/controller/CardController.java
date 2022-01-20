@@ -6,11 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigInteger;
@@ -18,9 +20,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 @RequestMapping("/")
@@ -176,23 +176,30 @@ public class CardController {
     }
 
     @PostMapping("/restaurant/admin/card/{id}/category/save")
-    public RedirectView updateCategory(@PathVariable(value = "id") Long idc, WebRequest request){
-        String idcs = request.getParameter("id");
-        Categoria category = new Categoria();
-        if(idcs != null){
-            Long id = Long.parseLong(idcs);
-            Optional<Categoria> categorys = categoriaService.findById(id);
-            category = categorys.get();
-        }
-
-        String name = request.getParameter("name");
-        category.setNombre(name);
+    public String updateCategory(@Valid Categoria category, BindingResult result, @PathVariable(value = "id") Long idc, Model model){
         Optional<Carta> carta = cartaService.findById(idc);
         category.setCarta(carta.get());
 
+        Long idcs = category.getId_categoria();
+
+        if(idcs != null){
+            Optional<Categoria> categorys = categoriaService.findById(idcs);
+            category.setPlatos(categorys.get().getPlatos());
+        }
+
+        if(result.hasErrors()){
+            Map<String, String> errores = new HashMap<>();
+            result.getFieldErrors().forEach(err ->{
+                errores.put(err.getField(), "El campo ".concat(err.getField()).concat(" ").concat(err.getDefaultMessage()));
+            });
+            model.addAttribute("error", errores);
+            model.addAttribute("category", category);
+            return "category_modify";
+        }
+
         categoriaService.save(category);
 
-        return new RedirectView("/restaurant/admin/card/"+ idc +"/categories");
+        return "redirect:/restaurant/admin/card/"+ idc +"/categories";
     }
 
     // Platos Controllers

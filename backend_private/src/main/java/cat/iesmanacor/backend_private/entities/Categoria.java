@@ -25,7 +25,7 @@ public class Categoria implements Serializable {
 
     @Column(nullable = false)
     @NotNull(message = "nombre cant be null")
-    @Size(min=2, max=255, message = "Length of the name must be between 2 and 255")
+    @Size(min=2, max=50, message = "debe tener entre 2 y 50 caracteres")
     private String nombre;
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -38,7 +38,7 @@
                 <div class="mb-3 p-0 text-center" style="width: 80%">
                     <div class="ps-3 paraf_form">Id:</div>
                     <label class="w-100 field_form_principal">
-                        <input class="input-text" id="id" name="id" th:value="${category.id_categoria}" type="text" readonly>
+                        <input class="input-text" id="id_categoria" name="id_categoria" th:value="${category.id_categoria}" type="text" readonly>
                     </label>
                 </div>
             </div>
@@ -47,8 +47,9 @@
                 <div class="mb-3 p-0 text-center" style="width: 80%">
                     <div class="ps-3 paraf_form">Nombre:</div>
                     <label class="w-100 field_form_principal">
-                        <input class="input-text" id="name" name="name" th:value="${category.nombre}" type="text" maxlength="50" required>
+                        <input class="input-text" id="nombre" name="nombre" th:value="${category.nombre}" type="text" maxlength="50" required>
                     </label>
+                    <div th:if="${error != null && error.containsKey('nombre')}" th:text="${error.nombre}" style="font-size: 14px; color: red;"></div>
                 </div>
             </div>
 
