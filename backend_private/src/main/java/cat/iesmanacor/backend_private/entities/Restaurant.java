@@ -21,7 +21,7 @@ public class Restaurant {
     @Column(name = "nombre")
     @NotNull(message = "nombre cant be null")
     @Size(min=2, max=40, message = "Length of the name must be between 2 and 30")
-    @Pattern(regexp = "^[A-Z][a-z]+(?:[ ]+[A-Z][a-z]+)*$") // UPPERCASE THE FIRST LETTER AND SPACE ANOTHER UPPERCASE
+    @Pattern(regexp = "^[A-Za-z][a-z]+(?:[ ]+[A-Za-z][a-z]+)*$") // UPPERCASE THE FIRST LETTER AND SPACE ANOTHER UPPERCASE
     private String nombre;
 
     @Column(name = "dies_anticipacion_reservas")

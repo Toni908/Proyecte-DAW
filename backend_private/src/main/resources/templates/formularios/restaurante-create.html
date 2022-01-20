@@ -18,8 +18,8 @@
 <div id="error" class="message_error"></div>
 
 <div class="d-flex flex-row justify-content-center bg-white">
-    <div class="form_section">
-        <form class="container form-container" th:action="@{/restaurant/save}" method="POST" enctype="multipart/form-data" th:object="${restaurant}">
+    <div class="form_section" style="width: 60%">
+        <form onsubmit="return validate()" id="formRestaurant" class="container form-container" th:action="@{/restaurant/save}" method="POST" enctype="multipart/form-data" th:object="${restaurant}">
             <div class="title_form">
                 <h1 class="text-center">Your Restaurant</h1>
                 <h4 class="text-center sub_comment_title">Que contiene tu restaurante?</h4>
@@ -28,55 +28,57 @@
                 <div class="d-flex justify-content-center">
                     <div class="text-center mb-3 p-0" style="width: 80%">
                         <div class="ps-3 paraf_form">Nombre</div>
-                        <label class="w-100 field_form_principal">
+                        <label class="w-100 field_form_principal validateNameResponse">
                             <input class="text-center input-text" id="nombre" th:field="*{nombre}" type="text" maxlength="40" placeholder="NOMBRE RESTAURANTE" required>
                         </label>
+                        <div id="validateNameResponse"></div>
                     </div>
                 </div>
                 <div class="form_section_2">
-                    <div class="container-responsive-form">
+                    <div class="container-responsive-form pe-2" style="width: 40%">
                         <div class="p-0 form_2">
                             <div class="ps-3 paraf_form">Anticipacion reservas</div>
                             <label class="w-100 field_form_section">
-                                <input class="input-text" type="number" th:field="*{dies_anticipacion_reservas}" oninput="this.value = Math.abs(this.value)" required>
+                                <input class="input-text" type="number" id="dies_anticipacion_reservas" th:field="*{dies_anticipacion_reservas}" oninput="this.value = Math.abs(this.value)" required>
                             </label>
                         </div>
                     </div>
-                    <div class="container-responsive-form">
+                    <div class="container-responsive-form ps-2" style="width: 40%">
                         <div class="p-0 form_2">
                             <div class="ps-3 paraf_form">Telefono</div>
                             <label class="w-100 field_form_section">
-                                <input class="input-text" type="number" th:field="*{telefono_restaurante}" oninput="this.value = Math.abs(this.value)" required>
+                                <input class="input-text validateTelefonoResponse" type="number" id="telefono_restaurante" th:field="*{telefono_restaurante}" oninput="this.value = Math.abs(this.value)" required>
                             </label>
+                            <div id="validateTelefonoResponse"></div>
                         </div>
                     </div>
                 </div>
-                <div class="d-flex justify-content-center flex-row">
-                    <div class="container-responsive-form d-flex flex-row justify-content-center gap-4">
-                        <div class="p-0 pe-2 form_2">
-                            <div class="ps-3 paraf_form">Localidad</div>
-                            <label class="w-100 field_form_section">
-                                <select class="input-text" th:field="*{localidad}">
+                <div class="container-responsive-form d-flex justify-content-center flex-row">
+                    <div class="p-0 form_2 pe-2" style="width: 40%">
+                        <div class="ps-3 paraf_form">Localidad</div>
+                        <label class="w-100 field_form_section">
+                            <select id="localidad" class="input-text validateLocalidadResponse" th:field="*{localidad}">
 
-                                </select>
-                            </label>
-                        </div>
-                        <div class="p-0 ps-2 form_2">
-                            <div class="ps-3 paraf_form">Municipio</div>
-                            <label class="w-100 field_form_section">
-                                <select class="input-text" id="municipio">
+                            </select>
+                        </label>
+                        <div id="validateLocalidadResponse"></div>
+                    </div>
+                    <div class="p-0 form_2 ps-2" style="width: 40%">
+                        <div class="ps-3 paraf_form">Municipio</div>
+                        <label class="w-100 field_form_section">
+                            <select class="input-text" id="municipio">
 
-                                </select>
-                            </label>
-                        </div>
+                            </select>
+                        </label>
                     </div>
                 </div>
                 <div class="d-flex justify-content-center">
                     <div class="mb-3 p-0" style="width: 80%">
                         <div class="ps-3 paraf_form">Image</div>
                         <label class="w-100 field_form_principal">
-                            <input class="input-text" name="image" type="file" maxlength="80" placeholder="URL" required>
+                            <input class="input-text validateImagenResponse" id="image" name="image" type="file" maxlength="80" placeholder="URL" required>
                         </label>
+                        <div id="validateImagenResponse"></div>
                     </div>
                 </div>
                 <div class="d-flex justify-content-center">
@@ -100,10 +102,11 @@
                 <!-- BOX OF ETIQUETAS SELECTED -->
                 <div class="field_form_section align-self-center" style="width: 80%;min-height: 40px">
                     <div class="text-center paraf_form">Etiquetas selecionadas</div>
-                    <section class="h-100 d-flex flex-row flex-wrap gap-5 p-4 h-auto" id="etiquetas_box">
+                    <section class="h-100 d-flex flex-row flex-wrap gap-5 p-4 h-auto validateEtiquetasResponse" id="etiquetas_box">
 
                     </section>
                 </div>
+                <div class="w-100 d-flex flex-row justify-content-start" id="validateEtiquetasResponse"></div>
                 <div class="pt-3 row d-flex flex-row justify-content-center gap-5">
                     <input id="submit" class="w-20 pt-2 pb-2 paraf_form rounded" type="submit" value="Submit" />
                 </div>
@@ -130,29 +133,35 @@
     var selectEtiqueta = $("#selectEtiquetas");
     var numEtiquetas = 7;
     var etiquetasAdded = [];
-    $("#error").hide();
+
+    var error = $("#error");
+    var municipios = $("#municipio");
+    var selectEtiquetas = $('#selectEtiquetas');
+    var createEtiqueta = $("#create_etiqueta");
+
+    error.hide();
 
     selectEtiqueta.append("<option selected><-- Buscador</option>");
-    $("#create_etiqueta").attr("type","hidden");
+    createEtiqueta.attr("type","hidden");
     selectEtiqueta.show();
 
-    $('#selectText').on('input',function(e){
-        $("#create_etiqueta").attr("type","hidden");
-        $("#selectEtiquetas").show();
+    $('#selectText').on('input',function(){
+        createEtiqueta.attr("type","hidden");
+        selectEtiquetas.show();
         searchEtiquetas($("#selectText").val());
     });
 
-    $('#selectEtiquetas').on('change', function () {
-        var valueSelected = this.value;
+    selectEtiquetas.on('change', function () {
+        let valueSelected = this.value;
         addEtiqueta(valueSelected)
     });
 
     hideLocalidad();
-    $("#municipio").show();
+    municipios.show();
 
     function searchEtiquetas(etiquetaSearched) {
         $.getJSON( "http://127.0.0.1:8080/get/etiquetas/admin/json", function( data ) {
-            var list = ""; var length = 0;
+            let length = 0;
             selectEtiqueta.empty();
             $.each( data, function(key, object) {
                 if (object.nombre.includes(etiquetaSearched)) {
@@ -162,7 +171,7 @@
             });
 
             if (selectEtiqueta.text()==="") {
-                $("#selectEtiquetas").hide();
+                selectEtiquetas.hide();
                 $("#create_etiqueta").attr("type","button");
             } else {
                 $("#selectEtiquetas").prepend("<option selected value='null'>Find "+length+" occurences</option>");
@@ -170,43 +179,44 @@
         });
     }
     function addEtiqueta(value) {
+        let selectText = $("#selectText");
         if (numEtiquetas!==0) {
             if (value == null) {
-                if (isEtiquetaAdded($("#selectText").val())===false) {
-                    if ($("#selectText").val().length<15) {
-                        $("#etiquetas_box").append("<div onclick='deleteEtiqueta(this)' class='text-center d-flex flex-row flex-wrap'><input name='etiquetas' class='border-0 text-center' style='background-color: lightgray' value='"+$("#selectText").val()+"' readonly><input class='align-self-center rounded-circle fw-bold border-0 bg-danger text-white pt-0' style='font-size: 10px; width: 20px; height: 20px' type='button' value='X'></div>");
-                        etiquetasAdded.push($("#selectText").val());
+                if (isEtiquetaAdded(selectText.val())===false) {
+                    if (selectText.val().length<15) {
+                        $("#etiquetas_box").append("<div onclick='deleteEtiqueta(this)' class='text-center d-flex flex-row flex-wrap'><i class='bi bi-tag-fill'><input name='etiquetas' class='border-0 text-center' style='background-color: lightgray; width: 8vw; height: 10px' value='"+selectText.val()+"' readonly><input class='align-self-center rounded-circle fw-bold border-0 bg-danger text-white pt-0' style='font-size: 10px; width: 20px; height: 20px' type='button' value='X'></div>");
+                        etiquetasAdded.push(selectText.val());
                         numEtiquetas--;
                     } else {
-                        $("#error").text("Etiqueta too long");
-                        $("#error").show();
+                        error.text("Etiqueta too long");
+                        error.show();
                         setTimeout(function() {$("#error").hide()}, 1200);
                     }
                 } else {
-                    $("#error").text("Etiqueta already added");
-                    $("#error").show();
+                    error.text("Etiqueta already added");
+                    error.show();
                     setTimeout(function() {$("#error").hide()}, 1200);
                 }
             } else {
                 if (isEtiquetaAdded(value)===false) {
                     if (value.length<30) {
-                        $("#etiquetas_box").append("<div onclick='deleteEtiqueta(this)' class='text-center d-flex flex-row flex-wrap'><input name='etiquetas' class='border-0 text-center' style='background-color: lightgray' value='"+value+"' readonly><input class='align-self-center rounded-circle fw-bold border-0 bg-danger text-white pt-0' style='font-size: 10px; width: 20px; height: 20px' type='button' value='X'></div>");
+                        $("#etiquetas_box").append("<div onclick='deleteEtiqueta(this)' class='text-center d-flex flex-row flex-wrap' style='width: 30px; height: 10px'><i class='bi bi-tag-fill'></i><input name='etiquetas' class='border-0 text-center' style='background-color: lightgray; width: 8vw; height: 10px' value='"+value+"' readonly><input class='align-self-center rounded-circle fw-bold border-0 bg-danger text-white pt-0' style='font-size: 10px; width: 20px; height: 20px' type='button' value='X'></div>");
                         etiquetasAdded.push(value);
                         numEtiquetas--;
                     } else {
-                        $("#error").text("Etiqueta too long");
-                        $("#error").show();
+                        error.text("Etiqueta too long");
+                        error.show();
                         setTimeout(function() {$("#error").hide()}, 1200);
                     }
                 } else {
-                    $("#error").text("Etiqueta already added");
-                    $("#error").show();
+                    error.text("Etiqueta already added");
+                    error.show();
                     setTimeout(function() {$("#error").hide()}, 1200);
                 }
             }
         } else {
-            $("#error").text("Max length is 7 for etiquetas");
-            $("#error").show();
+            error.text("Max length is 7 for etiquetas");
+            error.show();
             setTimeout(function() {$("#error").hide()}, 1200);
         }
     }
@@ -227,28 +237,28 @@
     }
 
     $.getJSON("http://127.0.0.1:8080/get/municipios/admin/json", function (data) {
-        $("#municipio").empty();
+        municipios.empty();
         $.each(data, function (key, object) {
             $("#municipio").append("<option value='" + key + "'>" + object.nombre_municipio + "</option>")
         });
-        $("#municipio").prepend("<option value='null' selected>-- Municipios --</option>");
+        municipios.prepend("<option value='' selected>-- Municipios --</option>");
     });
 
     // MUNICIPIO Y LOCALIDADES
 
-    $("#municipio").on('change', function () {
-        $("#localidad").show();
+    municipios.on('change', function () {
+        $("#localidadText").show();
         showLocalidades();
     });
 
     function showLocalidades() {
-        var municipioSelected = $("#municipio option:selected").text()
+        let municipioSelected = $("#municipio option:selected").text();
 
         if (municipioSelected!=="-- Municipios --") {
             $.getJSON("http://127.0.0.1:8080/get/localidades/admin/json", function (dataLocalidad) {
                 $("#localidad").empty();
                 $.each(dataLocalidad, function (key, object) {
-                    if (object.id_municipio.nombre_municipio === municipioSelected) {
+                    if (object.nombre_municipio.nombre_municipio === municipioSelected) {
                         $("#localidad").append("<option value='" + key + "'>" + object.nombre_localidad + "</option>")
                     }
                 });
@@ -260,7 +270,54 @@
 
     function hideLocalidad() {
         $("#localidad").empty();
-        $("#localidad").append("<option>Select Municipio-></option>")
+        $("#localidad").append("<option value=\"\">Seleciona antes un Municipio-></option>")
+    }
+
+    function validate() {
+        let errors = 0;
+        if ($("#nombre").val()==null) {
+            errors++;
+        }
+        if (!checkNamePattern()) {
+            errors++;
+            $(".validateNameResponse").addClass("border border-danger border-2")
+            $("#validateNameResponse").append("<p class='text-danger fw-bold pt-2'>El nombre no puede contener numberos y tiene que ser minuscula menos la primera letra</p>");
+        } else {
+            $(".validateNameResponse").addClass("border border-success border-2")
+        }
+        if ($("#telefono_restaurante").val()==="0") {
+            errors++;
+            $(".validateTelefonoResponse").addClass("border border-danger border-2")
+            $("#validateTelefonoResponse").append("<p class='text-danger fw-bold pt-2'>No has selecionado ningun telefono</p>");
+        } else {
+            $(".validateTelefonoResponse").addClass("border border-success border-2")
+        }
+        if ($("#localidad option:selected").text()==="Seleciona antes un Municipio->") {
+            errors++;
+            $(".validateLocalidadResponse").addClass("border border-danger border-2")
+            $("#validateLocalidadResponse").append("<p class='text-danger fw-bold pt-2'>No has selecionado ninguna localidad</p>");
+        } else {
+            $(".validateLocalidadResponse").addClass("border border-success border-2")
+        }
+        if ($("#image").val()==="") {
+            errors++;
+            $(".validateImagenResponse").addClass("border border-danger border-2")
+            $("#validateImagenResponse").append("<p class='text-danger fw-bold pt-2'>Se requiere de minimo una imagen</p>");
+        } else {
+            $(".validateImagenResponse").addClass("border border-success border-2")
+        }
+        if ($("input[name=etiquetas]").length===0) {
+            errors++;
+            $(".validateEtiquetasResponse").addClass("border border-danger border-2")
+            $("#validateEtiquetasResponse").append("<p class='text-danger fw-bold pt-2 text-center w-100'>Necesitas selecionar una etiqueta como minimo</p>");
+        } else {
+            $(".validateEtiquetasResponse").addClass("border border-success border-2")
+        }
+        return errors===0;
+    }
+    function checkNamePattern(){
+        var re = /^[A-Za-z][a-z]+(?:[ ]+[A-Za-z][a-z]+)*$/;
+        return re.test($("#nombre").val());
     }
 </script>
 </body>
