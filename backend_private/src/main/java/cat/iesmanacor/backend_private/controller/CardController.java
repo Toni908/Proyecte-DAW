@@ -44,6 +44,8 @@ public class CardController {
     @GetMapping("/restaurant/admin/{id}/cards")
     public String getCards(@PathVariable(value = "id") BigInteger id, Model model){
         Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
+        String name = "Cartas de " + restaurant.get().getNombre();
+        restaurant.get().setNombre(name);
         model.addAttribute("restaurant", restaurant.get());
 
         return "cards";

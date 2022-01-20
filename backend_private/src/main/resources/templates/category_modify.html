@@ -9,10 +9,16 @@
 <body>
 <div th:insert="shared/headerVersion2 :: header"/>
 
-
-<a class="d-flex flex-row justify-content-center my-5 text-decoration-none" th:if="${category.id_categoria != null}" th:href="@{'/restaurant/admin/category/' + ${category.id_categoria} + '/dishes'}">
-    <button class="w-20 pt-2 pb-2 paraf_form rounded" value="Editar Platos"> Modificar Platos de la Carta </button>
-</a>
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <a class="col-lg-3 col-md-4 col-sm-6 col-12 my-1 justify-content-center" th:href="@{'/restaurant/admin/card/' + ${category.carta.id_carta} + '/categories'}">
+            <button class="w-100 pt-2 pb-2 paraf_form rounded" value="Editar Platos"> Volver a las Categorias </button>
+        </a>
+        <a class="col-lg-3 col-md-4 col-sm-6 col-12 my-1 justify-content-center" th:if="${category.id_categoria != null}" th:href="@{'/restaurant/admin/category/' + ${category.id_categoria} + '/dishes'}">
+            <button class="w-100 pt-2 pb-2 paraf_form rounded" value="Editar Platos"> Modificar Platos de la Carta </button>
+        </a>
+    </div>
+</div>
 
 <hr class="w-75 mx-auto">
 

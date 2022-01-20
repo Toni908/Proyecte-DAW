@@ -9,8 +9,14 @@
 <body>
 <div th:insert="shared/headerVersion2 :: header"/>
 <main class="pt-5 mx-auto w-75">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{'/restaurant/admin/' + ${carta.restaurant.id_restaurante} + '/cards'}">Cartas</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Categorias</li>
+        </ol>
+    </nav>
     <div id="Cards">
-        <h3 class="mt-5">Cartas</h3>
+        <h3 th:text="${carta.nombre}"></h3>
         <table id="card_table" class="display" style="width:100%">
             <thead class="thead-dark">
             <th scope="row">Id</th>
@@ -24,7 +30,6 @@
                 <td>
                     <a class="text-decoration-none text-white" th:href="@{'/restaurant/admin/category/edit/' + ${category.id_categoria}}"><button type='button' class='editar btn btn-primary'><i class="bi bi-pencil"></i></button></a>
                     <button type='button' class='eliminar btn btn-danger' onclick="loadModalEliminar()"><i class="bi bi-trash-fill"></i></button>
-                    <a class="text-decoration-none text-white" th:href="@{'/restaurant/admin/category/' + ${category.id_categoria} + '/dishes'}"><button type='button' class='editar btn btn-info'>Platos</button></a>
                 </td>
             </tr>
             </tbody>
