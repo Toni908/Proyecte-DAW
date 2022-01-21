@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
+
+.float-info {
+  margin-top: 20px;
+  position: fixed;
+  left: 0;
+  top: 150px;
+  width: 15%;
+}
+.body-info {
+  background-color: white;
+  width: 60%;
+  text-align: center;
+}
+@media only screen and (max-width: 1105px) {
+  .float-info {
+    display: none;
+  }
+  .body-info {
+    width: 100%;
+  }
+}
+.select-info {
+  height: 50px;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  gap: 20px;
+}
+.select-info:hover {
+  background-color: lightgrey;
+  border-end-end-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+.title_section-info {
+  color: #404040;
+  font-weight: normal;
+  text-transform: capitalize;
+}

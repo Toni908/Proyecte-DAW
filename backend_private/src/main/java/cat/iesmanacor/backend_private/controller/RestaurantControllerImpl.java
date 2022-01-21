@@ -79,6 +79,8 @@ public class RestaurantControllerImpl {
         if (id!=null) {
             Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
             if (restaurant.isPresent()) {
+                System.out.println(imgService.findImgFromRestaurantId(restaurant.get().getId_restaurante()));
+                model.addAttribute("imagesRestaurant",imgService.findImgFromRestaurantByUseracount(restaurant.get().getId_restaurante()));
                 model.addAttribute("restaurant", restaurant.get());
                 model.addAttribute("etiqueta", new Etiquetas());
                 model.addAttribute("etiquetas",getEtiquetasFromRestaurant_Etiqueta(restaurant.get().getId_restaurante()));
@@ -177,7 +179,7 @@ public class RestaurantControllerImpl {
     }
 
     @RequestMapping(value = "/restaurant/visibility", method = RequestMethod.POST, produces = "application/json")
-    public String visibility(@RequestParam("idRestaurante") BigInteger id,@RequestParam(name = "visibilty",defaultValue = "false") boolean visibilidad, ModelMap model) {
+    public String visibility(@RequestParam("idRestaurante") BigInteger id,@RequestParam(name = "visibilty",defaultValue = "false") boolean visibilidad) {
         if (id!=null) {
             Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
 
@@ -187,6 +189,20 @@ public class RestaurantControllerImpl {
             }
         }
         return "redirect:/restaurant/update/"+id;
+    }
+
+    @RequestMapping(value = "/restaurant/validation", method = RequestMethod.POST, produces = "application/json")
+    public String validation(@RequestParam("idRestaurant") BigInteger id,@RequestParam(name = "validationResponse",defaultValue = "false") boolean validation) {
+        // ONLY ADMINS
+        if (id!=null) {
+            Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
+
+            if (restaurant.isPresent()) {
+                restaurant.get().setValidated(validation);
+                updateRestaurant(restaurant.get());
+            }
+        }
+        return "redirect:/restaurante/configuration/admin";
     }
 
     @RequestMapping(value = "/restaurant/{id}", method = RequestMethod.GET, produces = "application/json")

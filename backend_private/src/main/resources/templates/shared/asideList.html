@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!-- ES NECESARIO MINIMO PONER DEL RESTAURANTE QUE SE HACE REFERENCIA -->
+<aside th:fragment="aside" class="float-info">
+  <div class="container-info">
+    <a class="w-100 select-info text-decoration-none text-black ps-5" th:href="@{'/restaurant/update/'+${restaurant.id_restaurante}}">
+      <i class="bi bi-shop" style="font-size: 25px"></i>
+      Restaurante
+    </a>
+    <a th:if="${restaurant} != null" class="w-100 select-info text-decoration-none text-black ps-5" href="#privacidadFixed">
+      <i th:if="${restaurant.visible} == true" class="bi bi-eye-fill" style="font-size: 25px"></i>
+      <i th:if="${restaurant.visible} == false" class="bi bi-eye-slash-fill"style="font-size: 25px"></i>
+      Privacidad
+    </a>
+    <a class="w-100 select-info text-decoration-none text-black ps-5" href="#etiquetasFixed">
+      <i class="bi bi-tags" style="font-size: 25px"></i>
+      Etiquetas
+    </a>
+    <a class="w-100 select-info text-decoration-none text-black ps-5" href="#calendarioFixed">
+      <i class="bi bi-calendar-week" style="font-size: 25px"></i>
+      Calendario
+    </a>
+    <a class="w-100 select-info text-decoration-none text-black ps-5" href="#calendarioFixed">
+      <i class="bi bi-menu-button-wide-fill" style="font-size: 25px"></i>
+      Mis Cartas
+    </a>
+    <a class="w-100 select-info text-decoration-none text-black ps-5" th:href="@{'/reservas/'+${restaurant.id_restaurante}}">
+      <i class="bi bi-receipt" style="font-size: 25px"></i>
+      Reservas
+    </a>
+    <a class="w-100 select-info text-decoration-none text-black ps-5" href="#membresiaFixed">
+      <i class="bi bi-inboxes" style="font-size: 25px"></i>
+      Membresia
+    </a>
+    <a class="w-100 select-info text-decoration-none text-black ps-5" href="#imagenesFixed">
+      <i class="bi bi-image" style="font-size: 25px"></i>
+      Imagenes
+    </a>
+    <hr>
+    <a class="w-100 select-info text-decoration-none text-black ps-5" th:href="@{'/restaurant/'+${restaurant.getId_restaurante()}}">
+      <i class="bi bi-eye" style="font-size: 25px"></i>
+      Ver Restaurante
+    </a>
+  </div>
+</aside>
+</body>
+</html>
