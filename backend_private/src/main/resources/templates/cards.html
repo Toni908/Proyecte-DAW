@@ -50,8 +50,8 @@
         </tr>
         </tbody>
     </table>
-        <a class="d-none" id="e1" th:href="@{'/restaurant/admin/' + ${restaurant.id_restaurante} + '/card/create'}"><button class="btn btn-primary mt-2">Crear Carta</button></a>
-        <a class="d-none" id="e2" href="#"><button class="btn btn-secondary mt-2">Volver</button></a>
+        <a class="" id="e1" th:href="@{'/restaurant/admin/' + ${restaurant.id_restaurante} + '/card/create'}"><button class="btn btn-primary mt-2">Crear Carta</button></a>
+        <a class="" id="e2" href="#"><button class="btn btn-secondary mt-2">Volver</button></a>
     </div>
 
     <div th:insert="shared/modals/modal_eliminar :: section"/>
@@ -77,13 +77,14 @@
 
         var listar = function(){
             var card_table = $("#card_table").DataTable({
+                /*
                 dom: 'Bfrtip',
                 buttons: [
                     {
                         text: 'Crear Carta',
                         attr: {class: "btn btn-primary mt-2"},
                         action: function ( e, dt, node, config ) {
-                            window.location.href = $("#");
+                            window.location.href = $("#e1").attr(href);
                         }
                     },
                     {
@@ -93,7 +94,7 @@
                             alert( 'Button activated' );
                         }
                     },
-                ]
+                ] */
             });
             obtener_data("#card_table", card_table, "button.eliminar");
             obtener_data("#card_table", card_table, "button.editar");
