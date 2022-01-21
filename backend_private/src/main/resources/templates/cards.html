@@ -8,14 +8,14 @@
 </head>
 <body>
 <div th:insert="shared/headerVersion2 :: header"/>
-<main class="mt-5 pt-5 mx-auto w-75">
+<main class="mt-5 mx-auto w-75">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item active" aria-current="page" th:text="${restaurant.nombre}"></li>
+            <li class="breadcrumb-item active" aria-current="page">Cartas</li>
         </ol>
     </nav>
     <div id="Cards">
-    <h3 class="mt-5" th:text="${restaurant.nombre}"> </h3>
+    <h3 th:text="${restaurant.nombre}"> </h3>
     <table id="card_table" class="display" style="width:100%">
         <thead class="thead-dark">
             <th scope="row">Id</th>
@@ -43,9 +43,8 @@
                 </div>
             </td>
             <td>
-                <a class="text-decoration-none text-white" th:href="@{'/restaurant/admin/card/edit/' + ${carta.id_carta}}"><button type='button' class='editar btn btn-primary'>Editar</button></a>
-                <button type='button' class='eliminar btn btn-danger' onclick="loadModalEliminar()">Eliminar</button>
-                <a class="text-decoration-none text-white" th:href="@{'/restaurant/admin/card/' + ${carta.id_carta} + '/categories'}"><button type='button' class='editar btn btn-info'>Categorias</button></a>
+                <a class="text-decoration-none text-white" th:href="@{'/restaurant/admin/card/edit/' + ${carta.id_carta}}"><button type='button' class='editar btn btn-primary'><i class="bi bi-pencil"></i></button></a>
+                <button type='button' class='eliminar btn btn-danger' onclick="loadModalEliminar()"><i class="bi bi-trash-fill"></i></button>
             </td>
         </tr>
         </tbody>

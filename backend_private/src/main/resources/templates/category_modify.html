@@ -7,7 +7,21 @@
     <link th:href="@{/css/form.css}" rel="stylesheet"/>
 </head>
 <body>
-<div th:insert="shared/headerVersion2 :: header" class="sticky-top top-0"/>
+<div th:insert="shared/headerVersion2 :: header"/>
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <a class="col-lg-3 col-md-4 col-sm-6 col-12 my-1 justify-content-center" th:href="@{'/restaurant/admin/card/' + ${category.carta.id_carta} + '/categories'}">
+            <button class="w-100 pt-2 pb-2 paraf_form rounded" value="Editar Platos"> Volver a las Categorias </button>
+        </a>
+        <a class="col-lg-3 col-md-4 col-sm-6 col-12 my-1 justify-content-center" th:if="${category.id_categoria != null}" th:href="@{'/restaurant/admin/category/' + ${category.id_categoria} + '/dishes'}">
+            <button class="w-100 pt-2 pb-2 paraf_form rounded" value="Editar Platos"> Modificar Platos de la Carta </button>
+        </a>
+    </div>
+</div>
+
+<hr class="w-75 mx-auto">
+
 
 <main class="d-flex flex-row justify-content-center">
 
@@ -24,7 +38,7 @@
                 <div class="mb-3 p-0 text-center" style="width: 80%">
                     <div class="ps-3 paraf_form">Id:</div>
                     <label class="w-100 field_form_principal">
-                        <input class="input-text" id="id" name="id" th:value="${category.id_categoria}" type="text" readonly>
+                        <input class="input-text" id="id_categoria" name="id_categoria" th:value="${category.id_categoria}" type="text" readonly>
                     </label>
                 </div>
             </div>
@@ -33,8 +47,9 @@
                 <div class="mb-3 p-0 text-center" style="width: 80%">
                     <div class="ps-3 paraf_form">Nombre:</div>
                     <label class="w-100 field_form_principal">
-                        <input class="input-text" id="name" name="name" th:value="${category.nombre}" type="text" maxlength="50" required>
+                        <input class="input-text" id="nombre" name="nombre" th:value="${category.nombre}" type="text" maxlength="50" required>
                     </label>
+                    <div th:if="${error != null && error.containsKey('nombre')}" th:text="${error.nombre}" style="font-size: 14px; color: red;"></div>
                 </div>
             </div>
 
