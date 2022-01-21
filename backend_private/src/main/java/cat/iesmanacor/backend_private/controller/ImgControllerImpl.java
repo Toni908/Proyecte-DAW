@@ -31,8 +31,6 @@ public class ImgControllerImpl {
     private final String __route_table = "tables/layout-table";
     private final String __route_home = "links";
 
-    private final String __path_file = "src/main/resources/static/img/";
-
     @Autowired
     ImgService imgService;
 
@@ -87,9 +85,10 @@ public class ImgControllerImpl {
         }
         String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
 
-        FileUploadUtil.saveFile(__path_file, fileName, multipartFile);
         img.setUrl(fileName);
         saveImg(img);
+        String uploadDir = "restaurantes-photos/"+img.getRestaurant().getId_restaurante();
+        FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
         return show(model);
     }
 
@@ -110,10 +109,10 @@ public class ImgControllerImpl {
                 String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
 
                 if (checkUrlisEmpty(fileName) && imgBefore.isPresent()) {
-                    Path source = Paths.get(__path_file+"/"+imgBefore.get().getUrl());
-                    Files.move(source, source.resolveSibling(fileName));
                     img.setUrl(fileName);
                     updateImg(img);
+                    String uploadDir = "restaurantes-photos/"+img.getRestaurant().getId_restaurante();
+                    FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
                 } else {
                     model.addAttribute("error","name of the img is in");
                 }
@@ -171,7 +170,7 @@ public class ImgControllerImpl {
         Optional<Img> img = imgService.findImgById(id);
         if (img.isPresent()) {
             imgService.deleteImg(id);
-            deleteImgOnDirectory(img.get().getUrl(),__path_file);
+            deleteImgOnDirectory(img.get().getUrl(),"restaurantes-photos");
         }
     }
 

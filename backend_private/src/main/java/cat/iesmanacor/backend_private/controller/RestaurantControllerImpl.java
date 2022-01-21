@@ -49,7 +49,6 @@ public class RestaurantControllerImpl {
 
     private final String __route_formulari_create = "formularios/restaurante-create";
     private final String __route_formulari_update = "formularios/restaurante-update";
-    private final String __path_file = "src/main/resources/static/img/restaurants/";
     private final String __route_table = "tables/layout-table";
     private final String __route_home = "home";
 
@@ -79,8 +78,7 @@ public class RestaurantControllerImpl {
         if (id!=null) {
             Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
             if (restaurant.isPresent()) {
-                System.out.println(imgService.findImgFromRestaurantId(restaurant.get().getId_restaurante()));
-                model.addAttribute("imagesRestaurant",imgService.findImgFromRestaurantByUseracount(restaurant.get().getId_restaurante()));
+                model.addAttribute("imagesRestaurant",imgService.findImgFromRestaurantId(restaurant.get().getId_restaurante()));
                 model.addAttribute("restaurant", restaurant.get());
                 model.addAttribute("etiqueta", new Etiquetas());
                 model.addAttribute("etiquetas",getEtiquetasFromRestaurant_Etiqueta(restaurant.get().getId_restaurante()));
@@ -287,7 +285,8 @@ public class RestaurantControllerImpl {
         Img img = new Img();
         img.setRestaurant(restaurant);
         try {
-            FileUploadUtil.saveFile(__path_file, fileName, multipartFile);
+            String uploadDir = "restaurantes-photos/"+img.getRestaurant().getId_restaurante();
+            FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
             img.setUrl(fileName);
             imgService.saveImg(img);
         } catch (Exception e) {

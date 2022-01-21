@@ -204,13 +204,17 @@
                         Quieres mas ventajas que nadie, pues hazte miembro y consigue ventajas muy buenas para extender tu restaurante por todo el mundo.
                     </p>
                 </div>
+<!--                <input type="text" th:text="${imagesRestaurant.get(1)}">-->
+<!--                <img th:src="@{${restaurant.getPhotosImagePath(${imagesRestaurant.url})}}" />-->
+                <!--                <img class="d-block w-100" th:src="@{'/img/restaurants/1.jpg'}" alt="Img Restaurant (1)">-->
                 <div class="d-flex flex-row justify-content-center">
                     <div class="d-flex flex-column justify-content-center" style="width: 70%;">
                         <div class="border border-secondary border-1 mt-2 p-4" style=" border-radius: 10px">
                             <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                                 <div class="carousel-inner">
-                                    <div th:each="image : ${imagesRestaurant}" class="carousel-item active">
-                                        <img class="d-block w-100" th:src="@{'/img/restaurants/'+${image.url}}" alt="Img Restaurant (1)">
+                                    <div th:each="image : ${imagesRestaurant}" class="carousel-item active position-relative">
+                                        <button onclick="deleteImg(this)" class="bg-danger text-white border-0 position-absolute rounded-circle" style="width: 30px; right: 40px; top: 20px">X</button>
+                                        <img th:src="@{${restaurant.getPhotosImagePath()}+${image.url}}" />
                                     </div>
                                 </div>
                                 <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
@@ -445,6 +449,10 @@
     function hideLocalidad() {
         $("#localidad").empty();
         $("#localidad").append("<option value=\"\"><-Seleciona antes un Municipio</option>")
+    }
+
+    function deleteImg() {
+        alert("delete")
     }
 
     function checkNamePattern(){
