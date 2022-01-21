@@ -40,6 +40,13 @@ public class EtiquetasServiceImpl implements EtiquetasService {
     }
 
     @Override
+    public void deleteEtiquetaByName(String name) {
+        if (!etiquetasRepository.findEtiquetasByNombre(name).isEmpty()) {
+            etiquetasRepository.deleteById(etiquetasRepository.findEtiquetasByNombre(name).get(0).getId_etiqueta());
+        }
+    }
+
+    @Override
     public void updateEtiqueta(Etiquetas etiquetas) {
         BigInteger id = etiquetas.getId_etiqueta();
         if (etiquetasRepository.findById(id).isPresent()) {

@@ -128,7 +128,7 @@ public class RestaurantControllerImpl {
                 }
                 saveImageRestaurant(multipartFile, restaurant);
 
-                return create(model.addAttribute("success", "Restaurante creado correctamente"));
+                return "redirect:/restaurant/update/"+restaurant.getId_restaurante();
             }
             return create(model.addAttribute("error", "Localizacion no selecionado"));
         }

@@ -18,5 +18,9 @@ public interface EtiquetasService {
 
     public void updateEtiqueta(Etiquetas etiquetas);
 
+    // QUERY
+
     public List<Etiquetas> findEtiquetaByName(String name);
+
+    public void deleteEtiquetaByName(String name);
 }

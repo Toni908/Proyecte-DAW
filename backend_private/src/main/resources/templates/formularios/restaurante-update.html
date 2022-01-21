@@ -181,7 +181,7 @@
             </section>
         </main>
     </form>
-    <form class="d-flex flex-row justify-content-center" onsubmit="return validatePrivacidad()" th:action="@{/restaurant/visibility}" method="POST">
+    <form class="d-flex flex-row justify-content-center" th:action="@{/restaurant/visibility}" method="POST">
         <main class="d-flex flex-column justify-content-center body-info">
             <section class="pt-5" id="privacidadFixed">
                 <h3 class="title_section-info">Privacidad</h3>
@@ -197,7 +197,7 @@
                             <p class="paraf_form text-start fw-normal" style="font-size: small;color: #808080">
                                 La visibilidad es una manera de hacer que tu restaurante no se muestre a tus usuarios, ni en la pagina, de esta forma podras realizar los cambios sin necesidad de procuparte de que otra gente vea esos cambios.
                             </p>
-                            <label for='idRestaurante'></label><input type='text' id='idRestaurante' name='idRestaurante' th:value="${restaurant.id_restaurante}" hidden/>
+                            <label><input type='number' name='idRestaurante' th:value="${restaurant.id_restaurante}" hidden/></label>
                             <div class="container pt-3 m-0 w-100 px-0">
                                 <div class="form-check form-switch d-flex flex-row justify-content-center pt-4">
                                     <label class="w-100 d-flex flex-row justify-content-center">
@@ -215,7 +215,7 @@
             </section>
         </main>
     </form>
-    <form class="d-flex flex-row justify-content-center" onsubmit="return validateEtiquetas()" th:action="@{'/etiquetas/put/'+${restaurant.id_restaurante}}" method="POST">
+    <form class="d-flex flex-row justify-content-center" onsubmit="return validateEtiquetas()" th:action="@{/etiquetas/save}" method="POST">
         <main class="d-flex flex-column justify-content-center body-info">
             <section class="pt-5" id="etiquetasFixed">
                 <h3 class="title_section-info">Mis Etiquetas</h3>
@@ -231,6 +231,7 @@
                             <p class="paraf_form text-start fw-normal" style="font-size: small;color: #808080">
                                 Para poder insertar etiquetas tienes en la parte izquierda un buscador y creador (sino encuentra ninguno), donde este buscara en todas las etiquetas existentes y asin podras añadir las etiquetas que mas se usan segun tu estilo de restaurante
                             </p>
+                            <label><input type='number' name='idRestaurante' th:value="${restaurant.id_restaurante}" hidden/></label>
                             <div class="container pt-3 m-0 w-100 px-0">
                                 <div class="row">
                                     <div class="col-sm">
@@ -659,20 +660,11 @@
         return errors===0;
     }
 
-    function validatePrivacidad() {
-        if ($("#visibilty").is(':checked')) {
-            $("#visibilty").val("true")
-        } else {
-            $("#visibilty").val("false")
-        }
-        return true;
-    }
-
     function validateMembresia() {
         return false;
     }
     function validateEtiquetas() {
-        return false;
+        return etiquetasAdded !== null;
     }
     function validateHorario() {
         return false;

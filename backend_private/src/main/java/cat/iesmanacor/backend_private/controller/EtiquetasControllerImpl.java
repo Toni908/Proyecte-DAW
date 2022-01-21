@@ -1,7 +1,11 @@
 package cat.iesmanacor.backend_private.controller;
 
 import cat.iesmanacor.backend_private.entities.Etiquetas;
+import cat.iesmanacor.backend_private.entities.Restaurant;
+import cat.iesmanacor.backend_private.entities.Restaurante_Etiquetas;
+import cat.iesmanacor.backend_private.entities.Restaurante_EtiquetasId;
 import cat.iesmanacor.backend_private.services.EtiquetasService;
+import cat.iesmanacor.backend_private.services.RestaurantService;
 import cat.iesmanacor.backend_private.services.Restaurante_EtiquetasService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -15,14 +19,18 @@ import org.springframework.web.servlet.view.RedirectView;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
 public class EtiquetasControllerImpl {
 
-    private final String __route_formularis = "formularis/layout-form";
+    private final String __route_formulari_create = "formularios/restaurante-create";
+    private final String __route_formulari_update = "formularios/restaurante-update";
+    private final String __path_file = "src/main/resources/static/img/restaurants/";
     private final String __route_table = "tables/layout-table";
-    private final String __route_home = "links";
+    private final String __route_home = "home";
 
     @Autowired
     EtiquetasService etiquetasService;
@@ -30,126 +38,86 @@ public class EtiquetasControllerImpl {
     @Autowired
     Restaurante_EtiquetasService restaurante_etiquetasService;
 
+    @Autowired
+    RestaurantService restaurantService;
+
     //////////////         ROUTES        ////////////////////
 
-    @RequestMapping(value = "/etiqueta/save",method = RequestMethod.POST)
+    @RequestMapping(value = "/etiquetas/save",method = RequestMethod.POST)
     @Transactional
-    public String save(@ModelAttribute @Valid Etiquetas etiquetas, BindingResult errors, ModelMap model) {
+    public String save(@RequestParam(value = "etiquetas", defaultValue = "") List<String> etiquetas, @RequestParam("idRestaurante") BigInteger id, ModelMap model) {
         inicializeModelMap(model);
-        if (errors.hasErrors()) {
-            return "redirect:/etiqueta/create";
-        }
 
-        if (etiquetas.getId_etiqueta()!=null) {
-            Optional<Etiquetas> requestEtiqueta = etiquetasService.findEtiquetaById(etiquetas.getId_etiqueta());
-            if (requestEtiqueta.isPresent()) {
-                model.addAttribute("type","etiquetas-create");
-                model.addAttribute("object",new Etiquetas());
-                model.addAttribute("error","TRYING TO SAVE ETIQUETA THAT EXIST");
-                return show(model);
-            }
-        }
-
-//        if (etiquetas.getNombre()!=null) {
-//            if (checkNameIsEmpty(etiquetas)) {
-//                saveEtiquetas(etiquetas);
-//            } else {
-//                model.addAttribute("error", "ETIQUETA name already taken");
-//            }
-//        }
-        return show(model);
-    }
-
-    @RequestMapping(value = "/etiqueta/save/{name}",method = RequestMethod.POST)
-    public void save(@PathVariable String name) {
-        Etiquetas etiquetas = new Etiquetas();
-        etiquetas.setNombre(name);
-
-//        if (name!=null) {
-//            if (checkNameIsEmpty(etiquetas)) {
-//                saveEtiquetas(etiquetas);
-//            }
-//        }
-    }
-
-
-    @RequestMapping(value = "/etiqueta/put",method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
-    public String put(@ModelAttribute @Valid Etiquetas etiquetas, ModelMap model, Errors errors) {
-        inicializeModelMap(model);
-        if (errors.hasErrors()) {
-            return "redirect:/etiquetas";
-        }
-
-//        if (etiquetas.getId_etiqueta()!=null) {
-//            Optional<Etiquetas> etiquetasOptional = etiquetasService.findEtiquetaById(etiquetas.getId_etiqueta());
-//            if (etiquetasOptional.isPresent()) {
-//                if (etiquetas.getId_etiqueta().equals(etiquetasOptional.get().getId_etiqueta())) {
-//                    if (etiquetas.getNombre()!=null && etiquetas.getId_etiqueta()!=null) {
-//                        if (checkNameIsEmpty(etiquetas)) {
-//                            updateEtiquetas(etiquetas);
-//                        } else {
-//                            model.addAttribute("error", "ETIQUETA name already taken");
-//                        }
-//                    }
-//                } else {
-//                    model.addAttribute("error","factura id doesnt match with the actual factura id");
-//                }
-//            } else {
-//                model.addAttribute("error","factura id doesnt exit");
-//            }
-//        }
-        return show(model);
-    }
-
-    @RequestMapping(value = "/etiqueta/delete/{id}", method = RequestMethod.GET, produces = "application/json")
-    public RedirectView delete(@PathVariable BigInteger id, ModelMap model) {
         if (id!=null) {
-            Optional<Etiquetas> etiquetas = etiquetasService.findEtiquetaById(id);
-            if (etiquetas.isPresent()) {
-                deleteEtiquetasById(id);
-            } else {
-                model.addAttribute("error", "ETIQUETAS NOT FOUNDED");
+            Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
+            // REMOVE ALL LINKS WITH ETIQUETAS
+            if (restaurant.isPresent()) {
+                deleteEtiquetasRelations(restaurant.get());
+                if (!etiquetas.equals("null")) {
+                    restaurant.ifPresent(value -> saveEtiquetas(etiquetas, value));
+                }
+                return "redirect:/restaurant/update/" + id;
             }
         }
-        return new RedirectView("/etiquetas");
-    }
-
-    @RequestMapping(value = "/etiquetas",method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
-    public String show(ModelMap model) {
-        model.addAttribute("etiquetas",etiquetasService.findAllEtiquetas());
-        return __route_table;
-    }
-
-    @RequestMapping(value = "/etiqueta/{id}",method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
-    public String findEtiquetasById(@PathVariable BigInteger id, ModelMap model) {
-        if (id!=null) {
-            Optional<Etiquetas> etiquetas = etiquetasService.findEtiquetaById(id);
-            if (etiquetas.isPresent()) {
-                model.addAttribute("etiqueta", etiquetas.get());
-                return __route_table;
-            }
-        }
-        model.addAttribute("error","ETIQUETA NOT FOUNDED");
-        return __route_home;
+        return __route_formulari_update;
     }
 
     /* ------------------------------------------ */
-
-    public void saveEtiquetas(Etiquetas etiquetas) {
-        etiquetasService.saveEtiqueta(etiquetas);
-    }
-
-    public void deleteEtiquetasById(BigInteger id) {
-        etiquetasService.deleteEtiqueta(id);
-    }
-
-    public void updateEtiquetas(Etiquetas etiquetasNew) {
-        etiquetasService.updateEtiqueta(etiquetasNew);
-    }
 
     public void inicializeModelMap(ModelMap model) {
         model.remove("etiqueta");
         model.remove("etiquetas");
         model.remove("error");
+    }
+
+    public void saveEtiquetas(List<String> myArray, Restaurant restaurant) {
+        List<Etiquetas> etiquetas = stringToArrayOfEtiquetas(myArray);
+        for (Etiquetas etiqueta : etiquetas) {
+            Restaurante_Etiquetas restaurante_etiquetas = new Restaurante_Etiquetas();
+            Restaurante_EtiquetasId restaurante_etiquetasId = new Restaurante_EtiquetasId();
+
+            if (checkNameEtiquetasIsEmpty(etiqueta)) {
+                etiquetasService.saveEtiqueta(etiqueta);
+                restaurante_etiquetasId = new Restaurante_EtiquetasId(restaurant, etiqueta);
+            } else {
+                List<Etiquetas> etiquetaFound = etiquetasService.findEtiquetaByName(etiqueta.getNombre());
+                if (etiquetaFound!=null) {
+                    restaurante_etiquetasId = new Restaurante_EtiquetasId(restaurant, etiquetaFound.get(0));
+                }
+            }
+            restaurante_etiquetas.setId(restaurante_etiquetasId);
+            restaurante_etiquetasService.saveRestaurante_Etiquetas(restaurante_etiquetas);
+        }
+    }
+    public List<Etiquetas> stringToArrayOfEtiquetas(List<String> myArray) {
+        List<Etiquetas> etiquetas = new ArrayList<>();
+        for (String s : myArray) {
+            etiquetas.add(new Etiquetas(null, s));
+        }
+        return etiquetas;
+    }
+    public boolean checkNameEtiquetasIsEmpty(Etiquetas etiquetas) {
+        if (etiquetas.getNombre()!=null) {
+            return etiquetasService.findEtiquetaByName(etiquetas.getNombre()).isEmpty();
+        }
+        return false;
+    }
+
+    public void deleteEtiquetasRelations(Restaurant restaurant) {
+        List<Restaurante_Etiquetas> restaurante_etiquetas = restaurante_etiquetasService.getRestaurant_EtiquetasFromIdRestaurant(restaurant.getId_restaurante());
+        for (Restaurante_Etiquetas restauranteEtiqueta : restaurante_etiquetas) {
+            restaurante_etiquetasService.deleteRestaurante_Etiquetas(restauranteEtiqueta.getId());
+        }
+        deleteEtiquetasNotUsage();
+    }
+
+    public void deleteEtiquetasNotUsage() {
+        List<Etiquetas> allEtiquetas = etiquetasService.findAllEtiquetas();
+        for (Etiquetas allEtiqueta : allEtiquetas) {
+            List<Restaurante_Etiquetas> deleteRestaurantEtiquetas = restaurante_etiquetasService.findByIdEtiquetas(allEtiqueta.getId_etiqueta());
+            if (deleteRestaurantEtiquetas.isEmpty()) {
+                etiquetasService.deleteEtiqueta(allEtiqueta.getId_etiqueta());
+            }
+        }
     }
 }
