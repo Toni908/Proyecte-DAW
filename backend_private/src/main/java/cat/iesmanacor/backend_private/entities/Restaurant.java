@@ -1,5 +1,6 @@
 package cat.iesmanacor.backend_private.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -48,8 +49,15 @@ public class Restaurant {
     @Column(name = "visible",columnDefinition="boolean default '0'")
     private boolean visible;
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY,  mappedBy = "restaurant")
     private List<Carta> cartas;
+
+    @Transient
+    public String getPhotosImagePath() {
+        if (id_restaurante == null) return null;
+        return "/restaurantes-photos/" + id_restaurante + "/";
+    }
 
     public Restaurant() {
 

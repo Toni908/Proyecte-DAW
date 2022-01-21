@@ -49,7 +49,6 @@ public class RestaurantControllerImpl {
 
     private final String __route_formulari_create = "formularios/restaurante-create";
     private final String __route_formulari_update = "formularios/restaurante-update";
-    private final String __path_file = "src/main/resources/static/img/restaurants/";
     private final String __route_table = "tables/layout-table";
     private final String __route_home = "home";
 
@@ -79,6 +78,7 @@ public class RestaurantControllerImpl {
         if (id!=null) {
             Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
             if (restaurant.isPresent()) {
+                model.addAttribute("imagesRestaurant",imgService.findImgFromRestaurantId(restaurant.get().getId_restaurante()));
                 model.addAttribute("restaurant", restaurant.get());
                 model.addAttribute("etiqueta", new Etiquetas());
                 model.addAttribute("etiquetas",getEtiquetasFromRestaurant_Etiqueta(restaurant.get().getId_restaurante()));
@@ -128,7 +128,7 @@ public class RestaurantControllerImpl {
                 }
                 saveImageRestaurant(multipartFile, restaurant);
 
-                return create(model.addAttribute("success", "Restaurante creado correctamente"));
+                return "redirect:/restaurant/update/"+restaurant.getId_restaurante();
             }
             return create(model.addAttribute("error", "Localizacion no selecionado"));
         }
@@ -177,7 +177,7 @@ public class RestaurantControllerImpl {
     }
 
     @RequestMapping(value = "/restaurant/visibility", method = RequestMethod.POST, produces = "application/json")
-    public String visibility(@RequestParam("idRestaurante") BigInteger id,@RequestParam(name = "visibilty",defaultValue = "false") boolean visibilidad, ModelMap model) {
+    public String visibility(@RequestParam("idRestaurante") BigInteger id,@RequestParam(name = "visibilty",defaultValue = "false") boolean visibilidad) {
         if (id!=null) {
             Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
 
@@ -187,6 +187,20 @@ public class RestaurantControllerImpl {
             }
         }
         return "redirect:/restaurant/update/"+id;
+    }
+
+    @RequestMapping(value = "/restaurant/validation", method = RequestMethod.POST, produces = "application/json")
+    public String validation(@RequestParam("idRestaurant") BigInteger id,@RequestParam(name = "validationResponse",defaultValue = "false") boolean validation) {
+        // ONLY ADMINS
+        if (id!=null) {
+            Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
+
+            if (restaurant.isPresent()) {
+                restaurant.get().setValidated(validation);
+                updateRestaurant(restaurant.get());
+            }
+        }
+        return "redirect:/restaurante/configuration/admin";
     }
 
     @RequestMapping(value = "/restaurant/{id}", method = RequestMethod.GET, produces = "application/json")
@@ -271,7 +285,8 @@ public class RestaurantControllerImpl {
         Img img = new Img();
         img.setRestaurant(restaurant);
         try {
-            FileUploadUtil.saveFile(__path_file, fileName, multipartFile);
+            String uploadDir = "restaurantes-photos/"+img.getRestaurant().getId_restaurante();
+            FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
             img.setUrl(fileName);
             imgService.saveImg(img);
         } catch (Exception e) {

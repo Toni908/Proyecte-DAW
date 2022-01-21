@@ -5,49 +5,8 @@
     <title>Title</title>
     <link th:href="@{/css/custom.css}" rel="stylesheet">
     <link th:href="@{/css/form.css}" rel="stylesheet">
+    <link th:href="@{/css/asideLeft.css}" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
-        .float-info {
-            margin-top: 20px;
-           position: fixed;
-            left: 0;
-            top: 150px;
-            width: 15%;
-        }
-        .body-info {
-            background-color: white;
-            width: 60%;
-            text-align: center;
-        }
-        @media only screen and (max-width: 1105px) {
-            .float-info {
-                display: none;
-            }
-            .body-info {
-                width: 100%;
-            }
-        }
-        .select-info {
-            height: 50px;
-            display: flex;
-            flex-direction: row;
-            justify-content: start;
-            align-items: center;
-            gap: 20px;
-        }
-        .select-info:hover {
-            background-color: lightgrey;
-            border-end-end-radius: 20px;
-            border-top-right-radius: 20px;
-        }
-
-        .title_section-info {
-            color: #404040;
-            font-weight: normal;
-            text-transform: capitalize;
-        }
-    </style>
 </head>
 <body>
 <div th:insert="shared/headerVersion2 :: header" class="sticky-top top-0"></div>
@@ -56,44 +15,7 @@
 <div id="error" class="message_error"></div>
 
 <main class="w-100 p-0 m-0">
-    <aside class="float-info">
-        <div class="container-info">
-            <a class="w-100 select-info text-decoration-none text-black ps-5" href="#restauranteFixed">
-                <i class="bi bi-shop" style="font-size: 25px"></i>
-                Restaurante
-            </a>
-            <a class="w-100 select-info text-decoration-none text-black ps-5" href="#privacidadFixed">
-                <i th:if="${restaurant.visible} == true" class="bi bi-eye-fill" style="font-size: 25px"></i>
-                <i th:if="${restaurant.visible} == false" class="bi bi-eye-slash-fill"style="font-size: 25px"></i>
-                Privacidad
-            </a>
-            <a class="w-100 select-info text-decoration-none text-black ps-5" href="#etiquetasFixed">
-                <i class="bi bi-tags" style="font-size: 25px"></i>
-                Etiquetas
-            </a>
-            <a class="w-100 select-info text-decoration-none text-black ps-5" href="#calendarioFixed">
-                <i class="bi bi-calendar-week" style="font-size: 25px"></i>
-                Calendario
-            </a>
-            <a class="w-100 select-info text-decoration-none text-black ps-5" th:href="@{'/reservas/'+${restaurant.id_restaurante}}">
-                <i class="bi bi-receipt" style="font-size: 25px"></i>
-                Reservas
-            </a>
-            <a class="w-100 select-info text-decoration-none text-black ps-5" href="#membresiaFixed">
-                <i class="bi bi-inboxes" style="font-size: 25px"></i>
-                Membresia
-            </a>
-            <a class="w-100 select-info text-decoration-none text-black ps-5" href="#imagenesFixed">
-                <i class="bi bi-image" style="font-size: 25px"></i>
-                Imagenes
-            </a>
-            <hr>
-            <a class="w-100 select-info text-decoration-none text-black ps-5" th:href="@{'/restaurant/'+${restaurant.getId_restaurante()}}">
-                <i class="bi bi-eye" style="font-size: 25px"></i>
-                Ver Restaurante
-            </a>
-        </div>
-    </aside>
+    <aside th:insert="shared/asideList :: aside"></aside>
     <form class="d-flex flex-row justify-content-center" onsubmit="return validateGeneral()" id="info" th:action="@{/restaurant/put}" method="POST" th:object="${restaurant}">
         <main class="d-flex flex-column justify-content-center body-info">
             <section class="pt-5" id="restauranteFixed">
@@ -181,7 +103,7 @@
             </section>
         </main>
     </form>
-    <form class="d-flex flex-row justify-content-center" onsubmit="return validatePrivacidad()" th:action="@{/restaurant/visibility}" method="POST">
+    <form class="d-flex flex-row justify-content-center" th:action="@{/restaurant/visibility}" method="POST">
         <main class="d-flex flex-column justify-content-center body-info">
             <section class="pt-5" id="privacidadFixed">
                 <h3 class="title_section-info">Privacidad</h3>
@@ -197,7 +119,7 @@
                             <p class="paraf_form text-start fw-normal" style="font-size: small;color: #808080">
                                 La visibilidad es una manera de hacer que tu restaurante no se muestre a tus usuarios, ni en la pagina, de esta forma podras realizar los cambios sin necesidad de procuparte de que otra gente vea esos cambios.
                             </p>
-                            <label for='idRestaurante'></label><input type='text' id='idRestaurante' name='idRestaurante' th:value="${restaurant.id_restaurante}" hidden/>
+                            <label><input type='number' name='idRestaurante' th:value="${restaurant.id_restaurante}" hidden/></label>
                             <div class="container pt-3 m-0 w-100 px-0">
                                 <div class="form-check form-switch d-flex flex-row justify-content-center pt-4">
                                     <label class="w-100 d-flex flex-row justify-content-center">
@@ -215,7 +137,7 @@
             </section>
         </main>
     </form>
-    <form class="d-flex flex-row justify-content-center" onsubmit="return validateEtiquetas()" th:action="@{'/etiquetas/put/'+${restaurant.id_restaurante}}" method="POST">
+    <form class="d-flex flex-row justify-content-center" onsubmit="return validateEtiquetas()" th:action="@{/etiquetas/save}" method="POST">
         <main class="d-flex flex-column justify-content-center body-info">
             <section class="pt-5" id="etiquetasFixed">
                 <h3 class="title_section-info">Mis Etiquetas</h3>
@@ -231,6 +153,7 @@
                             <p class="paraf_form text-start fw-normal" style="font-size: small;color: #808080">
                                 Para poder insertar etiquetas tienes en la parte izquierda un buscador y creador (sino encuentra ninguno), donde este buscara en todas las etiquetas existentes y asin podras añadir las etiquetas que mas se usan segun tu estilo de restaurante
                             </p>
+                            <label><input type='number' name='idRestaurante' th:value="${restaurant.id_restaurante}" hidden/></label>
                             <div class="container pt-3 m-0 w-100 px-0">
                                 <div class="row">
                                     <div class="col-sm">
@@ -272,99 +195,7 @@
             </section>
         </main>
     </form>
-    <form class="d-flex flex-row justify-content-center" onsubmit="return validateHorario()" th:action="@{/horario/put}" method="POST">
-        <main class="d-flex flex-column justify-content-center body-info">
-            <section class="pt-5" id="calendarioFixed">
-                <h3 class="title_section-info">Calendario</h3>
-                <div class="d-flex flex-row justify-content-center pt-2">
-                    <p class="paraf_form text-start fw-normal" style="width: 70%; color: #808080; font-size: 12px">
-                        Aqui podras implementar y actualizar el horario de tu restaurante, tanto quando se habre
-                    </p>
-                </div>
-                <div class="d-flex flex-row justify-content-center">
-                    <div class="d-flex flex-column justify-content-center" style="width: 70%;">
-                        <div class="border border-secondary border-1 mt-2 p-4" style=" border-radius: 10px">
-                            <h4 class="fw-normal text-start text-black" style="font-family: 'Quicksand', sans-serif;">Mis horarios</h4>
-                            <p class="paraf_form text-start fw-normal" style="font-size: small;color: #808080">
-                                Para poder insertar etiquetas tienes en la parte izquierda un buscador y creador (sino encuentra ninguno), donde este buscara en todas las etiquetas existentes y asin podras añadir las etiquetas que mas se usan segun tu estilo de restaurante
-                            </p>
-                            <div class="container pt-3 m-0 w-100 px-0">
-                                <div class="row">
-                                    <div class="col-sm">
-                                        <label>
-                                            <input type="datetime-local" />
-                                        </label>
-                                    </div>
-                                    <div class="col-sm">
-                                        <label>
-                                            <input type="datetime-local" />
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="d-flex flex-row justify-content-center pt-4">
-                            <button type="submit" class="btn btn-dark">Guardar</button>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </main>
-    </form>
-    <form class="d-flex flex-row justify-content-center" onsubmit="return validateMembresia()" th:action="@{'/membresia/put/'+${restaurant.id_restaurante}}" method="POST">
-        <main class="d-flex flex-column justify-content-center body-info">
-            <section class="pt-5" id="membresiaFixed">
-                <h3 class="title_section-info">Membresia</h3>
-                <div class="d-flex flex-row justify-content-center pt-2">
-                    <p class="paraf_form fw-normal text-center" style="width: 70%; color: #808080; font-size: 16px">
-                        Quieres mas ventajas que nadie, pues hazte miembro y consigue ventajas muy buenas para extender tu restaurante por todo el mundo.
-                    </p>
-                </div>
-                <div class="d-flex flex-row justify-content-center">
-                    <div class="d-flex flex-column justify-content-center" style="width: 70%;">
-                        <div class="border border-secondary border-1 mt-2 p-4" style=" border-radius: 10px">
-                            <h4 class="fw-normal text-start text-black" style="font-family: 'Quicksand', sans-serif;">Quieres hacerte miembro?</h4>
-                            <p class="paraf_form text-start fw-normal" style="font-size: medium;color: #808080">
-                                Al ser miembro conseguiras ventajas:
-                            </p>
-                            <p class="paraf_form text-start fw-normal p-0" style="font-size: small;color: #808080">
-                                Como salir mas arriba en la pagina de inicio, con esto conseguiras que mas gente visite tu restaurante.
-                            </p>
-                            <p class="paraf_form text-start fw-normal p-0" style="font-size: small;color: #808080">
-                                Estaras en nuestros priorides en cuento a preguntas y ayuda al cliete.
-                            </p>
-                            <div class="form-check form-switch p-0">
-                                <div>Deseas hacerte miembro?</div>
-                                <label class="w-100 d-flex justify-content-center">
-                                    <input class="form-check-input ms-2 fs-3" type="checkbox" id="checkMiembro">
-                                </label>
-                            </div>
-                            <div class="container pt-3 m-0 w-100 px-0" id="hacerseMiembro">
-                                <div class="row">
-                                    <div class="col-sm">
-                                        <label class="w-100">
-                                            Nombre Descriptivo:
-                                            <input type="text" class="input-text"/>
-                                        </label>
-                                    </div>
-                                    <div class="col-sm">
-                                        <label class="w-100">
-                                            Direccion correo:
-                                            <input type="text" class="input-text"/>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="d-flex flex-row justify-content-center pt-4">
-                            <button type="submit" class="btn btn-dark">Guardar</button>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </main>
-    </form>
-    <form class="d-flex flex-row justify-content-center" onsubmit="return validateEtiquetas()" th:action="@{'/images/put/'+${restaurant.id_restaurante}}" method="POST">
+    <form class="d-flex flex-row justify-content-center mb-5" onsubmit="return validateEtiquetas()" th:action="@{'/images/put/'+${restaurant.id_restaurante}}" method="POST">
         <main class="d-flex flex-column justify-content-center body-info">
             <section class="pt-5" id="imagenesFixed">
                 <h3 class="title_section-info">Tus imagenes</h3>
@@ -373,9 +204,28 @@
                         Quieres mas ventajas que nadie, pues hazte miembro y consigue ventajas muy buenas para extender tu restaurante por todo el mundo.
                     </p>
                 </div>
+<!--                <input type="text" th:text="${imagesRestaurant.get(1)}">-->
+<!--                <img th:src="@{${restaurant.getPhotosImagePath(${imagesRestaurant.url})}}" />-->
+                <!--                <img class="d-block w-100" th:src="@{'/img/restaurants/1.jpg'}" alt="Img Restaurant (1)">-->
                 <div class="d-flex flex-row justify-content-center">
                     <div class="d-flex flex-column justify-content-center" style="width: 70%;">
                         <div class="border border-secondary border-1 mt-2 p-4" style=" border-radius: 10px">
+                            <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                                <div class="carousel-inner">
+                                    <div th:each="image : ${imagesRestaurant}" class="carousel-item active position-relative">
+                                        <button onclick="deleteImg(this)" class="bg-danger text-white border-0 position-absolute rounded-circle" style="width: 30px; right: 40px; top: 20px">X</button>
+                                        <img th:src="@{${restaurant.getPhotosImagePath()}+${image.url}}" />
+                                    </div>
+                                </div>
+                                <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                                <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </div>
                             <div class="mb-3 p-0">
                                 <div class="ps-3 paraf_form">Insert images</div>
                                 <label class="w-100 field_form_principal">
@@ -393,6 +243,7 @@
         </main>
     </form>
 </main>
+<aside th:insert="shared/footer :: footer"></aside>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
 <script th:src="@{/js/headerv2.js}"></script>
@@ -600,6 +451,10 @@
         $("#localidad").append("<option value=\"\"><-Seleciona antes un Municipio</option>")
     }
 
+    function deleteImg() {
+        alert("delete")
+    }
+
     function checkNamePattern(){
         const re = /^[A-Za-z][a-z]+(?:[ ]+[A-Za-z][a-z]+)*$/;
         return re.test($("#nombre").val());
@@ -658,24 +513,8 @@
 
         return errors===0;
     }
-
-    function validatePrivacidad() {
-        if ($("#visibilty").is(':checked')) {
-            $("#visibilty").val("true")
-        } else {
-            $("#visibilty").val("false")
-        }
-        return true;
-    }
-
-    function validateMembresia() {
-        return false;
-    }
     function validateEtiquetas() {
-        return false;
-    }
-    function validateHorario() {
-        return false;
+        return etiquetasAdded !== null;
     }
 </script>
 </body>

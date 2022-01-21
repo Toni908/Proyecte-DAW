@@ -1,9 +1,6 @@
 package cat.iesmanacor.backend_private.controller;
 
-import cat.iesmanacor.backend_private.entities.Etiquetas;
-import cat.iesmanacor.backend_private.entities.Localidad;
-import cat.iesmanacor.backend_private.entities.Municipios;
-import cat.iesmanacor.backend_private.entities.Restaurant;
+import cat.iesmanacor.backend_private.entities.*;
 import cat.iesmanacor.backend_private.services.EtiquetasService;
 import cat.iesmanacor.backend_private.services.LocalidadService;
 import cat.iesmanacor.backend_private.services.MunicipioService;
@@ -28,9 +25,9 @@ public class jsonController {
     @Autowired
     LocalidadService localidadService;
 
-    @GetMapping(value = "/get/restaurantes/admin/json", produces = { "application/json" })
+    @GetMapping(value = "/get/restaurantes/admin/json")
     public List<Restaurant> getRestaurantes(){
-        return  restaurantService.findAllRestaurants();
+        return restaurantService.findAllRestaurants();
     }
 
     @GetMapping(value = "/get/etiquetas/admin/json", produces = { "application/json" })

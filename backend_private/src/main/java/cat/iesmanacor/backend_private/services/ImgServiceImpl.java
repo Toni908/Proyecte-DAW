@@ -61,4 +61,9 @@ public class ImgServiceImpl implements ImgService {
     public List<Img> findImgFromRestaurantByUseracount(BigInteger id) {
         return imgRepository.findImgFromRestaurantByUseracount(id);
     }
+
+    @Override
+    public List<Img> findImgFromRestaurantId(BigInteger id) {
+        return imgRepository.findImgFromRestaurantId(id);
+    }
 }
