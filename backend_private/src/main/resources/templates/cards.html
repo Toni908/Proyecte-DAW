@@ -5,6 +5,7 @@
     <title>Cards</title>
     <link th:href="@{/css/custom.css}" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css"/>
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.1.0/css/buttons.dataTables.min.css"/>
 </head>
 <body>
 <div th:insert="shared/headerVersion2 :: header"/>
@@ -49,8 +50,8 @@
         </tr>
         </tbody>
     </table>
-        <a th:href="@{'/restaurant/admin/' + ${restaurant.id_restaurante} + '/card/create'}"><button class="btn btn-primary mt-2">Crear Carta</button></a>
-        <a href="#"><button class="btn btn-secondary mt-2">Volver</button></a>
+        <a class="" id="e1" th:href="@{'/restaurant/admin/' + ${restaurant.id_restaurante} + '/card/create'}"><button class="btn btn-primary mt-2">Crear Carta</button></a>
+        <a class="" id="e2" href="#"><button class="btn btn-secondary mt-2">Volver</button></a>
     </div>
 
     <div th:insert="shared/modals/modal_eliminar :: section"/>
@@ -63,6 +64,7 @@
     <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
     <script th:src="@{/js/header.js}"></script>
     <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.1.0/js/dataTables.buttons.min.js"></script>
 
     <script>
 
@@ -75,7 +77,24 @@
 
         var listar = function(){
             var card_table = $("#card_table").DataTable({
-
+                /*
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        text: 'Crear Carta',
+                        attr: {class: "btn btn-primary mt-2"},
+                        action: function ( e, dt, node, config ) {
+                            window.location.href = $("#e1").attr(href);
+                        }
+                    },
+                    {
+                        text: 'Volver',
+                        attr: {class: "btn btn-secondary mt-2"},
+                        action: function ( e, dt, node, config ) {
+                            alert( 'Button activated' );
+                        }
+                    },
+                ] */
             });
             obtener_data("#card_table", card_table, "button.eliminar");
             obtener_data("#card_table", card_table, "button.editar");
