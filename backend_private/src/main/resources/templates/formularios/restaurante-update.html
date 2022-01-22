@@ -195,7 +195,7 @@
             </section>
         </main>
     </form>
-    <form class="d-flex flex-row justify-content-center mb-5" onsubmit="return validateEtiquetas()" th:action="@{'/images/put/'+${restaurant.id_restaurante}}" method="POST">
+    <form class="d-flex flex-row justify-content-center mb-5" th:action="@{/imagen/saveMultiple}" enctype="multipart/form-data" method="POST">
         <main class="d-flex flex-column justify-content-center body-info">
             <section class="pt-5" id="imagenesFixed">
                 <h3 class="title_section-info">Tus imagenes</h3>
@@ -204,32 +204,30 @@
                         Quieres mas ventajas que nadie, pues hazte miembro y consigue ventajas muy buenas para extender tu restaurante por todo el mundo.
                     </p>
                 </div>
-<!--                <input type="text" th:text="${imagesRestaurant.get(1)}">-->
-<!--                <img th:src="@{${restaurant.getPhotosImagePath(${imagesRestaurant.url})}}" />-->
-                <!--                <img class="d-block w-100" th:src="@{'/img/restaurants/1.jpg'}" alt="Img Restaurant (1)">-->
+                <input type="hidden" name="idRestaurant" th:value="${restaurant.id_restaurante}" hidden>
                 <div class="d-flex flex-row justify-content-center">
                     <div class="d-flex flex-column justify-content-center" style="width: 70%;">
                         <div class="border border-secondary border-1 mt-2 p-4" style=" border-radius: 10px">
-                            <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                            <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
                                 <div class="carousel-inner">
-                                    <div th:each="image : ${imagesRestaurant}" class="carousel-item active position-relative">
-                                        <button onclick="deleteImg(this)" class="bg-danger text-white border-0 position-absolute rounded-circle" style="width: 30px; right: 40px; top: 20px">X</button>
-                                        <img th:src="@{${restaurant.getPhotosImagePath()}+${image.url}}" />
+                                    <div th:each="image, iteration : ${imagesRestaurant}" th:class="${iteration.index} == 0 ? 'carousel-item active' : 'carousel-item'">
+<!--                                        <button onclick="deleteImg(this)" class="bg-danger text-white border-0 position-absolute rounded-circle" style="width: 30px; right: 40px; top: 20px">X</button>-->
+                                        <img class="d-block w-100" style="object-fit: cover" th:src="@{${restaurant.getPhotosImagePath()}+${image.url}}" />
                                     </div>
                                 </div>
-                                <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
                                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                    <span class="sr-only">Previous</span>
-                                </a>
-                                <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
                                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                    <span class="sr-only">Next</span>
-                                </a>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
                             </div>
                             <div class="mb-3 p-0">
                                 <div class="ps-3 paraf_form">Insert images</div>
                                 <label class="w-100 field_form_principal">
-                                    <input class="input-text validateImagenResponse" id="image" name="image" multiple accept="image/jpeg, image/jpg, image/png, image/gif" type="file" maxlength="80" placeholder="URL" required>
+                                    <input class="input-text validateImagenResponse" name="saveMultiple" multiple accept="image/jpeg, image/jpg, image/png, image/gif" type="file" maxlength="80" placeholder="URL" required>
                                 </label>
                                 <div id="validateImagenResponse"></div>
                             </div>

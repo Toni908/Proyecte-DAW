@@ -126,7 +126,7 @@ public class RestaurantControllerImpl {
                 if (!restaurantCreated.isEmpty() && !etiquetas.isEmpty()) {
                     saveEtiquetas(etiquetas, restaurantCreated.get(0));
                 }
-                saveImageRestaurant(multipartFile, restaurant);
+                saveImageRestaurantFirst(multipartFile, restaurant);
 
                 return "redirect:/restaurant/update/"+restaurant.getId_restaurante();
             }
@@ -280,20 +280,6 @@ public class RestaurantControllerImpl {
         return model;
     }
 
-    public void saveImageRestaurant(MultipartFile multipartFile, Restaurant restaurant) {
-        String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
-        Img img = new Img();
-        img.setRestaurant(restaurant);
-        try {
-            String uploadDir = "restaurantes-photos/"+img.getRestaurant().getId_restaurante();
-            FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
-            img.setUrl(fileName);
-            imgService.saveImg(img);
-        } catch (Exception e) {
-            //
-        }
-    }
-
 
     // ETIQUETA RESTAURANT RELATION
 
@@ -340,5 +326,25 @@ public class RestaurantControllerImpl {
             etiqueta.ifPresent(etiquetas::add);
         }
         return etiquetas;
+    }
+
+    // IMG
+
+    public void saveImageRestaurantFirst(MultipartFile multipartFile, Restaurant restaurant) {
+        String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
+        Img img = new Img();
+        img.setRestaurant(restaurant);
+        img.setUrl(fileName);
+        try {
+            Img imgSumbited = imgService.saveImg(img);
+            fileName = imgSumbited.getId_img()+fileName;
+            imgSumbited.setUrl(fileName);
+            imgService.updateImg(imgSumbited);
+            String uploadDir = "restaurantes-photos/"+img.getRestaurant().getId_restaurante();
+            FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+
+        } catch (Exception e) {
+            //
+        }
     }
 }

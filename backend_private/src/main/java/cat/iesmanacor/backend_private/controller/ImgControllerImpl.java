@@ -1,6 +1,7 @@
 package cat.iesmanacor.backend_private.controller;
 
 import cat.iesmanacor.backend_private.entities.Img;
+import cat.iesmanacor.backend_private.entities.Restaurant;
 import cat.iesmanacor.backend_private.files.FileUploadUtil;
 import cat.iesmanacor.backend_private.services.ImgService;
 import cat.iesmanacor.backend_private.services.RestaurantService;
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
@@ -21,47 +21,18 @@ import java.math.BigInteger;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
 @Controller
 public class ImgControllerImpl {
 
-    private final String __route_formularis = "formularis/layout-form";
-    private final String __route_table = "tables/layout-table";
-    private final String __route_home = "links";
-
     @Autowired
     ImgService imgService;
 
     @Autowired
     RestaurantService restaurantService;
-
-    //////////////         FACTURAS FORMULARIOS        ////////////////////
-
-    @RequestMapping(value = "/imagen/create", method = RequestMethod.GET)
-    public String create(ModelMap model) {
-        model.addAttribute("type","img-create");
-        model.addAttribute("object",new Img());
-        model.addAttribute("array",restaurantService.findAllRestaurants());
-        return __route_formularis;
-    }
-
-    @RequestMapping(value = "/imagen/update/{id}", method = RequestMethod.GET)
-    public String update(@PathVariable BigInteger id, ModelMap model) {
-        if (id!=null) {
-            Optional<Img> img = imgService.findImgById(id);
-            if (img.isPresent()) {
-                model.addAttribute("type", "img-update");
-                model.addAttribute("object", img.get());
-                model.addAttribute("array",restaurantService.findAllRestaurants());
-                return __route_formularis;
-            }
-        }
-        model.addAttribute("error","IMG SELECTED DOESNT PRESENT");
-        return __route_home;
-    }
-
 
     //////////////         ROUTES        ////////////////////
 
@@ -76,51 +47,38 @@ public class ImgControllerImpl {
         if (img.getId_img()!=null) {
             Optional<Img> requestImg = imgService.findImgById(img.getId_img());
             if (requestImg.isPresent()) {
-                model.addAttribute("type", "img-create");
-                model.addAttribute("object", new Img());
-                model.addAttribute("array", restaurantService.findAllRestaurants());
-                model.addAttribute("error", "TRYING TO SAVE IMG THAT EXIST");
-                return show(model);
+                return "redirect:/home";
             }
         }
         String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
 
+        Img imgSumbited = saveImg(img);
+
+        fileName = imgSumbited.getId_img()+fileName;
         img.setUrl(fileName);
-        saveImg(img);
         String uploadDir = "restaurantes-photos/"+img.getRestaurant().getId_restaurante();
         FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
-        return show(model);
+        return "redirect:/restaurant/update/"+img.getRestaurant().getId_restaurante();
     }
 
-
-    @RequestMapping(value = "/imagen/put",method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
-    public String put(@ModelAttribute @Valid Img img, ModelMap model, Errors errors, @RequestParam("image") MultipartFile multipartFile) throws IOException {
+    @RequestMapping(value = "/imagen/saveMultiple",method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
+    public String saveMultiple(@RequestParam("saveMultiple") List<MultipartFile> multipartFile, ModelMap model, @RequestParam("idRestaurant") BigInteger id) throws IOException {
         inicializeModelMap(model);
-        if (errors.hasErrors()) {
-            return "redirect:/imagenes";
-        }
 
-
-        if (img.getId_img()!=null) {
-            Optional<Img> imgUpdate = imgService.findImgById(img.getId_img());
-            if (imgUpdate.isPresent()) {
-                Optional<Img> imgBefore = imgService.findImgById(img.getId_img());
-
-                String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
-
-                if (checkUrlisEmpty(fileName) && imgBefore.isPresent()) {
-                    img.setUrl(fileName);
-                    updateImg(img);
-                    String uploadDir = "restaurantes-photos/"+img.getRestaurant().getId_restaurante();
-                    FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
-                } else {
-                    model.addAttribute("error","name of the img is in");
+        if (!multipartFile.isEmpty()) {
+            for (MultipartFile url : multipartFile) {
+                if (checkUrlisEmpty(url.getOriginalFilename())) {
+                    if (id!=null) {
+                        Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
+                        restaurant.ifPresent(value -> saveImageRestaurant(url, value));
+                    }
                 }
-            } else {
-                model.addAttribute("error","factura id doesnt exit");
+            }
+            if (id!=null) {
+                return "redirect:/restaurant/update/" + id;
             }
         }
-        return show(model);
+        return "redirect:/home";
     }
 
     @RequestMapping(value = "/imagen/delete/{id}", method = RequestMethod.GET, produces = "application/json")
@@ -137,33 +95,14 @@ public class ImgControllerImpl {
     }
 
 
-    @RequestMapping(value = "/imagenes",method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
-    public String show(ModelMap model) {
-        model.addAttribute("imagenes",imgService.findAllImgs());
-        return __route_table;
-    }
-
-    @RequestMapping(value = "/imagen/{id}",method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
-    public String findImgById(@PathVariable BigInteger id, ModelMap model) {
-        if (id!=null) {
-            Optional<Img> img = imgService.findImgById(id);
-            if (img.isPresent()) {
-                model.addAttribute("imagen", img.get());
-                return __route_table;
-            }
-        }
-        model.addAttribute("error","IMG NOT FOUNDED");
-        return __route_home;
-    }
-
-
     /* ------------------------------------------ */
 
 
-    public void saveImg(Img img) {
+    public Img saveImg(Img img) {
         if (img != null) {
-            imgService.saveImg(img);
+            return imgService.saveImg(img);
         }
+        return null;
     }
 
     public void deleteImgById(BigInteger id) {
@@ -172,10 +111,6 @@ public class ImgControllerImpl {
             imgService.deleteImg(id);
             deleteImgOnDirectory(img.get().getUrl(),"restaurantes-photos");
         }
-    }
-
-    public void updateImg(Img imgNew) {
-        imgService.updateImg(imgNew);
     }
 
     public void inicializeModelMap(ModelMap model) {
@@ -193,6 +128,27 @@ public class ImgControllerImpl {
             Files.delete(fileToDeletePath);
         } catch (Exception e) {
             // ERROR
+        }
+    }
+
+    public void saveImageRestaurant(MultipartFile multipartFile, Restaurant restaurant) {
+        String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
+        Img img = new Img();
+        img.setRestaurant(restaurant);
+        img.setUrl(fileName);
+        try {
+            if (checkUrlisEmpty(fileName)) {
+                Img imgSumbited = imgService.saveImg(img);
+                fileName = imgSumbited.getId_img() + fileName;
+                if (checkUrlisEmpty(fileName)) {
+                    imgSumbited.setUrl(fileName);
+                    imgService.updateImg(imgSumbited);
+                    String uploadDir = "restaurantes-photos/" + img.getRestaurant().getId_restaurante();
+                    FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+                }
+            }
+        } catch (Exception e) {
+            //
         }
     }
 }
