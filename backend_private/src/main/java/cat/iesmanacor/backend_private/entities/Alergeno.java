@@ -25,10 +25,12 @@ public class Alergeno implements Serializable {
     private String nombre;
     private String icono;
 
+    /*
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "platos_alergenos",
             joinColumns = { @JoinColumn(name = "id_alergeno") },
             inverseJoinColumns = { @JoinColumn(name = "id_plato")})
     private List<Plato> platos;
+     */
 
 }

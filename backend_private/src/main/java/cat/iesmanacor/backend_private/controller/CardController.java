@@ -33,8 +33,6 @@ public class CardController {
     @Autowired
     private CategoriaService categoriaService;
     @Autowired
-    private IngredienteService ingredienteService;
-    @Autowired
     private PlatoService platoService;
     @Autowired
     private RestaurantService restaurantService;
