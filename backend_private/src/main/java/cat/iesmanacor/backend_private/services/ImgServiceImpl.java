@@ -1,12 +1,17 @@
 package cat.iesmanacor.backend_private.services;
 
 import cat.iesmanacor.backend_private.entities.Img;
+import cat.iesmanacor.backend_private.entities.Restaurant;
+import cat.iesmanacor.backend_private.files.FileUploadUtil;
 import cat.iesmanacor.backend_private.repositories.ImgRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigInteger;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -28,7 +33,7 @@ public class ImgServiceImpl implements ImgService {
     @Override
     public Img saveImg(Img imgNew) {
         if (imgNew!=null) {
-            imgRepository.save(imgNew);
+            return imgRepository.save(imgNew);
         }
         return new Img();
     }
