@@ -30,6 +30,8 @@
             <h1 th:unless="${plato.id_plato != null}"> Crear Plato </h1>
         </div>
 
+        <input type="text" class="d-none" name="ingredientes" th:value="0"/>
+
         <div class="body_form">
             <div class="container">
                 <div class="row justify-content-md-center">
@@ -181,6 +183,7 @@
                             </ul>
                         </div>
                     </div>
+
                 </div>
             </div>
 
