@@ -33,6 +33,8 @@ public class CardController {
     @Autowired
     private CategoriaService categoriaService;
     @Autowired
+    private IngredienteService ingredienteService;
+    @Autowired
     private PlatoService platoService;
     @Autowired
     private RestaurantService restaurantService;
@@ -228,7 +230,7 @@ public class CardController {
     }
 
     @PostMapping("/restaurant/admin/{id}/dish/save")
-    public String saveDish(@Valid Plato plato, BindingResult result, @PathVariable(value = "id") Long id, Model model, WebRequest request){
+    public String saveDish(@Valid Plato plato, BindingResult result, @PathVariable(value = "id") Long id, Model model,@RequestParam("ingredientes") List<String> listaIngredientes, WebRequest request){
         Optional<Categoria> category = categoriaService.findById(id);
         plato.setCategoria(category.get());
 
@@ -244,6 +246,17 @@ public class CardController {
         }
 
         plato.setAlergenos(lista);
+        List<Ingrediente> llista = new ArrayList<>();
+
+        if(listaIngredientes != null) {
+            for (int i = 0; i < listaIngredientes.size(); i++) {
+                String element = listaIngredientes.get(i);
+                Long idIng = Long.parseLong(element);
+                llista.add(ingredienteService.findById(idIng).get());
+            }
+        }
+
+        plato.setIngredientes(llista);
 
         if(result.hasErrors()){
             Map<String, String> errores = new HashMap<>();
