@@ -26,4 +26,6 @@ public interface ImgService {
     List<Img> findImgFromRestaurantByUseracount(BigInteger id);
 
     List<Img> findImgFromRestaurantId(BigInteger id);
+
+    List<Img> findSingleImgFromEachRestaurantFindedByUserId(BigInteger id_user);
 }

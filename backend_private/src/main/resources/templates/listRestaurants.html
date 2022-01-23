@@ -19,7 +19,7 @@
             <article class="single_restaurant" th:each="restaurante, iteration : ${restaurantesUser}">
                 <a class="text-decoration-none text-black" th:href="@{'/restaurant/update/'+${restaurante.id_restaurante}}">
                     <div class="card">
-                        <div th:each="image : ${images}">
+                        <div th:each="image, iterationImg : ${images}">
                             <div th:switch="${restaurante.id_restaurante}==${image.restaurant.id_restaurante}">
                                 <img class="img-restaurant p-3 w-100" th:case="true" th:src="@{${restaurante.getPhotosImagePath()}+${image.url}}" alt="Img Restaurant (1)">
                                 <img class="img-restaurant p-3 w-100" th:case="false" th:src="@{/img/no-photo-available.jpg}" alt="Img Restaurant (1)">

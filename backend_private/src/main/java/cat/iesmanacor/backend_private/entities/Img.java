@@ -1,6 +1,8 @@
 package cat.iesmanacor.backend_private.entities;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;

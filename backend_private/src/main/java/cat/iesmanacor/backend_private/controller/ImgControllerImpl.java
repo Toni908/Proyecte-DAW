@@ -72,7 +72,6 @@ public class ImgControllerImpl {
                         if (StringUtils.cleanPath(Objects.requireNonNull(url.getOriginalFilename())).matches("^\\S*$")) {
                             Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
                             restaurant.ifPresent(value -> saveImageRestaurant(url, value));
-                            return new RedirectView("/restaurant/update/"+id,false);
                         } else {
                             RedirectView redirectView = new RedirectView("/restaurant/update/"+id,true);
                             redir.addFlashAttribute("error","El nombre de la imagen no debe de contener espacios");
@@ -81,6 +80,7 @@ public class ImgControllerImpl {
                     }
                 }
             }
+            return new RedirectView("/restaurant/update/"+id,false);
         }
         return new RedirectView("/home",true);
     }

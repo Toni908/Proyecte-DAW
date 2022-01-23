@@ -34,9 +34,7 @@ public class FileUploadUtil {
         Path uploadPath = Paths.get(uploadDir);
         try {
             if (Files.exists(uploadPath)) {
-                System.out.println(uploadDir);
                 Path path = Paths.get(uploadDir+"/"+filename);
-                System.out.println(path);
                 Files.delete(path);
             }
         } catch (Exception e) {

@@ -212,10 +212,10 @@
                                 <div class="carousel-inner">
                                     <div th:each="image, iteration : ${imagesRestaurant}" th:class="${iteration.index} == 0 ? 'carousel-item active' : 'carousel-item'">
 <!--                                        <button onclick="deleteImg(this)" class="bg-danger text-white border-0 position-absolute rounded-circle" style="width: 30px; right: 40px; top: 20px">X</button>-->
-                                        <img class="d-block w-100" style="object-fit: cover" th:src="@{${restaurant.getPhotosImagePath()}+${image.url}}" />
+                                        <img class="d-block w-100" style="object-fit: cover; height: 500px" th:src="@{${restaurant.getPhotosImagePath()}+${image.url}}" />
                                     </div>
                                     <div th:if="${imagesRestaurant.size()}==0">
-                                        <img class="img-restaurant p-3 w-100" th:src="@{/img/no-photo-available.jpg}" alt="Img Restaurant (1)">
+                                        <img class="d-block w-100" style="object-fit: cover; height: 500px" th:src="@{/img/no-photo-available.jpg}" alt="Img Restaurant (1)">
                                     </div>
                                 </div>
                                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">

@@ -2,6 +2,7 @@ package cat.iesmanacor.backend_private.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -11,6 +12,7 @@ import java.math.BigInteger;
 import java.util.List;
 
 @Data
+@ToString
 @Entity
 @Table(name="restaurante")
 public class Restaurant {
