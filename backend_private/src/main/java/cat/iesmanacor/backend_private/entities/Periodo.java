@@ -7,7 +7,9 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.sql.Timestamp;
+import java.io.Serializable;
+import java.sql.Date;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -15,7 +17,7 @@ import java.sql.Timestamp;
 @ToString
 @Entity
 @Table(name = "periodo")
-public class Periodo {
+public class Periodo implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_periodo")
@@ -23,10 +25,13 @@ public class Periodo {
 
     @Column(nullable = false)
     @NotNull(message = "no puede estar vacio")
-    private Timestamp fecha_inicio;
+    private Date fecha_inicio;
 
     @Column( nullable = false)
     @NotNull(message = "no puede estar vacio")
-    private Timestamp fecha_fin;
+    private Date fecha_fin;
+
+    @OneToMany(mappedBy = "periodo")
+    private List<DiaSemanalPeriodo> diaSemanalPeriodo;
 
 }

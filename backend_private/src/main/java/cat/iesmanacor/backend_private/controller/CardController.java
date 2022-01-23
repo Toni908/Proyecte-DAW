@@ -33,6 +33,8 @@ public class CardController {
     @Autowired
     private CategoriaService categoriaService;
     @Autowired
+    private IngredienteService ingredienteService;
+    @Autowired
     private PlatoService platoService;
     @Autowired
     private RestaurantService restaurantService;
@@ -149,6 +151,7 @@ public class CardController {
     public String getCategories(@PathVariable(value = "id") Long id, Model model){
         Optional<Carta> carta = cartaService.findById(id);
         model.addAttribute("carta", carta.get());
+        model.addAttribute("restaurant", carta.get().getRestaurant());
 
         return "categories";
     }
@@ -213,6 +216,7 @@ public class CardController {
     public String getDish(@PathVariable(value = "id") Long id, Model model){
         Optional<Categoria> category = categoriaService.findById(id);
         model.addAttribute("category", category.get());
+        model.addAttribute("restaurant", category.get().getCarta().getRestaurant());
 
         return "platos";
     }
@@ -228,7 +232,7 @@ public class CardController {
     }
 
     @PostMapping("/restaurant/admin/{id}/dish/save")
-    public String saveDish(@Valid Plato plato, BindingResult result, @PathVariable(value = "id") Long id, Model model, WebRequest request){
+    public String saveDish(@Valid Plato plato, BindingResult result, @PathVariable(value = "id") Long id, Model model,@RequestParam("ingredientes") List<String> listaIngredientes, WebRequest request){
         Optional<Categoria> category = categoriaService.findById(id);
         plato.setCategoria(category.get());
 
@@ -244,6 +248,16 @@ public class CardController {
         }
 
         plato.setAlergenos(lista);
+        List<Ingrediente> llista = new ArrayList<>();
+
+        for (int i = 1; i < listaIngredientes.size(); i++) {
+            String element = listaIngredientes.get(i);
+            Long idIng = Long.parseLong(element);
+            llista.add(ingredienteService.findById(idIng).get());
+        }
+
+
+        plato.setIngredientes(llista);
 
         if(result.hasErrors()){
             Map<String, String> errores = new HashMap<>();

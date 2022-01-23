@@ -53,6 +53,9 @@ public class Restaurant {
     @OneToMany(fetch = FetchType.LAZY,  mappedBy = "restaurant")
     private List<Carta> cartas;
 
+    @OneToOne(mappedBy = "restaurant")
+    private DiaSemanalPeriodo diaSemanalPeriodo;
+
     @Transient
     public String getPhotosImagePath() {
         if (id_restaurante == null) return null;

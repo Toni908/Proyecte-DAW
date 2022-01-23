@@ -8,6 +8,7 @@ import lombok.ToString;
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.List;
 
 @Data
@@ -16,7 +17,7 @@ import java.util.List;
 @ToString
 @Entity
 @Table(name = "dia_semanal")
-public class DiaSemanal {
+public class DiaSemanal implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,6 +33,9 @@ public class DiaSemanal {
     @NotNull(message = "no puede estar vacio")
     @Min(1)
     private int finall;
+
+    @OneToMany(mappedBy = "diaSemanal")
+    private List<DiaSemanalPeriodo> diaSemanalPeriodo;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "dia_semanal_horario",
