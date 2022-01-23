@@ -85,15 +85,15 @@ public class ImgControllerImpl {
         return new RedirectView("/home",true);
     }
 
-    @RequestMapping(value = "/imagen/delete/{id}", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/imagen/delete/{id}", method = RequestMethod.GET)
     @Transactional
-    public RedirectView delete(@PathVariable BigInteger id) {
+    public RedirectView delete(@PathVariable(value="id") BigInteger id) {
         // COMPROVACION QUE REALMENTE EL USUARIO ES EL PERTENECEDOR DE LA IMAGEN
 
         RedirectView redirectView = new RedirectView("/restaurant/update/"+id,true);
 
         if (id!=null) {
-            Optional<Img> img = imgService.findImgById(BigInteger.ONE);
+            Optional<Img> img = imgService.findImgById(id);
             if (img.isPresent()) {
                 imgService.deleteImg(img.get().getId_img());
                 String uploadDir = "restaurantes-photos/" + img.get().getRestaurant().getId_restaurante();
