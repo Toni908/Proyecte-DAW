@@ -50,7 +50,6 @@ public class RestaurantControllerImpl {
 
     private final String __route_formulari_create = "formularios/restaurante-create";
     private final String __route_formulari_update = "formularios/restaurante-update";
-    private final String __route_table = "tables/layout-table";
     private final String __route_home = "home";
 
     // LISTAS DE RESTURANTES POR X USUARIO
@@ -77,9 +76,11 @@ public class RestaurantControllerImpl {
     @RequestMapping(value = "/restaurant/update/{id}", method = RequestMethod.GET)
     public String update(@PathVariable BigInteger id, ModelMap model) {
         //Comprovacion que el usuario en session sea el que tiene el restaurante que pide
+        List<Useracount> useracount = useracountService.findAllUseracount();
         if (id!=null) {
             Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
             if (restaurant.isPresent()) {
+                model.addAttribute("imageModified",getProvisionalNameImgFromUrlByUseracount(useracount.get(1)));
                 model.addAttribute("imagesRestaurant",imgService.findImgFromRestaurantId(restaurant.get().getId_restaurante()));
                 model.addAttribute("restaurant", restaurant.get());
                 model.addAttribute("etiqueta", new Etiquetas());
@@ -203,19 +204,6 @@ public class RestaurantControllerImpl {
             }
         }
         return "redirect:/restaurante/configuration/admin";
-    }
-
-    @RequestMapping(value = "/restaurant/{id}", method = RequestMethod.GET, produces = "application/json")
-    public String getRestaurantById(@PathVariable BigInteger id, ModelMap model) {
-        if (id!=null) {
-            Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
-            if (restaurant.isPresent()) {
-                model.addAttribute("restaurant", restaurant.get());
-                return __route_table;
-            }
-        }
-        model.addAttribute("error","RESTAURANT NOT FOUNDED");
-        return __route_home;
     }
 
     /* ------------------------------------------ */
@@ -348,5 +336,18 @@ public class RestaurantControllerImpl {
         } catch (Exception e) {
             //
         }
+    }
+
+    public List<ArrayList<String>> getProvisionalNameImgFromUrlByUseracount(Useracount useracount) {
+        List<Img> imgs = imgService.findImgFromRestaurantByUseracount(useracount.getId_user());
+        List<ArrayList<String>> provisional = new ArrayList<>();
+        for (Img img : imgs) {
+            ArrayList<String> array = new ArrayList<>();
+            array.add(0,img.getUrl());
+            String urlModified = img.getUrl();
+            array.add(1,urlModified.substring(img.getId_img().bitCount()));
+            provisional.add(array);
+        }
+        return provisional;
     }
 }

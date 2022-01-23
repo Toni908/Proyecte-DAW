@@ -7,6 +7,36 @@
     <link th:href="@{/css/form.css}" rel="stylesheet">
     <link th:href="@{/css/asideLeft.css}" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .img-block input {
+            display: none;
+        }
+        .img-block input:checked + label {
+            opacity: 1;
+            box-shadow: 0 0 0 3px red;
+        }
+        .img-block input:checked + label img {
+            filter: none;
+        }
+
+        .img-block label {
+            display: inline-block;
+            cursor: pointer;
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+            position: relative;
+            opacity: 0.6;
+        }
+
+        .img-block label img {
+            border-radius: 15px;
+            width: 100%;
+            height: 70%;
+            object-fit: cover;
+            filter: grayscale(100%);
+        }
+    </style>
 </head>
 <body>
 <div th:insert="shared/headerVersion2 :: header" class="sticky-top top-0"></div>
@@ -195,14 +225,20 @@
             </section>
         </main>
     </form>
-    <form class="d-flex flex-row justify-content-center mb-5" th:action="@{/imagen/saveMultiple}" enctype="multipart/form-data" method="POST">
+    <form class="d-flex flex-row justify-content-center" th:style="${imagesRestaurant.size()} == 0 ? 'margin-bottom: 50px' : ''" th:action="@{/imagen/saveMultiple}" enctype="multipart/form-data" method="POST">
         <main class="d-flex flex-column justify-content-center body-info">
             <section class="pt-5" id="imagenesFixed">
                 <h3 class="title_section-info">Tus imagenes</h3>
                 <div class="d-flex flex-row justify-content-center pt-2">
-                    <p class="paraf_form fw-normal text-center" style="width: 70%; color: #808080; font-size: 16px">
-                        Quieres mas ventajas que nadie, pues hazte miembro y consigue ventajas muy buenas para extender tu restaurante por todo el mundo.
-                    </p>
+                    <div class="d-flex flex-column justify-content-center" style="width: 70%; ">
+                        <p class="paraf_form fw-normal text-center" style="color: #808080; font-size: 16px">
+                            Quieres mas ventajas que nadie, pues hazte miembro y consigue ventajas muy buenas para extender tu restaurante por todo el mundo.
+                            Recuerda que solo puedes guardar (X) imagenes;
+                        </p>
+                        <p class="paraf_form fw-normal text-center" th:text="'Cantidad de imagenes: '+${imagesRestaurant.size()}">
+
+                        </p>
+                    </div>
                 </div>
                 <input type="hidden" name="idRestaurant" th:value="${restaurant.id_restaurante}" hidden>
                 <div class="d-flex flex-row justify-content-center">
@@ -211,8 +247,7 @@
                             <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
                                 <div class="carousel-inner">
                                     <div th:each="image, iteration : ${imagesRestaurant}" th:class="${iteration.index} == 0 ? 'carousel-item active' : 'carousel-item'">
-<!--                                        <button onclick="deleteImg(this)" class="bg-danger text-white border-0 position-absolute rounded-circle" style="width: 30px; right: 40px; top: 20px">X</button>-->
-                                        <img class="d-block w-100" style="object-fit: cover; height: 500px" th:src="@{${restaurant.getPhotosImagePath()}+${image.url}}" />
+                                        <img class="d-block w-100" style="object-fit: cover; height: 500px" th:src="@{${restaurant.getPhotosImagePath()}+${image.url}}"  alt=""/>
                                     </div>
                                     <div th:if="${imagesRestaurant.size()}==0">
                                         <img class="d-block w-100" style="object-fit: cover; height: 500px" th:src="@{/img/no-photo-available.jpg}" alt="Img Restaurant (1)">
@@ -243,12 +278,41 @@
             </section>
         </main>
     </form>
+    <form onsubmit="return validateImages()" th:if="${imagesRestaurant.size()} != 0" class="d-flex flex-row justify-content-center mb-5" th:action="@{/imagen/delete}" enctype="multipart/form-data" method="POST">
+        <main class="d-flex flex-column justify-content-center body-info">
+            <section class="pt-5">
+                <h3 class="title_section-info">Gestion de tus imagenes</h3>
+                <input type="hidden" name="idRestaurante" th:value="${restaurant.id_restaurante}" hidden>
+                <div class="d-flex flex-row justify-content-center">
+                    <div class="d-flex flex-column justify-content-center" style="width: 70%;">
+                        <div class="border border-secondary border-1 mt-2 p-4" style=" border-radius: 10px">
+                            <ul id="inputSubmitImages" class="w-100 d-flex flex-row justify-content-center flex-wrap gap-2 img-block">
+                                <li class="w-25 h-100 list-unstyled" th:each="imagen : ${imagesRestaurant}">
+                                    <input type="checkbox" name="images" th:value="${imagen.getId_img()}" th:id="${imagen.getId_img()}"/>
+                                    <label class="w-auto" style="border-radius: 15px" th:for="${imagen.getId_img()}">
+                                        <img class="p-0 m-0 d-block w-100" style="height: 120px" th:src="@{${restaurant.getPhotosImagePath()}+${imagen.url}}" alt="img" />
+                                    </label>
+                                    <div th:each="imgModified : ${imageModified}" th:if="${imgModified[0]}==${imagen.getUrl()}" th:text="${imgModified[1]}"></div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div id="buttonDeleteImg" class="d-flex flex-row justify-content-center pt-4">
+                            <button type="submit" class="btn btn-danger">Eliminar Selecionados</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </form>
 </main>
 <aside th:insert="shared/footer :: footer"></aside>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
 <script th:src="@{/js/headerv2.js}"></script>
 <script>
+
+    // VARIABLES Y COSAS QUE TIENEN QUE PASAR AL PRINCIPIO DE CARGAR LA PAGINA
+
     const selectEtiqueta = $("#selectEtiquetas");
     let numEtiquetas = 7;
     let etiquetasAdded = [];
@@ -266,7 +330,6 @@
 
     const error = $("#error");
 
-
     error.hide();
 
     const selectEtiquetas = $('#selectEtiquetas');
@@ -275,6 +338,8 @@
     selectEtiqueta.append("<option selected><-- Buscador</option>");
     createEtiqueta.attr("type","hidden");
     selectEtiqueta.show();
+
+    // ETIQUETAS
 
     $('#selectText').on('input',function(){
         createEtiqueta.attr("type","hidden");
@@ -452,17 +517,17 @@
         $("#localidad").append("<option value=\"\"><-Seleciona antes un Municipio</option>")
     }
 
-    function deleteImg() {
-        alert("delete")
-    }
+    // IMG SECTION
+
+
+
+    // VALIDATIONS
 
     function checkNamePattern(){
         const re = /^[A-Za-z][a-z]+(?:[ ]+[A-Za-z][a-z]+)*$/;
         return re.test($("#nombre").val());
     }
 
-
-    // VALIDATIONS
     function vaciarValidateGeneral() {
         $("#validateNameResponse").empty();
         $("#validateTelefonoResponse").empty();
@@ -516,6 +581,15 @@
     }
     function validateEtiquetas() {
         return etiquetasAdded !== null;
+    }
+
+    function validateImages() {
+        const matches = $("#inputSubmitImages").find('input[type="checkbox"]:not(:checked)');
+        for (let i = 0; i < matches.length; i++) {
+            matches.get(i).disable = "disabled";
+            console.log(matches.get(i))
+        }
+        return true;
     }
 </script>
 </body>
