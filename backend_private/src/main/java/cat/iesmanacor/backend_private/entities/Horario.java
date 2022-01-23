@@ -7,6 +7,7 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -16,7 +17,7 @@ import java.util.List;
 @ToString
 @Entity
 @Table(name = "horario")
-public class Horario {
+public class Horario implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

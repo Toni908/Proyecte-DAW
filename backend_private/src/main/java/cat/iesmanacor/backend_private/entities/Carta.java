@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.List;
 
@@ -23,7 +25,11 @@ public class Carta implements Serializable {
     private Long id_carta;
 
     @Column(nullable = false)
+    @NotNull(message = "cant be null")
+    @Size(min=2, max=50, message = "debe tener entre 2 y 50 caracteres")
     private String nombre;
+    @Column(nullable = false)
+    @Size(min=2, max=50, message = "debe tener entre 2 y 50 caracteres")
     private String url_img;
     private boolean usa_img;
     private boolean visible;

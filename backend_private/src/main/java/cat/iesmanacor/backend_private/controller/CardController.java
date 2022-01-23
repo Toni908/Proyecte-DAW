@@ -151,6 +151,7 @@ public class CardController {
     public String getCategories(@PathVariable(value = "id") Long id, Model model){
         Optional<Carta> carta = cartaService.findById(id);
         model.addAttribute("carta", carta.get());
+        model.addAttribute("restaurant", carta.get().getRestaurant());
 
         return "categories";
     }
@@ -215,6 +216,7 @@ public class CardController {
     public String getDish(@PathVariable(value = "id") Long id, Model model){
         Optional<Categoria> category = categoriaService.findById(id);
         model.addAttribute("category", category.get());
+        model.addAttribute("restaurant", category.get().getCarta().getRestaurant());
 
         return "platos";
     }
