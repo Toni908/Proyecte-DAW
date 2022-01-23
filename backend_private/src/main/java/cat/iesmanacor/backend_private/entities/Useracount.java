@@ -1,6 +1,7 @@
 package cat.iesmanacor.backend_private.entities;
 
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -8,6 +9,7 @@ import java.math.BigInteger;
 
 @Data
 @Entity
+@ToString
 @Table(name = "user_acount")
 public class Useracount {
     @Id

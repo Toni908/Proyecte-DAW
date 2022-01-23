@@ -8,6 +8,7 @@ import java.math.BigInteger;
 import java.util.List;
 
 public interface ImgRepository extends JpaRepository<Img, BigInteger> {
+
     @Query(value = "SELECT * FROM img WHERE url = ?1",nativeQuery = true)
     List<Img> findImgByUrl(String name);
 
@@ -18,4 +19,8 @@ public interface ImgRepository extends JpaRepository<Img, BigInteger> {
     //GET IMG FROM RESTAURANT
     @Query(value = "select id_img, url, img.id_restaurante from img inner join restaurante where img.id_restaurante = restaurante.id_restaurante and img.id_restaurante = ?1",nativeQuery = true)
     List<Img> findImgFromRestaurantId(BigInteger id);
+
+    //GET SINGLE IMG FROM RESTAURANT
+    @Query(value = "select id_img,url,img.id_restaurante from img inner join restaurante, user_acount where img.id_restaurante = restaurante.id_restaurante  and user_acount.id_user = restaurante.id_user and user_acount.id_user = ?1 group by img.id_restaurante",nativeQuery = true)
+    List<Img> findSingleImgFromEachRestaurantFindedByUserId(BigInteger id_user);
 }

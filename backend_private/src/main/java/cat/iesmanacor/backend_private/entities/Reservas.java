@@ -1,6 +1,7 @@
 package cat.iesmanacor.backend_private.entities;
 
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -9,6 +10,7 @@ import java.sql.Timestamp;
 
 @Data
 @Entity
+@ToString
 @Table(name = "reserva")
 public class Reservas {
     @Id

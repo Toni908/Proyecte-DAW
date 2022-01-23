@@ -1,6 +1,7 @@
 package cat.iesmanacor.backend_private.entities;
 
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.DecimalMin;
@@ -9,6 +10,7 @@ import javax.validation.constraints.Pattern;
 
 @Data
 @Entity
+@ToString
 @Table(name = "factura")
 public class Factura {
     @Id
