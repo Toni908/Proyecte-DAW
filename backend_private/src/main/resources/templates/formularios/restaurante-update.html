@@ -12,7 +12,7 @@
 <div th:insert="shared/headerVersion2 :: header" class="sticky-top top-0"></div>
 <div th:insert="shared/missage :: messages"></div>
 
-<div id="error" class="message_error"></div>
+<div th:if="${error}!=null" th:text="${error}" class="message_error"></div>
 
 <main class="w-100 p-0 m-0">
     <aside th:insert="shared/asideList :: aside"></aside>
@@ -214,6 +214,9 @@
 <!--                                        <button onclick="deleteImg(this)" class="bg-danger text-white border-0 position-absolute rounded-circle" style="width: 30px; right: 40px; top: 20px">X</button>-->
                                         <img class="d-block w-100" style="object-fit: cover" th:src="@{${restaurant.getPhotosImagePath()}+${image.url}}" />
                                     </div>
+                                    <div th:if="${imagesRestaurant.size()}==0">
+                                        <img class="img-restaurant p-3 w-100" th:src="@{/img/no-photo-available.jpg}" alt="Img Restaurant (1)">
+                                    </div>
                                 </div>
                                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
                                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -224,7 +227,7 @@
                                     <span class="visually-hidden">Next</span>
                                 </button>
                             </div>
-                            <div class="mb-3 p-0">
+                            <div class="mb-3 p-0 mt-3">
                                 <div class="ps-3 paraf_form">Insert images</div>
                                 <label class="w-100 field_form_principal">
                                     <input class="input-text validateImagenResponse" name="saveMultiple" multiple accept="image/jpeg, image/jpg, image/png, image/gif" type="file" maxlength="80" placeholder="URL" required>

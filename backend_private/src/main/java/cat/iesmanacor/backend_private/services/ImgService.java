@@ -21,7 +21,7 @@ public interface ImgService {
 
     // QUERY
 
-    public List<Img> findImgByUrl(String url);
+    List<Img> findImgByUrl(String url);
 
     List<Img> findImgFromRestaurantByUseracount(BigInteger id);
 
