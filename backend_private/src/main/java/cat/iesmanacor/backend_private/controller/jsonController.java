@@ -1,15 +1,15 @@
 package cat.iesmanacor.backend_private.controller;
 
 import cat.iesmanacor.backend_private.entities.*;
-import cat.iesmanacor.backend_private.services.EtiquetasService;
-import cat.iesmanacor.backend_private.services.LocalidadService;
-import cat.iesmanacor.backend_private.services.MunicipioService;
-import cat.iesmanacor.backend_private.services.RestaurantService;
+import cat.iesmanacor.backend_private.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigInteger;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class jsonController {
@@ -25,6 +25,9 @@ public class jsonController {
     @Autowired
     LocalidadService localidadService;
 
+    @Autowired
+    MembresiaService membresiaService;
+
     @GetMapping(value = "/get/restaurantes/admin/json")
     public List<Restaurant> getRestaurantes(){
         return restaurantService.findAllRestaurants();
@@ -39,8 +42,20 @@ public class jsonController {
     public List<Municipios> getMunicipios(){
         return  municipioService.findAllMunicipios();
     }
+
     @GetMapping(value = "/get/localidades/admin/json", produces = { "application/json" })
     public List<Localidad> getLocalidades(){
         return  localidadService.findAllLocalidad();
+    }
+
+    @GetMapping(value = "/get/membresia/admin/json", produces = { "application/json" })
+    public List<Membresia> getMembresias(){
+        return  membresiaService.findAllMembresia();
+    }
+
+    @GetMapping(value = "/get/membresia/admin/json/{id}", produces = { "application/json" })
+    public Membresia getSingleRestaurantMembresia(@PathVariable BigInteger id){
+        Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
+        return restaurant.map(Restaurant::getMembresia).orElse(null);
     }
 }

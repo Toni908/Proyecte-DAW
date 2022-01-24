@@ -2,17 +2,16 @@ package cat.iesmanacor.backend_private.controller;
 
 import cat.iesmanacor.backend_private.entities.Factura;
 import cat.iesmanacor.backend_private.entities.Membresia;
+import cat.iesmanacor.backend_private.entities.Restaurant;
 import cat.iesmanacor.backend_private.services.FacturaService;
 import cat.iesmanacor.backend_private.services.MembresiaService;
+import cat.iesmanacor.backend_private.services.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.validation.Valid;
@@ -23,66 +22,71 @@ import java.util.Optional;
 public class MembresiaControllerImpl {
 
     @Autowired
+    RestaurantService restaurantService;
+
+    @Autowired
     MembresiaService membresiaService;
 
     @Autowired
     FacturaService facturaService;
 
-    private final String __route_formularis = "formularis/layout-form";
-    private final String __route_table = "tables/layout-table";
     private final String __route_home = "links";
 
-    //////////////         MEMBRESIA FORMULARIOS        ////////////////////
+    // FORMULARIOS
 
-    @RequestMapping(value = "/membresia/create", method = RequestMethod.GET)
-    public String create(ModelMap model) {
-        model.addAttribute("type","membresia-create");
-        model.addAttribute("object",new Membresia());
-        model.addAttribute("array",facturaService.findAllFactura());
-        return __route_formularis;
-    }
-
-    @RequestMapping(value = "/membresia/update/{id}", method = RequestMethod.GET)
-    public String update(@PathVariable BigInteger id, ModelMap model) {
+    @RequestMapping(value = "/membresia/create/{id}",method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
+    public String create(@PathVariable BigInteger id, ModelMap model) {
+        inicializeModelMap(model);
         if (id!=null) {
-            Optional<Membresia> membresia = membresiaService.findMembresiaById(id);
-            if (membresia.isPresent()) {
-                model.addAttribute("type", "membresia-update");
-                model.addAttribute("object", membresia.get());
-                model.addAttribute("array", facturaService.findAllFactura());
-                return __route_formularis;
+            Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
+            if (restaurant.isPresent()) {
+                model.addAttribute("restaurant",restaurant.get());
+                return "formularios/membresia-create";
             }
         }
-        model.addAttribute("error","MEMBRESIA SELECTED DOESNT PRESENT");
         return __route_home;
     }
 
+    @RequestMapping(value = "/membresia/list/{id}",method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
+    public String list(@PathVariable BigInteger id, ModelMap model) {
+        inicializeModelMap(model);
+        if (id!=null) {
+            Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
+            if (restaurant.isPresent()) {
+                model.addAttribute("restaurant",restaurant.get());
+                return "formularios/membresia-update";
+            }
+        }
+        return __route_home;
+    }
+
+
     //////////////         MEMBRESIA ACTIONS        ////////////////////
 
-    @RequestMapping(value = "/membresia/save",method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
-    public String save(@ModelAttribute @Valid Membresia membresia, BindingResult errors, ModelMap model) {
-        inicializeModelMap(model);
-
-        if (errors.hasErrors()) {
-            return "redirect:/membresia/create";
-        }
-
-        if (membresia.getFactura().getNum_factura()!=null) {
-            Optional<Factura> factura = facturaService.findFacturaById(membresia.getFactura().getNum_factura());
-            if (factura.isPresent()) {
-                if (checkNum_Factura(factura.get().getNum_factura())) {
-                    model.addAttribute("error", "factura relation is already done");
-                } else {
-                    saveMembresia(membresia);
-                }
-            } else {
-                model.addAttribute("error","FACTURA NOT FOUND");
-            }
-        } else {
-            model.addAttribute("error","FACTURA NOT FOUND");
-        }
-        return show(model);
-    }
+//    @RequestMapping(value = "/membresia/save",method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
+//    public String save(@RequestParam, ModelMap model) {
+//        inicializeModelMap(model);
+//
+//        if (errors.hasErrors()) {
+//            return "redirect:/membresia/create";
+//        }
+//
+//        if (membresia.getFactura().getNum_factura()!=null) {
+//            Optional<Factura> factura = facturaService.findFacturaById(membresia.getFactura().getNum_factura());
+//            if (factura.isPresent()) {
+//                if (checkNum_Factura(factura.get().getNum_factura())) {
+//                    model.addAttribute("error", "factura relation is already done");
+//                } else {
+//                    saveMembresia(membresia);
+//                }
+//            } else {
+//                model.addAttribute("error","FACTURA NOT FOUND");
+//            }
+//        } else {
+//            model.addAttribute("error","FACTURA NOT FOUND");
+//        }
+//        return __route_home;
+//    }
 
 
     @RequestMapping(value = "/membresia/put",method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
@@ -110,7 +114,7 @@ public class MembresiaControllerImpl {
         } else {
             model.addAttribute("error","factura or membresia is not present");
         }
-        return show(model);
+        return  __route_home;
     }
 
     @RequestMapping(value = "/membresia/delete/{id}", method = RequestMethod.GET, produces = "application/json")
@@ -126,22 +130,16 @@ public class MembresiaControllerImpl {
         return new RedirectView("/membresias");
     }
 
-    @RequestMapping(value = "/membresias",method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
-    public String show(ModelMap model) {
-        model.addAttribute("membresias",membresiaService.findAllMembresia());
-        return __route_table;
-    }
-
     @RequestMapping(value = "/membresia/{id}",method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
     public String findMembresiaById(@PathVariable BigInteger id, ModelMap model) {
         if (id!=null) {
-            Optional<Membresia> membresia = membresiaService.findMembresiaById(id);
-            if (membresia.isPresent()) {
-                model.addAttribute("membresia", membresia.get());
-                return __route_table;
+            Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
+            if (restaurant.isPresent()) {
+                model.addAttribute("membresia", restaurant.get());
+                return "formularios/membresia-update";
             }
+            model.addAttribute("error","No se a encontrado la Membresia");
         }
-        model.addAttribute("error","MEMBRESIA NOT FOUNDED");
         return __route_home;
     }
 

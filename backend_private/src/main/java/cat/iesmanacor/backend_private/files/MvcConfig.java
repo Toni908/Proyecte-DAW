@@ -16,8 +16,7 @@ public class MvcConfig implements WebMvcConfigurer {
     }
 
     public void exposeDirectory(String dirname, ResourceHandlerRegistry registry) {
-        Path uploadDir = Paths.get(dirname);
-        String uploadPath = uploadDir.toFile().getAbsolutePath();
+        String uploadPath = "C:\\Users\\Andres\\Documents\\Proyecte-DAW\\restaurantes-photos";
 
         if (dirname.startsWith("../")) dirname = dirname.replace("../","");
 
