@@ -19,7 +19,14 @@
             <article class="single_restaurant" th:each="restaurante, iteration : ${restaurantesUser}">
                 <a class="text-decoration-none text-black" th:href="@{'/restaurant/update/'+${restaurante.id_restaurante}}">
                     <div class="card">
-                        <img class="img-restaurant p-3 w-100" th:each="img : ${images}" th:if="${restaurante.id_restaurante}==${img.restaurant.id_restaurante}" th:src="@{'/img/restaurants/'+${img.url}}" alt="Img Restaurant (1)">
+                        <div th:each="imageSingle, iterationImg : ${imageSingleForRestaurant}">
+                            <div th:if="${restaurante.id_restaurante}==${imageSingle.restaurant.id_restaurante}">
+                                <img class="img-restaurant p-3 w-100" th:src="@{${restaurante.getPhotosImagePath()}+${imageSingle.url}}" alt="Img Restaurant (1)">
+                            </div>
+                        </div>
+                        <div th:if="${imageSingleForRestaurant.size()}==0">
+                            <img class="img-restaurant p-3 w-100" th:src="@{/img/no-photo-available.jpg}" alt="Img Restaurant (1)">
+                        </div>
                         <div class="container">
                             <h4 class="d-flex justify-content-center w-100"><b th:text="${restaurante.nombre}"></b></h4>
                             <!-- Horario inicio y fin -->

@@ -1,6 +1,9 @@
 package cat.iesmanacor.backend_private.entities;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -9,6 +12,7 @@ import java.math.BigInteger;
 
 @Data
 @Entity
+@ToString
 @Table(name = "img")
 public class Img {
     @Id
