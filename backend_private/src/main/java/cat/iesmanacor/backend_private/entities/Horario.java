@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -32,9 +34,16 @@ public class Horario implements Serializable {
     @NotNull(message = "no puede estar vacio")
     private Timestamp hora_fin;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "dia_semanal_horario",
+    @Column(nullable = false)
+    @NotNull(message = "no puede estar vacio")
+    @Min(value = -1 , message = "Value should be greater then then equal to -1")
+    @Max(value = 7 , message = "Value should be less then then equal to 7")
+    private int day;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name="periodo_horarios",
             joinColumns = { @JoinColumn(name = "id_horario") },
-            inverseJoinColumns = { @JoinColumn(name = "id_dia_semanal")})
-    private List<DiaSemanal> diaSemanals;
+            inverseJoinColumns = { @JoinColumn(name = "id_periodo")})
+    private List<Periodo> periodos;
+
 }
