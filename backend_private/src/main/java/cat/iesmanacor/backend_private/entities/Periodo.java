@@ -31,7 +31,14 @@ public class Periodo implements Serializable {
     @NotNull(message = "no puede estar vacio")
     private Date fecha_fin;
 
-    @OneToMany(mappedBy = "periodo")
-    private List<DiaSemanalPeriodo> diaSemanalPeriodo;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_restaurante")
+    private Restaurant restaurant;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name="periodo_horarios",
+            joinColumns = { @JoinColumn(name = "id_periodo") },
+            inverseJoinColumns = { @JoinColumn(name = "id_horario")})
+    private List<Horario> horarios;
 
 }

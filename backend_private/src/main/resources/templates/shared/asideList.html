@@ -21,9 +21,9 @@
       <i class="bi bi-tags" style="font-size: 25px"></i>
       Etiquetas
     </a>
-    <a class="w-100 select-info text-decoration-none text-black ps-5" href="#calendarioFixed">
+    <a class="w-100 select-info text-decoration-none text-black ps-5" th:href="@{'/restaurant/admin/horario/' +${restaurant.id_restaurante}}">
       <i class="bi bi-calendar-week" style="font-size: 25px"></i>
-      Calendario
+      Gestion de Horarios
     </a>
     <a class="w-100 select-info text-decoration-none text-black ps-5" th:href="@{'/restaurant/admin/'+${restaurant.id_restaurante}+'/cards'}">
       <i class="bi bi-menu-button-wide-fill" style="font-size: 25px"></i>
