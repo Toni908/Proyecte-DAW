@@ -62,7 +62,7 @@ public class Restaurant {
     @Transient
     public String getPhotosImagePath() {
         if (id_restaurante == null) return null;
-        return "/"+ id_restaurante + "/";
+        return "/restaurantes-photos/"+ id_restaurante + "/";
     }
 
     public Restaurant() {

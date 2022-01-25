@@ -16,13 +16,13 @@ public class MvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        FileUploadUtil.url = environment.getProperty("img.file.destiny");
-        exposeDirectory(environment.getProperty("img.file.destiny"),registry);
+        FileUploadUtil.url = environment.getProperty("img.file.destiny.directory");
+        exposeDirectory("restaurantes-photos",registry);
     }
 
     public void exposeDirectory(String dirname, ResourceHandlerRegistry registry) {
         if (dirname.startsWith("../")) dirname = dirname.replace("../","");
 
-        registry.addResourceHandler(dirname+"/**").addResourceLocations("file:/"+environment.getProperty("img.file.destiny")+"/");
+        registry.addResourceHandler(dirname+"/**").addResourceLocations("file:/"+environment.getProperty("img.file.destiny.directory")+"/");
     }
 }
