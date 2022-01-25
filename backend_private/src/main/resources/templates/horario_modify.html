@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit cards</title>
+    <link th:href="@{/css/custom.css}" rel="stylesheet"/>
+    <link th:href="@{/css/form.css}" rel="stylesheet"/>
+</head>
+<body>
+<div th:insert="shared/headerVersion2 :: header"/>
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <a class="col-lg-3 col-md-4 col-sm-6 col-12 my-1 justify-content-center" th:href="@{'/restaurant/admin/periodo/horario/' + ${horario.periodo.id_periodo}}">
+            <button class="w-100 pt-2 pb-2 paraf_form rounded" value="Editar Platos"> Volver a los Horarios </button>
+        </a>
+    </div>
+</div>
+
+<hr class="w-75 mx-auto">
+
+<main class="d-flex flex-row justify-content-center">
+
+    <div class="form_section w-50 py-5 my-5">
+        <form method="post" class="container form_container" th:action="@{'/restaurant/admin/periodo/horario/save/'+ ${horario.periodo.id_periodo}}">
+
+            <div class="tittle_form">
+                <h1 class="text-center" th:if="${horario.id_horario != null}"> Editar Horario </h1>
+                <h1 class="text-center" th:unless="${horario.id_horario != null}"> Crear Horario </h1>
+            </div>
+
+            <div class="body_form">
+                <div class="container">
+                    <div class="row justify-content-md-center">
+
+                <div th:if="${horario.id_horario != null}" class="d-none d-flex justify-content-center">
+                    <div class="mb-3 p-0 text-center" style="width: 80%">
+                        <div class="paraf_form">Id:</div>
+                        <label class="w-100 field_form_principal">
+                            <input class="input-text" id="id_horario" name="id_horario" th:value="${horario.id_horario}" type="text" readonly>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-center col-6">
+                    <div class="mb-3 p-0 text-center" style="width: 80%">
+                        <div class="paraf_form">Hora Entrada:</div>
+                        <label class="w-100 field_form_principal">
+                            <select class="input-text" name="dateStart">
+                                <option value="00:00:00">00:00:00</option>
+                                <option value="01:00:00">01:00:00</option>
+                                <option value="02:00:00">02:00:00</option>
+                                <option value="03:00:00">03:00:00</option>
+                                <option value="04:00:00">04:00:00</option>
+                                <option value="05:00:00">05:00:00</option>
+                                <option value="06:00:00">06:00:00</option>
+                                <option value="07:00:00">07:00:00</option>
+                                <option value="08:00:00">08:00:00</option>
+                                <option value="09:00:00">09:00:00</option>
+                                <option value="10:00:00">10:00:00</option>
+                                <option value="11:00:00">11:00:00</option>
+                                <option value="12:00:00">12:00:00</option>
+                                <option value="13:00:00">13:00:00</option>
+                                <option value="14:00:00">14:00:00</option>
+                                <option value="15:00:00">15:00:00</option>
+                                <option value="16:00:00">16:00:00</option>
+                                <option value="17:00:00">17:00:00</option>
+                                <option value="18:00:00">18:00:00</option>
+                                <option value="19:00:00">19:00:00</option>
+                                <option value="20:00:00">20:00:00</option>
+                                <option value="21:00:00">21:00:00</option>
+                                <option value="22:00:00">22:00:00</option>
+                                <option value="23:00:00">23:00:00</option>
+                            </select>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-center col-6">
+                    <div class="mb-3 p-0 text-center" style="width: 80%">
+                        <div class="paraf_form">Hora Salida:</div>
+                        <label class="w-100 field_form_principal">
+                            <select class="input-text" name="dateEnd">
+                                <option value="01:00:00">01:00:00</option>
+                                <option value="02:00:00">02:00:00</option>
+                                <option value="03:00:00">03:00:00</option>
+                                <option value="04:00:00">04:00:00</option>
+                                <option value="05:00:00">05:00:00</option>
+                                <option value="06:00:00">06:00:00</option>
+                                <option value="07:00:00">07:00:00</option>
+                                <option value="08:00:00">08:00:00</option>
+                                <option value="09:00:00">09:00:00</option>
+                                <option value="10:00:00">10:00:00</option>
+                                <option value="11:00:00">11:00:00</option>
+                                <option value="12:00:00">12:00:00</option>
+                                <option value="13:00:00">13:00:00</option>
+                                <option value="14:00:00">14:00:00</option>
+                                <option value="15:00:00">15:00:00</option>
+                                <option value="16:00:00">16:00:00</option>
+                                <option value="17:00:00">17:00:00</option>
+                                <option value="18:00:00">18:00:00</option>
+                                <option value="19:00:00">19:00:00</option>
+                                <option value="20:00:00">20:00:00</option>
+                                <option value="21:00:00">21:00:00</option>
+                                <option value="22:00:00">22:00:00</option>
+                                <option value="23:00:00">23:00:00</option>
+                                <option value="24:00:00">24:00:00</option>
+                            </select>
+                        </label>
+                    </div>
+                </div>
+
+                <div th:if="${horario.id_horario != null}" class="d-flex justify-content-center col-9">
+                    <div class="mb-3 p-0 text-center" style="width: 80%">
+                        <div class="paraf_form">Seleciona los dias:</div>
+                        <label class="w-100 field_form_principal">
+                            <select class="input-text" name="dateEnd">
+                                <option value="Lunes">Lunes</option>
+                                <option value="Martes">Martes</option>
+                                <option value="Miercoles">Miercoles</option>
+                                <option value="Jueves">Jueves</option>
+                                <option value="Viernes">Viernes</option>
+                                <option value="Sabado">Sabado</option>
+                                <option value="Domingo">Domingo</option>
+                            </select>
+                        </label>
+                    </div>
+                </div>
+
+                        <div th:unless="${horario.id_horario != null}" class="d-flex justify-content-center col-6">
+                            <div class="mb-3 p-0 text-center" style="width: 80%">
+                                <div class="paraf_form">Seleciona los dias:</div>
+                                <label class="w-100 field_form_principal">
+                                    <div class="form-check text-start ms-3 my-1">
+                                        <input class="form-check-input" type="checkbox" value="Lunes" name="checkbox" id="flexCheckDefault">
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                            Lunes
+                                        </label>
+                                    </div>
+                                    <div class="form-check text-start ms-3">
+                                        <input class="form-check-input" type="checkbox" value="Martes" name="checkbox" id="flexCheckDefault">
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                            Martes
+                                        </label>
+                                    </div>
+                                    <div class="form-check text-start ms-3">
+                                        <input class="form-check-input" type="checkbox" value="Miercoles" name="checkbox" id="flexCheckDefault">
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                            Miercoles
+                                        </label>
+                                    </div>
+                                    <div class="form-check text-start ms-3">
+                                        <input class="form-check-input" type="checkbox" value="Jueves" name="checkbox" id="flexCheckDefault">
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                            Jueves
+                                        </label>
+                                    </div>
+                                    <div class="form-check text-start ms-3">
+                                        <input class="form-check-input" type="checkbox" value="Viernes" name="checkbox" id="flexCheckDefault">
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                            Viernes
+                                        </label>
+                                    </div>
+                                    <div class="form-check text-start ms-3">
+                                        <input class="form-check-input" type="checkbox" value="Sabado" name="checkbox" id="flexCheckDefault">
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                            Sabado
+                                        </label>
+                                    </div>
+                                    <div class="form-check text-start ms-3">
+                                        <input class="form-check-input" type="checkbox" value="Domingo" name="checkbox" id="flexCheckDefault">
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                            Domingo
+                                        </label>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+            </div>
+        </div>
+
+                <div class="pt-3 row d-flex flex-row justify-content-center gap-5">
+                    <input class="w-20 pt-2 pb-2 paraf_form rounded" type="submit" value="Submit" />
+                </div>
+
+            </div>
+
+        </form>
+    </div>
+
+</main>
+
+<div th:insert="shared/footer :: footer"/>
+
+
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/js/jquery-3.6.0.min.js}"></script>
+<script th:src="@{/js/headerv2.js}"></script>
+</body>
+</html>

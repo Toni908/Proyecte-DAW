@@ -9,9 +9,9 @@ import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.sql.Timestamp;
-import java.util.List;
+import java.sql.Time;
 
 @Data
 @AllArgsConstructor
@@ -28,22 +28,19 @@ public class Horario implements Serializable {
 
     @Column(nullable = false)
     @NotNull(message = "no puede estar vacio")
-    private Timestamp hora_inicio;
+    private Time hora_inicio;
 
     @Column(nullable = false)
     @NotNull(message = "no puede estar vacio")
-    private Timestamp hora_fin;
+    private Time hora_fin;
 
     @Column(nullable = false)
     @NotNull(message = "no puede estar vacio")
-    @Min(value = -1 , message = "Value should be greater then then equal to -1")
-    @Max(value = 7 , message = "Value should be less then then equal to 7")
-    private int day;
+    @Size(min=2, max=254, message = "debe tener entre 2 y 254 caracteres")
+    private String day;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name="periodo_horarios",
-            joinColumns = { @JoinColumn(name = "id_horario") },
-            inverseJoinColumns = { @JoinColumn(name = "id_periodo")})
-    private List<Periodo> periodos;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "id_periodo")
+    private Periodo periodo;
 
 }

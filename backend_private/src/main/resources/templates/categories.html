@@ -20,13 +20,13 @@
         <h3 th:text="${carta.nombre}"></h3>
         <table id="card_table" class="display" style="width:100%">
             <thead class="thead-dark">
-            <th scope="row">Id</th>
+            <th scope="row" class="d-none">Id</th>
             <th scope="row">Name</th>
             <th scope="row"></th>
             </thead>
             <tbody>
             <tr th:each="category : ${carta.categories}">
-                <td th:text="${category.id_categoria}"></td>
+                <td class="d-none" th:text="${category.id_categoria}"></td>
                 <td th:text="${category.nombre}"></td>
                 <td>
                     <a class="text-decoration-none text-white" th:href="@{'/restaurant/admin/category/edit/' + ${category.id_categoria}}"><button type='button' class='editar btn btn-primary'><i class="bi bi-pencil"></i></button></a>

@@ -3,10 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link th:href="@{/css/custom.css}" rel="stylesheet">
+    <link th:href="@{/css/footer.css}" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
 
-<footer class="w-100 mx-0 mt-5" style="bottom:0px; position: relative;">
+<footer class="footer w-100 mx-0 mt-5" style="position: static; bottom: 0px;">
 
         <footer class="w-100 text-center text-white bg-black">
             <!-- Grid container -->
@@ -58,5 +61,7 @@
             <!-- Copyright -->
         </footer>
 </footer>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/js/jquery-3.6.0.min.js}"></script>
 </body>
 </html>

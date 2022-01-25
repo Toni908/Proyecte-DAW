@@ -21,7 +21,7 @@
     <h3 th:text="${restaurant.nombre}"> </h3>
     <table id="card_table" class="display" style="width:100%">
         <thead class="thead-dark">
-            <th scope="row">Id</th>
+            <th scope="row" class="d-none">Id</th>
             <th scope="row">Name</th>
             <th scope="row">img</th>
             <th scope="row">Usa Imagen</th>
@@ -30,7 +30,7 @@
         </thead>
         <tbody>
         <tr th:each="carta : ${restaurant.cartas}">
-            <td th:text="${carta.id_carta}"></td>
+            <td th:text="${carta.id_carta}" class="d-none"></td>
             <td th:text="${carta.nombre}"></td>
             <td th:text="${carta.url_img}"></td>
             <td>
@@ -79,24 +79,6 @@
 
         var listar = function(){
             var card_table = $("#card_table").DataTable({
-                /*
-                dom: 'Bfrtip',
-                buttons: [
-                    {
-                        text: 'Crear Carta',
-                        attr: {class: "btn btn-primary mt-2"},
-                        action: function ( e, dt, node, config ) {
-                            window.location.href = $("#e1").attr(href);
-                        }
-                    },
-                    {
-                        text: 'Volver',
-                        attr: {class: "btn btn-secondary mt-2"},
-                        action: function ( e, dt, node, config ) {
-                            alert( 'Button activated' );
-                        }
-                    },
-                ] */
             });
             obtener_data("#card_table", card_table, "button.eliminar");
             obtener_data("#card_table", card_table, "button.editar");
