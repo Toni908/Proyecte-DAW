@@ -1,25 +1,28 @@
 package cat.iesmanacor.backend_private.files;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.util.Objects;
 
 @Configuration
 public class MvcConfig implements WebMvcConfigurer {
 
+    @Autowired
+    Environment environment;
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        FileUploadUtil.url = environment.getProperty("img.file.destiny.directory");
         exposeDirectory("restaurantes-photos",registry);
     }
 
     public void exposeDirectory(String dirname, ResourceHandlerRegistry registry) {
-        String uploadPath = "C:\\Users\\Andres\\Documents\\Proyecte-DAW\\restaurantes-photos";
-
         if (dirname.startsWith("../")) dirname = dirname.replace("../","");
 
-        registry.addResourceHandler("/",dirname+"/**").addResourceLocations("file:/"+uploadPath+"/");
+        registry.addResourceHandler(dirname+"/**").addResourceLocations("file:/"+environment.getProperty("img.file.destiny.directory")+"/");
     }
 }

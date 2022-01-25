@@ -1,5 +1,6 @@
 package cat.iesmanacor.backend_private.entities;
 
+import cat.iesmanacor.backend_private.files.FileUploadUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.ToString;
@@ -61,7 +62,7 @@ public class Restaurant {
     @Transient
     public String getPhotosImagePath() {
         if (id_restaurante == null) return null;
-        return "/restaurantes-photos/" + id_restaurante + "/";
+        return "/restaurantes-photos/"+ id_restaurante + "/";
     }
 
     public Restaurant() {
