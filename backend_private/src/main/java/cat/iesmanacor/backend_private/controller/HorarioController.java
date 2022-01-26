@@ -18,6 +18,10 @@ import java.math.BigInteger;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -83,10 +87,15 @@ public class HorarioController {
         return "periodo_modify";
     }
 
+    boolean isWithinRange(Date testDate, Date startDate, Date endDate) {
+        return !(testDate.before(startDate) || testDate.after(endDate));
+    }
+
     @PostMapping("/horario/periodo/save/{id}")
-    public String savePeriodo(@PathVariable(value = "id") BigInteger id, @RequestParam("daterange") String dateRange, @Valid Periodo periodo, BindingResult result){
+    public String savePeriodo(@PathVariable(value = "id") BigInteger id, @RequestParam("daterange") String dateRange, @Valid Periodo periodo, BindingResult result, Model model){
         Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
         periodo.setRestaurant(restaurant.get());
+        List<Periodo> periodos = restaurant.get().getPeriodos();
 
         if(periodo.getId_periodo() != null){
             Optional<Periodo> p = periodoService.findById(periodo.getId_periodo());
@@ -98,13 +107,47 @@ public class HorarioController {
         String[] dateStarts = splited[0].split("/");
         String[] dateEnds = splited[2].split("/");
 
+        boolean used = false;
+
         try {
             java.util.Date dateStartd = new SimpleDateFormat("yyyy/MM/dd").parse(dateStarts[2] + "/" + dateStarts[0] + "/" + dateStarts[1]);
             Date dateStart = new java.sql.Date(dateStartd.getTime());
             java.util.Date dateEndd = new SimpleDateFormat("yyyy/MM/dd").parse(dateEnds[2] + "/" + dateEnds[0] + "/" + dateEnds[1]);
             Date dateEnd = new java.sql.Date(dateEndd.getTime());
+
+            for(Periodo per : periodos){
+                String s = dateStarts[2] + "-" + dateStarts[0] + "-" + dateStarts[1];
+                String e = dateEnds[2] + "-" + dateEnds[0] + "-" + dateEnds[1];
+
+                LocalDate start = LocalDate.parse(s);
+                LocalDate end = LocalDate.parse(e);
+
+                List<LocalDate> totalDates = new ArrayList<>();
+
+                Date ps = per.getFecha_inicio();
+                Date pe = per.getFecha_fin();
+
+                while (!start.isAfter(end)) {
+                    totalDates.add(start);
+                    java.util.Date datest = Date.from(start.atStartOfDay(ZoneId.systemDefault()).toInstant());
+                    Date dateStartss = new java.sql.Date(datest.getTime());
+                    if(isWithinRange(dateStartss, ps, pe)){
+                        used = true;
+                        break;
+                    }
+                    start = start.plusDays(1);
+                }
+            }
+
             periodo.setFecha_inicio(dateStart);
             periodo.setFecha_fin(dateEnd);
+
+            if(used) {
+                model.addAttribute("error", "El periodo no puede coincidir con otros periodos de tu restaurante");
+                model.addAttribute("periodo", periodo);
+                return "periodo_modify";
+            }
+
         }catch(ParseException e){
             System.out.println("Espero que nada vaya aqui nunca");
         }

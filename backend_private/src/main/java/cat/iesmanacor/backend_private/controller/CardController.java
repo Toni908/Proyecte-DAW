@@ -121,12 +121,12 @@ public class CardController {
             String fileName = StringUtils.cleanPath(img.getOriginalFilename());
             if (!fileName.equals("")) {
                 carta.setUrl_img(fileName);
-            }
-            try (InputStream inputStream = img.getInputStream()){
-                Path filePath = uploadPath.resolve(fileName);
-                Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
-            }catch(IOException e){
+                try (InputStream inputStream = img.getInputStream()){
+                    Path filePath = uploadPath.resolve(fileName);
+                    Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+                }catch(IOException e){
 
+                }
             }
         }
 

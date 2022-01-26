@@ -77,6 +77,7 @@
                             <input th:if="${periodo.id_periodo != null}" class="text-center w-100 field_form_principal" type="text" name="daterange" th:value="${dateValue}" required/>
                             <input th:unless="${periodo.id_periodo != null}" class="text-center w-100 field_form_principal" type="text" name="daterange" value="" required/>
                         </label>
+                        <div th:if="${error != null}" th:text="${error}" style="font-size: 14px; color: red;"></div>
                     </div>
                 </div>
 
