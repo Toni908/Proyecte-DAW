@@ -53,6 +53,27 @@
                         </div>
                     </div>
                 </div>
+                <div class="form_section_2">
+                    <div class="container-responsive-form pe-2" style="width: 40%">
+                        <div class="form_2 p-0">
+                            <div class="ps-3 paraf_form">Aforo:</div>
+                            <label class="w-100 field_form_section">
+                                <input type="number" class="input-text validateAforo" th:field="*{aforo}">
+                            </label>
+                            <div id="validateAforo"></div>
+                        </div>
+                    </div>
+                    <div class="container-responsive-form ps-2" style="width: 40%">
+                        <div class="form_2 p-0">
+                            <div class="ps-3 paraf_form">Direccion:</div>
+                            <label class="w-100 field_form_section">
+                                <input type="text" max="40" class="input-text validateDireccion" th:field="*{direccion}">
+                            </label>
+                            <div id="validateDireccion"></div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="container-responsive-form d-flex justify-content-center flex-row">
                     <div class="p-0 form_2 pe-2" style="width: 40%">
                         <div class="ps-3 paraf_form">Municipio</div>

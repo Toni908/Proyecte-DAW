@@ -18,6 +18,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
+import java.io.File;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +58,7 @@ public class ImgControllerImpl {
 
             fileName = imgSumbited.getId_img() + fileName;
             img.setUrl(fileName);
-            String uploadDir = "restaurantes-photos/" + img.getRestaurant().getId_restaurante();
+            String uploadDir = ""+img.getRestaurant().getId_restaurante();
             FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
         } else {
             RedirectView redirectView = new RedirectView("/restaurant/update/"+img.getRestaurant().getId_restaurante(),true);
@@ -109,7 +110,7 @@ public class ImgControllerImpl {
             Optional<Img> img = imgService.findImgById(id);
             if (img.isPresent()) {
                 imgService.deleteImg(img.get().getId_img());
-                String uploadDir = "restaurantes-photos/" + img.get().getRestaurant().getId_restaurante();
+                String uploadDir = ""+img.get().getRestaurant().getId_restaurante();
                 FileUploadUtil.deleteImg(uploadDir, img.get().getUrl());
             }
         }
@@ -129,7 +130,7 @@ public class ImgControllerImpl {
                 Optional<Img> imgSelected = imgService.findImgById(singleId);
                 if (imgSelected.isPresent()) {
                     imgService.deleteImg(imgSelected.get().getId_img());
-                    String uploadDir = "restaurantes-photos/" + imgSelected.get().getRestaurant().getId_restaurante();
+                    String uploadDir = ""+imgSelected.get().getRestaurant().getId_restaurante();
                     FileUploadUtil.deleteImg(uploadDir, imgSelected.get().getUrl());
                 }
             }
@@ -165,7 +166,7 @@ public class ImgControllerImpl {
                 if (checkUrlisEmpty(fileName)) {
                     imgSumbited.setUrl(fileName);
                     imgService.updateImg(imgSumbited);
-                    String uploadDir = "restaurantes-photos/" + img.getRestaurant().getId_restaurante();
+                    String uploadDir = ""+img.getRestaurant().getId_restaurante();
                     FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
                 }
             }

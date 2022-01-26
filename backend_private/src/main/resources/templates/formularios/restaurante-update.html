@@ -80,6 +80,13 @@
                                         </label>
                                         <div id="validateTelefonoResponse"></div>
                                     </div>
+                                    <div class="col-sm p-0">
+                                        <label class="w-100 pe-2 ps-3">
+                                            Aforo:
+                                            <input type="number" class="input-text validateAforo" th:field="*{aforo}">
+                                        </label>
+                                        <div id="validateAforo"></div>
+                                    </div>
                                 </div>
                             </div>
                             <hr>
@@ -115,6 +122,17 @@
                                             Localidad:
                                             <input name="myLocalidad" type="text" class="input-text" th:value="${restaurant.localidad.nombre_localidad}" readonly/>
                                         </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="container pt-3 m-0 w-100 px-0">
+                                <div class="row">
+                                    <div class="col-sm p-0">
+                                        <label class="w-100 ps-2 pe-3">
+                                            Direccion:
+                                            <input type="text" max="40" class="input-text validateDireccion" th:field="*{direccion}">
+                                        </label>
+                                        <div id="validateDireccion"></div>
                                     </div>
                                 </div>
                             </div>
