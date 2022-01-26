@@ -28,9 +28,6 @@ public class EtiquetasControllerImpl {
 
     private final String __route_formulari_create = "formularios/restaurante-create";
     private final String __route_formulari_update = "formularios/restaurante-update";
-    private final String __path_file = "src/main/resources/static/img/restaurants/";
-    private final String __route_table = "tables/layout-table";
-    private final String __route_home = "home";
 
     @Autowired
     EtiquetasService etiquetasService;
