@@ -58,7 +58,7 @@
                         <div class="form_2 p-0">
                             <div class="ps-3 paraf_form">Aforo:</div>
                             <label class="w-100 field_form_section">
-                                <input type="number" class="input-text validateAforo" th:field="*{aforo}">
+                                <input type="number" class="input-text validateAforo" id="aforo" th:field="*{aforo}">
                             </label>
                             <div id="validateAforo"></div>
                         </div>
@@ -67,7 +67,7 @@
                         <div class="form_2 p-0">
                             <div class="ps-3 paraf_form">Direccion:</div>
                             <label class="w-100 field_form_section">
-                                <input type="text" max="40" class="input-text validateDireccion" th:field="*{direccion}">
+                                <input type="text" max="40" class="input-text validateDireccion" id="direccion" th:field="*{direccion}">
                             </label>
                             <div id="validateDireccion"></div>
                         </div>
@@ -337,6 +337,20 @@
             $("#validateEtiquetasResponse").append("<p class='text-danger fw-bold pt-2 text-center w-100'>Necesitas selecionar una etiqueta como minimo</p>");
         } else {
             $(".validateEtiquetasResponse").addClass("border border-success border-2")
+        }
+        if ($("#direccion").val()==="") {
+            errors++;
+            $(".validateDireccion").addClass("border border-danger border-2")
+            $("#validateDireccion").append("<p class='text-danger fw-bold pt-2 text-center w-100'>Necesitas selecionar una direccion como minimo</p>");
+        } else {
+            $(".validateDireccion").addClass("border border-success border-2")
+        }
+        if ($("#aforo").val()==="" || $("#aforo").val()===0) {
+            errors++;
+            $(".validateAforo").addClass("border border-danger border-2")
+            $("#validateAforo").append("<p class='text-danger fw-bold pt-2 text-center w-100'>Necesitas selecionar un aforo de 1 como minimo</p>");
+        } else {
+            $(".validateAforo").addClass("border border-success border-2")
         }
         return errors===0;
     }
