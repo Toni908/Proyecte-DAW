@@ -28,6 +28,9 @@ public class jsonController {
     @Autowired
     MembresiaService membresiaService;
 
+    @Autowired
+    ReservasService reservasService;
+
     @GetMapping(value = "/get/restaurantes/admin/json")
     public List<Restaurant> getRestaurantes(){
         return restaurantService.findAllRestaurants();
@@ -57,5 +60,10 @@ public class jsonController {
     public Membresia getSingleRestaurantMembresia(@PathVariable BigInteger id){
         Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
         return restaurant.map(Restaurant::getMembresia).orElse(null);
+    }
+
+    @GetMapping(value = "/get/reservas/json/{id}", produces = { "application/json" })
+    public List<Reservas> getReservasForRestaurant(@PathVariable BigInteger id){
+        return reservasService.findReservasByIdRestaurante(id);
     }
 }

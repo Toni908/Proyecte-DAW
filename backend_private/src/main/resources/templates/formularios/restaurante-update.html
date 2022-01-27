@@ -8,37 +8,8 @@
     <link th:href="@{/css/custom.css}" rel="stylesheet">
     <link th:href="@{/css/form.css}" rel="stylesheet">
     <link th:href="@{/css/asideLeft.css}" rel="stylesheet">
+    <link th:href="@{/css/restaurante_update.css}" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-        .img-block input {
-            display: none;
-        }
-        .img-block input:checked + label {
-            opacity: 1;
-            box-shadow: 0 0 0 3px red;
-        }
-        .img-block input:checked + label img {
-            filter: none;
-        }
-
-        .img-block label {
-            display: inline-block;
-            cursor: pointer;
-            overflow: hidden;
-            width: 100%;
-            height: 100%;
-            position: relative;
-            opacity: 0.6;
-        }
-
-        .img-block label img {
-            border-radius: 15px;
-            width: 100%;
-            height: 70%;
-            object-fit: cover;
-            filter: grayscale(100%);
-        }
-    </style>
 </head>
 <body>
 <div th:insert="shared/headerVersion2 :: header" class="sticky-top top-0"></div>
@@ -53,14 +24,14 @@
             <section class="pt-5" id="restauranteFixed">
                 <h3 class="title_section-info">Mi Restaurante</h3>
                 <div class="d-flex flex-row justify-content-center pt-2">
-                    <p class="paraf_form text-center fw-normal" style="width: 70%; color: #808080">Aqui encontraras todas las opciones para poder realizar las modificaciones que deseas actualizar, si tienes alguna pregunta sobre este apartado puedes preguntarlo en la secion de preguntas situada arriba a la derecha</p>
+                    <p class="paraf_form text-center fw-normal length-container">Aqui encontraras todas las opciones para poder realizar las modificaciones que deseas actualizar, si tienes alguna pregunta sobre este apartado puedes preguntarlo en la secion de preguntas situada arriba a la derecha</p>
                 </div>
                 <div class="d-flex flex-row justify-content-center">
-                    <div class="d-flex flex-column justify-content-center" style="width: 70%;">
-                        <div class="border border-secondary border-1 mt-5 p-4" style=" border-radius: 10px">
+                    <div class="d-flex flex-column justify-content-center length">
+                        <div class="border border-secondary border-1 mt-5 p-4 box-container">
                             <input type="hidden" th:field="*{id_restaurante}" hidden>
-                            <h4 class="fw-normal text-start text-black" style="font-family: 'Quicksand', sans-serif;">Informacion General</h4>
-                            <p class="paraf_form text-start fw-normal" style="font-size: small;color: #808080">Estos son los datos generales del restaurante, como podria ser el nombre, los dias de anticipacio de reservas y el telefono movil enlazado con el restaurante</p>
+                            <h4 class="fw-normal text-start text-black QuickSand">Informacion General</h4>
+                            <p class="paraf_form text-start fw-normal">Estos son los datos generales del restaurante, como podria ser el nombre, los dias de anticipacio de reservas y el telefono movil enlazado con el restaurante</p>
                             <div class="ps-3 text-lg-start text-center">Nombre:</div>
                             <label class="w-100">
                                 <input type="text" class="input-text validateNameResponse" th:field="*{nombre}">
@@ -92,7 +63,7 @@
                                 </div>
                             </div>
                             <hr>
-                            <p class="paraf_form text-start fw-normal pt-3" style="font-size: small;color: #808080">Estos son los datos generales del restaurante, como podria ser el nombre, los dias de anticipacio de reservas y el telefono movil enlazado con el restaurante</p>
+                            <p class="paraf_form text-start fw-normal pt-3">Estos son los datos generales del restaurante, como podria ser el nombre, los dias de anticipacio de reservas y el telefono movil enlazado con el restaurante</p>
                             <div class="container pt-3 m-0 w-100 px-0">
                                 <div class="row" id="localidadMunicipioChange">
                                     <div class="col-sm">
@@ -158,15 +129,15 @@
             <section class="pt-5" id="privacidadFixed">
                 <h3 class="title_section-info">Privacidad</h3>
                 <div class="d-flex flex-row justify-content-center pt-2">
-                    <p class="paraf_form text-start fw-normal" style="width: 70%; color: #808080; font-size: 12px">
+                    <p class="paraf_form text-start fw-normal length">
                         Puede ser que estes haciendo cambios en tus datos o que basicamente no quieras que se muestre tu restaurante, no te preocupes puedes hacerlo con esta opcion.
                     </p>
                 </div>
                 <div class="d-flex flex-row justify-content-center">
-                    <div class="d-flex flex-column justify-content-center" style="width: 70%;">
-                        <div class="border border-secondary border-1 mt-2 p-4" style=" border-radius: 10px">
-                            <h4 class="fw-normal text-start text-black" style="font-family: 'Quicksand', sans-serif;">Que significa la visibilidad?</h4>
-                            <p class="paraf_form text-start fw-normal" style="font-size: small;color: #808080">
+                    <div class="d-flex flex-column justify-content-center length">
+                        <div class="border border-secondary border-1 mt-2 p-4 box-container">
+                            <h4 class="fw-normal text-start text-black QuickSand">Que significa la visibilidad?</h4>
+                            <p class="paraf_form text-start fw-normal">
                                 La visibilidad es una manera de hacer que tu restaurante no se muestre a tus usuarios, ni en la pagina, de esta forma podras realizar los cambios sin necesidad de procuparte de que otra gente vea esos cambios.
                             </p>
                             <label><input type='number' name='idRestaurante' th:value="${restaurant.id_restaurante}" hidden/></label>
@@ -192,16 +163,17 @@
             <section class="pt-5" id="etiquetasFixed">
                 <h3 class="title_section-info">Mis Etiquetas</h3>
                 <div class="d-flex flex-row justify-content-center pt-2">
-                    <p class="paraf_form text-start fw-normal" style="width: 70%; color: #808080; font-size: 12px">
+                    <p class="paraf_form text-start fw-normal length">
                         Estos son las etiquetas que actualmente tienes activadas en tu restaurante, para cambiarlos solo tienes que dar click encima y desapareceran, recuerda que solo puedes tener 7 activas
                     </p>
                 </div>
                 <div class="d-flex flex-row justify-content-center">
-                    <div class="d-flex flex-column justify-content-center" style="width: 70%;">
-                        <div class="border border-secondary border-1 mt-2 p-4" style=" border-radius: 10px">
-                            <h4 class="fw-normal text-start text-black" style="font-family: 'Quicksand', sans-serif;">Etiquetas</h4>
-                            <p class="paraf_form text-start fw-normal" style="font-size: small;color: #808080">
+                    <div class="d-flex flex-column justify-content-center length">
+                        <div class="border border-secondary border-1 mt-2 p-4 box-container">
+                            <h4 class="fw-normal text-start text-black QuickSand">Etiquetas</h4>
+                            <p class="paraf_form text-start fw-normal">
                                 Para poder insertar etiquetas tienes en la parte izquierda un buscador y creador (sino encuentra ninguno), donde este buscara en todas las etiquetas existentes y asin podras añadir las etiquetas que mas se usan segun tu estilo de restaurante
+                                <a class="text-decoration-none text-danger">Recuerda minimo longitud 3 y maximo 15, y solo puedes tener 7 etiquetas activas</a>
                             </p>
                             <label><input type='number' name='idRestaurante' th:value="${restaurant.id_restaurante}" hidden/></label>
                             <div class="container pt-3 m-0 w-100 px-0">
@@ -224,14 +196,14 @@
                             </div>
                         </div>
                         <!-- BOX OF ETIQUETAS SELECTED -->
-                        <div class="align-self-center mt-4 pt-2" style="width: 100%;">
+                        <div class="align-self-center mt-4 pt-2 w-100">
                             <div class="text-center paraf_form">Etiquetas selecionadas</div>
                             <section class="h-100 p-4 h-auto" th:if="${etiquetas}!=null">
                                 <div class="d-flex flex-row justify-content-center flex-wrap gap-2" id="etiquetas_box">
-                                    <div class="border border-2 w-auto" style="border-color: #808080;border-radius: 15px" th:each="etiqueta : ${etiquetas}" onclick='deleteEtiqueta(this)'>
+                                    <div class="border border-2 w-auto box-container" th:each="etiqueta : ${etiquetas}" onclick='deleteEtiqueta(this)'>
                                         <i class='bi bi-tag ps-2'></i>
                                         <label class="w-auto">
-                                            <input name='etiquetas' class='singleEtiqueta border-0 ps-2' style="border-radius: 15px;" th:value="${etiqueta.nombre}" readonly/>
+                                            <input name='etiquetas' class='singleEtiqueta border-0 ps-2 box-container' th:value="${etiqueta.nombre}" readonly/>
                                         </label>
                                     </div>
                                 </div>
@@ -250,10 +222,10 @@
             <section class="pt-5" id="imagenesFixed">
                 <h3 class="title_section-info">Tus imagenes</h3>
                 <div class="d-flex flex-row justify-content-center pt-2">
-                    <div class="d-flex flex-column justify-content-center" style="width: 70%; ">
-                        <p class="paraf_form fw-normal text-center" style="color: #808080; font-size: 16px">
+                    <div class="d-flex flex-column justify-content-center length">
+                        <p class="paraf_form fw-normal text-center">
                             Quieres mas ventajas que nadie, pues hazte miembro y consigue ventajas muy buenas para extender tu restaurante por todo el mundo.
-                            Recuerda que solo puedes guardar (X) imagenes;
+                            Recuerda que solo puedes guardar 4 imagenes;
                         </p>
                         <p class="paraf_form fw-normal text-center" th:text="'Cantidad de imagenes: '+${imagesRestaurant.size()}">
 
@@ -262,15 +234,15 @@
                 </div>
                 <input type="hidden" name="idRestaurant" th:value="${restaurant.id_restaurante}" hidden>
                 <div class="d-flex flex-row justify-content-center">
-                    <div class="d-flex flex-column justify-content-center" style="width: 70%;">
-                        <div class="border border-secondary border-1 mt-2 p-4" style=" border-radius: 10px">
+                    <div class="d-flex flex-column justify-content-center length">
+                        <div class="border border-secondary border-1 mt-2 p-4 box-container">
                             <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
                                 <div class="carousel-inner">
                                     <div th:each="image, iteration : ${imagesRestaurant}" th:class="${iteration.index} == 0 ? 'carousel-item active' : 'carousel-item'">
-                                        <img class="d-block w-100" style="object-fit: cover; height: 500px" th:src="@{${restaurant.getPhotosImagePath()}+${image.url}}"  alt=""/>
+                                        <img class="d-block w-100 img-cover" th:src="@{${restaurant.getPhotosImagePath()}+${image.url}}"  alt=""/>
                                     </div>
                                     <div th:if="${imagesRestaurant.size()}==0">
-                                        <img class="d-block w-100" style="object-fit: fill; height: 500px" th:src="@{/img/no-photo-available.jpg}" alt="Img Restaurant (1)">
+                                        <img class="d-block w-100 img-cover" th:src="@{/img/no-photo-available.jpg}" alt="Img Restaurant (1)">
                                     </div>
                                 </div>
                                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
@@ -304,13 +276,13 @@
                 <h3 class="title_section-info">Gestion de tus imagenes</h3>
                 <input type="hidden" name="idRestaurante" th:value="${restaurant.id_restaurante}" hidden>
                 <div class="d-flex flex-row justify-content-center">
-                    <div class="d-flex flex-column justify-content-center" style="width: 70%;">
-                        <div class="border border-secondary border-1 mt-2 p-4" style=" border-radius: 10px">
+                    <div class="d-flex flex-column justify-content-center length">
+                        <div class="border border-secondary border-1 mt-2 p-4 box-container">
                             <ul id="inputSubmitImages" class="w-100 d-flex flex-row justify-content-center flex-wrap gap-2 img-block">
                                 <li class="w-25 h-100 list-unstyled" th:each="imagen : ${imagesRestaurant}">
                                     <input type="checkbox" name="images" th:value="${imagen.getId_img()}" th:id="${imagen.getId_img()}"/>
-                                    <label class="w-auto" style="border-radius: 15px" th:for="${imagen.getId_img()}">
-                                        <img class="p-0 m-0 d-block w-100" style="height: 120px" th:src="@{${restaurant.getPhotosImagePath()}+${imagen.url}}" alt="img" />
+                                    <label class="w-auto box-container" th:for="${imagen.getId_img()}">
+                                        <img class="p-0 m-0 d-block w-100 img-size-sm" th:src="@{${restaurant.getPhotosImagePath()}+${imagen.url}}" alt="img" />
                                     </label>
                                     <div th:each="imgModified : ${imageModified}" th:if="${imgModified[0]}==${imagen.getUrl()}" th:text="${imgModified[1]}"></div>
                                 </li>
@@ -329,8 +301,8 @@
             <section class="pt-5">
                 <h3 class="title_section-info">Eliminar <a th:text="${restaurant.nombre}"></a>?</h3>
                 <div class="d-flex flex-row justify-content-center">
-                    <div class="d-flex flex-column justify-content-center" style="width: 70%;">
-                        <div class="border border-secondary border-1 mt-2 p-4" style=" border-radius: 10px">
+                    <div class="d-flex flex-column justify-content-center length">
+                        <div class="border border-secondary border-1 mt-2 p-4 box-container">
                             <p class="paraf_form">Puede ser que tengas problemas con tu negocio y deseas emprender una vida nueva o un nuevo restaurante, para ello te damos la opcion de eliminar tu restaurante, recuerda <a class="text-decoration-none text-danger">al confirmar que quieres eliminar no se podra recuperar.</a></p>
                             <div class="d-flex flex-row justify-content-center pt-4">
                                 <button type="submit" class="btn btn-danger">Eliminar</button>

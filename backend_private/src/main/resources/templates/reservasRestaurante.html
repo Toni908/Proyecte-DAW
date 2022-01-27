@@ -1,21 +1,68 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Reservas</title>
+    <title>Mis Reservas</title>
     <link th:href="@{/css/custom.css}" rel="stylesheet">
     <link th:href="@{/css/form.css}" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .container-info {
+            width: 400px;
+        }
+        .select-info {
+            height: 70px;
+        }
+    </style>
 </head>
 <body>
 <div th:insert="shared/headerVersion2 :: header" class="sticky-top top-0"></div>
 <div th:insert="shared/missage :: messages"></div>
 
 <div id="error" class="message_error"></div>
-
-
+<aside class="float-info">
+    <div class="container-info">
+        <a class="w-100 select-info text-decoration-none text-black ps-5" th:href="@{/lista/restaurantes}">
+            <i class="bi bi-shop" style="font-size: 25px"></i>
+            Lista Restaurantes
+        </a>
+        <a th:each="restaurant : ${restaurantesUser}" th:name="${restaurant.id_restaurante}" class="restaurantes w-100 d-flex flex-row select-info text-decoration-none text-black ps-5">
+            <i class="bi bi-journal-text" style="font-size: 20px"></i>
+            <div th:text="${restaurant.nombre}"></div>
+        </a>
+    </div>
+</aside>
+<main id="main">
+    <section class="w-100 position-relative text-center d-lg-none d-block">
+        <div class="container-info w-100">
+            <a class="w-100 select-info d-flex flex-row justify-content-center rounded-0 text-decoration-none text-black " th:href="@{/lista/restaurantes}">
+                <i class="bi bi-shop" style="font-size: 25px"></i>
+                Lista Restaurantes
+            </a>
+            <a th:each="restaurant : ${restaurantesUser}" th:name="${restaurant.id_restaurante}" class="restaurantes w-100 d-flex flex-row justify-content-center rounded-0 select-info text-decoration-none text-black">
+                <i class="bi bi-journal-text" style="font-size: 20px"></i>
+                <div th:text="${restaurant.nombre}"></div>
+            </a>
+        </div>
+    </section>
+</main>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
 <script th:src="@{/js/header.js}"></script>
+<script>
+
+    const error = $("#error");
+
+    error.hide();
+
+    $(".restaurantes").on('click', function () {
+        $.getJSON( "/get/reservas/json/"+$(this).attr('name'), function( data ) {
+            $.each( data, function(key, object) {
+                console.log(object)
+                $("#main").append("<div>"+object.correo+"</div>")
+            });
+        });
+    });
+</script>
 </body>
 </html>
