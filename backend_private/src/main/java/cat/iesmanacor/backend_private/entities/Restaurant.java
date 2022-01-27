@@ -1,5 +1,6 @@
 package cat.iesmanacor.backend_private.entities;
 
+import cat.iesmanacor.backend_private.files.FileUploadUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.ToString;
@@ -51,6 +52,14 @@ public class Restaurant {
     @Column(name = "visible",columnDefinition="boolean default '0'")
     private boolean visible;
 
+    @Column(name = "direccion")
+    @NotNull
+    String direccion;
+
+    @Column(name = "aforo")
+    @NotNull
+    Long aforo;
+
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY,  mappedBy = "restaurant")
     private List<Carta> cartas;
@@ -61,14 +70,14 @@ public class Restaurant {
     @Transient
     public String getPhotosImagePath() {
         if (id_restaurante == null) return null;
-        return "/restaurantes-photos/" + id_restaurante + "/";
+        return "/restaurantes-photos/"+ id_restaurante + "/";
     }
 
     public Restaurant() {
 
     }
 
-    public Restaurant(BigInteger id_restaurante, String nombre, int dies_anticipacion_reservas, long telefono_restaurante, boolean validated, Localidad localidad, Membresia membresia, Useracount user, boolean visible) {
+    public Restaurant(BigInteger id_restaurante, String nombre, int dies_anticipacion_reservas, long telefono_restaurante, boolean validated,String direccion, Long aforo, Localidad localidad, Membresia membresia, Useracount user, boolean visible) {
         this.id_restaurante = id_restaurante;
         this.nombre = nombre;
         this.dies_anticipacion_reservas = dies_anticipacion_reservas;
@@ -76,11 +85,13 @@ public class Restaurant {
         this.validated = validated;
         this.localidad = localidad;
         this.membresia = membresia;
+        this.aforo = aforo;
+        this.direccion = direccion;
         this.useracount = user;
         this.visible = visible;
     }
 
-    public Restaurant(String nombre, int dies_anticipacion_reservas, long telefono_restaurante, boolean validated, Localidad localidad, Membresia membresia, Useracount user, boolean visible) {
+    public Restaurant(String nombre, int dies_anticipacion_reservas, long telefono_restaurante, boolean validated, Localidad localidad,String direccion, Long aforo, Membresia membresia, Useracount user, boolean visible) {
         this.nombre = nombre;
         this.dies_anticipacion_reservas = dies_anticipacion_reservas;
         this.telefono_restaurante = telefono_restaurante;
@@ -88,6 +99,8 @@ public class Restaurant {
         this.localidad = localidad;
         this.membresia = membresia;
         this.useracount = user;
+        this.aforo = aforo;
+        this.direccion = direccion;
         this.visible = visible;
     }
 }

@@ -1,5 +1,6 @@
 package cat.iesmanacor.backend_private.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -41,6 +42,7 @@ public class Periodo implements Serializable {
     @NotNull(message = "no puede estar vacio")
     private int capacidad;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_restaurante")
     private Restaurant restaurant;
