@@ -22,8 +22,7 @@
                         <div th:each="imageSingle, iterationImg : ${ImgImages}">
                             <div th:if="${restaurante.id_restaurante}==${imageSingle.id_restaurant}">
                                 <div th:if="${imageSingle.isEmpty()} == false">
-                                    <img class="img-restaurant p-3 w-100" th:src="@{/img/no-photo-available.jpg}" alt="Img Restaurant (1)">
-                                    <!--                                    <img class="img-restaurant p-3 w-100" th:src="@{${restaurante.getPhotosImagePath()}+${imageSingle.url}}" alt="Img Restaurant (1)">-->
+                                    <img class="img-restaurant p-3 w-100" th:src="@{${restaurante.getPhotosImagePath()}+${imageSingle.getImgs()[0].url}}" alt="Img Restaurant (1)">
                                 </div>
                                 <div th:if="${imageSingle.isEmpty()} == true">
                                     <img class="img-restaurant p-3 w-100" th:src="@{/img/no-photo-available.jpg}" alt="Img Restaurant (1)">
