@@ -3,8 +3,10 @@ package cat.iesmanacor.backend_private.controller;
 import cat.iesmanacor.backend_private.entities.Membresia;
 import cat.iesmanacor.backend_private.entities.Reservas;
 import cat.iesmanacor.backend_private.entities.Restaurant;
+import cat.iesmanacor.backend_private.entities.Useracount;
 import cat.iesmanacor.backend_private.services.ReservasService;
 import cat.iesmanacor.backend_private.services.RestaurantService;
+import cat.iesmanacor.backend_private.services.UseracountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -27,18 +29,18 @@ public class ReservaControllerImpl {
     @Autowired
     RestaurantService restaurantService;
 
+    @Autowired
+    UseracountService useracountService;
+
     //////////////         ROUTES        ////////////////////
 
-    @RequestMapping(value = "/reservas/{id}",method = RequestMethod.GET)
-    public String reservasForRestaurant(@PathVariable BigInteger id) {
-        if (id!=null) {
+    @RequestMapping(value = "/reservas",method = RequestMethod.GET)
+    public String reservasForRestaurant(ModelMap model) {
+        List<Useracount> useracount = useracountService.findAllUseracount();
+        if (useracount.get(1)!=null) {
+            model.addAttribute("restaurantesUser",restaurantService.findRestaurantByUseracount(useracount.get(1).getId_user()));
             return "reservasRestaurante";
         }
         return "home";
-    }
-
-    @GetMapping(value = "/get/reservas/json/{id}", produces = { "application/json" })
-    public List<Reservas> getSingleRestaurantMembresia(@PathVariable BigInteger id){
-        return reservasService.findReservasByIdRestaurante(id);
     }
 }

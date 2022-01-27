@@ -1,0 +1,59 @@
+.img-block input {
+  display: none;
+}
+.img-block input:checked + label {
+  opacity: 1;
+  box-shadow: 0 0 0 3px red;
+}
+.img-block input:checked + label img {
+  filter: none;
+}
+
+.img-block label {
+  display: inline-block;
+  cursor: pointer;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  opacity: 0.6;
+}
+
+.img-block label img {
+  border-radius: 15px;
+  width: 100%;
+  height: 70%;
+  object-fit: cover;
+  filter: grayscale(100%);
+}
+
+.length-container {
+  width: 70%;
+  color: #808080;
+}
+.length {
+  width: 70%;
+}
+.paraf_form {
+  font-size: small;
+  color: #808080;
+}
+.box-container {
+  border-radius: 15px;
+}
+.QuickSand {
+  font-family: 'Quicksand', sans-serif;
+}
+.img-cover {
+  object-fit: fill;
+  height: 500px;
+}
+.img-size-sm {
+  height: 120px;
+}
+
+@media only screen and (max-width: 800px) {
+  .length {
+    width: 90%;
+  }
+}
