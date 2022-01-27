@@ -11,11 +11,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.WebRequest;
 
 
 import javax.validation.Valid;
 import java.math.BigInteger;
 import java.sql.Date;
+import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -196,8 +198,44 @@ public class HorarioController {
     }
 
     @PostMapping("/periodo/horario/save/{id}")
-    public String saveHorario(@PathVariable(value = "id") Long id){
+    public String saveHorario(@PathVariable(value = "id") Long id, WebRequest request, @RequestParam("checkbox") List<String> listaDias){
+        Horario horario = new Horario();
 
-        return "redirect: /restaurant/admin/periodo/horario/" + id;
+        String id_horario = request.getParameter("id_horario");
+
+        Time start = java.sql.Time.valueOf(request.getParameter("dateStart"));
+        horario.setHora_inicio(start);
+        Time end = java.sql.Time.valueOf(request.getParameter("dateEnd"));
+        horario.setHora_fin(end);
+        Optional<Periodo> periodo = periodoService.findById(id);
+        horario.setPeriodo(periodo.get());
+
+        if(id_horario != null){
+            horario.setId_horario(Long.parseLong(id_horario));
+            horario.setDay(request.getParameter("dateChange"));
+            horarioService.save(horario);
+        }else{
+            for(int x = 1 ; x < listaDias.size() ; x++){
+                if(x == 1){
+                    Horario uno = horario;
+                }else if(x == 2){
+                    Horario dos = horario;
+                }else if(x == 3){
+                    Horario tres = horario;
+                }else if(x == 4){
+                    Horario cuatro = horario;
+                }else if(x == 5){
+                    Horario cinco = horario;
+                }else if(x == 6){
+                    Horario seis = horario;
+                }else if(x == 7){
+                    Horario siete = horario;
+                }
+            }
+        }
+
+        return "redirect:/restaurant/admin/periodo/horario/" + id;
     }
+
 }
+
