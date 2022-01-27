@@ -171,7 +171,7 @@
     municipios.show();
 
     function searchEtiquetas(etiquetaSearched) {
-        $.getJSON( "http://127.0.0.1:8080/get/etiquetas/admin/json", function( data ) {
+        $.getJSON( "/get/etiquetas/admin/json", function( data ) {
             let length = 0;
             selectEtiqueta.empty();
             $.each( data, function(key, object) {
@@ -261,7 +261,7 @@
         return false;
     }
 
-    $.getJSON("http://127.0.0.1:8080/get/municipios/admin/json", function (data) {
+    $.getJSON("/get/municipios/admin/json", function (data) {
         municipios.empty();
         $.each(data, function (key, object) {
             $("#municipio").append("<option value='" + key + "'>" + object.nombre_municipio + "</option>")
@@ -280,7 +280,7 @@
         let municipioSelected = $("#municipio option:selected").text();
 
         if (municipioSelected!=="-- Municipios --") {
-            $.getJSON("http://127.0.0.1:8080/get/localidades/admin/json", function (dataLocalidad) {
+            $.getJSON("/get/localidades/admin/json", function (dataLocalidad) {
                 $("#localidad").empty();
                 $.each(dataLocalidad, function (key, object) {
                     if (object.nombre_municipio.nombre_municipio === municipioSelected) {

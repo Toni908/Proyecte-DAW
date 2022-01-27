@@ -2,7 +2,9 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Mi Restaurante</title>
+    <title th:text="${restaurant.nombre}"></title>
+    <link rel=icon th:if="${imagesRestaurant.size()}!=0" th:href="@{${restaurant.getPhotosImagePath()}+${imagesRestaurant.get(0).url}}" sizes="16x16" type="image/png">
+    <link rel=icon th:if="${imagesRestaurant.size()}==0" th:href="@{/img/no-photo-available.jpg}" sizes="16x16" type="image/png">
     <link th:href="@{/css/custom.css}" rel="stylesheet">
     <link th:href="@{/css/form.css}" rel="stylesheet">
     <link th:href="@{/css/asideLeft.css}" rel="stylesheet">
@@ -322,6 +324,23 @@
             </section>
         </main>
     </form>
+    <form onsubmit="return confirm('Seguro que quieres eliminar el restaurante?')" class="d-flex flex-row justify-content-center mb-5" th:action="@{'/restaurant/delete/'+${restaurant.id_restaurante}}" method="GET">
+        <main class="d-flex flex-column justify-content-center body-info">
+            <section class="pt-5">
+                <h3 class="title_section-info">Eliminar <a th:text="${restaurant.nombre}"></a>?</h3>
+                <div class="d-flex flex-row justify-content-center">
+                    <div class="d-flex flex-column justify-content-center" style="width: 70%;">
+                        <div class="border border-secondary border-1 mt-2 p-4" style=" border-radius: 10px">
+                            <p class="paraf_form">Puede ser que tengas problemas con tu negocio y deseas emprender una vida nueva o un nuevo restaurante, para ello te damos la opcion de eliminar tu restaurante, recuerda <a class="text-decoration-none text-danger">al confirmar que quieres eliminar no se podra recuperar.</a></p>
+                            <div class="d-flex flex-row justify-content-center pt-4">
+                                <button type="submit" class="btn btn-danger">Eliminar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </form>
 </main>
 <footer th:insert="shared/footer :: footer"></footer>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
@@ -371,7 +390,7 @@
     });
 
     function searchEtiquetas(etiquetaSearched) {
-        $.getJSON( "http://127.0.0.1:8080/get/etiquetas/admin/json", function( data ) {
+        $.getJSON( "/get/etiquetas/admin/json", function( data ) {
             let length = 0;
             selectEtiqueta.empty();
             $.each( data, function(key, object) {
@@ -484,7 +503,7 @@
             actualMunicipioLocalidad.find("input[type=text]").disable = true;
             changeMunicipioLocalidad.find("input[type=text]").disable = false;
 
-            $.getJSON("http://127.0.0.1:8080/get/municipios/admin/json", function (data) {
+            $.getJSON("/get/municipios/admin/json", function (data) {
                 municipios.empty();
                 $.each(data, function (key, object) {
                     $("#municipio").append("<option value='" + key + "'>" + object.nombre_municipio + "</option>")
@@ -510,7 +529,7 @@
         let municipioSelected = $("#municipio option:selected").text();
 
         if (municipioSelected!=="-- Municipios --") {
-            $.getJSON("http://127.0.0.1:8080/get/localidades/admin/json", function (dataLocalidad) {
+            $.getJSON("/get/localidades/admin/json", function (dataLocalidad) {
                 $("#localidad").empty();
                 $.each(dataLocalidad, function (key, object) {
                     if (object.nombre_municipio.nombre_municipio === municipioSelected) {
@@ -534,10 +553,6 @@
         $("#localidad").empty();
         $("#localidad").append("<option value=\"\"><-Seleciona antes un Municipio</option>")
     }
-
-    // IMG SECTION
-
-
 
     // VALIDATIONS
 

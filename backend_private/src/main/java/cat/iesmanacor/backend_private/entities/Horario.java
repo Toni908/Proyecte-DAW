@@ -1,5 +1,6 @@
 package cat.iesmanacor.backend_private.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -39,6 +40,7 @@ public class Horario implements Serializable {
     @Size(min=2, max=254, message = "debe tener entre 2 y 254 caracteres")
     private String day;
 
+    @JsonIgnore
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_periodo")
     private Periodo periodo;
