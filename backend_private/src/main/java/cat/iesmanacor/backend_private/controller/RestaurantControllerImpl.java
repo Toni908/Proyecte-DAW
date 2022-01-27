@@ -57,9 +57,23 @@ public class RestaurantControllerImpl {
     public String listRestaurants(ModelMap model){
         List<Useracount> useracount = useracountService.findAllUseracount();
         model.addAttribute("restaurantesUser",restaurantService.findRestaurantByUseracount(useracount.get(1).getId_user()));
-        model.addAttribute("images",imgService.findImgFromRestaurantByUseracount(useracount.get(1).getId_user()));
-        model.addAttribute("imageSingleForRestaurant",imgService.findSingleImgFromEachRestaurantFindedByUserId(useracount.get(1).getId_user()));
+        model.addAttribute("ImgImages",imagesIsEmpties(useracount.get(1)));
+        model.addAttribute("user",useracount.get(1));
         return "listRestaurants";
+    }
+
+    public List<ListImagesIsEmpty> imagesIsEmpties(Useracount useracount) {
+        List<Restaurant> restaurants = restaurantService.findRestaurantByUseracount(useracount.getId_user());
+        List<ListImagesIsEmpty> imagesIsEmpties = new ArrayList<>();
+        for (Restaurant restaurant : restaurants) {
+            List<Img> imgs = imgService.findImgFromRestaurantId(restaurant.getId_restaurante());
+            if (imgs.isEmpty()) {
+                imagesIsEmpties.add(new ListImagesIsEmpty(imgs,restaurant.getId_restaurante(), true));
+            } else {
+                imagesIsEmpties.add(new ListImagesIsEmpty(imgs,restaurant.getId_restaurante(),false));
+            }
+        }
+        return imagesIsEmpties;
     }
 
     //////////////         RESTAURANTES   FORMULARIOS      ////////////////////
@@ -343,10 +357,15 @@ public class RestaurantControllerImpl {
         for (Img img : imgs) {
             ArrayList<String> array = new ArrayList<>();
             array.add(0,img.getUrl());
-            String urlModified = img.getUrl();
-            array.add(1,urlModified.substring(img.getId_img().bitCount()));
+            String urlModified = deleteCharsFromString(img.getUrl(), img.getId_img());
+            array.add(1,urlModified);
             provisional.add(array);
         }
         return provisional;
+    }
+
+    public String deleteCharsFromString(String toUpdate, BigInteger number) {
+        int numberInt = number.toString().length();
+        return toUpdate.substring(numberInt);
     }
 }

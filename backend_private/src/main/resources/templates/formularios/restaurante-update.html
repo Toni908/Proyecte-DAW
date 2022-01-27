@@ -268,7 +268,7 @@
                                         <img class="d-block w-100" style="object-fit: cover; height: 500px" th:src="@{${restaurant.getPhotosImagePath()}+${image.url}}"  alt=""/>
                                     </div>
                                     <div th:if="${imagesRestaurant.size()}==0">
-                                        <img class="d-block w-100" style="object-fit: cover; height: 500px" th:src="@{/img/no-photo-available.jpg}" alt="Img Restaurant (1)">
+                                        <img class="d-block w-100" style="object-fit: fill; height: 500px" th:src="@{/img/no-photo-available.jpg}" alt="Img Restaurant (1)">
                                     </div>
                                 </div>
                                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
