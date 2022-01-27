@@ -15,23 +15,27 @@
 <main class="mt-5 mx-auto w-60">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item active" aria-current="page">Cartas</li>
+            <li class="breadcrumb-item active" aria-current="page">Periodos</li>
         </ol>
     </nav>
     <div id="Cards">
         <h3 th:text="${restaurant.nombre}"> </h3>
         <table id="card_table" class="display" style="width:100%">
             <thead class="thead-dark">
-            <th scope="row">Id</th>
+            <th scope="row" class="d-none">Id</th>
+            <th scope="row">Nombre</th>
             <th scope="row">Fecha Inicio Periodo</th>
             <th scope="row">Fecha Final Periodo</th>
+            <th scope="row">Capacidad</th>
             <th scope="row"></th>
             </thead>
             <tbody>
             <tr th:each="periodo : ${restaurant.periodos}">
-                <td th:text="${periodo.id_periodo}"></td>
+                <td class="d-none" th:text="${periodo.id_periodo}"></td>
+                <td th:text="${periodo.nombre}"></td>
                 <td th:text="${periodo.fecha_inicio}"></td>
                 <td th:text="${periodo.fecha_fin}"></td>
+                <td th:text="${periodo.capacidad}"></td>
                 <td>
                     <a class="text-decoration-none text-white" th:href="@{'/restaurant/admin/horario/edit/periodo/' + ${periodo.id_periodo}}"><button type='button' class='editar btn btn-primary'><i class="bi bi-pencil"></i></button></a>
                     <button type='button' class='eliminar btn btn-danger' onclick="loadModalEliminar()"><i class="bi bi-trash-fill"></i></button>

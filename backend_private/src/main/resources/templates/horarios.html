@@ -2,46 +2,48 @@
 <html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Cards</title>
+    <title>Edit Horarios</title>
     <link th:href="@{/css/custom.css}" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css"/>
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.1.0/css/buttons.dataTables.min.css"/>
 </head>
 <body>
 <div th:insert="shared/headerVersion2 :: header"/>
 <div th:insert="shared/asideList :: aside"/>
+
+<div class="w-40"></div>
 <main class="mt-5 mx-auto w-60">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{'/restaurant/admin/' + ${category.carta.restaurant.id_restaurante} + '/cards'}">Cartas</a></li>
-            <li class="breadcrumb-item"><a th:href="@{'/restaurant/admin/card/' + ${category.carta.id_carta} + '/categories'}">Categorias</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Platos</li>
+            <li class="breadcrumb-item"><a th:href="@{'/restaurant/admin/horario/' + ${periodo.restaurant.id_restaurante}}">Periodo</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Horarios</li>
         </ol>
     </nav>
     <div id="Cards">
-        <h3 th:text="${category.nombre}"></h3>
+        <h3 th:text="${periodo.nombre}"> </h3>
         <table id="card_table" class="display" style="width:100%">
             <thead class="thead-dark">
             <th scope="row" class="d-none">Id</th>
-            <th scope="row">Name</th>
-            <th scope="row">Precio</th>
-            <th scope="row">Descripcion</th>
+            <th scope="row">Dia</th>
+            <th scope="row">Inicio Turno</th>
+            <th scope="row">Final Turno</th>
             <th scope="row"></th>
             </thead>
             <tbody>
-            <tr th:each="plato : ${category.platos}">
-                <td class="d-none" th:text="${plato.id_plato}"></td>
-                <td th:text="${plato.nombre}"></td>
-                <td th:text="${plato.precio}"></td>
-                <td th:text="${plato.descripcion}"></td>
+            <tr th:each="horario : ${periodo.horarios}">
+                <td class="d-none" th:text="${horario.id_horario}"></td>
+                <td th:text="${horario.day}"></td>
+                <td th:text="${horario.hora_inicio}"></td>
+                <td th:text="${horario.hora_fin}"></td>
                 <td>
-                    <a class="text-decoration-none text-white" th:href="@{'/restaurant/admin/dish/edit/' + ${plato.id_plato}}"><button type='button' class='editar btn btn-primary'><i class="bi bi-pencil"></i></button></a>
+                    <a class="text-decoration-none text-white" th:href="@{'/restaurant/admin/periodo/horario/edit/' + ${horario.id_horario}}"><button type='button' class='editar btn btn-primary'><i class="bi bi-pencil"></i></button></a>
                     <button type='button' class='eliminar btn btn-danger' onclick="loadModalEliminar()"><i class="bi bi-trash-fill"></i></button>
                 </td>
             </tr>
             </tbody>
         </table>
-        <a th:href="@{'/restaurant/admin/category/'+ ${category.id_categoria} +'/dish/create'}"><button class="btn btn-primary mt-2">Crear Plato</button></a>
-        <a th:href="@{'/restaurant/admin/card/'+ ${category.carta.id_carta} +'/categories'}"><button class="btn btn-secondary mt-2">Volver</button></a>
+        <a class="" id="e1" th:href="@{'/restaurant/admin/periodo/horario/create/' + ${periodo.id_periodo}}"><button class="btn btn-primary mt-2">Crear Nuevo Horario</button></a>
+        <a class="" id="e2" th:href="@{'/restaurant/admin/horario/' + ${periodo.restaurant.id_restaurante}}"><button class="btn btn-secondary mt-2">Volver</button></a>
     </div>
 
     <div th:insert="shared/modals/modal_eliminar :: section"/>
@@ -52,6 +54,7 @@
 <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
 <script th:src="@{/js/headerv2.js}"></script>
 <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.1.0/js/dataTables.buttons.min.js"></script>
 
 <script>
 
@@ -64,7 +67,6 @@
 
     var listar = function(){
         var card_table = $("#card_table").DataTable({
-
         });
         obtener_data("#card_table", card_table, "button.eliminar");
         obtener_data("#card_table", card_table, "button.editar");
@@ -84,7 +86,7 @@
     $('#eliminarbutton').click( function () {
         obtener_data("#card_table", card_table, "button.eliminar");
         var id = data[0];
-        var link = "/restaurant/admin/dish/delete/" + id;
+        var link = "/restaurant/admin/periodo/horario/delete/" + id;
         $.ajax(link);
         tablee.remove().draw();
         $("#modalEliminar").modal("hide");
