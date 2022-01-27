@@ -50,7 +50,6 @@ public class RestaurantControllerImpl {
 
     private final String __route_formulari_create = "formularios/restaurante-create";
     private final String __route_formulari_update = "formularios/restaurante-update";
-    private final String __route_home = "home";
 
     // LISTAS DE RESTURANTES POR X USUARIO
 
@@ -89,7 +88,7 @@ public class RestaurantControllerImpl {
                 return __route_formulari_update;
             }
         }
-        return __route_home;
+        return "/home";
     }
 
 
@@ -143,7 +142,7 @@ public class RestaurantControllerImpl {
         inicializeModelMap(model);
 
         if (errors.hasErrors()) {
-            return "redirect:/"+__route_home;
+            return "redirect:/home";
         }
 
         Localidad localidad = new Localidad();
