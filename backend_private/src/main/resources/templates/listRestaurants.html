@@ -15,7 +15,7 @@
         <div th:text="' '+${restaurantesUser.size()}"></div>
     </div>
     <div class="d-flex justify-content-center">
-        <div class="container_restaurants">
+        <div th:if="${restaurantesUser.size()}!=0" class="container_restaurants">
             <article class="single_restaurant" th:each="restaurante, iteration : ${restaurantesUser}">
                 <a class="text-decoration-none text-black" th:href="@{'/restaurant/update/'+${restaurante.id_restaurante}}">
                     <div class="card">
@@ -49,6 +49,29 @@
                     </div>
                 </a>
             </article>
+        </div>
+        <div th:if="${restaurantesUser.size()}==0" class="container_restaurants">
+            <div class="d-flex flex-row justify-content-center mb-5">
+                <main class="d-flex flex-column justify-content-center body-info">
+                    <section class="pt-5">
+                        <div class="d-flex flex-row justify-content-center">
+                            <div class="d-flex flex-column justify-content-center" style="width: 70%;">
+                                <div class="border border-secondary border-1 mt-2 p-4" style=" border-radius: 10px">
+                                    <p class="paraf_form">
+                                        No estamos encontrando ningun restaurante, puede ser que aun no tengas. A que esperas, añade tu propio restaurante
+                                        <a class="text-decoration-none text-success">
+                                            dandole click a crear
+                                        </a>
+                                    </p>
+                                    <div class="d-flex flex-row justify-content-center pt-4">
+                                        <a th:href="@{/restaurant/create}" class="btn btn-success">Crear</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </main>
+            </div>
         </div>
     </div>
 </body>

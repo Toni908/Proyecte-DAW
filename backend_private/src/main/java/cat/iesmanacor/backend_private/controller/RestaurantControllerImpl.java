@@ -225,17 +225,15 @@ public class RestaurantControllerImpl {
         restaurantService.saveRestaurant(restaurant);
     }
 
-    @RequestMapping(value = "/restaurant/delete/{id}", method = RequestMethod.GET, produces = "application/json")
-    public RedirectView delete(@PathVariable BigInteger id, ModelMap model) {
+    @RequestMapping(value = "/restaurant/delete/{id}", method = RequestMethod.GET)
+    public RedirectView delete(@PathVariable BigInteger id) {
         if (id!=null) {
             Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
             if (restaurant.isPresent()) {
                 restaurantService.deleteRestaurant(id);
-            } else {
-                model.addAttribute("error", "LOCALIDAD NOT FOUNDED");
             }
         }
-        return new RedirectView("/restaurants");
+        return new RedirectView("/lista/restaurantes");
     }
 
     public void updateRestaurant(Restaurant restaurantNew) {

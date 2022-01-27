@@ -21,6 +21,8 @@
         <th scope="row">Dies Anticipacion</th>
         <th scope="row">Telefono</th>
         <th scope="row">Validated</th>
+        <th scope="row">Aforo</th>
+        <th scope="row">Direccion</th>
         <th scope="row">localidad</th>
         <th scope="row">membresia</th>
         <th scope="row">useracount</th>
@@ -46,7 +48,7 @@
 <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script>
 <script>
-  $.getJSON("http://127.0.0.1:8080/get/restaurantes/admin/json", function (dataRetaurante) {
+  $.getJSON("/get/restaurantes/admin/json", function (dataRetaurante) {
     var table = $('#restaurant_table').dataTable({
       data: dataRetaurante,
 
@@ -73,8 +75,8 @@
             }
           }
         },
-        {"data": "direccion"},
         {"data": "aforo"},
+        {"data": "direccion"},
         {"data": "localidad.nombre_localidad"},
         {"data": "membresia.id_membresia", "defaultContent": "<i>Not set</i>"},
         {"data": "useracount.nombre_usuario"},
@@ -111,7 +113,7 @@
         $("input[name=idRestaurant]").val(object.firstChild.innerText)
         $("#form").submit();
       });
-    },500);
+    },1000);
   });
 
 </script>

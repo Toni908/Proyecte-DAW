@@ -17,4 +17,8 @@ public interface ReservasService {
     public void deleteReserva(BigInteger id);
 
     public void updateReserva(Reservas reservas);
+
+    // QUERY
+
+    List<Reservas> findReservasByIdRestaurante(BigInteger id);
 }

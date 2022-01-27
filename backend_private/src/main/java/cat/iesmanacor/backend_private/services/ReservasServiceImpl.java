@@ -58,4 +58,9 @@ public class ReservasServiceImpl implements ReservasService {
             reservasRepository.save(membresiaUpdate);
         }
     }
+
+    @Override
+    public List<Reservas> findReservasByIdRestaurante(BigInteger id) {
+        return reservasRepository.findReservasByIdRestaurante(id);
+    }
 }
