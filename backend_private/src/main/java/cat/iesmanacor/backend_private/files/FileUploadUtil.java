@@ -22,7 +22,7 @@ public class FileUploadUtil {
     public static String url;
 
     public static void saveFile(String uploadDir, String fileName, MultipartFile multipartFile) {
-        Path uploadPath = Paths.get(url+"\\"+uploadDir);
+        Path uploadPath = Paths.get(url+"/"+uploadDir);
 
         if (!Files.exists(uploadPath)) {
             try {
@@ -42,10 +42,10 @@ public class FileUploadUtil {
     }
 
     public static void deleteImg(String uploadDir, String filename) {
-        Path uploadPath = Paths.get(url+"\\"+uploadDir);
+        Path uploadPath = Paths.get(url+"/"+uploadDir);
         try {
             if (Files.exists(uploadPath)) {
-                Path path = Paths.get(url+"\\"+uploadDir+"\\"+filename);
+                Path path = Paths.get(url+"/"+uploadDir+"/"+filename);
                 Files.delete(path);
             }
         } catch (Exception e) {

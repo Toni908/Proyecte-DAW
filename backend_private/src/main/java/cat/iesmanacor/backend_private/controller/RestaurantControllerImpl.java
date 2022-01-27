@@ -58,8 +58,7 @@ public class RestaurantControllerImpl {
         List<Useracount> useracount = useracountService.findAllUseracount();
         model.addAttribute("restaurantesUser",restaurantService.findRestaurantByUseracount(useracount.get(1).getId_user()));
         model.addAttribute("ImgImages",imagesIsEmpties(useracount.get(1)));
-//        model.addAttribute("images",imgService.findImgFromRestaurantByUseracount(useracount.get(1).getId_user()));
-//        model.addAttribute("imageSingleForRestaurant",imgService.findSingleImgFromEachRestaurantFindedByUserId(useracount.get(1).getId_user()));
+        model.addAttribute("user",useracount.get(1));
         return "listRestaurants";
     }
 
@@ -358,10 +357,15 @@ public class RestaurantControllerImpl {
         for (Img img : imgs) {
             ArrayList<String> array = new ArrayList<>();
             array.add(0,img.getUrl());
-            String urlModified = img.getUrl();
-            array.add(1,urlModified.substring(img.getId_img().bitCount()));
+            String urlModified = deleteCharsFromString(img.getUrl(), img.getId_img());
+            array.add(1,urlModified);
             provisional.add(array);
         }
         return provisional;
+    }
+
+    public String deleteCharsFromString(String toUpdate, BigInteger number) {
+        int numberInt = number.toString().length();
+        return toUpdate.substring(numberInt);
     }
 }
