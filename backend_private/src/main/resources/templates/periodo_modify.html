@@ -74,8 +74,8 @@
                     <div class="mb-3 p-0 text-center" style="width: 80%">
                         <div class="paraf_form">Rango del Periodo:</div>
                         <label class="w-50 field_form_principal">
-                            <input th:if="${periodo.id_periodo != null}" class="text-center w-100 field_form_principal" type="text" name="daterange" th:value="${dateValue}" required/>
-                            <input th:unless="${periodo.id_periodo != null}" class="text-center w-100 field_form_principal" type="text" name="daterange" value="" required/>
+                            <input th:if="${dateValue != null}" class="text-center w-100 field_form_principal" type="text" name="daterange" th:value="${dateValue}" required/>
+                            <input th:unless="${dateValue != null}" class="text-center w-100 field_form_principal" type="text" name="daterange" value="" required/>
                         </label>
                         <div th:if="${error != null}" th:text="${error}" style="font-size: 14px; color: red;"></div>
                     </div>

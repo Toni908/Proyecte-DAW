@@ -116,26 +116,28 @@ public class HorarioController {
             Date dateEnd = new java.sql.Date(dateEndd.getTime());
 
             for(Periodo per : periodos){
-                String s = dateStarts[2] + "-" + dateStarts[0] + "-" + dateStarts[1];
-                String e = dateEnds[2] + "-" + dateEnds[0] + "-" + dateEnds[1];
+                if (per.getId_periodo() != periodo.getId_periodo()) {
+                    String s = dateStarts[2] + "-" + dateStarts[0] + "-" + dateStarts[1];
+                    String e = dateEnds[2] + "-" + dateEnds[0] + "-" + dateEnds[1];
 
-                LocalDate start = LocalDate.parse(s);
-                LocalDate end = LocalDate.parse(e);
+                    LocalDate start = LocalDate.parse(s);
+                    LocalDate end = LocalDate.parse(e);
 
-                List<LocalDate> totalDates = new ArrayList<>();
+                    List<LocalDate> totalDates = new ArrayList<>();
 
-                Date ps = per.getFecha_inicio();
-                Date pe = per.getFecha_fin();
+                    Date ps = per.getFecha_inicio();
+                    Date pe = per.getFecha_fin();
 
-                while (!start.isAfter(end)) {
-                    totalDates.add(start);
-                    java.util.Date datest = Date.from(start.atStartOfDay(ZoneId.systemDefault()).toInstant());
-                    Date dateStartss = new java.sql.Date(datest.getTime());
-                    if(isWithinRange(dateStartss, ps, pe)){
-                        used = true;
-                        break;
+                    while (!start.isAfter(end)) {
+                        totalDates.add(start);
+                        java.util.Date datest = Date.from(start.atStartOfDay(ZoneId.systemDefault()).toInstant());
+                        Date dateStartss = new java.sql.Date(datest.getTime());
+                        if (isWithinRange(dateStartss, ps, pe)) {
+                            used = true;
+                            break;
+                        }
+                        start = start.plusDays(1);
                     }
-                    start = start.plusDays(1);
                 }
             }
 
@@ -143,6 +145,7 @@ public class HorarioController {
             periodo.setFecha_fin(dateEnd);
 
             if(used) {
+                model.addAttribute("dateValue", dateRange);
                 model.addAttribute("error", "El periodo no puede coincidir con otros periodos de tu restaurante");
                 model.addAttribute("periodo", periodo);
                 return "periodo_modify";
