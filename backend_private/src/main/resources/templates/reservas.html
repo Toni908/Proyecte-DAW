@@ -34,7 +34,6 @@
 
 <div id="error" class="message_error"></div>
 
-<h1 id="id_restaurante"></h1>
 <aside class="float-info z-index1">
     <div class="container-info">
         <a class="w-100 select-info text-decoration-none text-black ps-5" th:href="@{/lista/restaurantes}">
@@ -155,7 +154,6 @@
             });
         });
         $('#datepicker').datepicker('setDate', null);
-        $("#id_restaurante").text($(this).attr('name'));
         restaurantActive = $(this).attr('name');
     });
 
