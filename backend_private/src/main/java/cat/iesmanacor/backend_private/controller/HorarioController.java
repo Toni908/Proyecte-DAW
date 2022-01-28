@@ -216,21 +216,9 @@ public class HorarioController {
             horarioService.save(horario);
         }else{
             for(int x = 1 ; x < listaDias.size() ; x++){
-                if(x == 1){
-                    Horario uno = horario;
-                }else if(x == 2){
-                    Horario dos = horario;
-                }else if(x == 3){
-                    Horario tres = horario;
-                }else if(x == 4){
-                    Horario cuatro = horario;
-                }else if(x == 5){
-                    Horario cinco = horario;
-                }else if(x == 6){
-                    Horario seis = horario;
-                }else if(x == 7){
-                    Horario siete = horario;
-                }
+                Horario h = horario;
+                h.setDay(listaDias.get(x));
+                horarioService.save(h);
             }
         }
 
