@@ -50,7 +50,6 @@ public class ReservasServiceImpl implements ReservasService {
                     reservas.getTelefono(),
                     reservas.getNombre(),
                     reservas.getLenguaje(),
-                    reservas.isValidated(),
                     reservas.getFecha_inicio(),
                     reservas.getFecha_fin(),
                     reservas.getRestaurant()
