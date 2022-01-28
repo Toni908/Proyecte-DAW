@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigInteger;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -62,8 +65,23 @@ public class jsonController {
         return restaurant.map(Restaurant::getMembresia).orElse(null);
     }
 
-    @GetMapping(value = "/get/reservas/json/{id}", produces = { "application/json" })
-    public List<Reservas> getReservasForRestaurant(@PathVariable BigInteger id){
-        return reservasService.findReservasByIdRestaurante(id);
+    @GetMapping(value = "/get/reservas/json/{id}/{date}", produces = { "application/json" })
+    public List<Reservas> getReservasForRestaurant(@PathVariable BigInteger id,@PathVariable Date date){
+        System.out.println(getDateFormat(date)+" ---- "+getNextDate(date));
+        return reservasService.findReservasByFechaAndRestaurante(id,getDateFormat(date),getNextDate(date));
+//        return reservasService.findReservasByIdRestaurante(id);
+    }
+
+    public String getDateFormat(Date date) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        return format.format(date);
+    }
+
+    public static String getNextDate(Date date) {
+        final SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.DAY_OF_YEAR, 1);
+        return format.format(calendar.getTime());
     }
 }

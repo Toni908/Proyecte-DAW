@@ -62,4 +62,9 @@ public class ReservasServiceImpl implements ReservasService {
     public List<Reservas> findReservasByIdRestaurante(BigInteger id) {
         return reservasRepository.findReservasByIdRestaurante(id);
     }
+
+    @Override
+    public List<Reservas> findReservasByFechaAndRestaurante(BigInteger id, String fecha_inicio, String fecha_fin) {
+        return reservasRepository.findReservasByFechaAndRestaurante(id,fecha_inicio,fecha_fin);
+    }
 }
