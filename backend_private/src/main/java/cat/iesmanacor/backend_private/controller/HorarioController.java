@@ -216,7 +216,10 @@ public class HorarioController {
             horarioService.save(horario);
         }else{
             for(int x = 1 ; x < listaDias.size() ; x++){
-                Horario h = horario;
+                Horario h = new Horario();
+                h.setHora_inicio(start);
+                h.setHora_fin(end);
+                h.setPeriodo(periodo.get());
                 h.setDay(listaDias.get(x));
                 horarioService.save(h);
             }

@@ -26,7 +26,6 @@
 <div th:if="${error}!=null" th:text="${error}" class="message_error"></div>
 
 <main class="w-100 p-0 m-0">
-    <aside th:insert="shared/asideList :: aside"></aside>
     <form class="d-flex flex-row justify-content-center" onsubmit="return validateGeneral()" id="info" th:action="@{/restaurant/put}" method="POST" th:object="${restaurant}">
         <main class="d-flex flex-column justify-content-center body-info">
             <section class="pt-5" id="restauranteFixed">
