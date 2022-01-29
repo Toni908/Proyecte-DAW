@@ -21,11 +21,6 @@
         .length {
             width: 40%;
         }
-        @media only screen and (max-width: 1000px) {
-            .datepicker-length {
-                width: 100%;
-            }
-        }
     </style>
 </head>
 <body>
@@ -67,13 +62,19 @@
     </div>
 </section>
 
-<section class="w-100 d-flex flex-row justify-content-center">
-    <div class="length pt-5 z-index1" >
-        <div class="w-100" id="reservas">
+<main class="w-100 d-flex flex-column justify-content-center">
+    <section class="pt-5 w-100 d-flex flex-row justify-content-center">
+        <h1 id="title" th:if="${restaurantesUser.size()}!=0" th:text="${restaurantesUser.get(0).nombre}"></h1>
+        <h1 th:if="${restaurantesUser.size()}==0">No hay restaurantes</h1>
+    </section>
+    <section class="w-100 d-flex flex-row justify-content-center">
+        <div class="length pt-5 z-index1" >
+            <div class="w-100" id="reservas">
 
+            </div>
         </div>
-    </div>
-</section>
+    </section>
+</main>
 
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
