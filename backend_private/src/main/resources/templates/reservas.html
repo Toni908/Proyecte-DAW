@@ -180,10 +180,9 @@
     function createDataTable(data) {
         $.each(data, function (key, object) {
             var fecha_inicio = new Date(object.fecha_inicio);
-            object.fecha_inicio = formatDate(object)[0]+"-"+fecha_inicio.getMonth()+"-"+fecha_inicio.getFullYear();
-
+            object.fecha_inicio = formatDateFechaInicio(object)[0]+"-"+getMonthDateInicio(object)+"-"+fecha_inicio.getFullYear();
             var fecha_fin = new Date(object.fecha_fin);
-            object.fecha_fin = formatDate(object)[0]+"-"+fecha_fin.getMonth()+"-"+fecha_fin.getFullYear();
+            object.fecha_fin = formatDateFechaFin(object)[0]+"-"+getMonthDateFin(object)+"-"+fecha_fin.getFullYear();
         });
         table.dataTable({
             data: data,
@@ -199,10 +198,23 @@
         });
     }
 
-    function formatDate(date){
+    function formatDateFechaInicio(date){
+        var getDate = date.fecha_inicio.toString().split("-");
+        return getDate[2].split("T");
+    }
+
+    function formatDateFechaFin(date){
+        var getDate = date.fecha_fin.toString().split("-");
+        return getDate[2].split("T");
+    }
+
+    function getMonthDateFin(date) {
+        var getDay = date.fecha_fin.toString().split("-");
+        return getDay[1];
+    }
+    function getMonthDateInicio(date) {
         var getDay = date.fecha_inicio.toString().split("-");
-        console.log(getDay)
-        return getDay[2].split("T");
+        return getDay[1];
     }
 </script>
 </body>
