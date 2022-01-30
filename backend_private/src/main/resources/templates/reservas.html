@@ -73,13 +73,13 @@
         <table class="pt-5 z-index1" id="table">
             <thead>
             <tr>
+                <th></th>
                 <th>nombre</th>
                 <th>personas</th>
-                <th>correo</th>
                 <th>telefono</th>
                 <th>lenguaje</th>
-                <th>fecha_inicio</th>
-                <th>fecha_fin</th>
+                <th>Hora Inicio</th>
+                <th>Hora Fin</th>
             </tr>
             </thead>
         </table>
@@ -178,24 +178,65 @@
     }
 
     function createDataTable(data) {
+        var fecha_inicio;
+        var fecha_fin;
         $.each(data, function (key, object) {
-            var fecha_inicio = new Date(object.fecha_inicio);
+            fecha_inicio = new Date(object.fecha_inicio);
             object.fecha_inicio = formatDateFechaInicio(object)[0]+"-"+getMonthDateInicio(object)+"-"+fecha_inicio.getFullYear();
-            var fecha_fin = new Date(object.fecha_fin);
+            fecha_fin = new Date(object.fecha_fin);
             object.fecha_fin = formatDateFechaFin(object)[0]+"-"+getMonthDateFin(object)+"-"+fecha_fin.getFullYear();
         });
         table.dataTable({
             data: data,
             columns: [
+                {
+                    "className":      'dt-control',
+                    "orderable":      false,
+                    "data":           null,
+                    "defaultContent": ''
+                },
                 {"data": "nombre"},
                 {"data": "personas"},
-                {"data": "correo"},
                 {"data": "telefono"},
                 {"data": "lenguaje"},
-                {"data": "fecha_inicio"},
-                {"data": "fecha_fin"}
+                {"data": "Hora Inicio", "defaultContent": getHoraDate(fecha_inicio)},
+                {"data": "Hora Fin", "defaultContent": getHoraDate(fecha_fin)}
             ]
         });
+    }
+
+    $('#table tbody').on('click', 'td.dt-control', function () {
+        var tr = $(this).closest('tr');
+        var row = $("#table").DataTable().row( tr );
+
+        if ( row.child.isShown() ) {
+            // This row is already open - close it
+            row.child.hide();
+            tr.removeClass('shown');
+        }
+        else {
+            // Open this row
+            row.child( format(row.data()) ).show();
+            tr.addClass('shown');
+        }
+    });
+
+    function format ( d ) {
+        // `d` is the original data object for the row
+        return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
+            '<tr>'+
+            '<td>Fecha inicio:</td>'+
+            '<td>'+d.fecha_inicio+'</td>'+
+            '</tr>'+
+            '<tr>'+
+            '<td>Fecha Fin:</td>'+
+            '<td>'+d.fecha_fin+'</td>'+
+            '</tr>'+
+            '<tr>'+
+            '<td>Correo electronico:</td>'+
+            '<td>'+d.correo+'</td>'+
+            '</tr>'+
+            '</table>';
     }
 
     function formatDateFechaInicio(date){
@@ -215,6 +256,11 @@
     function getMonthDateInicio(date) {
         var getDay = date.fecha_inicio.toString().split("-");
         return getDay[1];
+    }
+
+    function getHoraDate(hora) {
+        var date = new Date(hora);
+        return date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();
     }
 </script>
 </body>
