@@ -17,12 +17,6 @@
         .select-info {
             height: 70px;
         }
-        .z-index1 {
-            z-index: 1;
-        }
-        .length {
-            width: 40%;
-        }
     </style>
 </head>
 <body>
@@ -34,11 +28,11 @@
 <aside class="float-info z-index1">
     <div class="container-info">
         <a class="w-100 select-info text-decoration-none text-black ps-5" th:href="@{/lista/restaurantes}">
-            <i class="bi bi-shop" style="font-size: 25px"></i>
+            <i class="bi bi-shop fs-3"></i>
             Lista Restaurantes
         </a>
         <a th:each="restaurant : ${restaurantesUser}" th:for="${restaurant.nombre}" th:name="${restaurant.id_restaurante}" class="restaurantes w-100 d-flex flex-row select-info text-decoration-none text-black ps-5">
-            <i class="bi bi-journal-text" style="font-size: 20px"></i>
+            <i class="bi bi-journal-text fs-3"></i>
             <div th:text="${restaurant.nombre}"></div>
         </a>
     </div>
@@ -46,11 +40,11 @@
 <section class="w-100 position-relative text-center d-lg-none d-block z-index1">
     <div class="container-info w-100">
         <a class="w-100 select-info d-flex flex-row justify-content-center rounded-0 text-decoration-none text-black " th:href="@{/lista/restaurantes}">
-            <i class="bi bi-shop" style="font-size: 25px"></i>
+            <i class="bi bi-shop fs-3"></i>
             Lista Restaurantes
         </a>
         <a th:each="restaurant : ${restaurantesUser}" th:name="${restaurant.id_restaurante}" class="restaurantes w-100 d-flex flex-row justify-content-center rounded-0 select-info text-decoration-none text-black">
-            <i class="bi bi-journal-text" style="font-size: 20px"></i>
+            <i class="bi bi-journal-text fs-3"></i>
             <div th:text="${restaurant.nombre}"></div>
         </a>
     </div>
