@@ -7,22 +7,23 @@
 <body>
 <!-- Modal Edita Model -->
 <section>
-    <div id="modalEliminar" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div id="modalNombre" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
 
                 <!-- header modal -->
-
+            <form method="post" th:action="@{'/edit/category/name/'+ ${category.id_categoria}}">
                 <div class="modal-header">
-                    <input type="text" class="" th:value="${categoria.nombre}">
+                    <input type="text" class="" name="name" th:value="${category.nombre}">
                 </div>
 
                 <!-- body modal -->
 
                 <div class="modal-body d-flex justify-content-evenly">
-                    <button type="button" id="eliminarbutton" class="btn btn-primary text-center">Guardar</button>
+                    <input type="submit" id="eliminarbutton" class="btn btn-primary text-center"></input>
                     <button type="button" class="btn btn-secondary text-center" data-bs-dismiss="modal">Cancelar</button>
                 </div>
+            </form>
             </div>
         </div>
     </div>

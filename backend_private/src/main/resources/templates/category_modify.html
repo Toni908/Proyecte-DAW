@@ -29,8 +29,8 @@
     <form method="post" class="container form_container" th:action="@{'/restaurant/admin/card/'+ ${category.carta.id_carta} +'/category/save' }" th:object="${category}">
 
         <div class="tittle_form">
-            <h1 class="text-center" th:if="${category.id_categoria != null}"> Editar Carta </h1>
-            <h1 class="text-center" th:unless="${category.id_categoria != null}"> Crear Carta </h1>
+            <h1 class="text-center" th:if="${category.id_categoria != null}"> Editar Categoria </h1>
+            <h1 class="text-center" th:unless="${category.id_categoria != null}"> Crear Categoria </h1>
         </div>
 
         <div class="body_form">

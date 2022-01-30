@@ -286,4 +286,13 @@ public class CardController {
 
         return "dish_modify";
     }
+
+    @PostMapping("/edit/category/name/{id}")
+        public String editNameCategory(@PathVariable(value = "id") Long id, WebRequest request){
+            Optional<Categoria> categoria = categoriaService.findById(id);
+            categoria.get().setNombre(request.getParameter("name"));
+            categoriaService.save(categoria.get());
+
+            return "redirect:/restaurant/admin/category/" + id + "/dishes";
+        }
 }
