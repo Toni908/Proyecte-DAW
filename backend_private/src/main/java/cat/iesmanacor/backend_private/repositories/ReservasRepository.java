@@ -9,7 +9,9 @@ import java.math.BigInteger;
 import java.util.List;
 
 public interface ReservasRepository extends JpaRepository<Reservas, BigInteger> {
-    //IS VISIBLE BOOLEAN
     @Query(value = "SELECT * FROM reserva where id_restaurante = ?1",nativeQuery = true)
     List<Reservas> findReservasByIdRestaurante(BigInteger id);
+
+    @Query(value = "SELECT * FROM reserva where id_restaurante = ?1 and fecha_inicio>=?2 and fecha_fin<?3",nativeQuery = true)
+    List<Reservas> findReservasByFechaAndRestaurante(BigInteger id, String fecha_inicio, String fecha_fin);
 }

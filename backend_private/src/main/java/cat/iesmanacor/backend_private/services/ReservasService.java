@@ -21,4 +21,6 @@ public interface ReservasService {
     // QUERY
 
     List<Reservas> findReservasByIdRestaurante(BigInteger id);
+
+    List<Reservas> findReservasByFechaAndRestaurante(BigInteger id, String fecha_inicio, String fecha_fin);
 }
