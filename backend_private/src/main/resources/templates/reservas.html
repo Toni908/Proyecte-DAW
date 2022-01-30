@@ -99,7 +99,6 @@
     </section>
 </main>
 
-
 <footer th:insert="shared/footer :: footer"></footer>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
@@ -247,22 +246,18 @@
 
     $('#table tbody').on('click', 'td.dt-control', function () {
         var tr = $(this).closest('tr');
-        var row = $("#table").DataTable().row( tr );
+        var row = $("#table").DataTable().row(tr);
 
-        if ( row.child.isShown() ) {
-            // This row is already open - close it
+        if (row.child.isShown()) {
             row.child.hide();
             tr.removeClass('shown');
-        }
-        else {
-            // Open this row
-            row.child( format(row.data()) ).show();
+        } else {
+            row.child(format(row.data())).show();
             tr.addClass('shown');
         }
     });
 
     function format ( d ) {
-        // `d` is the original data object for the row
         return '<table cellpadding="6" cellspacing="0" border="0">'+
             '<tr>'+
             '<td>Fecha inicio:</td>'+
