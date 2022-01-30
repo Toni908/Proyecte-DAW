@@ -109,7 +109,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-check form-switch d-flex flex-row justify-content-center pt-4">
+                            <div id="privacidadFixed" class="form-check form-switch d-flex flex-row justify-content-center pt-4">
                                 <label class="w-100 d-flex flex-row justify-content-center">
                                     Deseas cambiar?
                                     <input class="form-check-input m-0 fs-3" type="checkbox" id="changeLocalidad">
@@ -126,7 +126,7 @@
     </form>
     <form class="d-flex flex-row justify-content-center" th:action="@{/restaurant/visibility}" method="POST">
         <main class="d-flex flex-column justify-content-center body-info">
-            <section class="pt-5" id="privacidadFixed">
+            <section class="pt-5">
                 <h3 class="title_section-info">Privacidad</h3>
                 <div class="d-flex flex-row justify-content-center pt-2">
                     <p class="paraf_form text-start fw-normal length">
@@ -142,7 +142,7 @@
                             </p>
                             <label><input type='number' name='idRestaurante' th:value="${restaurant.id_restaurante}" hidden/></label>
                             <div class="container pt-3 m-0 w-100 px-0">
-                                <div class="form-check form-switch d-flex flex-row justify-content-center pt-4">
+                                <div id="etiquetasFixed" class="form-check form-switch d-flex flex-row justify-content-center pt-4">
                                     <label class="w-100 d-flex flex-row justify-content-center">
                                         <input th:if="${restaurant.visible} == true" type="checkbox" name="visibilty" class="form-check-input m-0 fs-3" checked>
                                         <input th:if="${restaurant.visible} == false" type="checkbox" name="visibilty" class="form-check-input m-0 fs-3">
@@ -160,7 +160,7 @@
     </form>
     <form class="d-flex flex-row justify-content-center" onsubmit="return validateEtiquetas()" th:action="@{/etiquetas/save}" method="POST">
         <main class="d-flex flex-column justify-content-center body-info">
-            <section class="pt-5" id="etiquetasFixed">
+            <section class="pt-5">
                 <h3 class="title_section-info">Mis Etiquetas</h3>
                 <div class="d-flex flex-row justify-content-center pt-2">
                     <p class="paraf_form text-start fw-normal length">
@@ -196,7 +196,7 @@
                             </div>
                         </div>
                         <!-- BOX OF ETIQUETAS SELECTED -->
-                        <div class="align-self-center mt-4 pt-2 w-100">
+                        <div id="imagenesFixed" class="align-self-center mt-4 pt-2 w-100">
                             <div class="text-center paraf_form">Etiquetas selecionadas</div>
                             <section class="h-100 p-4 h-auto" th:if="${etiquetas}!=null">
                                 <div class="d-flex flex-row justify-content-center flex-wrap gap-2" id="etiquetas_box">
@@ -219,7 +219,7 @@
     </form>
     <form class="d-flex flex-row justify-content-center" th:style="${imagesRestaurant.size()} == 0 ? 'margin-bottom: 50px' : ''" th:action="@{/imagen/saveMultiple}" enctype="multipart/form-data" method="POST">
         <main class="d-flex flex-column justify-content-center body-info">
-            <section class="pt-5" id="imagenesFixed">
+            <section class="pt-5">
                 <h3 class="title_section-info">Tus imagenes</h3>
                 <div class="d-flex flex-row justify-content-center pt-2">
                     <div class="d-flex flex-column justify-content-center length">

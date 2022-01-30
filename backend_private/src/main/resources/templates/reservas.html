@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
     <link th:href="@{/css/custom.css}" rel="stylesheet">
     <link th:href="@{/css/form.css}" rel="stylesheet">
+    <link th:href="@{/css/asideLeft.css}" rel="stylesheet">
     <link th:href="@{/css/datepickerCustom.css}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css"/>
     <link rel="stylesheet" href="https://cdn.datatables.net/select/1.3.3/css/select.dataTables.min.css"/>
@@ -16,12 +17,15 @@
         }
         .select-info {
             height: 70px;
+            display: flex;
+            flex-direction: row;
+            justify-content: start;
+            align-items: center;
+            gap: 20px;
         }
-        .z-index1 {
-            z-index: 1;
-        }
-        .length {
-            width: 40%;
+        .container-100 {
+            min-height: 70vh;
+            max-height: available;
         }
     </style>
 </head>
@@ -31,66 +35,71 @@
 
 <div id="error" class="message_error"></div>
 
-<aside class="float-info z-index1">
+<aside class="float-info z-index1 d-xxl-block d-none position-absolute">
     <div class="container-info">
         <a class="w-100 select-info text-decoration-none text-black ps-5" th:href="@{/lista/restaurantes}">
-            <i class="bi bi-shop" style="font-size: 25px"></i>
+            <i class="bi bi-shop fs-3"></i>
             Lista Restaurantes
         </a>
         <a th:each="restaurant : ${restaurantesUser}" th:for="${restaurant.nombre}" th:name="${restaurant.id_restaurante}" class="restaurantes w-100 d-flex flex-row select-info text-decoration-none text-black ps-5">
-            <i class="bi bi-journal-text" style="font-size: 20px"></i>
+            <i class="bi bi-journal-text fs-3"></i>
             <div th:text="${restaurant.nombre}"></div>
         </a>
     </div>
 </aside>
-<section class="w-100 position-relative text-center d-lg-none d-block z-index1">
-    <div class="container-info w-100">
-        <a class="w-100 select-info d-flex flex-row justify-content-center rounded-0 text-decoration-none text-black " th:href="@{/lista/restaurantes}">
-            <i class="bi bi-shop" style="font-size: 25px"></i>
-            Lista Restaurantes
-        </a>
-        <a th:each="restaurant : ${restaurantesUser}" th:name="${restaurant.id_restaurante}" class="restaurantes w-100 d-flex flex-row justify-content-center rounded-0 select-info text-decoration-none text-black">
-            <i class="bi bi-journal-text" style="font-size: 20px"></i>
-            <div th:text="${restaurant.nombre}"></div>
-        </a>
-    </div>
-</section>
-
-<main class="w-100 d-flex flex-column justify-content-center">
-    <section class="pt-5 w-100 d-flex flex-row justify-content-center">
-        <div>
-            <h1 id="title" class="pb-5" th:if="${restaurantesUser.size()}!=0"></h1>
-            <h1 class="pb-5" th:if="${restaurantesUser.size()}==0">No hay restaurantes</h1>
+<main class="container-100">
+    <section class="w-100 text-center d-xxl-none d-block z-index1">
+        <div class="container-info w-100">
+            <a class="w-100 select-info d-flex flex-row justify-content-center rounded-0 text-decoration-none text-black " th:href="@{/lista/restaurantes}">
+                <i class="bi bi-shop fs-3"></i>
+                Lista Restaurantes
+            </a>
+            <a th:each="restaurant : ${restaurantesUser}" th:name="${restaurant.id_restaurante}" class="restaurantes w-100 d-flex flex-row justify-content-center rounded-0 select-info text-decoration-none text-black">
+                <i class="bi bi-journal-text fs-3"></i>
+                <div th:text="${restaurant.nombre}"></div>
+            </a>
         </div>
+    </section>
+    <section class="d-flex flex-column justify-content-center w-100">
+        <section class="pt-5 w-100 d-flex flex-row justify-content-center">
+            <div>
+                <h1 id="title" class="pb-5" th:if="${restaurantesUser.size()}!=0"></h1>
+                <h1 class="pb-5" th:if="${restaurantesUser.size()}==0">No hay restaurantes</h1>
+            </div>
 
-        <section class="w-100 d-flex flex-row justify-content-end position-fixed">
-            <div class="datepicker-length pt-5 pe-3">
-                <div id="datepicker">
+            <section class="w-100 d-none d-xxl-flex flex-row justify-content-end position-absolute">
+                <div class="datepicker-length pt-2 pe-xxl-3">
+                    <div class="datepicker">
+
+                    </div>
+                </div>
+            </section>
+        </section>
+        <section class="w-100 d-flex flex-row justify-content-center">
+            <table class="display responsive nowrap z-index1 pt-2" id="table">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>nombre</th>
+                    <th>personas</th>
+                    <th>telefono</th>
+                    <th>Hora Inicio</th>
+                    <th>Hora Fin</th>
+                </tr>
+                </thead>
+            </table>
+        </section>
+        <section class="w-100 d-flex d-xxl-none justify-content-center position-relative">
+            <div class="pt-2 pe-xxl-3">
+                <div class="datepicker">
 
                 </div>
             </div>
         </section>
     </section>
-    <section class="w-100 d-flex flex-row justify-content-center">
-        <table class="pt-2 z-index1" id="table">
-            <thead>
-            <tr>
-                <th></th>
-                <th>nombre</th>
-                <th>personas</th>
-                <th>telefono</th>
-                <th>lenguaje</th>
-                <th>Hora Inicio</th>
-                <th>Hora Fin</th>
-            </tr>
-            </thead>
-        </table>
-    </section>
 </main>
 
-<!--<tbody id="reservas">-->
-
-<!--</tbody>-->
+<footer th:insert="shared/footer :: footer"></footer>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
 <script th:src="@{/js/headerv2.js}"></script>
@@ -98,10 +107,10 @@
 <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script>
 <script src="https://cdn.datatables.net/plug-ins/1.11.4/dataRender/datetime.js"></script>
-
 <script>
     let restaurants = $(".restaurantes");
     let restaurantActive;
+    let restaurant;
 
     let title = $("#title");
 
@@ -119,7 +128,9 @@
     let currentTime = new Date().toLocaleDateString('en-US', options);
 
     if (restaurants.length!==0) {
+        restaurant = restaurants.eq(0);
         restaurantActive = restaurants.attr('name')[0];
+        selectRestaurantCSS(restaurant);
         title.text(restaurants.attr('for'));
     }
 
@@ -150,7 +161,7 @@
     }
 
     $( function() {
-        $( "#datepicker" ).datepicker({
+        $( ".datepicker" ).datepicker({
             weekStart: 1,
             todayBtn: "linked",
             daysOfWeekHighlighted: "0,6",
@@ -172,8 +183,11 @@
         $.getJSON( "/get/reservas/json/"+$(this).attr('name')+"/"+date, function( data ) {
             createDataTable(data);
         });
-        $('#datepicker').datepicker('setDate', null);
+        $('.datepicker').datepicker('setDate', null);
         restaurantActive = $(this).attr('name');
+        removeRestaurantCSS(restaurant);
+        restaurant = $(this);
+        selectRestaurantCSS(restaurant);
         title.text($(this).attr('for'));
     });
 
@@ -193,6 +207,7 @@
         });
         table.dataTable({
             data: data,
+            responsive: true,
             columns: [
                 {
                     "className":      'dt-control',
@@ -203,7 +218,6 @@
                 {"data": "nombre"},
                 {"data": "personas"},
                 {"data": "telefono"},
-                {"data": "lenguaje"},
                 {"data": "Hora Inicio", "defaultContent": getHoraDate(fecha_inicio)},
                 {"data": "Hora Fin", "defaultContent": getHoraDate(fecha_fin)}
             ],
@@ -232,23 +246,19 @@
 
     $('#table tbody').on('click', 'td.dt-control', function () {
         var tr = $(this).closest('tr');
-        var row = $("#table").DataTable().row( tr );
+        var row = $("#table").DataTable().row(tr);
 
-        if ( row.child.isShown() ) {
-            // This row is already open - close it
+        if (row.child.isShown()) {
             row.child.hide();
             tr.removeClass('shown');
-        }
-        else {
-            // Open this row
-            row.child( format(row.data()) ).show();
+        } else {
+            row.child(format(row.data())).show();
             tr.addClass('shown');
         }
     });
 
     function format ( d ) {
-        // `d` is the original data object for the row
-        return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
+        return '<table cellpadding="6" cellspacing="0" border="0">'+
             '<tr>'+
             '<td>Fecha inicio:</td>'+
             '<td>'+d.fecha_inicio+'</td>'+
@@ -260,6 +270,10 @@
             '<tr>'+
             '<td>Correo electronico:</td>'+
             '<td>'+d.correo+'</td>'+
+            '</tr>'+
+            '<tr>'+
+            '<td>Lenguaje:</td>'+
+            '<td>'+d.lenguaje+'</td>'+
             '</tr>'+
             '</table>';
     }
@@ -286,6 +300,16 @@
     function getHoraDate(hora) {
         var date = new Date(hora);
         return date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();
+    }
+
+    function selectRestaurantCSS(restaurant) {
+        restaurant.css("border","solid black 2px");
+        restaurant.css("border-bottom-right-radius","15px");
+        restaurant.css("border-top-right-radius","15px");
+    }
+
+    function removeRestaurantCSS(restaurant) {
+        restaurant.css("border","solid black 0");
     }
 </script>
 </body>
