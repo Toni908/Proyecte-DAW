@@ -37,7 +37,7 @@
             <i class="bi bi-shop" style="font-size: 25px"></i>
             Lista Restaurantes
         </a>
-        <a th:each="restaurant : ${restaurantesUser}" th:name="${restaurant.id_restaurante}" class="restaurantes w-100 d-flex flex-row select-info text-decoration-none text-black ps-5">
+        <a th:each="restaurant : ${restaurantesUser}" th:for="${restaurant.nombre}" th:name="${restaurant.id_restaurante}" class="restaurantes w-100 d-flex flex-row select-info text-decoration-none text-black ps-5">
             <i class="bi bi-journal-text" style="font-size: 20px"></i>
             <div th:text="${restaurant.nombre}"></div>
         </a>
@@ -58,8 +58,10 @@
 
 <main class="w-100 d-flex flex-column justify-content-center">
     <section class="pt-5 w-100 d-flex flex-row justify-content-center">
-        <h1 id="title" th:if="${restaurantesUser.size()}!=0" th:text="${restaurantesUser.get(0).nombre}"></h1>
-        <h1 th:if="${restaurantesUser.size()}==0">No hay restaurantes</h1>
+        <div>
+            <h1 id="title" class="pb-5" th:if="${restaurantesUser.size()}!=0"></h1>
+            <h1 class="pb-5" th:if="${restaurantesUser.size()}==0">No hay restaurantes</h1>
+        </div>
 
         <section class="w-100 d-flex flex-row justify-content-end position-fixed">
             <div class="datepicker-length pt-5 pe-3">
@@ -70,7 +72,7 @@
         </section>
     </section>
     <section class="w-100 d-flex flex-row justify-content-center">
-        <table class="pt-5 z-index1" id="table">
+        <table class="pt-2 z-index1" id="table">
             <thead>
             <tr>
                 <th></th>
@@ -101,6 +103,8 @@
     let restaurants = $(".restaurantes");
     let restaurantActive;
 
+    let title = $("#title");
+
     const error = $("#error");
 
     const table = $("#table");
@@ -116,7 +120,7 @@
 
     if (restaurants.length!==0) {
         restaurantActive = restaurants.attr('name')[0];
-        $("#id_restaurante").text(restaurants.attr('name')[0]);
+        title.text(restaurants.attr('for'));
     }
 
     // ANIMATION DATE PICKER
@@ -170,6 +174,7 @@
         });
         $('#datepicker').datepicker('setDate', null);
         restaurantActive = $(this).attr('name');
+        title.text($(this).attr('for'));
     });
 
     function reFormatDate(date) {
@@ -201,7 +206,27 @@
                 {"data": "lenguaje"},
                 {"data": "Hora Inicio", "defaultContent": getHoraDate(fecha_inicio)},
                 {"data": "Hora Fin", "defaultContent": getHoraDate(fecha_fin)}
-            ]
+            ],
+            language: {
+                "decimal": "",
+                "emptyTable": "No hay información",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+                "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+                "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                "infoPostFix": "",
+                "thousands": ",",
+                "lengthMenu": "Mostrar _MENU_ Entradas",
+                "loadingRecords": "Cargando...",
+                "processing": "Procesando...",
+                "search": "Buscar:",
+                "zeroRecords": "Sin resultados encontrados",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Ultimo",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                }
+            },
         });
     }
 
