@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CartaController;
+use App\Models\Carta;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +19,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('card/{id}', [CartaController::class, 'showCard']);
