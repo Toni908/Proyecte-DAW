@@ -48,6 +48,9 @@ public class RestaurantControllerImpl {
     @Autowired
     ImgService imgService;
 
+    @Autowired
+    EmailService emailService;
+
     private final String __route_formulari_create = "formularios/restaurante-create";
     private final String __route_formulari_update = "formularios/restaurante-update";
 
