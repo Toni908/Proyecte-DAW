@@ -8,7 +8,7 @@
     <link th:href="@{/css/asideLeft.css}" rel="stylesheet">
 </head>
 <body>
-<div th:insert="shared/headerVersion2 :: header"/>
+<div th:insert="shared/headerVersion2 :: header(${restaurant})"/>
 <div th:insert="shared/asideList :: aside"/>
 <div class="w-40"></div>
 

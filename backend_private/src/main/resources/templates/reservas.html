@@ -38,7 +38,8 @@
     </style>
 </head>
 <body>
-<div th:insert="shared/headerVersion2 :: header" class="sticky-top top-0"></div>
+<div th:if="${restaurantesUser.size()}!=0" th:insert="shared/headerVersion2 :: header(${restaurantesUser.get(0)})" class="sticky-top top-0"></div>
+<div th:if="${restaurantesUser.size()}==0" th:insert="shared/headerVersion1 :: header" class="sticky-top top-0"></div>
 <div th:insert="shared/missage :: messages"></div>
 
 <div id="error" class="message_error"></div>

@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
 <!-- Header -->
-<header id="header1" class="w-100 bg-front m-0">
+<header th:fragment="header(restaurant)" id="header1" class="w-100 bg-front m-0">
   <div class="h-100 pt-2 pb-2 margin-nav-header1">
     <nav class="h-100 navbar navbar-light p-0 d-flex justify-content-lg-end justify-content-center border-e-grey">
       <a class="nav-link size-header1 d-lg-none d-block text-white align-self-center p-0 pe-3 ps-3" href="#">Buscadar Avanzado</a>
@@ -44,7 +44,7 @@
       </form>
     </div>
   </nav>
-  <div th:insert="shared/model :: modelAside"></div>
+  <div th:insert="shared/model :: modelAside(${restaurant})"></div>
 </header>
 
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>

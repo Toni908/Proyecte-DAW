@@ -9,7 +9,7 @@
     <link th:href="@{/css/form.css}" rel="stylesheet"/>
 </head>
 <body>
-<div th:insert="shared/headerVersion2 :: header"/>
+<div th:insert="shared/headerVersion2 :: header(${restaurant})"/>
 <div th:insert="shared/asideList :: aside" class="position-absolute"/>
 
 <main class="d-flex flex-row justify-content-center">
