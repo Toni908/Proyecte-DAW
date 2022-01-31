@@ -217,6 +217,10 @@ public class RestaurantControllerImpl {
             if (restaurant.isPresent()) {
                 restaurant.get().setValidated(validation);
                 updateRestaurant(restaurant.get());
+                if (validation) {
+                    emailService.sendSimpleMessage("agarcia15183@alumnes.iesmanacor.cat", "Validacion " + restaurant.get().getNombre(), "El restaurante " + restaurant.get().getNombre() + " acaba de ser validado por un administrador, ahora mismo ya puede ser visible para todos los usuarios, para realizar algun cambio por si aun no lo has hecho http//localhost:8080/restaurant/update/" + restaurant.get().getId_restaurante() + " , para mas info visite a la pestaña de preguntas.");
+//                emailService.sendSimpleMessage(restaurant.get().getUseracount().getCorreo(),"Validacion "+restaurant.get().getNombre(),"El restaurante "+restaurant.get().getNombre()+" acaba de ser validado por un administrador, ahora mismo ya puede ser visible para todos los usuarios, para realizar algun cambio por si aun no lo has hecho http//localhost:8080/restaurant/update/"+restaurant.get().getId_restaurante()+" , para mas info visite a la pestaña de preguntas.");
+                }
             }
         }
         return "redirect:/restaurante/configuration/admin";
