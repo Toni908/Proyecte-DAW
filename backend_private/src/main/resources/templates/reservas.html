@@ -227,7 +227,19 @@
             },
             dom: 'Bfrtip',
             buttons: [
-                'print'
+                {
+                    extend: 'print',
+                    customize: function ( win ) {
+                        $(win.document.body)
+                            .prepend(
+                                '<p style="position:absolute; top:0; left:0; font-size: 50px; opacity: 0.1" >'+title.text()+'</p>'
+                            );
+
+                        $(win.document.body).find( 'table' )
+                            .addClass( 'compact' )
+                            .css( 'font-size', 'inherit' );
+                    }
+                }
             ],
             columns: [
                 {
