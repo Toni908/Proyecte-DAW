@@ -79,6 +79,7 @@ public class CardController {
     @PostMapping("/restaurant/admin/{id}/card/save")
     public RedirectView saveCard(@PathVariable(value = "id") BigInteger id, WebRequest request, @RequestParam("img") MultipartFile img){
         Carta carta = new Carta();
+        String url;
         Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
         String name = request.getParameter("name");
         String useimg = request.getParameter("useimg");
@@ -89,6 +90,9 @@ public class CardController {
             Long idl = Long.parseLong(idcs);
             Optional<Carta> cartas = cartaService.findById(idl);
             carta = cartas.get();
+            url = "/restaurant/admin/card/"+idl+"/categories";
+        }else{
+            url = "/restaurant/admin/"+ id +"/cards";
         }
 
         carta.setNombre(name);
@@ -134,7 +138,6 @@ public class CardController {
 
         cartaService.save(carta);
 
-        String url = "/restaurant/admin/"+ id +"/cards";
         return new RedirectView(url);
     }
 
@@ -226,6 +229,7 @@ public class CardController {
         Plato plato = new Plato();
         Optional<Categoria> categoria = categoriaService.findById(id);
         plato.setCategoria(categoria.get());
+        model.addAttribute("restaurant", categoria.get().getCarta().getRestaurant());
         model.addAttribute("plato", plato);
 
         return "dish_modify";
@@ -278,7 +282,17 @@ public class CardController {
     public String editDish(@PathVariable(value = "id") Long id, Model model){
         Optional<Plato> plato = platoService.findById(id);
         model.addAttribute("plato", plato.get());
+        model.addAttribute("restaurant", plato.get().getCategoria().getCarta().getRestaurant());
 
         return "dish_modify";
     }
+
+    @PostMapping("/edit/category/name/{id}")
+        public String editNameCategory(@PathVariable(value = "id") Long id, WebRequest request){
+            Optional<Categoria> categoria = categoriaService.findById(id);
+            categoria.get().setNombre(request.getParameter("name"));
+            categoriaService.save(categoria.get());
+
+            return "redirect:/restaurant/admin/category/" + id + "/dishes";
+        }
 }

@@ -6,9 +6,10 @@
     <link th:href="@{/css/custom.css}" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css"/>
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.1.0/css/buttons.dataTables.min.css"/>
+
 </head>
 <body>
-<div th:insert="shared/headerVersion2 :: header"/>
+<div th:insert="shared/headerVersion2 :: header(${restaurant})"/>
 <div th:insert="shared/asideList :: aside"/>
 
 <div class="w-40"></div>
@@ -37,7 +38,7 @@
                 <td th:text="${periodo.fecha_fin}"></td>
                 <td th:text="${periodo.capacidad}"></td>
                 <td>
-                    <a class="text-decoration-none text-white" th:href="@{'/restaurant/admin/horario/edit/periodo/' + ${periodo.id_periodo}}"><button type='button' class='editar btn btn-primary'><i class="bi bi-pencil"></i></button></a>
+                    <a class="text-decoration-none text-white" th:href="@{'/restaurant/admin/periodo/horario/' + ${periodo.id_periodo}}"><button type='button' class='editar btn btn-primary'><i class="bi bi-pencil"></i></button></a>
                     <button type='button' class='eliminar btn btn-danger' onclick="loadModalEliminar()"><i class="bi bi-trash-fill"></i></button>
                 </td>
             </tr>

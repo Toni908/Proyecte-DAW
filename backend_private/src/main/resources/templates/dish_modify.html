@@ -5,25 +5,19 @@
     <title>Edit cards</title>
     <link th:href="@{/css/custom.css}" rel="stylesheet"/>
     <link th:href="@{/css/create_dish.css}" rel="stylesheet"/>
+    <link th:href="@{/css/asideLeft.css}" rel="stylesheet">
     <link th:href="@{/css/form.css}" rel="stylesheet"/>
 </head>
 <body>
-<div th:insert="shared/headerVersion2 :: header"/>
-
-<div class="container my-5">
-    <div class="row justify-content-center">
-        <a class="col-lg-3 col-md-4 col-sm-6 col-12 my-1 justify-content-center" th:href="@{'/restaurant/admin/category/' + ${plato.categoria.id_categoria} + '/dishes'}">
-            <button class="w-100 pt-2 pb-2 paraf_form rounded" value="Editar Platos"> Volver a las Categorias </button>
-        </a>
-    </div>
-</div>
-
-<hr class="w-75 mx-auto">
+<div th:insert="shared/headerVersion2 :: header(${restaurant})"/>
+<div th:insert="shared/asideList :: aside" class="position-absolute"/>
 
 <main class="d-flex flex-row justify-content-center">
 
-    <div class="form_section w-75 py-5 my-5">
+    <div class="form_section w-60 py-5 my-5">
     <form method="post" class="container form_container" th:action="@{'/restaurant/admin/'+ ${plato.categoria.id_categoria} +'/dish/save' }" enctype="multipart/form-data">
+
+        <input type="text" id="idl" th:value="${plato.categoria.id_categoria}" hidden/>
 
         <div class="tittle_form text-center">
             <h1 th:if="${plato.id_plato != null}"> Editar Plato </h1>
@@ -188,8 +182,11 @@
             </div>
 
 
-            <div class="pt-3 row d-flex flex-row justify-content-center gap-5">
-                <input class="w-20 pt-2 pb-2 paraf_form rounded" type="submit" value="Submit" />
+            <div class="container my-5">
+                <div class="row justify-content-center">
+                    <input class="w-20 py-2 mx-2 my-0 paraf_form rounded" type="submit" value="Submit" />
+                    <!--a th:href="@{'/restaurant/admin/category/' + ${plato.categoria.id_categoria} + '/dishes'}"><button class="w-20 py-2 mx-2 my-0 paraf_form rounded" id="volver">Volver a las Categorias </button></a-->
+                </div>
             </div>
 
         </div>
@@ -198,13 +195,14 @@
     </div>
 
 </main>
-
+<div th:insert="shared/footer :: footer"/>
 
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
 <script th:src="@{/js/headerv2.js}"></script>
 
 <script>
+
     var ingredientes;
     $(document).ready(function() {
         for(var x = 1 ; x <= 14 ; x++){

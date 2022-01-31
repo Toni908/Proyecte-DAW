@@ -17,3 +17,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/api/restaurant/{id}','RestaurantController@showRestaurant');
+
