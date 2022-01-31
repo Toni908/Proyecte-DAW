@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:fragment="modelAside">
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="asideHeader" aria-labelledby="asideHeaderLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="asideHeaderLabel">Opciones</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body p-0">
+            <a class="w-100 select-info text-decoration-none text-black ps-5" th:href="@{'/restaurant/update/'+${restaurant.id_restaurante}}">
+                <i class="bi bi-shop fs-3"></i>
+                Restaurante
+            </a>
+            <a th:if="${restaurant} != null" class="w-100 select-info text-decoration-none text-black ps-5" th:href="@{'/restaurant/update/'+${restaurant.id_restaurante}+'#privacidadFixed'}">
+                <i th:if="${restaurant.visible} == true" class="bi bi-eye-fill fs-3"></i>
+                <i th:if="${restaurant.visible} == false" class="bi bi-eye-slash-fill fs-3"></i>
+                Privacidad
+            </a>
+            <a class="w-100 select-info text-decoration-none text-black ps-5" th:href="@{'/restaurant/update/'+${restaurant.id_restaurante}+'#etiquetasFixed'}">
+                <i class="bi bi-tags fs-3"></i>
+                Etiquetas
+            </a>
+            <a class="w-100 select-info text-decoration-none text-black ps-5" th:href="@{'/restaurant/admin/horario/' +${restaurant.id_restaurante}}">
+                <i class="bi bi-calendar-week fs-3"></i>
+                Gestion de Horarios
+            </a>
+            <a class="w-100 select-info text-decoration-none text-black ps-5" th:href="@{'/restaurant/admin/'+${restaurant.id_restaurante}+'/cards'}">
+                <i class="bi bi-menu-button-wide-fill fs-3"></i>
+                Mis Cartas
+            </a>
+            <a class="w-100 select-info text-decoration-none text-black ps-5" th:href="@{'/reservas'}">
+                <i class="bi bi-receipt fs-3"></i>
+                Reservas
+            </a>
+            <a class="w-100 select-info text-decoration-none text-black ps-5" th:href="@{'/restaurant/admin/membresia/'+${restaurant.id_restaurante}}">
+                <i class="bi bi-inboxes fs-3"></i>
+                Membresia
+            </a>
+            <a class="w-100 select-info text-decoration-none text-black ps-5" th:href="@{'/restaurant/update/'+${restaurant.id_restaurante}+'#imagenesFixed'}">
+                <i class="bi bi-image fs-3"></i>
+                Imagenes
+            </a>
+            <hr>
+            <a class="w-100 select-info text-decoration-none text-black ps-5" th:href="@{'/restaurant/'+${restaurant.getId_restaurante()}}">
+                <i class="bi bi-eye fs-3"></i>
+                Ver Restaurante
+            </a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
