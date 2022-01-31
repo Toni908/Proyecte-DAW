@@ -46,7 +46,7 @@
                 </div>
             </td>
             <td>
-                <a class="text-decoration-none text-white" th:href="@{'/restaurant/admin/card/edit/' + ${carta.id_carta}}"><button type='button' class='editar btn btn-primary'><i class="bi bi-pencil"></i></button></a>
+                <a class="text-decoration-none text-white" th:href="@{'/restaurant/admin/card/' + ${carta.id_carta} + '/categories'}"><button type='button' class='editar btn btn-primary'><i class="bi bi-pencil"></i></button></a>
                 <button type='button' class='eliminar btn btn-danger' onclick="loadModalEliminar()"><i class="bi bi-trash-fill"></i></button>
             </td>
         </tr>

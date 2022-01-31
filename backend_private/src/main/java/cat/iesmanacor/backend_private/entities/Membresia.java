@@ -6,6 +6,7 @@ import lombok.ToString;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigInteger;
+import java.sql.Date;
 import java.sql.Timestamp;
 
 @Data
@@ -19,17 +20,17 @@ public class Membresia {
     private BigInteger id_membresia;
 
     @Column(name = "fecha_inicio")
-    private Timestamp fecha_inicio;
+    private Date fecha_inicio;
 
     @Column(name = "fecha_fin")
-    private Timestamp fecha_fin;
+    private Date fecha_fin;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "num_factura")
     @NotNull(message = "num_factura cant be null")
     private Factura factura;
 
-    public Membresia(BigInteger id_membresia, Timestamp fecha_inicio, Timestamp fecha_fin, Factura factura) {
+    public Membresia(BigInteger id_membresia, Date fecha_inicio, Date fecha_fin, Factura factura) {
         this.id_membresia = id_membresia;
         this.fecha_inicio = fecha_inicio;
         this.fecha_fin = fecha_fin;
@@ -40,7 +41,7 @@ public class Membresia {
 
     }
 
-    public Membresia(Timestamp fecha_inicio, Timestamp fecha_fin, Factura factura) {
+    public Membresia(Date fecha_inicio, Date fecha_fin, Factura factura) {
         this.fecha_inicio = fecha_inicio;
         this.fecha_fin = fecha_fin;
         this.factura = factura;

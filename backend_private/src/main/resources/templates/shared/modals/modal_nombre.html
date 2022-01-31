@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!-- Modal Edita Model -->
+<section>
+    <div id="modalNombre" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <!-- header modal -->
+            <form method="post" th:action="@{'/edit/category/name/'+ ${category.id_categoria}}">
+                <div class="modal-header">
+                    <input type="text" class="" name="name" th:value="${category.nombre}">
+                </div>
+
+                <!-- body modal -->
+
+                <div class="modal-body d-flex justify-content-evenly">
+                    <input type="submit" id="eliminarbutton" class="btn btn-primary text-center"></input>
+                    <button type="button" class="btn btn-secondary text-center" data-bs-dismiss="modal">Cancelar</button>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

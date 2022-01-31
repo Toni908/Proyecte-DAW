@@ -150,6 +150,10 @@ public class HorarioController {
                 model.addAttribute("dateValue", dateRange);
                 model.addAttribute("error", "El periodo no puede coincidir con otros periodos de tu restaurante");
                 model.addAttribute("periodo", periodo);
+                model.addAttribute("restaurant", periodo.getRestaurant());
+                if(periodo.getId_periodo() != null){
+                    return "horarios";
+                }
                 return "periodo_modify";
             }
 
@@ -167,6 +171,22 @@ public class HorarioController {
     @GetMapping("/periodo/horario/{id}")
     public String getHorario(@PathVariable(value = "id") Long id, Model model){
         Optional<Periodo> periodo = periodoService.findById(id);
+        model.addAttribute("periodo", periodo.get());
+
+        Date dateStart = periodo.get().getFecha_inicio();
+        Date dateEnd = periodo.get().getFecha_fin();
+
+        String dateStartS = dateStart.toString();
+        String dateEndS = dateEnd.toString();
+
+        String[] dateStarts = dateStartS.split("-");
+        String[] dateEnds = dateEndS.split("-");
+
+        String start = dateStarts[1] + "/" + dateStarts[2] + "/" + dateStarts[0];
+        String dateValue = start + " - " + dateEnds[1] + "/" + dateEnds[2] + "/" + dateEnds[0];
+
+        model.addAttribute("dateValue", dateValue);
+        model.addAttribute("start", start);
         model.addAttribute("restaurant", periodo.get().getRestaurant());
         model.addAttribute("periodo", periodo.get());
 
@@ -216,21 +236,12 @@ public class HorarioController {
             horarioService.save(horario);
         }else{
             for(int x = 1 ; x < listaDias.size() ; x++){
-                if(x == 1){
-                    Horario uno = horario;
-                }else if(x == 2){
-                    Horario dos = horario;
-                }else if(x == 3){
-                    Horario tres = horario;
-                }else if(x == 4){
-                    Horario cuatro = horario;
-                }else if(x == 5){
-                    Horario cinco = horario;
-                }else if(x == 6){
-                    Horario seis = horario;
-                }else if(x == 7){
-                    Horario siete = horario;
-                }
+                Horario h = new Horario();
+                h.setHora_inicio(start);
+                h.setHora_fin(end);
+                h.setPeriodo(periodo.get());
+                h.setDay(listaDias.get(x));
+                horarioService.save(h);
             }
         }
 
