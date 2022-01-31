@@ -50,7 +50,6 @@ public class ReservasServiceImpl implements ReservasService {
                     reservas.getTelefono(),
                     reservas.getNombre(),
                     reservas.getLenguaje(),
-                    reservas.isValidated(),
                     reservas.getFecha_inicio(),
                     reservas.getFecha_fin(),
                     reservas.getRestaurant()
@@ -62,5 +61,10 @@ public class ReservasServiceImpl implements ReservasService {
     @Override
     public List<Reservas> findReservasByIdRestaurante(BigInteger id) {
         return reservasRepository.findReservasByIdRestaurante(id);
+    }
+
+    @Override
+    public List<Reservas> findReservasByFechaAndRestaurante(BigInteger id, String fecha_inicio, String fecha_fin) {
+        return reservasRepository.findReservasByFechaAndRestaurante(id,fecha_inicio,fecha_fin);
     }
 }
