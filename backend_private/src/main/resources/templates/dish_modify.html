@@ -5,11 +5,12 @@
     <title>Edit cards</title>
     <link th:href="@{/css/custom.css}" rel="stylesheet"/>
     <link th:href="@{/css/create_dish.css}" rel="stylesheet"/>
+    <link th:href="@{/css/asideLeft.css}" rel="stylesheet">
     <link th:href="@{/css/form.css}" rel="stylesheet"/>
 </head>
 <body>
 <div th:insert="shared/headerVersion2 :: header"/>
-<div th:insert="shared/asideList :: aside"/>
+<div th:insert="shared/asideList :: aside" class="position-absolute"/>
 
 <main class="d-flex flex-row justify-content-center">
 
