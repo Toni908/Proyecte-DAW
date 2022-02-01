@@ -13,4 +13,8 @@ class IMG extends Model
     public $timestamps = false;
     protected $primaryKey = 'id_img';
 
+    public function restaurante()
+    {
+        return $this->belongsTo(Restaurante::class, 'id_restaurante');
+    }
 }

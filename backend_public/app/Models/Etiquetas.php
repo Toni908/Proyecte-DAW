@@ -13,4 +13,9 @@ class Etiquetas extends Model
     public $timestamps = false;
     protected $primaryKey = 'id_etiqueta';
 
+    public function restaurantes()
+    {
+        return $this->belongsToMany(Restaurante::class, 'restaurante_etiquetas');
+    }
+    
 }
