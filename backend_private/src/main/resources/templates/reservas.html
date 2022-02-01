@@ -74,6 +74,7 @@
             <div>
                 <h1 id="title" class="pb-3" th:if="${restaurantesUser.size()}!=0"></h1>
                 <h1 class="pb-3" th:if="${restaurantesUser.size()}==0">No hay restaurantes</h1>
+                <h3 class="text-center" id="titleTime"></h3>
             </div>
 
             <section class="w-100 d-none d-xxl-flex flex-row justify-content-end position-absolute">
@@ -127,6 +128,8 @@
     let restaurantActive;
     let restaurant;
 
+    let titleTime = $("#titleTime");
+
     let title = $("#title");
 
     const error = $("#error");
@@ -166,6 +169,7 @@
     function activeTheFirstIfExist() {
         if (restaurantActive !== undefined) {
             var date = new Date(currentTime);
+            titleTime.text(reFormatDateLeftToRight(currentTime));
             table.DataTable().destroy();
             $.getJSON("/get/reservas/json/"+restaurantActive+"/"+date, function (data) {
                 createDataTable(data);
@@ -184,6 +188,7 @@
             onSelect: function(dateText, inst) {
                 var date = new Date(reFormatDate(dateText));
                 table.DataTable().destroy();
+                titleTime.text(reFormatDateLeftToRight(dateText));
                 $.getJSON("/get/reservas/json/" + restaurantActive+"/"+date, function (data) {
                     createDataTable(data);
                 });
@@ -195,6 +200,7 @@
     restaurants.on('click', function () {
         var date = new Date(currentTime);
         table.DataTable().destroy();
+        titleTime.text(reFormatDateLeftToRight(currentTime));
         $.getJSON( "/get/reservas/json/"+$(this).attr('name')+"/"+date, function( data ) {
             createDataTable(data);
         });
@@ -209,6 +215,11 @@
     function reFormatDate(date) {
         let current = date.split("/");
         return current[2]+"-"+current[0]+"-"+current[1];
+    }
+
+    function reFormatDateLeftToRight(date) {
+        let current = date.split("/");
+        return current[1]+"-"+current[0]+"-"+current[2];
     }
 
     function createDataTable(data) {

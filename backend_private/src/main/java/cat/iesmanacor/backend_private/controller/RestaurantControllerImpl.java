@@ -136,15 +136,16 @@ public class RestaurantControllerImpl {
         if (restaurant.getLocalidad()!=null) {
             if (useracount.isPresent()) {
                 restaurant.setUseracount(useracount.get());
+                if (restaurant.getLatitud()!=null || restaurant.getLongitud()!=null) {
+                    saveRestaurant(restaurant);
+                    List<Restaurant> restaurantCreated = restaurantService.findRestaurantByNombre(restaurant.getNombre());
+                    if (!restaurantCreated.isEmpty() && !etiquetas.isEmpty()) {
+                        saveEtiquetas(etiquetas, restaurantCreated.get(0));
+                    }
+                    saveImageRestaurantFirst(multipartFile, restaurant);
 
-                saveRestaurant(restaurant);
-                List<Restaurant> restaurantCreated = restaurantService.findRestaurantByNombre(restaurant.getNombre());
-                if (!restaurantCreated.isEmpty() && !etiquetas.isEmpty()) {
-                    saveEtiquetas(etiquetas, restaurantCreated.get(0));
+                    return "redirect:/restaurant/update/" + restaurant.getId_restaurante();
                 }
-                saveImageRestaurantFirst(multipartFile, restaurant);
-
-                return "redirect:/restaurant/update/"+restaurant.getId_restaurante();
             }
             return create(model.addAttribute("error", "Localizacion no selecionado"));
         }

@@ -62,7 +62,9 @@ public class RestaurantServiceImpl implements RestaurantService {
                     restaurantNew.getLocalidad(),
                     restaurantNew.getMembresia(),
                     restaurantNew.getUseracount(),
-                    restaurantNew.isVisible()
+                    restaurantNew.isVisible(),
+                    restaurantNew.getLongitud(),
+                    restaurantNew.getLatitud()
             );
             restaurantRepository.save(customerToUpdate);
         }
