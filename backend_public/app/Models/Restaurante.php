@@ -37,4 +37,14 @@ class Restaurante extends Model
     {
         return $this->hasMany(Periodo::class);
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User_Account::class, 'id_user');
+    }
+
+    public function reservas()
+    {
+        return $this->hasMany(Reserva::class);
+    }
 }

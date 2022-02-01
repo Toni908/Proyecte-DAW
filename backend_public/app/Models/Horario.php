@@ -13,9 +13,9 @@ class Horario extends Model
     public $timestamps = false;
     protected $primaryKey = 'id_horario';
 
-    public function restaurante()
+    public function periodo()
     {
-        return $this->belongsTo(Restaurante::class, 'id_restaurante');
+        return $this->belongsTo(periodo::class, 'id_periodo');
     }
 
 }

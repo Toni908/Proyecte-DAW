@@ -13,4 +13,15 @@ class Reserva extends Model
     public $timestamps = false;
     protected $primaryKey = 'id_reserva';
 
+    public function restaurante()
+    {
+        return $this->belongsTo(Restaurante::class, 'id_restaurante');
+    }
+
+    public function comentario()
+    {
+        return $this->hasOne(Comentario::class,);
+    }
+
+
 }
