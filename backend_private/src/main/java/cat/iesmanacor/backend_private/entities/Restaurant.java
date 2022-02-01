@@ -52,6 +52,12 @@ public class Restaurant {
     @Column(name = "visible",columnDefinition="boolean default '0'")
     private boolean visible;
 
+    @Column(name = "longitud")
+    Double longitud;
+
+    @Column(name = "latitud")
+    Double latitud;
+
     @Column(name = "direccion")
     @NotNull
     String direccion;
@@ -77,7 +83,7 @@ public class Restaurant {
 
     }
 
-    public Restaurant(BigInteger id_restaurante, String nombre, int dies_anticipacion_reservas, long telefono_restaurante, boolean validated,String direccion, Long aforo, Localidad localidad, Membresia membresia, Useracount user, boolean visible) {
+    public Restaurant(BigInteger id_restaurante, String nombre, int dies_anticipacion_reservas, long telefono_restaurante, boolean validated,String direccion, Long aforo, Localidad localidad, Membresia membresia, Useracount user, boolean visible,Double longitud, Double latitud) {
         this.id_restaurante = id_restaurante;
         this.nombre = nombre;
         this.dies_anticipacion_reservas = dies_anticipacion_reservas;
@@ -85,13 +91,15 @@ public class Restaurant {
         this.validated = validated;
         this.localidad = localidad;
         this.membresia = membresia;
+        this.latitud = latitud;
+        this.longitud = longitud;
         this.aforo = aforo;
         this.direccion = direccion;
         this.useracount = user;
         this.visible = visible;
     }
 
-    public Restaurant(String nombre, int dies_anticipacion_reservas, long telefono_restaurante, boolean validated, Localidad localidad,String direccion, Long aforo, Membresia membresia, Useracount user, boolean visible) {
+    public Restaurant(String nombre, int dies_anticipacion_reservas, long telefono_restaurante, boolean validated, Localidad localidad,String direccion, Long aforo, Membresia membresia, Useracount user, boolean visible, Double longitud, Double latitud) {
         this.nombre = nombre;
         this.dies_anticipacion_reservas = dies_anticipacion_reservas;
         this.telefono_restaurante = telefono_restaurante;
@@ -99,6 +107,8 @@ public class Restaurant {
         this.localidad = localidad;
         this.membresia = membresia;
         this.useracount = user;
+        this.latitud = latitud;
+        this.longitud = longitud;
         this.aforo = aforo;
         this.direccion = direccion;
         this.visible = visible;

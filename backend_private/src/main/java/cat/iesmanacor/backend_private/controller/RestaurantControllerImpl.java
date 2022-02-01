@@ -48,6 +48,9 @@ public class RestaurantControllerImpl {
     @Autowired
     ImgService imgService;
 
+    @Autowired
+    EmailService emailService;
+
     private final String __route_formulari_create = "formularios/restaurante-create";
     private final String __route_formulari_update = "formularios/restaurante-update";
 
@@ -136,15 +139,16 @@ public class RestaurantControllerImpl {
         if (restaurant.getLocalidad()!=null) {
             if (useracount.isPresent()) {
                 restaurant.setUseracount(useracount.get());
+                if (restaurant.getLatitud()!=null || restaurant.getLongitud()!=null) {
+                    saveRestaurant(restaurant);
+                    List<Restaurant> restaurantCreated = restaurantService.findRestaurantByNombre(restaurant.getNombre());
+                    if (!restaurantCreated.isEmpty() && !etiquetas.isEmpty()) {
+                        saveEtiquetas(etiquetas, restaurantCreated.get(0));
+                    }
+                    saveImageRestaurantFirst(multipartFile, restaurant);
 
-                saveRestaurant(restaurant);
-                List<Restaurant> restaurantCreated = restaurantService.findRestaurantByNombre(restaurant.getNombre());
-                if (!restaurantCreated.isEmpty() && !etiquetas.isEmpty()) {
-                    saveEtiquetas(etiquetas, restaurantCreated.get(0));
+                    return "redirect:/restaurant/update/" + restaurant.getId_restaurante();
                 }
-                saveImageRestaurantFirst(multipartFile, restaurant);
-
-                return "redirect:/restaurant/update/"+restaurant.getId_restaurante();
             }
             return create(model.addAttribute("error", "Localizacion no selecionado"));
         }
@@ -214,6 +218,9 @@ public class RestaurantControllerImpl {
             if (restaurant.isPresent()) {
                 restaurant.get().setValidated(validation);
                 updateRestaurant(restaurant.get());
+                if (validation) {
+                    emailService.sendSimpleMessage("agarcia15183@alumnes.iesmanacor.cat", "Validacion " + restaurant.get().getNombre(), "El restaurante " + restaurant.get().getNombre() + " acaba de ser validado por un administrador, ahora mismo ya puede ser visible para todos los usuarios, para realizar algun cambio por si aun no lo has hecho http//localhost:8080/restaurant/update/" + restaurant.get().getId_restaurante() + " , para mas info visite a la pestaña de preguntas.");
+                }
             }
         }
         return "redirect:/restaurante/configuration/admin";

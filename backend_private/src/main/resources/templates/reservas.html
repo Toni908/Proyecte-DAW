@@ -30,9 +30,24 @@
         .displayColumn {
             display: block;
         }
-        @media only screen and (max-width: 1105px) {
+        .table-container {
+            width: 50%;
+        }
+        .check-datepicker {
+            width: 25%;
+        }
+        @media only screen and (max-width: 1390px) {
             .displayColumn {
                 display: none;
+            }
+            .table-container {
+                width: 100%;
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+            .check-datepicker {
+                width: 100%;
+                padding-top: 50px;
             }
         }
     </style>
@@ -74,35 +89,42 @@
             <div>
                 <h1 id="title" class="pb-3" th:if="${restaurantesUser.size()}!=0"></h1>
                 <h1 class="pb-3" th:if="${restaurantesUser.size()}==0">No hay restaurantes</h1>
+                <h3 class="text-center" id="titleTime"></h3>
             </div>
 
-            <section class="w-100 d-none d-xxl-flex flex-row justify-content-end position-absolute">
-                <div class="datepicker-length pt-2 pe-xxl-3">
+
+        </section>
+        <section class="w-100 d-flex flex-xxl-row flex-column justify-content-xxl-center pt-0">
+            <div class="" style="width: 25%;"></div>
+            <div class="table-container">
+                <table class="nowrap" style="width:100%" id="table">
+                    <thead>
+                    <tr>
+                        <th class="displayColumn"></th>
+                        <th>nombre</th>
+                        <th>personas</th>
+                        <th class="displayColumn">telefono</th>
+                        <th>Hora</th>
+                        <th>Correo</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="check-datepicker">
+                <section class="w-100 d-flex flex-column justify-content-center p-3 pt-0">
+                    <div class="form-check form-switch d-flex flex-column justify-content-center p-0 m-0">
+                        <label class="w-100 d-flex flex-row justify-content-center gap-4">
+                            Activo permanentemente
+                            <input class="form-check-input m-0 fs-3" id="datepickcheck" type="checkbox">
+                        </label>
+                    </div>
+                    <div class="pt-2 pe-5">
+                        <input id="datepicker" type="text" class="form-control">
+                    </div>
                     <div class="datepicker">
 
                     </div>
-                </div>
-            </section>
-        </section>
-        <section class="w-100 d-flex flex-row justify-content-center p-3 pt-0">
-            <table class="nowrap" style="width:100%" id="table">
-                <thead>
-                <tr>
-                    <th class="displayColumn"></th>
-                    <th>nombre</th>
-                    <th>personas</th>
-                    <th class="displayColumn">telefono</th>
-                    <th>Hora Inicio</th>
-                    <th>Hora Fin</th>
-                </tr>
-                </thead>
-            </table>
-        </section>
-        <section class="w-100 d-flex d-xxl-none justify-content-center position-relative">
-            <div class="pt-2 pe-xxl-3">
-                <div class="datepicker">
-
-                </div>
+                </section>
             </div>
         </section>
     </section>
@@ -126,8 +148,13 @@
     let restaurants = $(".restaurantes");
     let restaurantActive;
     let restaurant;
+    let datepicker = $("#datepicker");
+
+    let titleTime = $("#titleTime");
 
     let title = $("#title");
+
+    $(".datepicker").hide();
 
     const error = $("#error");
 
@@ -166,6 +193,7 @@
     function activeTheFirstIfExist() {
         if (restaurantActive !== undefined) {
             var date = new Date(currentTime);
+            titleTime.text(reFormatDateLeftToRight(currentTime));
             table.DataTable().destroy();
             $.getJSON("/get/reservas/json/"+restaurantActive+"/"+date, function (data) {
                 createDataTable(data);
@@ -176,7 +204,7 @@
     }
 
     $( function() {
-        $( ".datepicker" ).datepicker({
+        datepicker.datepicker({
             weekStart: 1,
             todayBtn: "linked",
             daysOfWeekHighlighted: "0,6",
@@ -184,21 +212,36 @@
             onSelect: function(dateText, inst) {
                 var date = new Date(reFormatDate(dateText));
                 table.DataTable().destroy();
+                titleTime.text(reFormatDateLeftToRight(dateText));
                 $.getJSON("/get/reservas/json/" + restaurantActive+"/"+date, function (data) {
                     createDataTable(data);
                 });
             }
         });
     } );
-
+    $(".datepicker").datepicker({
+        weekStart: 1,
+        todayBtn: "linked",
+        daysOfWeekHighlighted: "0,6",
+        todayHighlight: true,
+        onSelect: function(dateText, inst) {
+            var date = new Date(reFormatDate(dateText));
+            table.DataTable().destroy();
+            titleTime.text(reFormatDateLeftToRight(dateText));
+            $.getJSON("/get/reservas/json/" + restaurantActive+"/"+date, function (data) {
+                createDataTable(data);
+            });
+        }
+    });
 
     restaurants.on('click', function () {
         var date = new Date(currentTime);
         table.DataTable().destroy();
+        titleTime.text(reFormatDateLeftToRight(currentTime));
         $.getJSON( "/get/reservas/json/"+$(this).attr('name')+"/"+date, function( data ) {
             createDataTable(data);
         });
-        $('.datepicker').datepicker('setDate', null);
+        datepicker.datepicker('setDate', null);
         restaurantActive = $(this).attr('name');
         removeRestaurantCSS(restaurant);
         restaurant = $(this);
@@ -211,14 +254,16 @@
         return current[2]+"-"+current[0]+"-"+current[1];
     }
 
+    function reFormatDateLeftToRight(date) {
+        let current = date.split("/");
+        return current[1]+"-"+current[0]+"-"+current[2];
+    }
+
     function createDataTable(data) {
-        var fecha_inicio;
-        var fecha_fin;
+        var fecha;
         $.each(data, function (key, object) {
-            fecha_inicio = new Date(object.fecha_inicio);
-            object.fecha_inicio = formatDateFechaInicio(object)[0]+"-"+getMonthDateInicio(object)+"-"+fecha_inicio.getFullYear();
-            fecha_fin = new Date(object.fecha_fin);
-            object.fecha_fin = formatDateFechaFin(object)[0]+"-"+getMonthDateFin(object)+"-"+fecha_fin.getFullYear();
+            fecha = new Date(object.fecha);
+            object.fecha = formatDate(object)[0]+"-"+getMonthDate(object)+"-"+fecha.getFullYear();
         });
         table.dataTable({
             data: data,
@@ -227,7 +272,19 @@
             },
             dom: 'Bfrtip',
             buttons: [
-                'print'
+                {
+                    extend: 'print',
+                    customize: function ( win ) {
+                        $(win.document.body)
+                            .prepend(
+                                '<p style="position:absolute; top:0; left:0; font-size: 50px; opacity: 0.1" >'+title.text()+'</p>'
+                            );
+
+                        $(win.document.body).find( 'table' )
+                            .addClass( 'compact' )
+                            .css( 'font-size', 'inherit' );
+                    }
+                }
             ],
             columns: [
                 {
@@ -239,8 +296,8 @@
                 {"data": "nombre"},
                 {"data": "personas"},
                 {"data": "telefono", "className" : 'displayColumn'},
-                {"data": "Hora Inicio", "defaultContent": getHoraDate(fecha_inicio)},
-                {"data": "Hora Fin", "defaultContent": getHoraDate(fecha_fin)}
+                {"data": "Hora", "defaultContent": getHoraDate(fecha)},
+                {"data":"correo"}
             ],
             language: {
                 "decimal": "",
@@ -282,11 +339,7 @@
         return '<table cellpadding="6" cellspacing="0" border="0" class="displayColumn">'+
             '<tr>'+
             '<td>Fecha:</td>'+
-            '<td>'+d.fecha_inicio+'</td>'+
-            '</tr>'+
-            '<tr>'+
-            '<td>Correo electronico:</td>'+
-            '<td>'+d.correo+'</td>'+
+            '<td>'+d.fecha+'</td>'+
             '</tr>'+
             '<tr>'+
             '<td>Telefono:</td>'+
@@ -299,22 +352,13 @@
             '</table>';
     }
 
-    function formatDateFechaInicio(date){
-        var getDate = date.fecha_inicio.toString().split("-");
+    function formatDate(date){
+        var getDate = date.fecha.toString().split("-");
         return getDate[2].split("T");
     }
 
-    function formatDateFechaFin(date){
-        var getDate = date.fecha_fin.toString().split("-");
-        return getDate[2].split("T");
-    }
-
-    function getMonthDateFin(date) {
-        var getDay = date.fecha_fin.toString().split("-");
-        return getDay[1];
-    }
-    function getMonthDateInicio(date) {
-        var getDay = date.fecha_inicio.toString().split("-");
+    function getMonthDate(date) {
+        var getDay = date.fecha.toString().split("-");
         return getDay[1];
     }
 
@@ -332,6 +376,16 @@
     function removeRestaurantCSS(restaurant) {
         restaurant.css("border","solid black 0");
     }
+
+    $( '#datepickcheck' ).on( 'click', function() {
+        if( $(this).is(':checked') ){
+            $("#datepicker").hide();
+            $(".datepicker").show();
+        } else {
+            $("#datepicker").show();
+            $(".datepicker").hide();
+        }
+    });
 </script>
 </body>
 </html>

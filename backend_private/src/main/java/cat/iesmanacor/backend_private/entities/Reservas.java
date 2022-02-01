@@ -39,39 +39,33 @@ public class Reservas {
     @Size(min = 2,max = 2)
     private String lenguaje;
 
-    @Column(name = "fecha_inicio")
+    @Column(name = "fecha")
     @NotNull
-    private Timestamp fecha_inicio;
-
-    @Column(name = "fecha_fin")
-    @NotNull
-    private Timestamp fecha_fin;
+    private Timestamp fecha;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_restaurante")
     @NotNull(message = "id_restaurante cant be null")
     private Restaurant restaurant;
 
-    public Reservas (BigInteger id_reserva, BigInteger personas, String correo, long telefono, String nombre, String lenguaje, Timestamp fecha_inicio, Timestamp fecha_fin, Restaurant restaurant) {
+    public Reservas (BigInteger id_reserva, BigInteger personas, String correo, long telefono, String nombre, String lenguaje, Timestamp fecha, Restaurant restaurant) {
         this.id_reserva = id_reserva;
         this.personas = personas;
         this.correo = correo;
         this.telefono = telefono;
         this.nombre = nombre;
         this.lenguaje = lenguaje;
-        this.fecha_inicio = fecha_inicio;
-        this.fecha_fin = fecha_fin;
+        this.fecha = fecha;
         this.restaurant = restaurant;
     }
 
-    public Reservas (BigInteger personas, String correo, long telefono, String nombre, String lenguaje, Timestamp fecha_inicio, Timestamp fecha_fin, Restaurant restaurant) {
+    public Reservas (BigInteger personas, String correo, long telefono, String nombre, String lenguaje, Timestamp fecha, Restaurant restaurant) {
         this.personas = personas;
         this.correo = correo;
         this.telefono = telefono;
         this.nombre = nombre;
         this.lenguaje = lenguaje;
-        this.fecha_inicio = fecha_inicio;
-        this.fecha_fin = fecha_fin;
+        this.fecha = fecha;
         this.restaurant = restaurant;
     }
 

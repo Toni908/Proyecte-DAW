@@ -50,8 +50,7 @@ public class ReservasServiceImpl implements ReservasService {
                     reservas.getTelefono(),
                     reservas.getNombre(),
                     reservas.getLenguaje(),
-                    reservas.getFecha_inicio(),
-                    reservas.getFecha_fin(),
+                    reservas.getFecha(),
                     reservas.getRestaurant()
             );
             reservasRepository.save(membresiaUpdate);
