@@ -11,4 +11,5 @@ class Restaurante extends Model
 
     protected $table = "restaurante";
     public $timestamps = false;
+    protected $primaryKey = 'id_restaurante';
 }

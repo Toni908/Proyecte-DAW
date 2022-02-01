@@ -11,4 +11,5 @@ class Plato extends Model
     
     protected $table = "platos";
     public $timestamps = false;
+    protected $primaryKey = 'id_plato';
 }

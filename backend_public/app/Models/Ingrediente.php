@@ -11,4 +11,5 @@ class Ingrediente extends Model
     
     protected $table = "ingredientes";
     public $timestamps = false;
+    protected $primaryKey = 'id_ingrediente';
 }

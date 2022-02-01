@@ -11,4 +11,6 @@ class Periodo extends Model
 
     protected $table = "periodo";
     public $timestamps = false;
+    protected $primaryKey = 'id_periodo';
+
 }

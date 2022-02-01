@@ -11,4 +11,5 @@ class Membresia extends Model
 
     protected $table = "membresia";
     public $timestamps = false;
+    protected $primaryKey = 'id_membresia';
 }
