@@ -11,4 +11,11 @@ class Horario extends Model
 
     protected $table = "horario";
     public $timestamps = false;
+    protected $primaryKey = 'id_horario';
+
+    public function periodo()
+    {
+        return $this->belongsTo(periodo::class, 'id_periodo');
+    }
+
 }

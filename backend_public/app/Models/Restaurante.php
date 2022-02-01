@@ -11,4 +11,40 @@ class Restaurante extends Model
 
     protected $table = "restaurante";
     public $timestamps = false;
+    protected $primaryKey = 'id_restaurante';
+    
+    public function cartas()
+    {
+        return $this->hasMany(Carta::class);
+    }
+
+    public function localidad()
+    {
+        return $this->belongsTo(Localidad::class, 'id_localidad');
+    }
+
+    public function etiquetas()
+    {
+        return $this->belongsToMany(Etiquetas::class, 'restaurante_etiquetas');
+    }
+
+    public function imgs()
+    {
+        return $this->hasMany(IMG::class);
+    }
+
+    public function periodos()
+    {
+        return $this->hasMany(Periodo::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User_Account::class, 'id_user');
+    }
+
+    public function reservas()
+    {
+        return $this->hasMany(Reserva::class);
+    }
 }

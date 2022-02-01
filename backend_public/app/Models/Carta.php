@@ -11,4 +11,15 @@ class Carta extends Model
     
     protected $table = "carta";
     public $timestamps = false;
+    protected $primaryKey = 'id_carta';
+
+    public function categorias()
+    {
+        return $this->hasMany(Categoria::class);
+    }
+
+    public function restaurante()
+    {
+        return $this->belongsTo(Restaurante::class, 'id_restaurante');
+    }
 }

@@ -11,4 +11,15 @@ class Categoria extends Model
 
     protected $table = "categoria_platos";
     public $timestamps = false;
+    protected $primaryKey = 'id_categoria';
+
+    public function platos()
+    {
+        return $this->hasMany(Plato::class);
+    }
+
+    public function carta()
+    {
+        return $this->belongsTo(Carta::class, 'id_carta');
+    }
 }

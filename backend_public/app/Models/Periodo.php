@@ -11,4 +11,15 @@ class Periodo extends Model
 
     protected $table = "periodo";
     public $timestamps = false;
+    protected $primaryKey = 'id_periodo';
+
+    public function restaurante()
+    {
+        return $this->belongsTo(Restaurante::class, 'id_restaurante');
+    }
+
+    public function horario()
+    {
+        return $this->hasMany(Horario::class);
+    }
 }

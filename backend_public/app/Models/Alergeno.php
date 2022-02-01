@@ -11,4 +11,10 @@ class Alergeno extends Model
 
     protected $table = "alergenos";
     public $timestamps = false;
+    protected $primaryKey = 'id_alergeno';
+
+    public function platos()
+    {
+        return $this->belongsToMany(Plato::class, 'platos_alergenos');
+    }
 }

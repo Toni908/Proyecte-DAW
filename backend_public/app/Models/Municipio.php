@@ -11,4 +11,11 @@ class Municipio extends Model
 
     protected $table = "municipio";
     public $timestamps = false;
+    protected $primaryKey = 'nombre_municipio';
+    protected $keyType = 'string';
+
+    public function localidad()
+    {
+        return $this->belongsTo(Localidad::class, 'id_localidad');
+    }
 }

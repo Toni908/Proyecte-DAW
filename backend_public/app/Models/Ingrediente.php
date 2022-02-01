@@ -11,4 +11,10 @@ class Ingrediente extends Model
     
     protected $table = "ingredientes";
     public $timestamps = false;
+    protected $primaryKey = 'id_ingrediente';
+
+    public function platos()
+    {
+        return $this->belongsToMany(Plato::class, 'platos_ingredientes');
+    }
 }
