@@ -1,6 +1,7 @@
 package cat.iesmanacor.backend_private.controller;
 
 import cat.iesmanacor.backend_private.entities.*;
+import cat.iesmanacor.backend_private.files.FileUploadUtil;
 import cat.iesmanacor.backend_private.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -46,6 +47,9 @@ public class CardController {
         Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
         String name = "Cartas de " + restaurant.get().getNombre();
         restaurant.get().setNombre(name);
+        /*for(Carta carta:restaurant.get().getCartas()){
+            carta.setUrl_img();
+        }*/
         model.addAttribute("restaurant", restaurant.get());
 
         return "cards";
@@ -61,7 +65,7 @@ public class CardController {
     @GetMapping("/restaurant/admin/card/edit/{id}")
     public String editCard(@PathVariable(value = "id") Long id, Model model){
         Optional<Carta> carta = cartaService.findById(id);
-        model.addAttribute("card", carta.get());
+        model.addAttribute("carta", carta.get());
 
         return "card_modify";
     }
@@ -71,7 +75,7 @@ public class CardController {
         Carta carta = new Carta();
         Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
         carta.setRestaurant(restaurant.get());
-        model.addAttribute("card", carta);
+        model.addAttribute("carta", carta);
 
         return "card_modify";
     }
@@ -119,15 +123,14 @@ public class CardController {
             carta.setVisible(false);
         }
 
-        Path uploadPath = Paths.get("C:\\Users\\Fadrique\\Documents\\Toni\\SEGUNDO_AÑO\\Proyecto\\img");
-
         if(img != null){
             String fileName = StringUtils.cleanPath(img.getOriginalFilename());
             if (!fileName.equals("")) {
+                fileName = carta.getId_carta() + fileName;
                 carta.setUrl_img(fileName);
                 try (InputStream inputStream = img.getInputStream()){
-                    Path filePath = uploadPath.resolve(fileName);
-                    Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+                    String uploadDir = ""+carta.getRestaurant().getId_restaurante();
+                    FileUploadUtil.saveFile(uploadDir, fileName, img);
                 }catch(IOException e){
 
                 }
