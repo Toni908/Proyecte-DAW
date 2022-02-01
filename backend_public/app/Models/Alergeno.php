@@ -11,4 +11,5 @@ class Alergeno extends Model
 
     protected $table = "alergenos";
     public $timestamps = false;
+    protected $primaryKey = 'id_alergeno';
 }

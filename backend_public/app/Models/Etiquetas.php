@@ -11,4 +11,6 @@ class Etiquetas extends Model
 
     protected $table = "etiquetas";
     public $timestamps = false;
+    protected $primaryKey = 'id_etiqueta';
+
 }

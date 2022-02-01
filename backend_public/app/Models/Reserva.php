@@ -11,4 +11,6 @@ class Reserva extends Model
 
     protected $table = "reserva";
     public $timestamps = false;
+    protected $primaryKey = 'id_reserva';
+
 }

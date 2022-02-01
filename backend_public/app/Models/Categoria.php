@@ -11,4 +11,5 @@ class Categoria extends Model
 
     protected $table = "categoria_platos";
     public $timestamps = false;
+    protected $primaryKey = 'id_categoria';
 }

@@ -11,4 +11,5 @@ class Carta extends Model
     
     protected $table = "carta";
     public $timestamps = false;
+    protected $primaryKey = 'id_carta';
 }

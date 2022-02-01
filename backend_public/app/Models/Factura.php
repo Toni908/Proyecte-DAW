@@ -11,4 +11,6 @@ class Factura extends Model
 
     protected $table = "factura";
     public $timestamps = false;
+    protected $primaryKey = 'num_factura';
+    protected $keyType = 'string';
 }

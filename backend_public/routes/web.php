@@ -20,3 +20,5 @@ Route::get('/', function () {
 });
 
 Route::get('card/{id}', [CartaController::class, 'showCard']);
+
+Route::get('/api/restaurant/{id}','RestaurantController@showRestaurant');

@@ -11,4 +11,5 @@ class Localidad extends Model
 
     protected $table = "localidad";
     public $timestamps = false;
+    protected $primaryKey = 'id_localidad';
 }

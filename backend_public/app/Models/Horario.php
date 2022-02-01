@@ -11,4 +11,5 @@ class Horario extends Model
 
     protected $table = "horario";
     public $timestamps = false;
+    protected $primaryKey = 'id_horario';
 }
