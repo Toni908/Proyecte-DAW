@@ -12,4 +12,9 @@ class Comentario extends Model
     protected $table = "comentarios";
     public $timestamps = false;
     protected $primaryKey = 'id_comentario';
+
+    public function reserva()
+    {
+        return $this->hasOne(Reserva::class, 'id_resereva');
+    }
 }
