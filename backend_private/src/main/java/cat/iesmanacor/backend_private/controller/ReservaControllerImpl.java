@@ -33,6 +33,6 @@ public class ReservaControllerImpl {
             model.addAttribute("restaurantesUser",restaurantService.findRestaurantByUseracount(useracount.get(1).getId_user()));
             return "reservas";
         }
-        return "home";
+        return "redirect:/";
     }
 }

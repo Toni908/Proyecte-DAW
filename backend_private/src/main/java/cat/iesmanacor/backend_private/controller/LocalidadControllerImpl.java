@@ -20,39 +20,10 @@ import java.util.Optional;
 @Controller
 public class LocalidadControllerImpl {
 
-    private final String __route_formularis = "formularis/layout-form";
-    private final String __route_table = "tables/layout-table";
-    private final String __route_home = "links";
-
     @Autowired
     LocalidadService localidadService;
 
-    //////////////         LOCALIZACION    FORMULARIS     ////////////////////
-
-    @RequestMapping(value = "/localidad/create", method = RequestMethod.GET)
-    public String create(ModelMap model) {
-        model.addAttribute("type","localidad-create");
-        model.addAttribute("object",new Localidad());
-        return __route_formularis;
-    }
-
-    @RequestMapping(value = "/localidad/update/{id}", method = RequestMethod.GET)
-    public String update(@PathVariable BigInteger id, ModelMap model) {
-        if (id!=null) {
-            Optional<Localidad> localidad = localidadService.findLocalidadById(id);
-            if (localidad.isPresent()) {
-                model.addAttribute("type", "localidad-update");
-                model.addAttribute("object", localidad.get());
-                return __route_formularis;
-            }
-        }
-        model.addAttribute("error","LOCALIDAD SELECTED DOESNT PRESENT");
-        return __route_home;
-    }
-
-
     //////////////         LOCALIZACION  ACTIONS       ////////////////////
-
 
     @RequestMapping(value = "/localidad/save",method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
     public String save(@ModelAttribute @Valid Localidad localidad, BindingResult errors, ModelMap model) {
@@ -126,22 +97,8 @@ public class LocalidadControllerImpl {
     @RequestMapping(value = "/localidades",method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
     public String show(ModelMap model) {
         model.addAttribute("localidades",localidadService.findAllLocalidad());
-        return __route_table;
+        return "redirect:/";
     }
-
-    @RequestMapping(value = "/localidad/{id}",method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
-    public String findLocalidadById(@PathVariable BigInteger id, ModelMap model) {
-        if (id!=null) {
-            Optional<Localidad> Localidad = localidadService.findLocalidadById(id);
-            if (Localidad.isPresent()) {
-                model.addAttribute("localidad", Localidad.get());
-                return __route_table;
-            }
-        }
-        model.addAttribute("error","FACTURA NOT FOUNDED");
-        return __route_home;
-    }
-
 
     /* ------------------------------------------ */
 

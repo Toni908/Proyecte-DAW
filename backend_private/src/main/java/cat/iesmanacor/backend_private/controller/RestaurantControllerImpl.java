@@ -105,7 +105,7 @@ public class RestaurantControllerImpl {
                 return __route_formulari_update;
             }
         }
-        return "/home";
+        return "redirect:/";
     }
 
 

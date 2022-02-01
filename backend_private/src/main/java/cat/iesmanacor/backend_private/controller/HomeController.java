@@ -3,16 +3,10 @@ package cat.iesmanacor.backend_private.controller;
 import cat.iesmanacor.backend_private.entities.Restaurant;
 import cat.iesmanacor.backend_private.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 public class HomeController {
@@ -29,7 +23,7 @@ public class HomeController {
     @Autowired
     ImgService imgService;
 
-    @GetMapping("/home")
+    @GetMapping("/")
     public String getHome(ModelMap model){
         model.addAttribute("restaurantes",restaurantService.findAllRestaurants());
         return "principalPage";

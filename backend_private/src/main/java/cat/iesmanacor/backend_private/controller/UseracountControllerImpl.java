@@ -23,34 +23,6 @@ public class UseracountControllerImpl {
     @Autowired
     UseracountService useracountService;
 
-    private final String __route_formularis = "formularis/layout-form";
-    private final String __route_table = "tables/layout-table";
-    private final String __route_home = "links";
-
-    //////////////         USER         ////////////////////
-
-    @RequestMapping(value = "/user/create", method = RequestMethod.GET)
-    public String create(ModelMap model) {
-        model.addAttribute("type","useracount-create");
-        model.addAttribute("object",new Useracount());
-        return __route_formularis;
-    }
-
-    @RequestMapping(value = "/user/update/{id}", method = RequestMethod.GET)
-    public String update(@PathVariable BigInteger id, ModelMap model) {
-        if (id != null) {
-            Optional<Useracount> useracount = useracountService.findUseracountById(id);
-            if (useracount.isPresent()) {
-                model.addAttribute("type","useracount-update");
-                model.addAttribute("object",useracount.get());
-                return __route_formularis;
-            }
-        }
-        model.addAttribute("error","MEMBRESIA SELECTED DOESNT PRESENT");
-        return __route_home;
-    }
-
-
     //////////////         USER ACTIONS        ////////////////////
 
 
@@ -68,7 +40,7 @@ public class UseracountControllerImpl {
                 model.addAttribute("type", "useracount-create");
                 model.addAttribute("object", new Useracount());
                 model.addAttribute("error", "TRYING TO SAVE USERACOUNT THAT EXIST");
-                return show(model);
+                return "redirect:/";
             }
         }
 
@@ -85,7 +57,7 @@ public class UseracountControllerImpl {
                 }
             }
         }
-        return show(model);
+        return "redirect:/";
     }
 
     @RequestMapping(value = "/user/put",method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
@@ -111,7 +83,7 @@ public class UseracountControllerImpl {
         } else {
             model.addAttribute("error","Request user is not present");
         }
-        return show(model);
+        return "redirect:/";
     }
 
     @RequestMapping(value = "/user/delete/{id}", method = RequestMethod.GET, produces = "application/json")
@@ -127,30 +99,7 @@ public class UseracountControllerImpl {
         return new RedirectView("/users");
     }
 
-    @RequestMapping(value = "/users", method = RequestMethod.GET, produces = "application/json")
-    public String show(ModelMap model) {
-        model.addAttribute("useracounts",useracountService.findAllUseracount());
-        return __route_table;
-    }
-
-    @RequestMapping(value = "/user/{id}", method = RequestMethod.GET, produces = "application/json")
-    public String getUseracountById(@PathVariable BigInteger id, ModelMap model) {
-        if (id!=null) {
-            Optional<Useracount> useracount = useracountService.findUseracountById(id);
-            if (useracount.isPresent()) {
-                model.addAttribute("useracount", useracount.get());
-                return __route_table;
-            }
-        }
-        model.addAttribute("error","USERACOUNT NOT FOUNDED");
-        return __route_home;
-    }
-
-
-
     /* ------------------------------------------ */
-
-
 
     public void saveUseracount(Useracount useracount) {
         if (useracount != null) {
