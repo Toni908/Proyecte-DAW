@@ -94,15 +94,15 @@
             </div>
             <div class="container-responsive-form d-flex justify-content-center flex-row">
                 <div class="p-0 form_2 pe-2" style="width: 40%">
-                    <div class="ps-3 paraf_form">Longitud</div>
+                    <div class="ps-3 paraf_form text-secondary">Longitud</div>
                     <label class="w-100 field_form_section">
-                        <input type="number" step="any" id="longitud" class="input-text text-secondary" name="longitud" required>
+                        <input type="number" step="any" id="longitud" class="input-text text-secondary" name="longitud" readonly>
                     </label>
                 </div>
                 <div class="p-0 form_2 ps-2" style="width: 40%">
-                    <div class="ps-3 paraf_form">Latitud</div>
+                    <div class="ps-3 paraf_form text-secondary">Latitud</div>
                     <label class="w-100 field_form_section">
-                        <input type="number" step="any" id="latitud" class="input-text text-secondary" name="latitud" required>
+                        <input type="number" step="any" id="latitud" class="input-text text-secondary" name="latitud" readonly>
                     </label>
                 </div>
             </div>
@@ -411,8 +411,8 @@
                     map: map
                 });
             }
-            latitud.val(location.lat().toFixed(10));
-            longitud.val(location.lng().toFixed(10));
+            latitud.val(location.lat());
+            longitud.val(location.lng());
         }
 
         google.maps.event.addListener(map, 'click', function(event) {
