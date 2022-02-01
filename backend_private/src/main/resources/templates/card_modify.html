@@ -11,10 +11,10 @@
 
 <div class="container my-5">
     <div class="row justify-content-center">
-    <a class="col-lg-3 col-md-4 col-sm-6 col-12 my-1 justify-content-center" th:href="@{'/restaurant/admin/' + ${card.restaurant.id_restaurante} + '/cards'}">
+    <a class="col-lg-3 col-md-4 col-sm-6 col-12 my-1 justify-content-center" th:href="@{'/restaurant/admin/' + ${carta.restaurant.id_restaurante} + '/cards'}">
         <button class="w-100 pt-2 pb-2 paraf_form rounded" value="Editar Platos"> Volver a las Cartas </button>
     </a>
-    <a class="col-lg-3 col-md-4 col-sm-6 col-12 my-1 justify-content-center" th:if="${card.id_carta!= null}" th:href="@{'/restaurant/admin/card/' + ${card.id_carta} + '/categories'}">
+    <a class="col-lg-3 col-md-4 col-sm-6 col-12 my-1 justify-content-center" th:if="${carta.id_carta!= null}" th:href="@{'/restaurant/admin/card/' + ${card.id_carta} + '/categories'}">
         <button class="w-100 pt-2 pb-2 paraf_form rounded" value="Editar Platos"> Modificar Categorias de la Carta </button>
     </a>
     </div>
@@ -22,23 +22,24 @@
 
 <hr class="w-75 mx-auto">
 
+
 <main class="d-flex flex-row justify-content-center">
 
     <div class="form_section w-50 py-5 my-5">
-        <form method="post" class="container form_container" th:action="@{'/restaurant/admin/'+ ${card.restaurant.id_restaurante} +'/card/save' }" enctype="multipart/form-data">
+        <form method="post" class="container form_container" th:action="@{'/restaurant/admin/'+ ${carta.restaurant.id_restaurante} +'/card/save' }" enctype="multipart/form-data">
 
             <div class="tittle_form">
-                <h1 class="text-center" th:if="${card.id_carta != null}"> Editar Carta </h1>
-                <h1 class="text-center" th:unless="${card.id_carta != null}"> Crear Carta </h1>
+                <h1 class="text-center" th:if="${carta.id_carta != null}"> Editar Carta </h1>
+                <h1 class="text-center" th:unless="${carta.id_carta != null}"> Crear Carta </h1>
             </div>
 
             <div class="body_form">
 
-                <div th:if="${card.id_carta != null}" class="d-none d-flex justify-content-center">
+                <div th:if="${carta.id_carta != null}" class="d-none d-flex justify-content-center">
                     <div class="mb-3 p-0 text-center" style="width: 80%">
                         <div class="paraf_form">Id:</div>
                         <label class="w-100 field_form_principal">
-                            <input class="input-text" id="id" name="id" th:value="${card.id_carta}" type="text" readonly>
+                            <input class="input-text" id="id" name="id" th:value="${carta.id_carta}" type="text" readonly>
                         </label>
                     </div>
                 </div>
@@ -47,7 +48,7 @@
                     <div class="mb-3 p-0 text-center" style="width: 80%">
                         <div class="paraf_form">Nombre:</div>
                         <label class="w-100 field_form_principal">
-                            <input class="input-text" id="name" name="name" th:value="${card.nombre}" type="text" maxlength="50" required>
+                            <input class="input-text" id="name" name="name" th:value="${carta.nombre}" type="text" maxlength="50" required>
                         </label>
                     </div>
                 </div>
@@ -56,16 +57,16 @@
                     <div class="mb-3 p-0 text-center" style="width: 80%">
                         <div class="paraf_form">Usa imagen: </div>
                         <div class="form-check form-switch d-flex justify-content-center">
-                            <input class="form-check-input" type="checkbox" id="useimg" name="useimg" value="1" th:checked="${card.usa_img}"/>
+                            <input class="form-check-input" type="checkbox" id="useimg" name="useimg" value="1" th:checked="${carta.usa_img}"/>
                         </div>
                     </div>
                 </div>
 
-                <div class="d-flex justify-content-center" th:if="${card.id_carta != null}">
+                <div class="d-flex justify-content-center" th:if="${carta.id_carta != null}">
                     <div class="mb-3 p-0 text-center" style="width: 80%">
                         <div class="paraf_form">Carta en Uso: </div>
                         <div class="form-check form-switch d-flex justify-content-center">
-                            <input class="form-check-input" type="checkbox" id="visible" name="visible" value="1" th:checked="${card.visible}"/>
+                            <input class="form-check-input" type="checkbox" id="visible" name="visible" value="1" th:checked="${carta.visible}"/>
                         </div>
                     </div>
                 </div>
@@ -74,7 +75,7 @@
                     <div class="mb-3 p-0" style="width: 80%">
                         <div class="text-center paraf_form">Imagen: (Opcional)</div>
                         <label class="w-100 field_form_principal">
-                            <input class="input-text" name="img" type="file" id="img" maxlength="80" placeholder="URL"/>
+                            <input class="input-text" name="img" type="file" id="img" maxlength="80" accept="image/png, image/jpeg" placeholder="URL"/>
                         </label>
                     </div>
                 </div>
@@ -90,8 +91,11 @@
 
 </main>
 
+<div th:insert="shared/footer :: footer"/>
+
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
 <script th:src="@{/js/headerv2.js}"></script>
+
 </body>
 </html>

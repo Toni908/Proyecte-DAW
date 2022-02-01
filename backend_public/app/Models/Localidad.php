@@ -12,4 +12,14 @@ class Localidad extends Model
     protected $table = "localidad";
     public $timestamps = false;
     protected $primaryKey = 'id_localidad';
+
+    public function municipios()
+    {
+        return $this->hasMany(Municipio::class);
+    }
+
+    public function restaurantes()
+    {
+        return $this->hasMany(Restaurante::class);
+    }
 }
