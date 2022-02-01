@@ -69,7 +69,6 @@ public class jsonController {
     public List<Reservas> getReservasForRestaurant(@PathVariable BigInteger id,@PathVariable Date date){
 //        System.out.println(getDateFormat(date)+" ---- "+getNextDate(date));
         return reservasService.findReservasByFechaAndRestaurante(id,getDateFormat(date),getNextDate(date));
-//        return reservasService.findReservasByIdRestaurante(id);
     }
 
     public String getDateFormat(Date date) {
