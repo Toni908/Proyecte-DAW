@@ -115,19 +115,15 @@
                     <div class="form-check form-switch d-flex flex-column justify-content-center p-0 m-0">
                         <label class="w-100 d-flex flex-row justify-content-center gap-4">
                             Activo permanentemente
-                            <input class="form-check-input m-0 fs-3 validar" type="checkbox" name="validar">
+                            <input class="form-check-input m-0 fs-3" id="datepickcheck" type="checkbox">
                         </label>
                     </div>
                     <div class="pt-2 pe-5">
                         <input id="datepicker" type="text" class="form-control">
                     </div>
-                    <section class="w-100 d-none d-xxl-flex flex-row justify-content-end position-absolute">
-                        <div class="datepicker-length pt-2 pe-xxl-3">
-                            <div class="datepicker">
+                    <div class="datepicker">
 
-                            </div>
-                        </div>
-                    </section>
+                    </div>
                 </section>
             </div>
         </section>
@@ -152,10 +148,13 @@
     let restaurants = $(".restaurantes");
     let restaurantActive;
     let restaurant;
+    let datepicker = $("#datepicker");
 
     let titleTime = $("#titleTime");
 
     let title = $("#title");
+
+    $(".datepicker").hide();
 
     const error = $("#error");
 
@@ -205,7 +204,7 @@
     }
 
     $( function() {
-        $( "#datepicker" ).datepicker({
+        datepicker.datepicker({
             weekStart: 1,
             todayBtn: "linked",
             daysOfWeekHighlighted: "0,6",
@@ -220,7 +219,20 @@
             }
         });
     } );
-
+    $(".datepicker").datepicker({
+        weekStart: 1,
+        todayBtn: "linked",
+        daysOfWeekHighlighted: "0,6",
+        todayHighlight: true,
+        onSelect: function(dateText, inst) {
+            var date = new Date(reFormatDate(dateText));
+            table.DataTable().destroy();
+            titleTime.text(reFormatDateLeftToRight(dateText));
+            $.getJSON("/get/reservas/json/" + restaurantActive+"/"+date, function (data) {
+                createDataTable(data);
+            });
+        }
+    });
 
     restaurants.on('click', function () {
         var date = new Date(currentTime);
@@ -229,7 +241,7 @@
         $.getJSON( "/get/reservas/json/"+$(this).attr('name')+"/"+date, function( data ) {
             createDataTable(data);
         });
-        $('#datepicker').datepicker('setDate', null);
+        datepicker.datepicker('setDate', null);
         restaurantActive = $(this).attr('name');
         removeRestaurantCSS(restaurant);
         restaurant = $(this);
@@ -364,6 +376,16 @@
     function removeRestaurantCSS(restaurant) {
         restaurant.css("border","solid black 0");
     }
+
+    $( '#datepickcheck' ).on( 'click', function() {
+        if( $(this).is(':checked') ){
+            $("#datepicker").hide();
+            $(".datepicker").show();
+        } else {
+            $("#datepicker").show();
+            $(".datepicker").hide();
+        }
+    });
 </script>
 </body>
 </html>
