@@ -47,6 +47,7 @@ public class Periodo implements Serializable {
     @JoinColumn(name = "id_restaurante")
     private Restaurant restaurant;
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY,  mappedBy = "periodo")
     private List<Horario> horarios;
 
