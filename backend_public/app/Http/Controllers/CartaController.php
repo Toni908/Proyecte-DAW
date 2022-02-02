@@ -10,6 +10,8 @@ class CartaController extends Controller
 {
     public function showCard($id)
     {
-        return view('user.profile', ['user' => Carta::findOrFail($id)]);
+        $carta = Carta::find($id);
+
+        return $carta->toJson(JSON_PRETTY_PRINT);
     }
 }
