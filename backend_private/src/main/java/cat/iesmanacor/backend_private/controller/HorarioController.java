@@ -85,6 +85,7 @@ public class HorarioController {
         Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
         periodo.setRestaurant(restaurant.get());
         model.addAttribute("periodo", periodo);
+        model.addAttribute("restaurant", periodo.getRestaurant());
 
         return "periodo_modify";
     }
