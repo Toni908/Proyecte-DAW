@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-<div th:insert="shared/headerVersion1 :: header" class="sticky-top top-0"></div>
+<header th:insert="shared/headerVersion1 :: header" class="sticky-top top-0"></header>
     <h2 class="text-center pt-5 fw-bold title_principal">Los Restaurantes de <a class="text-decoration-none text-dark fw-bold" th:text="${user.nombre_usuario}"></a></h2>
     <div class="d-flex flex-row justify-content-center w-100 gap-3 fw-bold sub_comment_title">
         Numeros de Restaurantes
@@ -31,20 +31,42 @@
                         </div>
                         <div class="container">
                             <h4 class="d-flex justify-content-center w-100"><b th:text="${restaurante.nombre}"></b></h4>
-                            <!-- Horario inicio y fin -->
-                            <div class="d-flex flex-row gap-2 fw-bold">
-                                Tef:
-                                <p class="mb-1 fw-normal" th:text="${restaurante.telefono_restaurante}"></p>
+                            <!-- Horario -->
+                            <div class="container">
+                                <div class="row">
+                                    <div th:if="${restaurante.cartas.size()}!=0" class="col-12 d-flex flex-row gap-2 fw-bold">
+                                        Carta activa:
+                                        <p class="mb-1 fw-normal" th:each="carta : ${restaurante.cartas}" th:if="${carta.visible}==true" th:text="${carta.nombre}"></p>
+                                    </div>
+                                    <div th:if="${restaurante.cartas.size()}==0" class="col-12 text-danger d-flex flex-row gap-2 fw-bold">
+                                        No hay cartas
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6 d-flex flex-row gap-2 fw-bold">
+                                        Aforo:
+                                        <p class="mb-1 fw-normal" th:text="${restaurante.aforo}"></p>
+                                    </div>
+                                    <div class="col-6 d-flex flex-row gap-2 fw-bold">
+                                        Tef:
+                                        <p class="mb-1 fw-normal" th:text="${restaurante.telefono_restaurante}"></p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="d-flex flex-row gap-2 fw-bold">
+                                        Localidad:
+                                        <p class="mb-1 fw-normal" th:text="${restaurante.localidad.nombre_localidad}"></p>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="d-flex flex-row gap-2 fw-bold">
-                                Localidad:
-                                <p class="mb-1 fw-normal" th:text="${restaurante.localidad.nombre_localidad}"></p>
+
+                            <div th:if="${restaurante} != null" class="d-flex flex-row justify-content-center gap-2 w-100">
+                                <i th:if="${restaurante.isVisible()} == true" class="text-success align-self-center bi bi-eye-fill fs-3"></i>
+                                <i th:if="${restaurante.isVisible()} == false" class="text-secondary align-self-center bi bi-eye-slash-fill fs-3"></i>
+                                <i th:if="${restaurante.getMembresia()}!=null" class="text-success align-self-center bi bi-inboxes fs-3"></i>
+                                <i th:if="${restaurante.getMembresia()}==null" class="text-secondary align-self-center bi bi-inboxes fs-3"></i>
                             </div>
-                            <div class="d-flex flex-row justify-content-center gap-2">
-                                Visibilidad:
-                                <div th:if="${restaurante.isVisible()}" class="text-success pb-2">Visible</div>
-                                <div th:unless="${restaurante.isVisible()}" class="text-secondary pb-2">Invisible</div>
-                            </div>
+
                         </div>
                     </div>
                 </a>
@@ -75,7 +97,8 @@
         </div>
     </div>
 </body>
+<footer th:insert="shared/footer :: footer"></footer>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
-<script th:src="@{/js/header.js}"></script>
+<script th:src="@{/js/headerv2.js}"></script>
 </html>

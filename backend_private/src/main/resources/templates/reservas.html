@@ -49,6 +49,9 @@
                 width: 100%;
                 padding-top: 50px;
             }
+            .aside {
+                display: none;
+            }
         }
     </style>
 </head>
@@ -111,7 +114,7 @@
 </header>
 <div id="error" class="message_error"></div>
 
-<aside th:if="${restaurantesUser.size()}!=0" class="float-info z-index1 position-absolute">
+<aside th:if="${restaurantesUser.size()}!=0" class="float-info aside z-index1 position-absolute">
     <div class="container-info">
         <a class="w-100 select-info text-decoration-none text-black ps-5" th:href="@{/lista/restaurantes}">
             <i class="bi bi-shop fs-3"></i>
@@ -173,7 +176,7 @@
                     </thead>
                 </table>
             </div>
-            <div th:if="${restaurantesUser.size()}!=0" class="check-datepicker">
+            <div class="check-datepicker">
                 <section class="w-100 d-flex flex-column justify-content-center p-3 pt-0">
                     <div class="form-check form-switch d-flex flex-column justify-content-center p-0 m-0">
                         <label class="w-100 d-flex flex-row justify-content-center gap-4">
