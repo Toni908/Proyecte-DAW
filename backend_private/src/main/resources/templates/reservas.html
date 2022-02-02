@@ -452,6 +452,13 @@
             $(".datepicker").hide();
         }
     });
+    if( $("#datepickcheck").is(':checked') ){
+        $("#datepicker").hide();
+        $(".datepicker").show();
+    } else {
+        $("#datepicker").show();
+        $(".datepicker").hide();
+    }
 </script>
 </body>
 </html>

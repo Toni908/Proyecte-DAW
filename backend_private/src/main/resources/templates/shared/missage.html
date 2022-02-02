@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+<!DOCTYPE html>  <div th:if="${error}!=null" th:text="${error}" class="message_error"></div>
+  <div th:if="${success}!=null" th:text="${success}" class="message_success"></div>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">

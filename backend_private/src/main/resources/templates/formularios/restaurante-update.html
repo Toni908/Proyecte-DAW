@@ -14,7 +14,7 @@
 <body>
 <div th:insert="shared/headerVersion2 :: header(${restaurant})" class="sticky-top top-0"></div>
 <div th:insert="shared/missage :: messages"></div>
-
+<div id="error" class="message_error"></div>
 <div th:if="${error}!=null" th:text="${error}" class="message_error"></div>
 
 <main class="w-100 p-0 m-0">
