@@ -12,7 +12,7 @@ class Header extends Component {
     render() {
         return (
             // texto
-            <header>
+            <header className={"w-100 bg-danger"}>
 
             </header>
         );
