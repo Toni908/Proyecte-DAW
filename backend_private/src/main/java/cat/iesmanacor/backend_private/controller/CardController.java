@@ -65,6 +65,7 @@ public class CardController {
     @GetMapping("/restaurant/admin/card/edit/{id}")
     public String editCard(@PathVariable(value = "id") Long id, Model model){
         Optional<Carta> carta = cartaService.findById(id);
+        model.addAttribute("restaurant", carta.get().getRestaurant());
         model.addAttribute("carta", carta.get());
 
         return "card_modify";

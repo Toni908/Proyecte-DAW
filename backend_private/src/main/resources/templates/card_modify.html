@@ -7,14 +7,14 @@
     <link th:href="@{/css/form.css}" rel="stylesheet"/>
 </head>
 <body>
-<div th:insert="shared/headerVersion2 :: header(${card.restaurant})"/>
+<div th:insert="shared/headerVersion2 :: header(${carta.restaurant})"/>
 
 <div class="container my-5">
     <div class="row justify-content-center">
     <a class="col-lg-3 col-md-4 col-sm-6 col-12 my-1 justify-content-center" th:href="@{'/restaurant/admin/' + ${carta.restaurant.id_restaurante} + '/cards'}">
         <button class="w-100 pt-2 pb-2 paraf_form rounded" value="Editar Platos"> Volver a las Cartas </button>
     </a>
-    <a class="col-lg-3 col-md-4 col-sm-6 col-12 my-1 justify-content-center" th:if="${carta.id_carta!= null}" th:href="@{'/restaurant/admin/card/' + ${card.id_carta} + '/categories'}">
+    <a class="col-lg-3 col-md-4 col-sm-6 col-12 my-1 justify-content-center" th:if="${carta.id_carta!= null}" th:href="@{'/restaurant/admin/card/' + ${carta.id_carta} + '/categories'}">
         <button class="w-100 pt-2 pb-2 paraf_form rounded" value="Editar Platos"> Modificar Categorias de la Carta </button>
     </a>
     </div>
