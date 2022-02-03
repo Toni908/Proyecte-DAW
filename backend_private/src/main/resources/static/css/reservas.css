@@ -1,0 +1,44 @@
+.container-info {
+  width: 400px;
+}
+.select-info {
+  height: 70px;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  gap: 20px;
+}
+.container-100 {
+  min-height: 70vh;
+  max-height: available;
+}
+.displayColumn {
+  display: block;
+}
+.table-container {
+  width: 50%;
+}
+.check-datepicker {
+  width: 25%;
+}
+.border-10px {
+  border-radius: 10px;
+}
+@media only screen and (max-width: 1390px) {
+  .displayColumn {
+    display: none;
+  }
+  .table-container {
+    width: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .check-datepicker {
+    width: 100%;
+    padding-top: 50px;
+  }
+  .aside {
+    display: none;
+  }
+}

@@ -42,3 +42,7 @@
         flex: 0 0 100%;
     }
 }
+.container-100 {
+    min-height: 70vh;
+    max-height: available;
+}
