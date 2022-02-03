@@ -22,4 +22,6 @@ public interface UseracountService {
     public List<Useracount> findUseracountsByEmail(String correo);
 
     public List<Useracount> findUseracountByUsername(String correo);
+
+    public List<Useracount> findUseracountByDNI(String correo);
 }
