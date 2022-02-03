@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\UseracountController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartaController;
+use App\Http\Controllers\RestaurantController;
 use App\Models\Carta;
 
 /*
@@ -21,4 +23,8 @@ Route::get('/', function () {
 
 Route::get('card/{id}', [CartaController::class, 'showCard']);
 
-Route::get('/api/restaurant/{id}','RestaurantController@showRestaurant');
+Route::get('/restaurant/{id}',[RestaurantController::class, 'showRestaurant']);
+Route::get('/restaurants',[RestaurantController::class, 'showRestaurants']);
+
+Route::get('/user/{id}',[UseracountController::class, 'showUser']);
+Route::get('/users',[UseracountController::class, 'showUsers']);
