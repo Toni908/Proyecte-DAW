@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:fragment="norestaurant">
+  <div class="d-flex flex-row justify-content-center mb-5">
+    <section class="d-flex flex-column justify-content-center body-info">
+      <section class="pt-5">
+        <div class="d-flex flex-row justify-content-center">
+          <div class="d-flex flex-column justify-content-center w-70">
+            <div class="border border-secondary border-1 mt-2 p-4 border-10px">
+              <p class="paraf_form">
+                No estamos encontrando ningun restaurante, puede ser que aun no tengas. A que esperas, añade tu propio restaurante
+                <a class="text-decoration-none text-success">
+                  dandole click a crear
+                </a>
+              </p>
+              <div class="d-flex flex-row justify-content-center pt-4">
+                <a th:href="@{/restaurant/create}" class="btn btn-success">Crear</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </section>
+  </div>
+</div>
+</body>
+</html>

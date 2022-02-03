@@ -5,13 +5,10 @@
     <title>Crear Restaurante</title>
     <link th:href="@{/css/custom.css}" rel="stylesheet">
     <link th:href="@{/css/form.css}" rel="stylesheet">
+    <link th:href="@{/css/restaurant_create.css}" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@500&display=swap');
-    </style>
 </head>
 <body class="bg-black">
-<!-- FORMULARIO RESTAURANTE -->
 <header th:insert="shared/headerVersion1 :: header" class="sticky-top top-0"></header>
 <div th:insert="shared/missage :: messages"></div>
 
@@ -25,7 +22,7 @@
         </div>
         <div class="body_form">
             <div class="d-flex justify-content-center">
-                <div class="text-center mb-3 p-0" style="width: 80%">
+                <div class="text-center mb-3 p-0 w-80">
                     <div class="ps-3 paraf_form">Nombre</div>
                     <label class="w-100 field_form_principal validateNameResponse">
                         <input class="text-center input-text" id="nombre" th:field="*{nombre}" type="text" maxlength="40" placeholder="NOMBRE RESTAURANTE" required>
@@ -34,7 +31,7 @@
                 </div>
             </div>
             <div class="form_section_2">
-                <div class="container-responsive-form pe-2" style="width: 40%">
+                <div class="container-responsive-form pe-2 w-40">
                     <div class="p-0 form_2">
                         <div class="ps-3 paraf_form">Anticipacion reservas</div>
                         <label class="w-100 field_form_section">
@@ -42,7 +39,7 @@
                         </label>
                     </div>
                 </div>
-                <div class="container-responsive-form ps-2" style="width: 40%">
+                <div class="container-responsive-form ps-2 w-40">
                     <div class="p-0 form_2">
                         <div class="ps-3 paraf_form">Telefono</div>
                         <label class="w-100 field_form_section">
@@ -53,7 +50,7 @@
                 </div>
             </div>
             <div class="form_section_2">
-                <div class="container-responsive-form pe-2" style="width: 40%">
+                <div class="container-responsive-form pe-2 w-40">
                     <div class="form_2 p-0">
                         <div class="ps-3 paraf_form">Aforo:</div>
                         <label class="w-100 field_form_section">
@@ -62,7 +59,7 @@
                         <div id="validateAforo"></div>
                     </div>
                 </div>
-                <div class="container-responsive-form ps-2" style="width: 40%">
+                <div class="container-responsive-form ps-2 w-40">
                     <div class="form_2 p-0">
                         <div class="ps-3 paraf_form">Direccion:</div>
                         <label class="w-100 field_form_section">
@@ -74,7 +71,7 @@
             </div>
 
             <div class="container-responsive-form d-flex justify-content-center flex-row">
-                <div class="p-0 form_2 pe-2" style="width: 40%">
+                <div class="p-0 form_2 pe-2 w-40">
                     <div class="ps-3 paraf_form">Municipio</div>
                     <label class="w-100 field_form_section">
                         <select class="input-text" id="municipio">
@@ -82,7 +79,7 @@
                         </select>
                     </label>
                 </div>
-                <div class="p-0 form_2 ps-2" style="width: 40%">
+                <div class="p-0 form_2 ps-2 w-40">
                     <div class="ps-3 paraf_form">Localidad</div>
                     <label class="w-100 field_form_section">
                         <select id="localidad" class="input-text validateLocalidadResponse" th:field="*{localidad}" required>
@@ -93,13 +90,13 @@
                 </div>
             </div>
             <div class="container-responsive-form d-flex justify-content-center flex-row">
-                <div class="p-0 form_2 pe-2" style="width: 40%">
+                <div class="p-0 form_2 pe-2 w-40">
                     <div class="ps-3 paraf_form text-secondary">Longitud</div>
                     <label class="w-100 field_form_section">
                         <input type="number" step="any" id="longitud" class="input-text text-secondary" name="longitud" readonly>
                     </label>
                 </div>
-                <div class="p-0 form_2 ps-2" style="width: 40%">
+                <div class="p-0 form_2 ps-2 w-40">
                     <div class="ps-3 paraf_form text-secondary">Latitud</div>
                     <label class="w-100 field_form_section">
                         <input type="number" step="any" id="latitud" class="input-text text-secondary" name="latitud" readonly>
@@ -107,15 +104,15 @@
                 </div>
             </div>
             <div class="d-flex justify-content-center">
-                <div class="mb-3 p-0" style="width: 80%">
-                    <div class="w-100" style="height: 300px" id="miGoogleMap"></div>
+                <div class="mb-3 p-0 w-80">
+                    <div class="w-100 googleMaps-Height" id="miGoogleMap"></div>
                     <div class="googleMaps w-100">
 
                     </div>
                 </div>
             </div>
             <div class="d-flex justify-content-center">
-                <div class="mb-3 p-0" style="width: 80%">
+                <div class="mb-3 p-0 w-80">
                     <div class="ps-3 paraf_form">Image</div>
                     <label class="w-100 field_form_principal">
                         <input class="input-text validateImagenResponse" id="image" name="image" type="file" maxlength="80" placeholder="URL" required>
@@ -124,16 +121,16 @@
                 </div>
             </div>
             <div class="d-flex justify-content-center">
-                <div class="mb-3 p-0" style="width: 80%">
+                <div class="mb-3 p-0 w-80">
                     <div class="w-100 d-flex flex-row gap-4">
-                        <div class="text-center ps-3 paraf_form" style="width: 50%">Etiquetas</div>
-                        <div class="text-center ps-3 paraf_form" style="width: 50%">Resultados</div>
+                        <div class="text-center ps-3 paraf_form w-50">Etiquetas</div>
+                        <div class="text-center ps-3 paraf_form w-50">Resultados</div>
                     </div>
-                    <div class="w-100 d-flex flex-row gap-4" style="border-radius: 10px" th:if="${etiquetas}!=null">
-                        <label class="field_form_section" style="width: 50%">
+                    <div class="w-100 d-flex flex-row gap-4 border-10px" th:if="${etiquetas}!=null">
+                        <label class="field_form_section w-50">
                             <input id="selectText" class="input-text" type="text">
                         </label>
-                        <label class="field_form_section" style="width: 50%">
+                        <label class="field_form_section w-50">
                             <select class="input-text" id="selectEtiquetas">
                             </select>
                             <input class="input-text p-3 border border-2 border-success" id="create_etiqueta" onclick="addEtiqueta()" type="hidden" value="Create">
@@ -142,7 +139,7 @@
                 </div>
             </div>
             <!-- BOX OF ETIQUETAS SELECTED -->
-            <div class="field_form_section align-self-center" style="width: 80%;min-height: 40px">
+            <div class="field_form_section align-self-center w-50">
                 <div class="text-center paraf_form">Etiquetas selecionadas</div>
                 <section class="h-100 d-flex flex-row flex-wrap gap-5 p-4 h-auto validateEtiquetasResponse" id="etiquetas_box">
 

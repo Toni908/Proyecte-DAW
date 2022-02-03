@@ -297,15 +297,6 @@ public class RestaurantControllerImpl {
         return true;
     }
 
-    public boolean isMembresiaRestaurantTaken(Restaurant restaurant, Restaurant restaurantBefore) {
-        if (restaurant.getMembresia().getId_membresia()!=null) {
-            if (restaurant.getMembresia().getId_membresia().equals(restaurantBefore.getMembresia().getId_membresia())) {
-                return false;
-            } else return !checkMembresiaisEmpty(restaurant.getMembresia().getId_membresia());
-        }
-        return true;
-    }
-
     public ModelMap checkToUpdate(Restaurant restaurant, Restaurant restaurantBefore, ModelMap model) {
         if (isNameRestaurantTaken(restaurant,restaurantBefore)) {
             model.addAttribute("error","name restaurant is taken");
