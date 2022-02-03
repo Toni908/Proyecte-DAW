@@ -12,11 +12,11 @@ class Header extends Component {
     render() {
         return (
             // texto
-            <header>
+            <header className={"w-100"}>
 
             </header>
         );
     }
 }
 
-export default class Header{}
+export default Header
