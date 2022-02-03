@@ -18,4 +18,4 @@ class Main extends Component {
     }
 }
 
-export default class Main{}
+export default Main
