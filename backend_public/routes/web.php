@@ -28,3 +28,6 @@ Route::get('/restaurants',[RestaurantController::class, 'showRestaurants']);
 
 Route::get('/user/{id}',[UseracountController::class, 'showUser']);
 Route::get('/users',[UseracountController::class, 'showUsers']);
+
+Route::get('/reserva/{id}',[UseracountController::class, 'showUser']);
+Route::post('/reserva',[UseracountController::class, 'create']);
