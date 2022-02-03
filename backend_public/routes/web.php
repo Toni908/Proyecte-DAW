@@ -25,7 +25,7 @@ Route::get('card/{id}', [CartaController::class, 'showCard']);
 
 Route::get('/restaurant/{id}',[RestaurantController::class, 'showRestaurant']);
 Route::get('/restaurants',[RestaurantController::class, 'showRestaurants']);
-Route::get('/bestRestaurants',[RestaurantController::class, 'showRestaurantsWithMembresia']);
+Route::get('/bestrestaurants',[RestaurantController::class, 'showRestaurantsWithMembresia']);
 
 Route::get('/user/{id}',[UseracountController::class, 'showUser']);
 Route::get('/users',[UseracountController::class, 'showUsers']);
