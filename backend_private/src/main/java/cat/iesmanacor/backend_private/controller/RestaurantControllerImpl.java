@@ -40,6 +40,9 @@ public class RestaurantControllerImpl {
     EtiquetasService etiquetasService;
 
     @Autowired
+    CartaService cartaService;
+
+    @Autowired
     MunicipioService municipioService;
 
     @Autowired
@@ -59,10 +62,34 @@ public class RestaurantControllerImpl {
     @GetMapping("/lista/restaurantes")
     public String listRestaurants(ModelMap model){
         List<Useracount> useracount = useracountService.findAllUseracount();
+        model.addAttribute("cartas",getCartasRestaurantActive(useracount.get(1)));
         model.addAttribute("restaurantesUser",restaurantService.findRestaurantByUseracount(useracount.get(1).getId_user()));
         model.addAttribute("ImgImages",imagesIsEmpties(useracount.get(1)));
         model.addAttribute("user",useracount.get(1));
         return "listRestaurants";
+    }
+
+    public List<CartaIsEmpty> getCartasRestaurantActive(Useracount useracount) {
+        List<Restaurant> restaurants = restaurantService.findRestaurantByUseracount(useracount.getId_user());
+        List<CartaIsEmpty> cartaIsEmpties = new ArrayList<>();
+        for (Restaurant restaurant : restaurants) {
+            boolean hasVisible = false;
+            if (!restaurant.getCartas().isEmpty()) {
+                for (Carta carta : restaurant.getCartas()) {
+                    if (carta.isVisible()) {
+                        cartaIsEmpties.add(new CartaIsEmpty(restaurant,false,true));
+                        hasVisible = true;
+                        break;
+                    }
+                }
+                if (!hasVisible) {
+                    cartaIsEmpties.add(new CartaIsEmpty(restaurant,false,false));
+                }
+            } else {
+                cartaIsEmpties.add(new CartaIsEmpty(restaurant,true,false));
+            }
+        }
+        return cartaIsEmpties;
     }
 
     public List<ListImagesIsEmpty> imagesIsEmpties(Useracount useracount) {
