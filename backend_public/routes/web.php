@@ -25,9 +25,11 @@ Route::get('card/{id}', [CartaController::class, 'showCard']);
 
 Route::get('/restaurant/{id}',[RestaurantController::class, 'showRestaurant']);
 Route::get('/restaurants',[RestaurantController::class, 'showRestaurants']);
+Route::get('/bestRestaurants',[RestaurantController::class, 'showRestaurantsWithMembresia']);
 
 Route::get('/user/{id}',[UseracountController::class, 'showUser']);
 Route::get('/users',[UseracountController::class, 'showUsers']);
+Route::get('/adminUsers',[UseracountController::class, 'showUserWhereIsAdmin']);
 
 Route::get('/reserva/{id}',[UseracountController::class, 'showUser']);
 Route::post('/reserva',[UseracountController::class, 'create']);

@@ -13,6 +13,12 @@ class UseracountController extends Controller
         return $restaurant->toJson(JSON_PRETTY_PRINT);
     }
 
+    public function showUserWhereIsAdmin()
+    {
+        $restaurants = User_Account::all()->where("admin","==",true);
+        return $restaurants->toJson(JSON_PRETTY_PRINT);
+    }
+
     public function showUsers()
     {
         $restaurants = User_Account::all();

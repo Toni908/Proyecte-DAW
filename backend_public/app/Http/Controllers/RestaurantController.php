@@ -13,6 +13,12 @@ class RestaurantController extends Controller
         return $restaurant->toJson(JSON_PRETTY_PRINT);
     }
 
+    public function showRestaurantsWithMembresia()
+    {
+        $restaurants = Restaurante::all()->whereNotNull('id_membresia');
+        return $restaurants->toJson(JSON_PRETTY_PRINT);
+    }
+
     public function showRestaurants()
     {
         $restaurants = Restaurante::all();

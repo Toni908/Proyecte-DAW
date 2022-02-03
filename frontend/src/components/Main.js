@@ -53,7 +53,7 @@ class Main extends Component {
                                     alt="First slide"
                                 />
                                 <Carousel.Caption className={"text-color-general"}>
-                                    <h2>{item.id_restaurant}
+                                    <h2>
                                         ¿No tienes claro dónde ir?
                                         <p>¡Te ayudamos a encontrarlo!</p>
                                     </h2>
