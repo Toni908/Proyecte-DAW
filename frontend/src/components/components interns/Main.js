@@ -1,8 +1,8 @@
 import './main.css';
-import restaurant1 from '../img/restaurante2.jpg';
-import restaurant2 from '../img/restaurante3.jpg';
-import restaurant3 from '../img/restaurante4.jpg';
-import front from '../img/imgFront.jpg';
+import restaurant1 from '../../img/restaurante2.jpg';
+import restaurant2 from '../../img/restaurante3.jpg';
+import restaurant3 from '../../img/restaurante4.jpg';
+import front from '../../img/imgFront.jpg';
 import {Carousel} from "react-bootstrap";
 import { Button } from 'react-bootstrap';
 import React, { Component } from 'react';
