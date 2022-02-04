@@ -124,6 +124,10 @@ public class CardController {
             carta.setVisible(false);
         }
 
+        carta.setRestaurant(restaurant.get());
+
+        cartaService.save(carta);
+
         if(img != null){
             String fileName = StringUtils.cleanPath(img.getOriginalFilename());
             if (!fileName.equals("")) {
@@ -132,15 +136,14 @@ public class CardController {
                 try (InputStream inputStream = img.getInputStream()){
                     String uploadDir = ""+carta.getRestaurant().getId_restaurante();
                     FileUploadUtil.saveFile(uploadDir, fileName, img);
+                    cartaService.save(carta);
                 }catch(IOException e){
 
                 }
             }
         }
 
-        carta.setRestaurant(restaurant.get());
 
-        cartaService.save(carta);
 
         return new RedirectView(url);
     }
