@@ -8,21 +8,22 @@ use Illuminate\Http\Request;
 
 class RestaurantController extends Controller
 {
+
     public function showRestaurant($id)
     {
-        $data = Restaurante::with('imgs','cartas','etiquetas','periodos','user','reservas')->find(1);
+        $data = Restaurante::with('imgs','cartas','etiquetas','periodos','user','reservas')->find($id);
         return new JsonResponse($data);
     }
 
     public function showRestaurantsWithMembresia()
     {
-        $restaurants = Restaurante::all()->whereNotNull('id_membresia');
-        return $restaurants->toJson(JSON_PRETTY_PRINT);
+        $restaurant = Restaurante::with('imgs','cartas','etiquetas','periodos','user','reservas')->get()->whereNotNull('id_membresia')->toArray();
+        return new JsonResponse($restaurant);
     }
 
     public function showRestaurants()
     {
-        $restaurants = Restaurante::all();
-        return $restaurants->toJson(JSON_PRETTY_PRINT);
+        $restaurant = Restaurante::with('imgs','cartas','etiquetas','periodos','user','reservas')->get()->toArray();
+        return new JsonResponse($restaurant);
     }
 }
