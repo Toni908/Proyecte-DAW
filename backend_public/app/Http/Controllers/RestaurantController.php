@@ -10,7 +10,7 @@ class RestaurantController extends Controller
 {
     public function showRestaurant($id)
     {
-        $data = Restaurante::with('imgs')->find(1);
+        $data = Restaurante::with('imgs','cartas','etiquetas','periodos','user','reservas')->find(1);
         return new JsonResponse($data);
     }
 

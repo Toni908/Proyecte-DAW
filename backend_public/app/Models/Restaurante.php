@@ -25,7 +25,7 @@ class Restaurante extends Model
 
     public function etiquetas()
     {
-        return $this->belongsToMany(Etiquetas::class, 'restaurante_etiquetas');
+        return $this->belongsToMany(Etiquetas::class, 'restaurante_etiquetas',"id_restaurante","id_restaurante");
     }
 
     public function imgs()
