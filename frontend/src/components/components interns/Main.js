@@ -1,10 +1,11 @@
 import './main.css';
-import restaurant1 from '../../img/restaurante2.jpg';
 import front from '../../img/imgFront.jpg';
-import {Carousel} from "react-bootstrap";
 import { Button } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 import React, { Component } from 'react';
 import axios from 'axios';
+import CaruselRestaurant from "./CaruselRestaurant";
+import ImageRestaurant from "./ImageRestaurant";
 
 class Main extends Component {
     constructor() {
@@ -40,28 +41,7 @@ class Main extends Component {
         }
         return (
             <main className={"w-100"}>
-                <Carousel className={"text-color-general height-Carousel p-4 py-0 mt-4"}>
-                    {restaurants.map(function(item, key) {
-                        if (key<6) {
-                            return (
-                                <Carousel.Item key = {key}>
-                                    <img
-                                        className="d-block w-100 height-img object-cover"
-                                        src={restaurant1}
-                                        alt="First slide"
-                                    />
-                                    <Carousel.Caption className={"text-color-general"}>
-                                        <h2>
-                                            ¿No tienes claro dónde ir?
-                                            <p>{item.nombre}</p>
-                                        </h2>
-                                        <Button className={"mb-3"} variant="outline-light">Buscar</Button>
-                                    </Carousel.Caption>
-                                </Carousel.Item>
-                            )
-                        }
-                    })}
-                </Carousel>
+                <CaruselRestaurant restaurants={restaurants}/>
                 <section className={"w-100"}>
                     <section className={"w-100 h-100 pb-5 p-0 d-flex flex-row justify-content-center background-gradial-general"}>
                         <div className={"position-relative w-80"}>
@@ -73,6 +53,28 @@ class Main extends Component {
                             <img className="principal w-100" src={front} alt="front"/>
                         </div>
                     </section>
+                </section>
+                <section className={"container w-100 m-0 p-0 background-general max-w-full"}>
+                    <div className={"row w-100 px-5 m-0"}>
+                        {restaurants.map(function(item, key) {
+                            if (key<6) {
+                                return (
+                                    <article key={key} className={"col-6 h-100 p-5"}>
+                                        <Card className={"w-100"}>
+                                            <ImageRestaurant restaurante={item}/>
+                                            <Card.Body>
+                                                <Card.Title>{item.nombre}</Card.Title>
+                                                <Card.Text>
+                                                    {item.localidad.nombre_localidad}
+                                                </Card.Text>
+                                                <Button variant="primary">Go somewhere</Button>
+                                            </Card.Body>
+                                        </Card>
+                                    </article>
+                                )
+                            }
+                        })}
+                    </div>
                 </section>
             </main>
         );
