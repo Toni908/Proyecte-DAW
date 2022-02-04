@@ -3,14 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Models\Restaurante;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class RestaurantController extends Controller
 {
     public function showRestaurant($id)
     {
-        $restaurant = Restaurante::find($id);
-        return $restaurant->toJson(JSON_PRETTY_PRINT);
+        $data = Restaurante::with('imgs')->find(1);
+        return new JsonResponse($data);
+    }
+
+    public function showRestaurantsWithMembresia()
+    {
+        $restaurants = Restaurante::all()->whereNotNull('id_membresia');
+        return $restaurants->toJson(JSON_PRETTY_PRINT);
     }
 
     public function showRestaurants()

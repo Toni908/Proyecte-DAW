@@ -20,7 +20,7 @@ class Reserva extends Model
 
     public function comentario()
     {
-        return $this->hasOne(Comentario::class,);
+        return $this->hasOne(Comentario::class,"id_comentario");
     }
 
 

@@ -12,10 +12,10 @@ class Restaurante extends Model
     protected $table = "restaurante";
     public $timestamps = false;
     protected $primaryKey = 'id_restaurante';
-    
+
     public function cartas()
     {
-        return $this->hasMany(Carta::class);
+        return $this->hasMany(Carta::class,"id_carta");
     }
 
     public function localidad()
@@ -30,12 +30,12 @@ class Restaurante extends Model
 
     public function imgs()
     {
-        return $this->hasMany(IMG::class);
+        return $this->hasMany(IMG::class,"id_img");
     }
 
     public function periodos()
     {
-        return $this->hasMany(Periodo::class);
+        return $this->hasMany(Periodo::class,"id_periodo");
     }
 
     public function user()
@@ -45,6 +45,6 @@ class Restaurante extends Model
 
     public function reservas()
     {
-        return $this->hasMany(Reserva::class);
+        return $this->hasMany(Reserva::class,"id_reserva");
     }
 }

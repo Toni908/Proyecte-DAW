@@ -15,11 +15,11 @@ class Localidad extends Model
 
     public function municipios()
     {
-        return $this->hasMany(Municipio::class);
+        return $this->hasMany(Municipio::class,"nombre_municipio");
     }
 
     public function restaurantes()
     {
-        return $this->hasMany(Restaurante::class);
+        return $this->hasMany(Restaurante::class,"id_restaurante");
     }
 }

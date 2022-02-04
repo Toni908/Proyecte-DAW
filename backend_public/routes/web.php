@@ -1,4 +1,8 @@
 <?php
+header('Access-Control-Allow-Origin: *');
+header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
+header("Allow: GET, POST, OPTIONS, PUT, DELETE");
 
 use App\Http\Controllers\UseracountController;
 use Illuminate\Support\Facades\Route;
@@ -25,9 +29,11 @@ Route::get('card/{id}', [CartaController::class, 'showCard']);
 
 Route::get('/restaurant/{id}',[RestaurantController::class, 'showRestaurant']);
 Route::get('/restaurants',[RestaurantController::class, 'showRestaurants']);
+Route::get('/bestrestaurants',[RestaurantController::class, 'showRestaurantsWithMembresia']);
 
 Route::get('/user/{id}',[UseracountController::class, 'showUser']);
 Route::get('/users',[UseracountController::class, 'showUsers']);
+Route::get('/adminUsers',[UseracountController::class, 'showUserWhereIsAdmin']);
 
 Route::get('/reserva/{id}',[UseracountController::class, 'showUser']);
 Route::post('/reserva',[UseracountController::class, 'create']);
