@@ -42,22 +42,24 @@ class Main extends Component {
             <main className={"w-100"}>
                 <Carousel className={"text-color-general height-Carousel p-4 py-0 mt-4"}>
                     {restaurants.map(function(item, key) {
-                        return (
-                            <Carousel.Item key = {key}>
-                                <img
-                                    className="d-block w-100 height-img object-cover"
-                                    src={restaurant1}
-                                    alt="First slide"
-                                />
-                                <Carousel.Caption className={"text-color-general"}>
-                                    <h2>
-                                        ¿No tienes claro dónde ir?
-                                        <p>{item.nombre}</p>
-                                    </h2>
-                                    <Button className={"mb-3"} variant="outline-light">Buscar</Button>
-                                </Carousel.Caption>
-                            </Carousel.Item>
-                        )
+                        if (key<6) {
+                            return (
+                                <Carousel.Item key = {key}>
+                                    <img
+                                        className="d-block w-100 height-img object-cover"
+                                        src={restaurant1}
+                                        alt="First slide"
+                                    />
+                                    <Carousel.Caption className={"text-color-general"}>
+                                        <h2>
+                                            ¿No tienes claro dónde ir?
+                                            <p>{item.nombre}</p>
+                                        </h2>
+                                        <Button className={"mb-3"} variant="outline-light">Buscar</Button>
+                                    </Carousel.Caption>
+                                </Carousel.Item>
+                            )
+                        }
                     })}
                 </Carousel>
                 <section className={"w-100"}>

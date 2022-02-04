@@ -20,6 +20,6 @@ class Periodo extends Model
 
     public function horario()
     {
-        return $this->hasMany(Horario::class);
+        return $this->hasMany(Horario::class,"id_horario");
     }
 }

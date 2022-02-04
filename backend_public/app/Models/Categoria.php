@@ -15,7 +15,7 @@ class Categoria extends Model
 
     public function platos()
     {
-        return $this->hasMany(Plato::class);
+        return $this->hasMany(Plato::class,"id_plato");
     }
 
     public function carta()

@@ -1,6 +1,9 @@
 import './header.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { Component } from 'react';
+import Main from '../components interns/Main';
+
+import {BrowserRouter, NavLink, Route} from "react-router-dom";
 
 class Header extends Component {
     constructor() {
@@ -11,10 +14,23 @@ class Header extends Component {
 
     render() {
         return (
-            // texto
-            <header className={"w-100"}>
+            <header className={"w-100 bg-purple-light"}>
 
             </header>
+            // <BrowserRouter>
+            //     <div className="App">
+            //         <div className="header">
+            //             <ul className="header">
+            //                 <li><NavLink exact to='/' activeClassName="active">Inicio</NavLink></li>
+            //                 <li><NavLink to='/Buscador'  activeClassName="active">Buscador Avanzado</NavLink></li>
+            //             </ul>
+            //         </div>
+            //         <div className="content">
+            //             <Route path="/" exact component={Main} />
+            //             <Route path="/buscador" component={Main} />
+            //         </div>
+            //     </div>
+            // </BrowserRouter>
         );
     }
 }
