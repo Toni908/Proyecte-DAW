@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import defaultImage from "../../no-photo-available.jpg"
+import defaultImage from "../../no_image_available.jpg"
 
 class ImageRestaurant extends Component {
     constructor() {
@@ -11,8 +11,8 @@ class ImageRestaurant extends Component {
             return (
                 <img key={this.props.restaurante.id_restaurante}
                      className="d-block w-100 height-img object-cover"
-                     src={"/restaurantes-photos/"+this.props.restaurante.id_restaurante+ "/"+this.props.restaurante.imgs[0].url}
-                     alt="First slide"
+                     src={"http://127.0.0.1:8080/restaurantes-photos/"+this.props.restaurante.imgs[0].id_restaurante+ "/"+this.props.restaurante.imgs[0].url}
+                     alt="Image"
                 />
             )
         } else {
@@ -20,7 +20,7 @@ class ImageRestaurant extends Component {
                 <img key={this.props.restaurante.id_restaurante}
                      className="d-block w-100 height-img object-cover"
                      src={defaultImage}
-                     alt="First slide"
+                     alt="Image"
                 />
             )
         }

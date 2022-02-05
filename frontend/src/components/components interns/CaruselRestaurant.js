@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Carousel, Button} from "react-bootstrap";
 import ImageRestaurant from "./ImageRestaurant";
+import CaruselCaption from "./CaruselCaption";
 
 class CaruselRestaurant extends Component {
     constructor() {
@@ -15,13 +16,7 @@ class CaruselRestaurant extends Component {
                         return (
                             <Carousel.Item key = {key}>
                                 <ImageRestaurant restaurante={item}/>
-                                <Carousel.Caption className={"text-color-general"}>
-                                    <h2>
-                                        ¿No tienes claro dónde ir?
-                                        <p>{item.nombre}</p>
-                                    </h2>
-                                    <Button className={"mb-3"} variant="outline-light">Buscar</Button>
-                                </Carousel.Caption>
+                                <CaruselCaption restaurante={item}/>
                             </Carousel.Item>
                         )
                     }
