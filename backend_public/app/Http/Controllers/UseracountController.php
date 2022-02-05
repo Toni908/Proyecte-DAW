@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class UseracountController extends Controller
 {
-    public function showUser($id)
+    public function show($id)
     {
         $restaurant = User_Account::find($id);
         return $restaurant->toJson(JSON_PRETTY_PRINT);

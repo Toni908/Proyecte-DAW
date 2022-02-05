@@ -1,9 +1,6 @@
 import './header.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { Component } from 'react';
-import Main from '../components interns/Main';
-
-import {BrowserRouter, NavLink, Route} from "react-router-dom";
 
 class Header extends Component {
     constructor() {
