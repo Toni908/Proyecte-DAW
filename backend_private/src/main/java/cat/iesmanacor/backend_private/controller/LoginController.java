@@ -45,17 +45,17 @@ public class LoginController {
 
         List<Useracount> dni = useracountService.findUseracountByDNI(useracount.getDni());
         List<Useracount> correo = useracountService.findUseracountsByEmail(useracount.getCorreo());
-        if(dni == null && correo == null){
+        if(dni.size() == 0 && correo.size() == 0){
             final String encrypted = BCrypt.hashpw(useracount.getPassword(), BCrypt.gensalt());
             useracount.setPassword(encrypted);
 
             useracountService.saveUseracount(useracount);
         }else{
             Map<String, String> errores = new HashMap<>();
-            if(dni == null){
+            if(dni.size() != 0){
                 errores.put("dni", "Este dni ya a sido registrado");
             }
-            if(correo == null){
+            if(correo.size() != 0){
                 errores.put("correo", "Este correo ya a sido registrado");
             }
             model.addAttribute("error", errores);
@@ -64,5 +64,10 @@ public class LoginController {
         }
 
         return "redirect:/login";
+    }
+
+    @PostMapping("/login")
+    public String loginUser(@Valid Useracount useracount, BindingResult result, Model model){
+        return "redirect:/lista/restaurantes";
     }
 }
