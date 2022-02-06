@@ -38,6 +38,7 @@ class CardRestaurant extends Component {
             return <p>Loading ...</p>;
         }
 
+        console.log(horario)
         return (
             <Card className={"w-100"}>
                 <ImageRestaurant restaurante={this.props.restaurant}/>
