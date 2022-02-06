@@ -54,10 +54,10 @@ public class CardController {
 
     @GetMapping("/restaurant/admin/{id}/cards")
     public String getCards(@PathVariable(value = "id") BigInteger id, Model model, HttpServletRequest request){
-        Useracount user = getUser(request);
         Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
+        Useracount user = getUser(request);
 
-        if(user == null || restaurant.get().getUseracount() != user){
+        if(user == null || restaurant.get().getUseracount().equals(user)){
             return "redirect:/error/401";
         }
 
@@ -79,10 +79,16 @@ public class CardController {
     }
 
     @GetMapping("/restaurant/admin/card/edit/{id}")
-    public String editCard(@PathVariable(value = "id") Long id, Model model){
+    public String editCard(@PathVariable(value = "id") Long id, Model model, HttpServletRequest request){
         Optional<Carta> carta = cartaService.findById(id);
         model.addAttribute("restaurant", carta.get().getRestaurant());
         model.addAttribute("carta", carta.get());
+
+        Useracount user = getUser(request);
+
+        if(user == null || carta.get().getRestaurant().getUseracount().equals(user)){
+            return "redirect:/error/401";
+        }
 
         return "card_modify";
     }
