@@ -17,4 +17,7 @@ public interface UseracountRepository extends JpaRepository<Useracount, BigInteg
 
     @Query(value = "SELECT * FROM user_acount WHERE dni = ?1",nativeQuery = true)
     List<Useracount> findUseracountByDNI(String dni);
+
+    @Query(value = "SELECT * FROM user_acount WHERE correo = ?1 AND contraseña = ?2",nativeQuery = true)
+    List<Useracount> loginAccount(String correo, String contraseña);
 }

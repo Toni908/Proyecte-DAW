@@ -2,6 +2,7 @@ package cat.iesmanacor.backend_private.controller;
 
 import cat.iesmanacor.backend_private.entities.*;
 import cat.iesmanacor.backend_private.services.UseracountService;
+import org.apache.catalina.User;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.*;
 
@@ -67,7 +70,24 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String loginUser(@Valid Useracount useracount, BindingResult result, Model model){
-        return "redirect:/lista/restaurantes";
+    public String loginUser(@Valid Useracount useracount, BindingResult result, Model model, HttpServletRequest request){
+        List<Useracount> user = useracountService.findUseracountsByEmail(useracount.getCorreo());
+
+        if(!user.isEmpty()) {
+            if (BCrypt.checkpw(useracount.getPassword(), user.get(0).getPassword())) {
+                HttpSession session = request.getSession(true);
+                session.setAttribute("user", user.get(0));
+                //Useracount user = (Useracount) session.getAttribute("user");
+
+                return "redirect:/lista/restaurantes";
+            } else {
+                model.addAttribute("errorp", "Contraseña incorrecta");
+                return "login";
+            }
+        }else{
+            model.addAttribute("errorc", "Correo no registrado");
+            return "login";
+        }
+
     }
 }
