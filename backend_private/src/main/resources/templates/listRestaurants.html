@@ -31,7 +31,6 @@
                         </div>
                         <div class="container">
                             <h4 class="d-flex justify-content-center w-100"><b th:text="${restaurante.nombre}"></b></h4>
-                            <!-- Horario -->
                             <div class="container">
                                 <div class="row" th:each="carta : ${cartas}" th:if="${carta.restaurant.id_restaurante}==${restaurante.id_restaurante}">
                                     <div th:if="${carta.hasVisible}==true" class="col-12 d-flex flex-row gap-2 fw-bold">

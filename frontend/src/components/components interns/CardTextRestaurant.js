@@ -58,7 +58,7 @@ function getDayNumber(number) {
         case 'Sabado':
             return 6;
         case 'Domingo':
-            return 7;
+            return 0;
         default:
             return null;
     }
