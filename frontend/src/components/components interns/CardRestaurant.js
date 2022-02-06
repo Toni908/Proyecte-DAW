@@ -2,6 +2,7 @@ import {Button, Card} from "react-bootstrap";
 import ImageRestaurant from "./ImageRestaurant";
 import React, {Component} from "react";
 import axios from "axios";
+import './image.css'
 import CardTextRestaurant from "./CardTextRestaurant";
 
 class CardRestaurant extends Component {
@@ -38,14 +39,24 @@ class CardRestaurant extends Component {
             return <p>Loading ...</p>;
         }
 
-        console.log(horario)
         return (
             <Card className={"w-100"}>
-                <ImageRestaurant restaurante={this.props.restaurant}/>
+                <ImageRestaurant height={'image-height'} restaurante={this.props.restaurant}/>
                 <Card.Body>
-                    <Card.Title>{this.props.restaurant.nombre}</Card.Title>
+                    <Card.Title className={"text-center"}>{this.props.restaurant.nombre}</Card.Title>
+                    <Card.Text>
+                        <div className={""}>
+                            Direccion: <a className={"text-black fw-bold text-decoration-none"}>{this.props.restaurant.direccion}</a>
+                        </div>
+                        <div className={""}>
+                            Telefono: <a className={"text-black fw-bold text-decoration-none"}>{this.props.restaurant.telefono_restaurante}</a>
+                        </div>
+                    </Card.Text>
                     <CardTextRestaurant horario={horario}/>
-                    <Button variant="primary">Go somewhere</Button>
+                    <div className={"mt-3"}>
+                        <Button variant="outline-dark">Ver Restaurante</Button>
+                        <Button className={"ms-3"} variant={"outline-dark"}>Reservar</Button>
+                    </div>
                 </Card.Body>
             </Card>
         )

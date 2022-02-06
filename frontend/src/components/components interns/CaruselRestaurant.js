@@ -15,7 +15,7 @@ class CaruselRestaurant extends Component {
                     if (key<6) {
                         return (
                             <Carousel.Item key = {key}>
-                                <ImageRestaurant restaurante={item}/>
+                                <ImageRestaurant height={"height-img"} restaurante={item}/>
                                 <CaruselCaption restaurante={item}/>
                             </Carousel.Item>
                         )

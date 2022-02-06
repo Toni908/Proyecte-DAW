@@ -96,7 +96,7 @@ public class ImgControllerImpl {
             }
             return new RedirectView("/restaurant/update/"+id,false);
         }
-        return new RedirectView("/home");
+        return new RedirectView("/");
     }
 
     @RequestMapping(value = "/imagen/delete/{id}", method = RequestMethod.GET)
@@ -109,9 +109,17 @@ public class ImgControllerImpl {
         if (id!=null) {
             Optional<Img> img = imgService.findImgById(id);
             if (img.isPresent()) {
-                imgService.deleteImg(img.get().getId_img());
-                String uploadDir = ""+img.get().getRestaurant().getId_restaurante();
-                FileUploadUtil.deleteImg(uploadDir, img.get().getUrl());
+                Optional<Restaurant> restaurant  = restaurantService.findRestaurantById(img.get().getRestaurant().getId_restaurante());
+                if (restaurant.isPresent()) {
+                    imgService.deleteImg(img.get().getId_img());
+                    List<Img> Listimg = imgService.findImgFromRestaurantId(img.get().getRestaurant().getId_restaurante());
+                    String uploadDir = ""+img.get().getRestaurant().getId_restaurante();
+                    FileUploadUtil.deleteImg(uploadDir, img.get().getUrl());
+                    if (Listimg.isEmpty()) {
+                        restaurant.get().setVisible(false);
+                        restaurantService.updateRestaurant(restaurant.get());
+                    }
+                }
             }
         }
 
@@ -129,15 +137,23 @@ public class ImgControllerImpl {
             for (BigInteger singleId : ids) {
                 Optional<Img> imgSelected = imgService.findImgById(singleId);
                 if (imgSelected.isPresent()) {
-                    imgService.deleteImg(imgSelected.get().getId_img());
-                    String uploadDir = ""+imgSelected.get().getRestaurant().getId_restaurante();
-                    FileUploadUtil.deleteImg(uploadDir, imgSelected.get().getUrl());
+                    Optional<Restaurant> restaurant  = restaurantService.findRestaurantById(imgSelected.get().getRestaurant().getId_restaurante());
+                    if (restaurant.isPresent()) {
+                        imgService.deleteImg(imgSelected.get().getId_img());
+                        String uploadDir = ""+imgSelected.get().getRestaurant().getId_restaurante();
+                        FileUploadUtil.deleteImg(uploadDir, imgSelected.get().getUrl());
+                        List<Img> Listimg = imgService.findImgFromRestaurantId(imgSelected.get().getRestaurant().getId_restaurante());
+                        if (Listimg.isEmpty()) {
+                            restaurant.get().setVisible(false);
+                            restaurantService.updateRestaurant(restaurant.get());
+                        }
+                    }
                 }
             }
             return redirectView;
         }
 
-        return new RedirectView("/home");
+        return new RedirectView("/");
     }
 
     /* ------------------------------------------ */

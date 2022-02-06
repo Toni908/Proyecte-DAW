@@ -1,11 +1,9 @@
 import './main.css';
 import front from '../../img/imgFront.jpg';
 import { Button } from 'react-bootstrap';
-import { Card } from 'react-bootstrap';
 import React, { Component } from 'react';
 import axios from 'axios';
 import CaruselRestaurant from "./CaruselRestaurant";
-import ImageRestaurant from "./ImageRestaurant";
 import CardRestaurant from "./CardRestaurant";
 
 class Main extends Component {
@@ -64,7 +62,7 @@ class Main extends Component {
                         {restaurants.map(function(item, key) {
                             if (key<6) {
                                 return (
-                                    <article key={key} className={"col-6 h-100 p-5"}>
+                                    <article key={key} className={"col-6 p-5"}>
                                         <CardRestaurant restaurant={item}/>
                                     </article>
                                 )
