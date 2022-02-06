@@ -223,13 +223,28 @@ public class RestaurantControllerImpl {
     }
 
     @RequestMapping(value = "/restaurant/visibility", method = RequestMethod.POST, produces = "application/json")
-    public String visibility(@RequestParam("idRestaurante") BigInteger id,@RequestParam(name = "visibilty",defaultValue = "false") boolean visibilidad) {
+    public String visibility(@RequestParam("idRestaurante") BigInteger id,@RequestParam(name = "visibilty",defaultValue = "false") boolean visibilidad, ModelMap model) {
         if (id!=null) {
             Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
 
             if (restaurant.isPresent()) {
-                restaurant.get().setVisible(visibilidad);
-                updateRestaurant(restaurant.get());
+                if (visibilidad) {
+                    List<Img> imgs = imgService.findImgFromRestaurantId(restaurant.get().getId_restaurante());
+                    if (!imgs.isEmpty()) {
+                        restaurant.get().setVisible(true);
+                        updateRestaurant(restaurant.get());
+                        model.addAttribute("success", "El restaurante "+restaurant.get().getNombre()+" es visible");
+                        return update(restaurant.get().getId_restaurante(),model);
+                    } else {
+                        model.addAttribute("error","El restaurante no tiene imagen, no se puede hacer visible");
+                        return update(restaurant.get().getId_restaurante(),model);
+                    }
+                } else {
+                    restaurant.get().setVisible(false);
+                    updateRestaurant(restaurant.get());
+                    model.addAttribute("success", "El restaurante "+restaurant.get().getNombre()+" es invisible");
+                    return update(restaurant.get().getId_restaurante(),model);
+                }
             }
         }
         return "redirect:/restaurant/update/"+id;

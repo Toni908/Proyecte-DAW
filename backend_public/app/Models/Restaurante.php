@@ -15,7 +15,7 @@ class Restaurante extends Model
 
     public function cartas()
     {
-        return $this->hasMany(Carta::class,"id_carta");
+        return $this->hasMany(Carta::class,"id_restaurante");
     }
 
     public function localidad()
@@ -25,17 +25,17 @@ class Restaurante extends Model
 
     public function etiquetas()
     {
-        return $this->belongsToMany(Etiquetas::class, 'restaurante_etiquetas',"id_restaurante","id_restaurante");
+        return $this->belongsToMany(Etiquetas::class, 'restaurante_etiquetas',"id_restaurante","id_etiqueta");
     }
 
     public function imgs()
     {
-        return $this->hasMany(IMG::class,"id_img");
+        return $this->hasMany(IMG::class,"id_restaurante");
     }
 
     public function periodos()
     {
-        return $this->hasMany(Periodo::class,"id_periodo");
+        return $this->hasMany(Periodo::class,"id_restaurante");
     }
 
     public function user()
@@ -45,6 +45,6 @@ class Restaurante extends Model
 
     public function reservas()
     {
-        return $this->hasMany(Reserva::class,"id_reserva");
+        return $this->hasMany(Reserva::class,"id_restaurante");
     }
 }

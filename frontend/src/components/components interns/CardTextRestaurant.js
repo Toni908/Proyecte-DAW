@@ -7,40 +7,46 @@ class CardTextRestaurant extends Component {
     }
 
     render() {
-        var today = new Date();
-
-        // MORE THAN ONE
-        if (this.props.horario.length >= 2) {
-            this.props.horario.map(function (hora, key) {
-                //SI ES HOY
-                if (getDayNumber(hora.day) === today.getDay()) {
-                    return (
-                        <Card.Text key={key}>
-                            {hora.hora_inicio}
-                        </Card.Text>
-                    )
-                }
-            })
-        }
-
-        // SINGLE HORARIO
-        if (this.props.horario.id_horario!=null) {
-            // SI ES HOY
-            if (getDayNumber(this.props.horario.day)===today.getDay()) {
-                return (
-                    <Card.Text>
-                        {this.props.horario.hora_inicio}
-                    </Card.Text>
-                )
-            }
-        }
-
+        let elements = isTodayOpen(this.props.horario);
+        console.log(elements)
         return (
-            <Card.Text className={"text-danger"}>
-                Today is closed
-            </Card.Text>
+            <div>
+                {elements}
+            </div>
         )
     }
+}
+
+function isTodayOpen(horario) {
+    var today = new Date();
+
+    let text = "";
+    // MORE THAN ONE
+    if (Array.isArray(horario)) {
+        horario.map(function (hora, key) {
+            //SI ES HOY
+            console.log(getDayNumber(hora.day) + " --- " + today.getDay() + (getDayNumber(hora.day) === today.getDay()))
+            if (getDayNumber(hora.day) === today.getDay()) {
+                console.log("enter")
+                text =
+                    <Card.Text key={key} className={"text-success"}>
+                        <p>{hora.day}: {hora.hora_inicio}-{hora.hora_fin}</p>
+                    </Card.Text>
+            }
+        })
+        if (text==="") {
+            text = <Card.Text className={"text-danger"}>
+                <p>Cerrado</p>
+            </Card.Text>
+        }
+    } else {
+        text = <Card.Text className={"text-danger"}>
+            <p>Cerrado</p>
+        </Card.Text>
+    }
+    return (
+        text
+    )
 }
 
 function getDayNumber(number) {
@@ -58,7 +64,7 @@ function getDayNumber(number) {
         case 'Sabado':
             return 6;
         case 'Domingo':
-            return 7;
+            return 0;
         default:
             return null;
     }
