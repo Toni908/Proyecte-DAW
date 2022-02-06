@@ -260,7 +260,7 @@ public class RestaurantControllerImpl {
                 restaurant.get().setValidated(validation);
                 updateRestaurant(restaurant.get());
                 if (validation) {
-                    emailService.sendSimpleMessage("agarcia15183@alumnes.iesmanacor.cat", "Validacion " + restaurant.get().getNombre(), "El restaurante " + restaurant.get().getNombre() + " acaba de ser validado por un administrador, ahora mismo ya puede ser visible para todos los usuarios, para realizar algun cambio por si aun no lo has hecho http//localhost:8080/restaurant/update/" + restaurant.get().getId_restaurante() + " , para mas info visite a la pestaña de preguntas.");
+//                    emailService.sendSimpleMessage("agarcia15183@alumnes.iesmanacor.cat", "Validacion " + restaurant.get().getNombre(), "El restaurante " + restaurant.get().getNombre() + " acaba de ser validado por un administrador, ahora mismo ya puede ser visible para todos los usuarios, para realizar algun cambio por si aun no lo has hecho http//localhost:8080/restaurant/update/" + restaurant.get().getId_restaurante() + " , para mas info visite a la pestaña de preguntas.");
                 }
             }
         }
@@ -278,6 +278,16 @@ public class RestaurantControllerImpl {
         if (id!=null) {
             Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
             if (restaurant.isPresent()) {
+                List<Img> imgs = imgService.findImgFromRestaurantId(restaurant.get().getId_restaurante());
+                // DELETE IMG BEFORE DELETE ALL
+                for (Img singleId : imgs) {
+                    Optional<Img> imgSelected = imgService.findImgById(singleId.getId_img());
+                    if (imgSelected.isPresent()) {
+                        imgService.deleteImg(imgSelected.get().getId_img());
+                        String uploadDir = ""+imgSelected.get().getRestaurant().getId_restaurante();
+                        FileUploadUtil.deleteImg(uploadDir, imgSelected.get().getUrl());
+                    }
+                }
                 restaurantService.deleteRestaurant(id);
             }
         }
