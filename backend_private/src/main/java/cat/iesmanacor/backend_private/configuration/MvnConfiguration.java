@@ -7,6 +7,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+
 @Configuration
 public class MvnConfiguration implements WebMvcConfigurer {
     @Autowired
@@ -15,6 +16,6 @@ public class MvnConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry){
-        registry.addInterceptor(authInterceptor).addPathPatterns("/lista/restaurantes");
+        registry.addInterceptor(new AuthInterceptor()).addPathPatterns("/lista/restaurantes");
     }
 }

@@ -13,6 +13,9 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.io.InputStream;
@@ -38,9 +41,26 @@ public class CardController {
 
     //card Controllers
 
+    public Useracount getUser(HttpServletRequest request){
+        HttpSession session = request.getSession(false);
+        Useracount user = new Useracount();
+        try{
+            user = (Useracount) session.getAttribute("user");
+        }catch (NullPointerException e){
+            return user;
+        }
+        return user;
+    }
+
     @GetMapping("/restaurant/admin/{id}/cards")
-    public String getCards(@PathVariable(value = "id") BigInteger id, Model model){
+    public String getCards(@PathVariable(value = "id") BigInteger id, Model model, HttpServletRequest request){
+        Useracount user = getUser(request);
         Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
+
+        if(user == null || restaurant.get().getUseracount() != user){
+            return "redirect:/error/401";
+        }
+
         String name = "Cartas de " + restaurant.get().getNombre();
         restaurant.get().setNombre(name);
         /*for(Carta carta:restaurant.get().getCartas()){
