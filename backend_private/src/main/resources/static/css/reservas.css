@@ -1,5 +1,5 @@
 .container-info {
-  width: 400px;
+  width: 320px;
 }
 .select-info {
   height: 70px;
@@ -25,14 +25,19 @@
 .border-10px {
   border-radius: 10px;
 }
-@media only screen and (max-width: 1390px) {
-  .displayColumn {
+@media only screen and (max-width: 1420px) {
+  .container-info {
     display: none;
   }
   .table-container {
     width: 100%;
     padding-left: 20px;
     padding-right: 20px;
+  }
+}
+@media only screen and (max-width: 1390px) {
+  .displayColumn {
+    display: none;
   }
   .check-datepicker {
     width: 100%;
