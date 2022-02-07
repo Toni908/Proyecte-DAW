@@ -30,17 +30,15 @@
                     <div id="validateNameResponse"></div>
                 </div>
             </div>
-            <div class="form_section_2">
-                <div class="container-responsive-form pe-2 w-40">
-                    <div class="p-0 form_2">
+            <div class="container">
+                <div class="row mt-2">
+                    <div class="col-lg-6">
                         <div class="ps-3 paraf_form">Anticipacion reservas</div>
                         <label class="w-100 field_form_section">
                             <input class="input-text" type="number" id="dies_anticipacion_reservas" th:field="*{dies_anticipacion_reservas}" oninput="this.value = Math.abs(this.value)" required>
                         </label>
                     </div>
-                </div>
-                <div class="container-responsive-form ps-2 w-40">
-                    <div class="p-0 form_2">
+                    <div class="col-lg-6">
                         <div class="ps-3 paraf_form">Telefono</div>
                         <label class="w-100 field_form_section">
                             <input class="input-text validateTelefonoResponse" type="number" id="telefono_restaurante" th:field="*{telefono_restaurante}" oninput="this.value = Math.abs(this.value)" required>
@@ -48,71 +46,66 @@
                         <div id="validateTelefonoResponse"></div>
                     </div>
                 </div>
-            </div>
-            <div class="form_section_2">
-                <div class="container-responsive-form pe-2 w-40">
-                    <div class="form_2 p-0">
-                        <div class="ps-3 paraf_form">Aforo:</div>
+                <div class="row mt-2">
+                    <div class="col-lg-6">
+                        <div class="paraf_form">Aforo:</div>
                         <label class="w-100 field_form_section">
                             <input type="number" class="input-text validateAforo" id="aforo" th:field="*{aforo}">
                         </label>
                         <div id="validateAforo"></div>
                     </div>
-                </div>
-                <div class="container-responsive-form ps-2 w-40">
-                    <div class="form_2 p-0">
-                        <div class="ps-3 paraf_form">Direccion:</div>
+                    <div class="col-lg-6">
+                        <div class="paraf_form">Direccion:</div>
                         <label class="w-100 field_form_section">
                             <input type="text" max="40" class="input-text validateDireccion" id="direccion" th:field="*{direccion}">
                         </label>
                         <div id="validateDireccion"></div>
                     </div>
                 </div>
-            </div>
+                <div class="row mt-2">
+                    <div class="col-lg-6">
+                        <div class="ps-3 paraf_form">Municipio</div>
+                        <label class="w-100 field_form_section">
+                            <select class="input-text" id="municipio">
 
-            <div class="container-responsive-form d-flex justify-content-center flex-row">
-                <div class="p-0 form_2 pe-2 w-40">
-                    <div class="ps-3 paraf_form">Municipio</div>
-                    <label class="w-100 field_form_section">
-                        <select class="input-text" id="municipio">
+                            </select>
+                        </label>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="ps-3 paraf_form">Localidad</div>
+                        <label class="w-100 field_form_section">
+                            <select id="localidad" class="input-text validateLocalidadResponse" th:field="*{localidad}" required>
 
-                        </select>
-                    </label>
-                </div>
-                <div class="p-0 form_2 ps-2 w-40">
-                    <div class="ps-3 paraf_form">Localidad</div>
-                    <label class="w-100 field_form_section">
-                        <select id="localidad" class="input-text validateLocalidadResponse" th:field="*{localidad}" required>
-
-                        </select>
-                    </label>
-                    <div id="validateLocalidadResponse"></div>
-                </div>
-            </div>
-            <div class="container-responsive-form d-flex justify-content-center flex-row">
-                <div class="p-0 form_2 pe-2 w-40">
-                    <div class="ps-3 paraf_form text-secondary">Longitud</div>
-                    <label class="w-100 field_form_section">
-                        <input type="number" step="any" id="longitud" class="input-text text-secondary" name="longitud" readonly>
-                    </label>
-                </div>
-                <div class="p-0 form_2 ps-2 w-40">
-                    <div class="ps-3 paraf_form text-secondary">Latitud</div>
-                    <label class="w-100 field_form_section">
-                        <input type="number" step="any" id="latitud" class="input-text text-secondary" name="latitud" readonly>
-                    </label>
-                </div>
-            </div>
-            <div class="d-flex justify-content-center">
-                <div class="mb-3 p-0 w-80">
-                    <div class="w-100 googleMaps-Height" id="miGoogleMap"></div>
-                    <div class="googleMaps w-100">
-
+                            </select>
+                        </label>
+                        <div id="validateLocalidadResponse"></div>
                     </div>
                 </div>
-            </div>
-            <div class="d-flex justify-content-center">
-                <div class="mb-3 p-0 w-80">
+                <div class="row mt-2">
+                    <div class="col-lg-6">
+                        <div class="ps-3 paraf_form text-secondary">Longitud</div>
+                        <label class="w-100 field_form_section">
+                            <input type="number" step="any" id="longitud" class="input-text text-secondary" name="longitud" readonly>
+                        </label>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="ps-3 paraf_form text-secondary">Latitud</div>
+                        <label class="w-100 field_form_section">
+                            <input type="number" step="any" id="latitud" class="input-text text-secondary" name="latitud" readonly>
+                        </label>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="d-flex justify-content-center mt-3">
+                        <div class="mb-3 p-0 w-100">
+                            <div class="w-100 googleMaps-Height" id="miGoogleMap"></div>
+                            <div class="googleMaps w-100">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-2">
                     <div class="ps-3 paraf_form">Image</div>
                     <label class="w-100 field_form_principal">
                         <input class="input-text validateImagenResponse" id="image" name="image" type="file" maxlength="80" placeholder="URL" required>
@@ -139,7 +132,7 @@
                 </div>
             </div>
             <!-- BOX OF ETIQUETAS SELECTED -->
-            <div class="field_form_section align-self-center w-50">
+            <div class="field_form_section align-self-center width-responsive-50">
                 <div class="text-center paraf_form">Etiquetas selecionadas</div>
                 <section class="h-100 d-flex flex-row flex-wrap gap-5 p-4 h-auto validateEtiquetasResponse" id="etiquetas_box">
 
