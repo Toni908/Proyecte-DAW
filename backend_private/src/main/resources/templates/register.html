@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <link th:href="@{/css/custom.css}" rel="stylesheet"/>
+    <style>
+        body{
+            background-color: #9A616D;
+        }
+    </style>
+</head>
+<body>
+<main>
+    <section class="vh-auto" style="background-color: #9A616D;">
+        <div class="container py-5 h-auto">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col col-xl-10">
+                    <div class="card" style="border-radius: 1rem;">
+                        <div class="row g-0 m-auto w-100">
+                            <!--div class="col-md-6 col-lg-5 d-none d-md-block">
+                                <img
+                                        src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/img1.webp"
+                                        alt="login form"
+                                        class="img-fluid" style="border-radius: 1rem 0 0 1rem;"
+                                />
+                            </div-->
+                            <div class="col-md-6 col-lg-7 d-flex align-items-center w-100">
+                                <div class="card-body p-4 p-lg-5 text-black w-100">
+
+                                    <form class="w-100" method="post" action="/register">
+
+                                        <div class="d-flex align-items-center mb-3 pb-1">
+                                            <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
+                                            <span class="h1 fw-bold mb-0">Trobalo</span>
+                                        </div>
+
+                                        <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Crea una cuenta</h5>
+
+                                        <div class="form-outline mb-4">
+                                            <input type="email" id="form2Example17" name="correo" class="form-control form-control-lg" />
+                                            <label class="form-label" for="form2Example17" required>Correo Electronico</label>
+                                            <div th:if="${error != null && error.containsKey('correo')}" th:text="${error.correo}" style="font-size: 14px; color: red;"></div>
+                                        </div>
+
+                                        <div class="form-outline mb-4">
+                                            <input type="password" id="form2Example27" name="password" class="form-control form-control-lg" />
+                                            <label class="form-label" for="form2Example27" required>Contraseña</label>
+                                            <div th:if="${error != null && error.containsKey('password')}" th:text="${error.password}" style="font-size: 14px; color: red;"></div>
+                                        </div>
+
+                                        <div class="form-outline mb-4">
+                                            <input type="text" name="nombre_usuario" id="form2Example37" class="form-control form-control-lg" />
+                                            <label class="form-label" for="form2Example37" required>Nombre Usuario</label>
+                                            <div th:if="${error != null && error.containsKey('nombre_usuario')}" th:text="${error.nombre_usuario}" style="font-size: 14px; color: red;"></div>
+                                        </div>
+
+                                        <div class="form-outline mb-4">
+                                            <input type="text" name="nombre" id="form2Example47" class="form-control form-control-lg" />
+                                            <label class="form-label" for="form2Example47" required>Nombre</label>
+                                            <div th:if="${error != null && error.containsKey('nombre')}" th:text="${error.nombre}" style="font-size: 14px; color: red;"></div>
+                                        </div>
+
+                                        <div class="form-outline mb-4">
+                                            <input type="text" name="apellido1" id="form2Example57" class="form-control form-control-lg" />
+                                            <label class="form-label" for="form2Example57" required>Primer Apellido</label>
+                                            <div th:if="${error != null && error.containsKey('apellido1')}" th:text="${error.apellido1}" style="font-size: 14px; color: red;"></div>
+                                        </div>
+
+                                        <div class="form-outline mb-4">
+                                            <input type="text" name="apellido2" id="form2Example67" class="form-control form-control-lg" />
+                                            <label class="form-label" for="form2Example67">Segundo Apellido (Opcional)</label>
+                                            <div th:if="${error != null && error.containsKey('apellido2')}" th:text="${error.apellido2}" style="font-size: 14px; color: red;"></div>
+                                        </div>
+
+                                        <div class="form-outline mb-4">
+                                            <input type="text" name="telefono" id="form2Example77" class="form-control form-control-lg" />
+                                            <label class="form-label" for="form2Example77" required>Telefono</label>
+                                            <div th:if="${error != null && error.containsKey('telefono')}" th:text="${error.telefono}" style="font-size: 14px; color: red;"></div>
+                                        </div>
+
+                                        <div class="form-outline mb-4">
+                                            <input type="text" name="dni" id="form2Example87" class="form-control form-control-lg" />
+                                            <label class="form-label" for="form2Example87" required>DNI</label>
+                                            <div th:if="${error != null && error.containsKey('dni')}" th:text="${error.dni}" style="font-size: 14px; color: red;"></div>
+                                        </div>
+
+                                        <div class="pt-1 mb-4">
+                                            <input class="btn btn-dark btn-lg btn-block" type="submit" value="registrar"/>
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

@@ -25,8 +25,6 @@ public class Useracount {
 
     @Column(name = "contraseña")
     @NotNull(message = "contraseña cant be null")
-    @Size(min=8, max=80, message = "Length of the password must be between 8 and 80")
-    @Pattern(regexp = "^[a-zA-Z0-9]{8,80}$",message = "Only numbers and letters 8 to 80 length, without space")
     private String password;
 
     @Column(name = "correo")
@@ -43,6 +41,7 @@ public class Useracount {
     private String nombre;
 
     @Column(name = "apellido1")
+    @NotNull(message = "cant be null")
     @Pattern(regexp = "^[^ª!\"·$%&/()=?¿\\\\|@#~½¬{\\[\\]}Ç*+\\-`'¡º<>;,:._]*$",message = "Cant use specials characters")
     private String apellido1;
 

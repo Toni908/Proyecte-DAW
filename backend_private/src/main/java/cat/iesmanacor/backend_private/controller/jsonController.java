@@ -17,6 +17,9 @@ import java.util.Optional;
 @RestController
 public class jsonController {
     @Autowired
+    private IngredienteService ingredienteService;
+
+    @Autowired
     RestaurantService restaurantService;
 
     @Autowired
@@ -82,5 +85,19 @@ public class jsonController {
         calendar.setTime(date);
         calendar.add(Calendar.DAY_OF_YEAR, 1);
         return format.format(calendar.getTime());
+    }
+
+    @GetMapping("/api/ingredients/")
+    public List<Ingrediente> getIngredientes(){
+        return ingredienteService.findAll();
+    }
+
+    @GetMapping("/api/ingredients/{nombre}")
+    public List<Ingrediente> saveIngredient(@PathVariable(value = "nombre") String nombre){
+        Ingrediente ingrediente = new Ingrediente();
+        ingrediente.setNombre(nombre);
+        ingredienteService.save(ingrediente);
+
+        return ingredienteService.findAll();
     }
 }

@@ -75,4 +75,14 @@ public class UseracountServiceImpl implements UseracountService {
     public List<Useracount> findUseracountByUsername(String username) {
         return useracountRepository.findUseracountsByUsername(username);
     }
+
+    @Transactional
+    public List<Useracount> findUseracountByDNI(String dni) {
+        return useracountRepository.findUseracountByDNI(dni);
+    }
+
+    @Transactional
+    public List<Useracount> loginAccount(String correo, String contraseña) {
+        return useracountRepository.loginAccount(correo, contraseña);
+    }
 }

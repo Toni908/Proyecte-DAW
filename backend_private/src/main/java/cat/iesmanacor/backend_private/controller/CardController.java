@@ -13,14 +13,13 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigInteger;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.*;
 
 @Controller
@@ -42,9 +41,26 @@ public class CardController {
 
     //card Controllers
 
+    public Useracount getUser(HttpServletRequest request){
+        HttpSession session = request.getSession(false);
+        Useracount user = new Useracount();
+        try{
+            user = (Useracount) session.getAttribute("user");
+        }catch (NullPointerException e){
+            return user;
+        }
+        return user;
+    }
+
     @GetMapping("/restaurant/admin/{id}/cards")
-    public String getCards(@PathVariable(value = "id") BigInteger id, Model model){
+    public String getCards(@PathVariable(value = "id") BigInteger id, Model model, HttpServletRequest request){
         Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
+        Useracount user = getUser(request);
+
+        if(user == null || restaurant.get().getUseracount().equals(user)){
+            return "redirect:/error/401";
+        }
+
         String name = "Cartas de " + restaurant.get().getNombre();
         restaurant.get().setNombre(name);
         /*for(Carta carta:restaurant.get().getCartas()){
@@ -63,9 +79,16 @@ public class CardController {
     }
 
     @GetMapping("/restaurant/admin/card/edit/{id}")
-    public String editCard(@PathVariable(value = "id") Long id, Model model){
+    public String editCard(@PathVariable(value = "id") Long id, Model model, HttpServletRequest request){
         Optional<Carta> carta = cartaService.findById(id);
+        model.addAttribute("restaurant", carta.get().getRestaurant());
         model.addAttribute("carta", carta.get());
+
+        Useracount user = getUser(request);
+
+        if(user == null || carta.get().getRestaurant().getUseracount().equals(user)){
+            return "redirect:/error/401";
+        }
 
         return "card_modify";
     }
@@ -123,6 +146,10 @@ public class CardController {
             carta.setVisible(false);
         }
 
+        carta.setRestaurant(restaurant.get());
+
+        cartaService.save(carta);
+
         if(img != null){
             String fileName = StringUtils.cleanPath(img.getOriginalFilename());
             if (!fileName.equals("")) {
@@ -131,15 +158,14 @@ public class CardController {
                 try (InputStream inputStream = img.getInputStream()){
                     String uploadDir = ""+carta.getRestaurant().getId_restaurante();
                     FileUploadUtil.saveFile(uploadDir, fileName, img);
+                    cartaService.save(carta);
                 }catch(IOException e){
 
                 }
             }
         }
 
-        carta.setRestaurant(restaurant.get());
 
-        cartaService.save(carta);
 
         return new RedirectView(url);
     }

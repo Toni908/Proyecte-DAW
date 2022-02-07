@@ -99,6 +99,7 @@ public class HorarioController {
         Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
         periodo.setRestaurant(restaurant.get());
         List<Periodo> periodos = restaurant.get().getPeriodos();
+        String url = "redirect:/restaurant/admin/horario/"+ id;
 
         if(periodo.getId_periodo() != null){
             Optional<Periodo> p = periodoService.findById(periodo.getId_periodo());
@@ -162,9 +163,14 @@ public class HorarioController {
             System.out.println("Espero que nada vaya aqui nunca");
         }
 
+        if(periodo.getId_periodo() != null) {
+            url = "redirect:/restaurant/admin/periodo/horario/"+ periodo.getId_periodo();
+        }
+
         periodoService.save(periodo);
 
-        return "redirect:/restaurant/admin/horario/"+ id;
+        return url;
+
     }
 
     // horarios
