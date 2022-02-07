@@ -3,6 +3,7 @@ package cat.iesmanacor.backend_private.controller;
 import cat.iesmanacor.backend_private.entities.Factura;
 import cat.iesmanacor.backend_private.entities.Membresia;
 import cat.iesmanacor.backend_private.entities.Restaurant;
+import cat.iesmanacor.backend_private.entities.Useracount;
 import cat.iesmanacor.backend_private.services.FacturaService;
 import cat.iesmanacor.backend_private.services.MembresiaService;
 import cat.iesmanacor.backend_private.services.RestaurantService;
@@ -24,6 +25,8 @@ import java.util.Calendar;
 import java.util.Optional;
 import java.util.Random;
 
+import static cat.iesmanacor.backend_private.componentes.User.getUser;
+
 @Controller
 @RequestMapping("/restaurant/admin/membresia/")
 public class MembresiaController {
@@ -42,6 +45,12 @@ public class MembresiaController {
         Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
         model.addAttribute("restaurant", restaurant.get());
 
+        Useracount user = getUser(request);
+
+        if(user == null || !restaurant.get().getUseracount().equals(user)){
+            return "redirect:/error/401";
+        }
+
         return "membresia";
     }
 
@@ -49,6 +58,13 @@ public class MembresiaController {
     @PostMapping("/{id}")
     public String saveMembresia(@PathVariable(value = "id") BigInteger id, Model model, WebRequest request, HttpServletRequest requesthttp){
         Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
+
+        Useracount user = getUser(requesthttp);
+
+        if(user == null || !restaurant.get().getUseracount().equals(user)){
+            return "redirect:/error/401";
+        }
+
         Membresia membresia = new Membresia();
         Factura factura = new Factura();
 

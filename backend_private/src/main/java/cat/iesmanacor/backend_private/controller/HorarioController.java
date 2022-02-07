@@ -293,11 +293,11 @@ public class HorarioController {
     public String saveHorario(@PathVariable(value = "id") Long id, WebRequest request, @RequestParam("checkbox") List<String> listaDias, HttpServletRequest requesthttp){
         Horario horario = new Horario();
 
-        Optional<Periodo> horariopl = periodoService.findById(id);
+        Optional<Periodo> periodop = periodoService.findById(id);
 
         Useracount user = getUser(requesthttp);
 
-        if(user == null || !horariopl.get().getRestaurant().getUseracount().equals(user)){
+        if(user == null || !periodop.get().getRestaurant().getUseracount().equals(user)){
             return "redirect:/error/401";
         }
 
