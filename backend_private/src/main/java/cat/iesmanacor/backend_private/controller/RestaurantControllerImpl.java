@@ -1,5 +1,6 @@
 package cat.iesmanacor.backend_private.controller;
 
+import cat.iesmanacor.backend_private.componentes.User;
 import cat.iesmanacor.backend_private.entities.*;
 import cat.iesmanacor.backend_private.files.FileUploadUtil;
 import cat.iesmanacor.backend_private.services.*;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -21,6 +23,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 import static cat.iesmanacor.backend_private.componentes.Etiquetas.saveEtiquetas;
+import static cat.iesmanacor.backend_private.componentes.User.getUser;
 
 
 @Controller
@@ -61,13 +64,22 @@ public class RestaurantControllerImpl {
     // LISTAS DE RESTURANTES POR X USUARIO
 
     @GetMapping("/lista/restaurantes")
-    public String listRestaurants(ModelMap model){
-        List<Useracount> useracount = useracountService.findAllUseracount();
-        model.addAttribute("cartas",getCartasRestaurantActive(useracount.get(1)));
-        model.addAttribute("restaurantesUser",restaurantService.findRestaurantByUseracount(useracount.get(1).getId_user()));
-        model.addAttribute("ImgImages",imagesIsEmpties(useracount.get(1)));
-        model.addAttribute("user",useracount.get(1));
-        return "listRestaurants";
+    public String listRestaurants(ModelMap model, HttpServletRequest request){
+        Useracount useracount = getUser(request);
+
+        if (useracount!=null) {
+            Optional<Useracount> useracountDDBB = useracountService.findUseracountById(useracount.getId_user());
+            if (useracountDDBB.isPresent()) {
+                if (useracountDDBB.get().equals(useracount)) {
+                    model.addAttribute("cartas", getCartasRestaurantActive(useracountDDBB.get()));
+                    model.addAttribute("restaurantesUser", restaurantService.findRestaurantByUseracount(useracountDDBB.get().getId_user()));
+                    model.addAttribute("ImgImages", imagesIsEmpties(useracountDDBB.get()));
+                    model.addAttribute("user", useracountDDBB.get());
+                    return "listRestaurants";
+                }
+            }
+        }
+        return "redirect:/error/401";
     }
 
     public List<CartaIsEmpty> getCartasRestaurantActive(Useracount useracount) {
@@ -110,30 +122,57 @@ public class RestaurantControllerImpl {
     //////////////         RESTAURANTES   FORMULARIOS      ////////////////////
 
     @RequestMapping(value = "/restaurant/create", method = RequestMethod.GET)
-    public String create(ModelMap model) {
-        model.addAttribute("restaurant",new Restaurant());
-        model.addAttribute("etiqueta", new Etiquetas());
-        model.addAttribute("etiquetas",etiquetasService.findAllEtiquetas());
-        return __route_formulari_create;
+    public String create(ModelMap model, HttpServletRequest request) {
+        Useracount useracount = getUser(request);
+
+        if (useracount!=null) {
+            Optional<Useracount> useracountDDBB = useracountService.findUseracountById(useracount.getId_user());
+            if (useracountDDBB.isPresent()) {
+                if (useracountDDBB.get().equals(useracount)) {
+                    model.addAttribute("restaurant", new Restaurant());
+                    model.addAttribute("etiqueta", new Etiquetas());
+                    model.addAttribute("etiquetas", etiquetasService.findAllEtiquetas());
+                    return __route_formulari_create;
+                }
+            }
+        }
+        return "redirect:/error/401";
     }
 
     @RequestMapping(value = "/restaurant/update/{id}", method = RequestMethod.GET)
-    public String update(@PathVariable BigInteger id, ModelMap model) {
-        //Comprovacion que el usuario en session sea el que tiene el restaurante que pide
-        List<Useracount> useracount = useracountService.findAllUseracount();
-        if (id!=null) {
-            Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
-            if (restaurant.isPresent()) {
-                model.addAttribute("imageModified",getProvisionalNameImgFromUrlByUseracount(useracount.get(1)));
-                model.addAttribute("imagesRestaurant",imgService.findImgFromRestaurantId(restaurant.get().getId_restaurante()));
-                model.addAttribute("restaurant", restaurant.get());
-                model.addAttribute("etiqueta", new Etiquetas());
-                model.addAttribute("etiquetas",getEtiquetasFromRestaurant_Etiqueta(restaurant.get().getId_restaurante()));
-                model.addAttribute("array",localidadService.findAllLocalidad());
-                return __route_formulari_update;
+    public String update(@PathVariable BigInteger id, ModelMap model, HttpServletRequest request) {
+        Useracount useracount = getUser(request);
+
+        if (useracount!=null) {
+            if (useracount.getId_user()!=null) {
+                Optional<Useracount> useracountDDBB = useracountService.findUseracountById(useracount.getId_user());
+                if (useracountDDBB.isPresent()) {
+                    if (useracountDDBB.get().equals(useracount)) {
+                        if (id != null) {
+                            Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
+                            if (restaurant.isPresent()) {
+                                if (restaurant.get().getUseracount().equals(useracount)) {
+                                    model.addAttribute("imageModified", getProvisionalNameImgFromUrlByUseracount(useracount));
+                                    model.addAttribute("imagesRestaurant", imgService.findImgFromRestaurantId(restaurant.get().getId_restaurante()));
+                                    model.addAttribute("restaurant", restaurant.get());
+                                    model.addAttribute("etiqueta", new Etiquetas());
+                                    model.addAttribute("etiquetas", getEtiquetasFromRestaurant_Etiqueta(restaurant.get().getId_restaurante()));
+                                    model.addAttribute("array", localidadService.findAllLocalidad());
+                                    return __route_formulari_update;
+                                } else {
+                                    return "redirect:/error/401";
+                                }
+                            } else {
+                                return "redirect:/";
+                            }
+                        } else {
+                            return "redirect:/";
+                        }
+                    }
+                }
             }
         }
-        return "redirect:/";
+        return "redirect:/error/401";
     }
 
 
@@ -145,7 +184,8 @@ public class RestaurantControllerImpl {
                        BindingResult errors,
                        ModelMap model,
                        @RequestParam("image") MultipartFile multipartFile,
-                       @RequestParam("etiquetas") List<String> etiquetas) {
+                       @RequestParam("etiquetas") List<String> etiquetas,
+                       HttpServletRequest request) {
         inicializeModelMap(model);
 
         //Errores redirect
@@ -156,7 +196,7 @@ public class RestaurantControllerImpl {
         if (restaurant.getNombre()!=null) {
             if (!checkNameisEmpty(restaurant.getNombre())) {
                 model.addAttribute("error", "Restaurant name already taken");
-                return create(model);
+                return create(model,request);
             }
         }
 
@@ -178,13 +218,13 @@ public class RestaurantControllerImpl {
                     return "redirect:/restaurant/update/" + restaurant.getId_restaurante();
                 }
             }
-            return create(model.addAttribute("error", "Localizacion no selecionado"));
+            return create(model.addAttribute("error", "Localizacion no selecionado"),request);
         }
         return "redirect:/restaurant/create";
     }
 
     @RequestMapping(value = "/restaurant/put")
-    public String put(@ModelAttribute @Valid Restaurant restaurant, @RequestParam("myLocalidad") String localidadName, @RequestParam("myLocalidadChanged") String myLocalidadChanged, BindingResult errors, ModelMap model) {
+    public String put(@ModelAttribute @Valid Restaurant restaurant, @RequestParam("myLocalidad") String localidadName, @RequestParam("myLocalidadChanged") String myLocalidadChanged, BindingResult errors, ModelMap model, HttpServletRequest request) {
         inicializeModelMap(model);
 
         if (errors.hasErrors()) {
@@ -218,14 +258,14 @@ public class RestaurantControllerImpl {
                 } else {
                     return "redirect:/restaurant/update/"+restaurant.getId_restaurante();
                 }
-                return update(restaurant.getId_restaurante(),model);
+                return update(restaurant.getId_restaurante(),model, request);
             }
         }
         return "redirect:/restaurant/update/"+restaurant.getId_restaurante();
     }
 
     @RequestMapping(value = "/restaurant/visibility", method = RequestMethod.POST, produces = "application/json")
-    public String visibility(@RequestParam("idRestaurante") BigInteger id,@RequestParam(name = "visibilty",defaultValue = "false") boolean visibilidad, ModelMap model) {
+    public String visibility(@RequestParam("idRestaurante") BigInteger id,@RequestParam(name = "visibilty",defaultValue = "false") boolean visibilidad, ModelMap model,HttpServletRequest request) {
         if (id!=null) {
             Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
 
@@ -236,16 +276,16 @@ public class RestaurantControllerImpl {
                         restaurant.get().setVisible(true);
                         updateRestaurant(restaurant.get());
                         model.addAttribute("success", "El restaurante "+restaurant.get().getNombre()+" es visible");
-                        return update(restaurant.get().getId_restaurante(),model);
+                        return update(restaurant.get().getId_restaurante(),model,request);
                     } else {
                         model.addAttribute("error","El restaurante no tiene imagen, no se puede hacer visible");
-                        return update(restaurant.get().getId_restaurante(),model);
+                        return update(restaurant.get().getId_restaurante(),model,request);
                     }
                 } else {
                     restaurant.get().setVisible(false);
                     updateRestaurant(restaurant.get());
                     model.addAttribute("success", "El restaurante "+restaurant.get().getNombre()+" es invisible");
-                    return update(restaurant.get().getId_restaurante(),model);
+                    return update(restaurant.get().getId_restaurante(),model,request);
                 }
             }
         }
