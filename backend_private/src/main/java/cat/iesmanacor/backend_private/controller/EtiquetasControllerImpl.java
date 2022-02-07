@@ -4,6 +4,7 @@ import cat.iesmanacor.backend_private.entities.*;
 import cat.iesmanacor.backend_private.services.EtiquetasService;
 import cat.iesmanacor.backend_private.services.RestaurantService;
 import cat.iesmanacor.backend_private.services.Restaurante_EtiquetasService;
+import cat.iesmanacor.backend_private.services.UseracountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static cat.iesmanacor.backend_private.componentes.User.getUser;
+import static cat.iesmanacor.backend_private.componentes.User.isUserCorrect;
 
 @Controller
 public class EtiquetasControllerImpl {
@@ -26,6 +28,9 @@ public class EtiquetasControllerImpl {
     Restaurante_EtiquetasService restaurante_etiquetasService;
 
     @Autowired
+    UseracountService useracountService;
+
+    @Autowired
     RestaurantService restaurantService;
 
     //////////////         ROUTES        ////////////////////
@@ -33,24 +38,22 @@ public class EtiquetasControllerImpl {
     @RequestMapping(value = "/etiquetas/save",method = RequestMethod.POST)
     @Transactional
     public String save(@RequestParam(value = "etiquetas", defaultValue = "") List<String> etiquetas, @RequestParam("idRestaurante") BigInteger id, HttpServletRequest request) {
-        if (id!=null) {
-            Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
-            Useracount user = getUser(request);
+        Useracount useracount = getUser(request);
 
-            // REMOVE ALL LINKS WITH ETIQUETAS
-            if (restaurant.isPresent()) {
-                if(user == null || restaurant.get().getUseracount().equals(user)){
-                    return "redirect:/error/401";
+        if (isUserCorrect(useracount, useracountService)) {
+            if (id != null) {
+                Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
+                // REMOVE ALL LINKS WITH ETIQUETAS
+                if (restaurant.isPresent()) {
+                    if (restaurant.get().getUseracount().equals(useracount)) {
+                        deleteEtiquetasRelations(restaurant.get());
+                        restaurant.ifPresent(value -> cat.iesmanacor.backend_private.componentes.Etiquetas.saveEtiquetas(etiquetas, value, etiquetasService, restaurante_etiquetasService));
+                        return "redirect:/restaurant/update/" + id;
+                    }
                 }
-                deleteEtiquetasRelations(restaurant.get());
-                restaurant.ifPresent(value -> cat.iesmanacor.backend_private.componentes.Etiquetas.saveEtiquetas(etiquetas, value, etiquetasService, restaurante_etiquetasService));
-                return "redirect:/restaurant/update/" + id;
-            } else {
-                return "redirect:/error/401";
             }
-        } else {
-            return "redirect:/error/401";
         }
+        return "redirect:/error/401";
     }
 
     /* ------------------------------------------ */

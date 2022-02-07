@@ -3,3 +3,12 @@
 .googleMaps-Height {
   height: 300px;
 }
+.width-responsive-50 {
+  width: 50%;
+}
+
+@media only screen and (max-width: 1190px) {
+  .width-responsive-50 {
+    width: 100%;
+  }
+}
