@@ -22,6 +22,8 @@ import java.io.InputStream;
 import java.math.BigInteger;
 import java.util.*;
 
+import static cat.iesmanacor.backend_private.componentes.User.getUser;
+
 @Controller
 @RequestMapping("/")
 public class CardController {
@@ -40,17 +42,6 @@ public class CardController {
     private RestaurantService restaurantService;
 
     //card Controllers
-
-    public Useracount getUser(HttpServletRequest request){
-        HttpSession session = request.getSession(false);
-        Useracount user = new Useracount();
-        try{
-            user = (Useracount) session.getAttribute("user");
-        }catch (NullPointerException e){
-            return user;
-        }
-        return user;
-    }
 
     @GetMapping("/restaurant/admin/{id}/cards")
     public String getCards(@PathVariable(value = "id") BigInteger id, Model model, HttpServletRequest request){
