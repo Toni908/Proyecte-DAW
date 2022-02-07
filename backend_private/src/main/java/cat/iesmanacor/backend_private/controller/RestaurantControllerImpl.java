@@ -3,7 +3,6 @@ package cat.iesmanacor.backend_private.controller;
 import cat.iesmanacor.backend_private.entities.*;
 import cat.iesmanacor.backend_private.files.FileUploadUtil;
 import cat.iesmanacor.backend_private.services.*;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,6 +39,9 @@ public class RestaurantControllerImpl {
     EtiquetasService etiquetasService;
 
     @Autowired
+    CartaService cartaService;
+
+    @Autowired
     MunicipioService municipioService;
 
     @Autowired
@@ -59,10 +61,34 @@ public class RestaurantControllerImpl {
     @GetMapping("/lista/restaurantes")
     public String listRestaurants(ModelMap model){
         List<Useracount> useracount = useracountService.findAllUseracount();
+        model.addAttribute("cartas",getCartasRestaurantActive(useracount.get(1)));
         model.addAttribute("restaurantesUser",restaurantService.findRestaurantByUseracount(useracount.get(1).getId_user()));
         model.addAttribute("ImgImages",imagesIsEmpties(useracount.get(1)));
         model.addAttribute("user",useracount.get(1));
         return "listRestaurants";
+    }
+
+    public List<CartaIsEmpty> getCartasRestaurantActive(Useracount useracount) {
+        List<Restaurant> restaurants = restaurantService.findRestaurantByUseracount(useracount.getId_user());
+        List<CartaIsEmpty> cartaIsEmpties = new ArrayList<>();
+        for (Restaurant restaurant : restaurants) {
+            boolean hasVisible = false;
+            if (!restaurant.getCartas().isEmpty()) {
+                for (Carta carta : restaurant.getCartas()) {
+                    if (carta.isVisible()) {
+                        cartaIsEmpties.add(new CartaIsEmpty(restaurant,false,true));
+                        hasVisible = true;
+                        break;
+                    }
+                }
+                if (!hasVisible) {
+                    cartaIsEmpties.add(new CartaIsEmpty(restaurant,false,false));
+                }
+            } else {
+                cartaIsEmpties.add(new CartaIsEmpty(restaurant,true,false));
+            }
+        }
+        return cartaIsEmpties;
     }
 
     public List<ListImagesIsEmpty> imagesIsEmpties(Useracount useracount) {
@@ -197,13 +223,28 @@ public class RestaurantControllerImpl {
     }
 
     @RequestMapping(value = "/restaurant/visibility", method = RequestMethod.POST, produces = "application/json")
-    public String visibility(@RequestParam("idRestaurante") BigInteger id,@RequestParam(name = "visibilty",defaultValue = "false") boolean visibilidad) {
+    public String visibility(@RequestParam("idRestaurante") BigInteger id,@RequestParam(name = "visibilty",defaultValue = "false") boolean visibilidad, ModelMap model) {
         if (id!=null) {
             Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
 
             if (restaurant.isPresent()) {
-                restaurant.get().setVisible(visibilidad);
-                updateRestaurant(restaurant.get());
+                if (visibilidad) {
+                    List<Img> imgs = imgService.findImgFromRestaurantId(restaurant.get().getId_restaurante());
+                    if (!imgs.isEmpty()) {
+                        restaurant.get().setVisible(true);
+                        updateRestaurant(restaurant.get());
+                        model.addAttribute("success", "El restaurante "+restaurant.get().getNombre()+" es visible");
+                        return update(restaurant.get().getId_restaurante(),model);
+                    } else {
+                        model.addAttribute("error","El restaurante no tiene imagen, no se puede hacer visible");
+                        return update(restaurant.get().getId_restaurante(),model);
+                    }
+                } else {
+                    restaurant.get().setVisible(false);
+                    updateRestaurant(restaurant.get());
+                    model.addAttribute("success", "El restaurante "+restaurant.get().getNombre()+" es invisible");
+                    return update(restaurant.get().getId_restaurante(),model);
+                }
             }
         }
         return "redirect:/restaurant/update/"+id;
@@ -219,7 +260,7 @@ public class RestaurantControllerImpl {
                 restaurant.get().setValidated(validation);
                 updateRestaurant(restaurant.get());
                 if (validation) {
-                    emailService.sendSimpleMessage("agarcia15183@alumnes.iesmanacor.cat", "Validacion " + restaurant.get().getNombre(), "El restaurante " + restaurant.get().getNombre() + " acaba de ser validado por un administrador, ahora mismo ya puede ser visible para todos los usuarios, para realizar algun cambio por si aun no lo has hecho http//localhost:8080/restaurant/update/" + restaurant.get().getId_restaurante() + " , para mas info visite a la pestaña de preguntas.");
+//                    emailService.sendSimpleMessage("agarcia15183@alumnes.iesmanacor.cat", "Validacion " + restaurant.get().getNombre(), "El restaurante " + restaurant.get().getNombre() + " acaba de ser validado por un administrador, ahora mismo ya puede ser visible para todos los usuarios, para realizar algun cambio por si aun no lo has hecho http//localhost:8080/restaurant/update/" + restaurant.get().getId_restaurante() + " , para mas info visite a la pestaña de preguntas.");
                 }
             }
         }
@@ -237,6 +278,16 @@ public class RestaurantControllerImpl {
         if (id!=null) {
             Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
             if (restaurant.isPresent()) {
+                List<Img> imgs = imgService.findImgFromRestaurantId(restaurant.get().getId_restaurante());
+                // DELETE IMG BEFORE DELETE ALL
+                for (Img singleId : imgs) {
+                    Optional<Img> imgSelected = imgService.findImgById(singleId.getId_img());
+                    if (imgSelected.isPresent()) {
+                        imgService.deleteImg(imgSelected.get().getId_img());
+                        String uploadDir = ""+imgSelected.get().getRestaurant().getId_restaurante();
+                        FileUploadUtil.deleteImg(uploadDir, imgSelected.get().getUrl());
+                    }
+                }
                 restaurantService.deleteRestaurant(id);
             }
         }
@@ -266,15 +317,6 @@ public class RestaurantControllerImpl {
             if (restaurant.getNombre().equals(restaurantBefore.getNombre())) {
                 return false;
             } else return !checkNameisEmpty(restaurant.getNombre());
-        }
-        return true;
-    }
-
-    public boolean isMembresiaRestaurantTaken(Restaurant restaurant, Restaurant restaurantBefore) {
-        if (restaurant.getMembresia().getId_membresia()!=null) {
-            if (restaurant.getMembresia().getId_membresia().equals(restaurantBefore.getMembresia().getId_membresia())) {
-                return false;
-            } else return !checkMembresiaisEmpty(restaurant.getMembresia().getId_membresia());
         }
         return true;
     }

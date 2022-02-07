@@ -1,7 +1,16 @@
 <?php
+header('Access-Control-Allow-Origin: *');
+header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
+header("Allow: GET, POST, OPTIONS, PUT, DELETE");
 
+use App\Http\Controllers\HorarioController;
+use App\Http\Controllers\PeriodosController;
+use App\Http\Controllers\ReservasController;
+use App\Http\Controllers\UseracountController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartaController;
+use App\Http\Controllers\RestaurantController;
 use App\Models\Carta;
 
 /*
@@ -21,4 +30,14 @@ Route::get('/', function () {
 
 Route::get('card/{id}', [CartaController::class, 'showCard']);
 
-Route::get('/api/restaurant/{id}','RestaurantController@showRestaurant');
+Route::get('/restaurant/{id}',[RestaurantController::class, 'show']);
+Route::get('/restaurants',[RestaurantController::class, 'showRestaurantsWithMembresia']);
+
+Route::get('/user/{id}',[UseracountController::class, 'show']);
+Route::get('/users',[UseracountController::class, 'showUsers']);
+Route::get('/adminUsers',[UseracountController::class, 'showUserWhereIsAdmin']);
+
+Route::get('/reserva/{id}',[ReservasController::class, 'show']);
+Route::post('/reserva',[ReservasController::class, 'reservasRestaurant']);
+
+Route::get('/horario/{id}',[HorarioController::class, 'show']);

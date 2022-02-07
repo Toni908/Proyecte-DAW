@@ -15,6 +15,6 @@ class User_Account extends Model
 
     public function restaurantes()
     {
-        return $this->hasMany(Restaurante::class);
+        return $this->hasMany(Restaurante::class,"id_restaurante");
     }
 }

@@ -31,15 +31,20 @@
                         </div>
                         <div class="container">
                             <h4 class="d-flex justify-content-center w-100"><b th:text="${restaurante.nombre}"></b></h4>
-                            <!-- Horario -->
                             <div class="container">
-                                <div class="row">
-                                    <div th:if="${restaurante.cartas.size()}!=0" class="col-12 d-flex flex-row gap-2 fw-bold">
+                                <div class="row" th:each="carta : ${cartas}" th:if="${carta.restaurant.id_restaurante}==${restaurante.id_restaurante}">
+                                    <div th:if="${carta.hasVisible}==true" class="col-12 d-flex flex-row gap-2 fw-bold">
                                         Carta activa:
-                                        <p class="mb-1 fw-normal" th:each="carta : ${restaurante.cartas}" th:if="${carta.visible}==true" th:text="${carta.nombre}"></p>
+                                        <p class="mb-1 fw-normal" th:each="carta1 : ${carta.restaurant.cartas}" th:if="${carta1.visible}==true" th:text="${carta1.nombre}"></p>
                                     </div>
-                                    <div th:if="${restaurante.cartas.size()}==0" class="col-12 text-danger d-flex flex-row gap-2 fw-bold">
-                                        No hay cartas
+                                    <div th:if="${carta.isEmpty()}==false">
+                                        <div th:if="${carta.hasVisible}==false" class="col-12 d-flex flex-row gap-2 fw-bold">
+                                            Carta activa:
+                                            <p class="mb-1 fw-normal text-danger fw-bold">No hay una carta visible</p>
+                                        </div>
+                                    </div>
+                                    <div th:if="${carta.isEmpty()}==true" class="col-12 text-danger d-flex flex-row gap-2 fw-bold">
+                                        No hay cartas creadas
                                     </div>
                                 </div>
                                 <div class="row">
@@ -72,28 +77,8 @@
                 </a>
             </article>
         </div>
-        <div th:if="${restaurantesUser.size()}==0" class="container_restaurants">
-            <div class="d-flex flex-row justify-content-center mb-5">
-                <main class="d-flex flex-column justify-content-center body-info">
-                    <section class="pt-5">
-                        <div class="d-flex flex-row justify-content-center">
-                            <div class="d-flex flex-column justify-content-center" style="width: 70%;">
-                                <div class="border border-secondary border-1 mt-2 p-4" style=" border-radius: 10px">
-                                    <p class="paraf_form">
-                                        No estamos encontrando ningun restaurante, puede ser que aun no tengas. A que esperas, añade tu propio restaurante
-                                        <a class="text-decoration-none text-success">
-                                            dandole click a crear
-                                        </a>
-                                    </p>
-                                    <div class="d-flex flex-row justify-content-center pt-4">
-                                        <a th:href="@{/restaurant/create}" class="btn btn-success">Crear</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                </main>
-            </div>
+        <div th:if="${restaurantesUser.size()}==0" class="container_restaurants container-100">
+            <div th:insert="shared/noRestaurante :: norestaurant"></div>
         </div>
     </div>
 </body>

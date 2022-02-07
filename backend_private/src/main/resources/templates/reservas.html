@@ -11,49 +11,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css"/>
     <link rel="stylesheet" href="https://cdn.datatables.net/select/1.3.3/css/select.dataTables.min.css"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-        .container-info {
-            width: 400px;
-        }
-        .select-info {
-            height: 70px;
-            display: flex;
-            flex-direction: row;
-            justify-content: start;
-            align-items: center;
-            gap: 20px;
-        }
-        .container-100 {
-            min-height: 70vh;
-            max-height: available;
-        }
-        .displayColumn {
-            display: block;
-        }
-        .table-container {
-            width: 50%;
-        }
-        .check-datepicker {
-            width: 25%;
-        }
-        @media only screen and (max-width: 1390px) {
-            .displayColumn {
-                display: none;
-            }
-            .table-container {
-                width: 100%;
-                padding-left: 20px;
-                padding-right: 20px;
-            }
-            .check-datepicker {
-                width: 100%;
-                padding-top: 50px;
-            }
-            .aside {
-                display: none;
-            }
-        }
-    </style>
+    <link th:href="@{/css/reservas.css}" rel="stylesheet">
 </head>
 <body>
 <div th:if="${restaurantesUser.size()}==0" th:insert="shared/headerVersion1 :: header" class="sticky-top top-0"></div>
@@ -73,7 +31,7 @@
                 <button id="navbar-button-header" class="align-self-center border-white" type="button" data-bs-toggle="offcanvas" data-bs-target="#asideHeader" aria-controls="asideHeader">
                     <span class="line"></span>
                     <span class="line"></span>
-                    <span class="line" style="margin-bottom: 0;"></span>
+                    <span class="line mb-0"></span>
                 </button>
             </div>
             <div class="col-xl-3 col-sm-4 col-5 h-100">
@@ -138,32 +96,12 @@
 
         </section>
         <div th:if="${restaurantesUser.size()}==0" class="container_restaurants">
-            <div class="d-flex flex-row justify-content-center mb-5">
-                <main class="d-flex flex-column justify-content-center body-info">
-                    <section class="pt-5">
-                        <div class="d-flex flex-row justify-content-center">
-                            <div class="d-flex flex-column justify-content-center" style="width: 70%;">
-                                <div class="border border-secondary border-1 mt-2 p-4" style=" border-radius: 10px">
-                                    <p class="paraf_form">
-                                        No estamos encontrando ningun restaurante, puede ser que aun no tengas. A que esperas, añade tu propio restaurante
-                                        <a class="text-decoration-none text-success">
-                                            dandole click a crear
-                                        </a>
-                                    </p>
-                                    <div class="d-flex flex-row justify-content-center pt-4">
-                                        <a th:href="@{/restaurant/create}" class="btn btn-success">Crear</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                </main>
-            </div>
+            <div th:insert="shared/noRestaurante :: norestaurant"></div>
         </div>
         <section th:if="${restaurantesUser.size()}!=0" class="w-100 d-flex flex-xxl-row flex-column justify-content-xxl-center pt-0">
-            <div class="" style="width: 25%;"></div>
+            <div class="w-25"></div>
             <div class="table-container">
-                <table class="nowrap" style="width:100%" id="table">
+                <table class="nowrap w-100" id="table">
                     <thead>
                     <tr>
                         <th class="displayColumn"></th>
