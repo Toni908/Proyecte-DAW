@@ -3,6 +3,7 @@ package cat.iesmanacor.backend_private.controller;
 import cat.iesmanacor.backend_private.entities.Horario;
 import cat.iesmanacor.backend_private.entities.Periodo;
 import cat.iesmanacor.backend_private.entities.Restaurant;
+import cat.iesmanacor.backend_private.entities.Useracount;
 import cat.iesmanacor.backend_private.services.HorarioService;
 import cat.iesmanacor.backend_private.services.PeriodoService;
 import cat.iesmanacor.backend_private.services.RestaurantService;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.math.BigInteger;
 import java.sql.Date;
@@ -25,6 +27,8 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static cat.iesmanacor.backend_private.componentes.User.getUser;
 
 @Controller
 @RequestMapping("/restaurant/admin")
@@ -40,26 +44,46 @@ public class HorarioController {
     private HorarioService horarioService;
 
     @GetMapping("/horario/{id}")
-    public String getPeriodo(@PathVariable(value = "id") BigInteger id, Model model){
+    public String getPeriodo(@PathVariable(value = "id") BigInteger id, Model model, HttpServletRequest request){
         Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
         String name = "Periodos de " + restaurant.get().getNombre();
         restaurant.get().setNombre(name);
         model.addAttribute("restaurant", restaurant.get());
 
+        Useracount user = getUser(request);
+
+        if(user == null || !restaurant.get().getUseracount().equals(user)){
+            return "redirect:/error/401";
+        }
+
         return "periodos";
     }
 
     @GetMapping("/horario/delete/{id}")
-    public String deletePeriodo(@PathVariable(value = "id") Long id, Model model){
+    public String deletePeriodo(@PathVariable(value = "id") Long id, Model model, HttpServletRequest request){
+        Optional<Periodo> periodo = periodoService.findById(id);
+
+        Useracount user = getUser(request);
+
+        if(user == null || !periodo.get().getRestaurant().getUseracount().equals(user)){
+            return "redirect:/error/401";
+        }
+
         periodoService.deleteById(id);
 
         return "nada";
     }
 
     @GetMapping("/horario/edit/periodo/{id}")
-    public String editPeriodo(@PathVariable(value = "id") Long id, Model model){
+    public String editPeriodo(@PathVariable(value = "id") Long id, Model model, HttpServletRequest request){
         Optional<Periodo> periodo = periodoService.findById(id);
         model.addAttribute("periodo", periodo.get());
+
+        Useracount user = getUser(request);
+
+        if(user == null || !periodo.get().getRestaurant().getUseracount().equals(user)){
+            return "redirect:/error/401";
+        }
 
         Date dateStart = periodo.get().getFecha_inicio();
         Date dateEnd = periodo.get().getFecha_fin();
@@ -80,12 +104,18 @@ public class HorarioController {
     }
 
     @GetMapping("/horario/create/periodo/{id}")
-    public String createPeriodo(@PathVariable(value = "id") BigInteger id, Model model){
+    public String createPeriodo(@PathVariable(value = "id") BigInteger id, Model model, HttpServletRequest request){
         Periodo periodo = new Periodo();
         Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
         periodo.setRestaurant(restaurant.get());
         model.addAttribute("periodo", periodo);
         model.addAttribute("restaurant", periodo.getRestaurant());
+
+        Useracount user = getUser(request);
+
+        if(user == null || !restaurant.get().getUseracount().equals(user)){
+            return "redirect:/error/401";
+        }
 
         return "periodo_modify";
     }
@@ -95,11 +125,17 @@ public class HorarioController {
     }
 
     @PostMapping("/horario/periodo/save/{id}")
-    public String savePeriodo(@PathVariable(value = "id") BigInteger id, @RequestParam("daterange") String dateRange, @Valid Periodo periodo, BindingResult result, Model model){
+    public String savePeriodo(@PathVariable(value = "id") BigInteger id, @RequestParam("daterange") String dateRange, @Valid Periodo periodo, BindingResult result, Model model, HttpServletRequest request){
         Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
         periodo.setRestaurant(restaurant.get());
         List<Periodo> periodos = restaurant.get().getPeriodos();
         String url = "redirect:/restaurant/admin/horario/"+ id;
+
+        Useracount user = getUser(request);
+
+        if(user == null || !restaurant.get().getUseracount().equals(user)){
+            return "redirect:/error/401";
+        }
 
         if(periodo.getId_periodo() != null){
             Optional<Periodo> p = periodoService.findById(periodo.getId_periodo());
@@ -176,9 +212,15 @@ public class HorarioController {
     // horarios
 
     @GetMapping("/periodo/horario/{id}")
-    public String getHorario(@PathVariable(value = "id") Long id, Model model){
+    public String getHorario(@PathVariable(value = "id") Long id, Model model, HttpServletRequest request){
         Optional<Periodo> periodo = periodoService.findById(id);
         model.addAttribute("periodo", periodo.get());
+
+        Useracount user = getUser(request);
+
+        if(user == null || !periodo.get().getRestaurant().getUseracount().equals(user)){
+            return "redirect:/error/401";
+        }
 
         Date dateStart = periodo.get().getFecha_inicio();
         Date dateEnd = periodo.get().getFecha_fin();
@@ -201,32 +243,63 @@ public class HorarioController {
     }
 
     @GetMapping("/periodo/horario/delete/{id}")
-    public String deleteHorario(@PathVariable(value = "id") Long id){
+    public String deleteHorario(@PathVariable(value = "id") Long id, HttpServletRequest request){
+        Optional<Horario> horario = horarioService.findById(id);
+
+        Useracount user = getUser(request);
+
+        if(user == null || !horario.get().getPeriodo().getRestaurant().getUseracount().equals(user)){
+            return "redirect:/error/401";
+        }
+
         horarioService.deleteById(id);
 
         return "nada";
     }
 
     @GetMapping("/periodo/horario/create/{id}")
-    public String createHorario(@PathVariable(value = "id") Long id, Model model){
+    public String createHorario(@PathVariable(value = "id") Long id, Model model, HttpServletRequest request){
         Horario horario = new Horario();
         horario.setPeriodo(periodoService.findById(id).get());
+
+        Useracount user = getUser(request);
+
+        if(user == null || !periodoService.findById(id).get().getRestaurant().getUseracount().equals(user)){
+            return "redirect:/error/401";
+        }
+
+
         model.addAttribute("horario", horario);
 
         return "horario_modify";
     }
 
     @GetMapping("/periodo/horario/edit/{id}")
-    public String editHorario(@PathVariable(value = "id") Long id, Model model){
+    public String editHorario(@PathVariable(value = "id") Long id, Model model, HttpServletRequest request){
         Optional<Horario> horario = horarioService.findById(id);
         model.addAttribute("horario", horario.get());
+
+        Useracount user = getUser(request);
+
+        if(user == null || !horario.get().getPeriodo().getRestaurant().getUseracount().equals(user)){
+            return "redirect:/error/401";
+        }
+
 
         return "horario_modify";
     }
 
     @PostMapping("/periodo/horario/save/{id}")
-    public String saveHorario(@PathVariable(value = "id") Long id, WebRequest request, @RequestParam("checkbox") List<String> listaDias){
+    public String saveHorario(@PathVariable(value = "id") Long id, WebRequest request, @RequestParam("checkbox") List<String> listaDias, HttpServletRequest requesthttp){
         Horario horario = new Horario();
+
+        Optional<Periodo> horariopl = periodoService.findById(id);
+
+        Useracount user = getUser(requesthttp);
+
+        if(user == null || !horariopl.get().getRestaurant().getUseracount().equals(user)){
+            return "redirect:/error/401";
+        }
 
         String id_horario = request.getParameter("id_horario");
 

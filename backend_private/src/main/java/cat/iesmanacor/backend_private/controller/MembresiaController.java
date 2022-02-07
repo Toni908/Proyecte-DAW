@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.request.WebRequest;
 
+import javax.servlet.http.HttpServletRequest;
 import java.math.BigInteger;
 import java.nio.charset.Charset;
 import java.sql.Date;
@@ -37,7 +38,7 @@ public class MembresiaController {
     private MembresiaService membresiaService;
 
     @GetMapping("/{id}")
-    public String getMembresia(@PathVariable(value = "id") BigInteger id, Model model){
+    public String getMembresia(@PathVariable(value = "id") BigInteger id, Model model, HttpServletRequest request){
         Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
         model.addAttribute("restaurant", restaurant.get());
 
@@ -46,7 +47,7 @@ public class MembresiaController {
 
     @Transactional
     @PostMapping("/{id}")
-    public String saveMembresia(@PathVariable(value = "id") BigInteger id, Model model, WebRequest request){
+    public String saveMembresia(@PathVariable(value = "id") BigInteger id, Model model, WebRequest request, HttpServletRequest requesthttp){
         Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
         Membresia membresia = new Membresia();
         Factura factura = new Factura();
