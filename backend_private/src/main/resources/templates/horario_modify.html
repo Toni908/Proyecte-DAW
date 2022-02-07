@@ -21,7 +21,7 @@
 
 <main class="d-flex flex-row justify-content-center">
 
-    <div class="form_section w-50 py-5 my-5">
+    <div class="form_section col-sm-12 col-md-6 py-5 my-5">
         <form method="post" class="container form_container" th:action="@{'/restaurant/admin/periodo/horario/save/'+ ${horario.periodo.id_periodo}}">
 
             <div class="tittle_form">
@@ -80,7 +80,7 @@
 
                         </div>
 
-                        <div th:if="${horario != null}" th:text="${horario.getHora_inicio()}" id="end" class="d-none">
+                        <div th:if="${horario != null}" th:text="${horario.getHora_fin()}" id="end" class="d-none">
 
                         </div>
 
@@ -226,7 +226,23 @@
         });
 
         $('document').ready(function(){
-            
+            var start = $('#start').text();
+            $("#selectStart option[value='"+ start +"']").attr('selected','selected');
+
+            var h = $("#selectStart option:selected").val();
+            var nums = h.split(":");
+            var num = nums[0];
+            num++;
+            $('#selectEnd').find('option').remove().end()
+            for(num ; num <= 24 ; num++){
+                $('#selectEnd').append("<option value='" + num +":00:00'>" + num + ":00</option>");
+            }
+
+            var end = $('#end').text();
+            if(end == ("00:00:00")){
+                end = "24:00:00";
+            }
+            $("#selectEnd option[value='"+ end +"']").attr('selected','selected');
         });
 </script>
 
