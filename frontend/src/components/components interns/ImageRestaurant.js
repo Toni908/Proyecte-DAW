@@ -19,20 +19,30 @@ class ImageRestaurant extends Component {
             } else {
                 return (
                     <img key={this.props.restaurante.id_restaurante}
-                         className={"d-block w-100 object-cover"}
+                         className={"d-block w-100 h-100 object-cover"}
                          src={"http://127.0.0.1:8080/restaurantes-photos/"+this.props.restaurante.imgs[0].id_restaurante+ "/"+this.props.restaurante.imgs[0].url}
                          alt="Image"
                     />
                 )
             }
         } else {
-            return (
-                <img key={this.props.restaurante.id_restaurante}
-                     className="d-block w-100 image-height object-cover"
-                     src={defaultImage}
-                     alt="Image"
-                />
-            )
+            if (this.props.height!=null) {
+                return (
+                    <img key={this.props.restaurante.id_restaurante}
+                         className={"d-block w-100 object-cover "+this.props.height}
+                         src={defaultImage}
+                         alt="Image"
+                    />
+                )
+            } else {
+                return (
+                    <img key={this.props.restaurante.id_restaurante}
+                         className="d-block w-100 image-height object-cover"
+                         src={defaultImage}
+                         alt="Image"
+                    />
+                )
+            }
         }
     }
 }
