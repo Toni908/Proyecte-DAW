@@ -48,7 +48,7 @@ public class CardController {
         Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
         Useracount user = getUser(request);
 
-        if(user == null || restaurant.get().getUseracount().equals(user)){
+        if(user == null || !restaurant.get().getUseracount().equals(user)){
             return "redirect:/error/401";
         }
 
