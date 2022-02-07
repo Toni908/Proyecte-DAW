@@ -12,7 +12,7 @@ class RestaurantController extends Controller
     public function show($id)
     {
         $data = Restaurante::with('localidad','imgs','cartas','etiquetas','periodos','user','reservas')->find($id);
-        if ($data['visible'] == true && $data['validated']) {
+        if ($data['visible'] && $data['validated']) {
             return json_decode(json_encode($data), true);
         }
         return null;
