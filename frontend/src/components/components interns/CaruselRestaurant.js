@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
-import {Carousel, Button} from "react-bootstrap";
+import {Carousel} from "react-bootstrap";
+import './image.css'
 import ImageRestaurant from "./ImageRestaurant";
 import CaruselCaption from "./CaruselCaption";
 
 class CaruselRestaurant extends Component {
-    constructor() {
-        super();
-    }
 
     render() {
         return (
