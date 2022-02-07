@@ -16,6 +16,6 @@ public class MvnConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry){
-        registry.addInterceptor(new AuthInterceptor()).addPathPatterns("/lista/restaurantes").excludePathPatterns();
+        registry.addInterceptor(new AuthInterceptor()).addPathPatterns("/lista/restaurantes","/etiquetas/save","/restaurant/create").excludePathPatterns();
     }
 }

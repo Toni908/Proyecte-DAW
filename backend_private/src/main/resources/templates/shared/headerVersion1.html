@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -38,8 +38,8 @@
         </nav>
       </div>
       <form class="col-lg-3 col-4 d-flex flex-row justify-content-end">
-        <a href="/lista/restaurantes" methods="POST" th:object="${session}"><i class="bi bi-shop fs-3 pe-xl-5 pe-3 align-self-center"></i></a>
-        <a href=""><i class="bi bi-person-fill fs-3 pe-xl-5 pe-3 align-self-center"></i></a>
+        <a href="/lista/restaurantes" methods="POST"><i class="bi bi-shop fs-3 pe-xl-5 pe-3 align-self-center"></i></a>
+        <a href="/login"><i class="bi bi-person-fill fs-3 pe-xl-5 pe-3 align-self-center"></i></a>
         <i class="bi bi-globe fs-3 pe-xl-5 pe-3 align-self-center"></i>
       </form>
     </div>
