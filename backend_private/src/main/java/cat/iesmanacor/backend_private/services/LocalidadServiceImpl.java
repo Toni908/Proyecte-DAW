@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class LocaliadadServiceImpl implements LocalidadService {
+public class LocalidadServiceImpl implements LocalidadService {
 
     @Autowired
     LocalidadRepository localidadRepository;
