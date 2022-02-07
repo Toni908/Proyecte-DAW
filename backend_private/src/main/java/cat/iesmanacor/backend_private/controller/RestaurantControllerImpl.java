@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import static cat.iesmanacor.backend_private.componentes.Etiquetas.saveEtiquetas;
+
 
 @Controller
 public class RestaurantControllerImpl {
@@ -169,7 +171,7 @@ public class RestaurantControllerImpl {
                     saveRestaurant(restaurant);
                     List<Restaurant> restaurantCreated = restaurantService.findRestaurantByNombre(restaurant.getNombre());
                     if (!restaurantCreated.isEmpty() && !etiquetas.isEmpty()) {
-                        saveEtiquetas(etiquetas, restaurantCreated.get(0));
+                        saveEtiquetas(etiquetas, restaurantCreated.get(0), etiquetasService, restaurante_etiquetasService);
                     }
                     saveImageRestaurantFirst(multipartFile, restaurant);
 
@@ -338,34 +340,6 @@ public class RestaurantControllerImpl {
             return etiquetasService.findEtiquetaByName(etiquetas.getNombre()).isEmpty();
         }
         return false;
-    }
-
-    public void saveEtiquetas(List<String> myArray, Restaurant restaurant) {
-        List<Etiquetas> etiquetas = stringToArrayOfEtiquetas(myArray);
-        for (Etiquetas etiqueta : etiquetas) {
-            Restaurante_Etiquetas restaurante_etiquetas = new Restaurante_Etiquetas();
-            Restaurante_EtiquetasId restaurante_etiquetasId = new Restaurante_EtiquetasId();
-
-            if (checkNameEtiquetasIsEmpty(etiqueta)) {
-                etiquetasService.saveEtiqueta(etiqueta);
-                restaurante_etiquetasId = new Restaurante_EtiquetasId(restaurant, etiqueta);
-            } else {
-                List<Etiquetas> etiquetaFound = etiquetasService.findEtiquetaByName(etiqueta.getNombre());
-                if (etiquetaFound!=null) {
-                    restaurante_etiquetasId = new Restaurante_EtiquetasId(restaurant, etiquetaFound.get(0));
-                }
-            }
-            restaurante_etiquetas.setId(restaurante_etiquetasId);
-            restaurante_etiquetasService.saveRestaurante_Etiquetas(restaurante_etiquetas);
-        }
-    }
-
-    public List<Etiquetas> stringToArrayOfEtiquetas(List<String> myArray) {
-        List<Etiquetas> etiquetas = new ArrayList<>();
-        for (String s : myArray) {
-            etiquetas.add(new Etiquetas(null, s));
-        }
-        return etiquetas;
     }
 
     public List<Etiquetas> getEtiquetasFromRestaurant_Etiqueta(BigInteger id) {
