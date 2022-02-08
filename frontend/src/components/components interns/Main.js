@@ -59,7 +59,7 @@ class Main extends Component {
                 </section>
                 <section className={"container w-100 m-0 p-0 background-general max-w-full"}>
                     <div className={"row w-100 px-5 m-0"}>
-                        {restaurants.map(function(item, key) {
+                        {restaurants.forEach(function(item, key) {
                             if (key<6) {
                                 return (
                                     <article key={key} className={"col-6 p-5"}>

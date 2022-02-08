@@ -2,10 +2,6 @@ import React, {Component} from "react";
 import {Accordion} from "react-bootstrap";
 
 class CardTextRestaurant extends Component {
-    constructor() {
-        super();
-    }
-
     render() {
         let header = textHeader(this.props.horario);
         let body = isTodayOpen(this.props.horario);
@@ -42,27 +38,80 @@ function isTodayOpen(horario) {
 }
 
 function textHeader(horario) {
-    var today = new Date();
-    let header = (<div className={"d-flex flex-row gap-2"}>Horario: <div className={"text-danger"}>Cerrado</div></div>);
-
+    let today = new Date();
     if (!Array.isArray(horario)) {
         horario = Object.values(horario)
     }
-    horario.map(function (hora, key) {
+    return getResultHour(horario,today);
+}
+
+function getResultHour(horario,today) {
+    let result = (<div className={"d-flex flex-row gap-1"}>Horario: <div className={"text-danger"}>Cerrado</div></div>);
+    horario.forEach(function (hora, key) {
         //SI ES HOY
         if (getDayNumber(hora.day) === today.getDay()) {
-            header = (<div key={key} className={"d-flex flex-row gap-2"}>Horario: <div className={"text-success"}>Abierto</div> - Cierra a las {fixedDate(hora.hora_fin)}</div>);
+            if (isClosed(fixedDate(hora.hora_inicio),today)) {
+                result = (<div key={key} className={"d-flex flex-row gap-1"}>Horario: <div className={"text-warning"}>Cerrado</div> - Abierto a las {fixedDate(hora.hora_inicio)}</div>);
+            } else {
+                if (isNearClose(fixedDate(hora.hora_fin),today)){
+                    if (hasPassedTime(fixedDate(hora.hora_inicio),fixedDate(hora.hora_fin),today)) {
+                        result = (<div key={key} className={"d-flex flex-row gap-1"}>Horario: <div className={"text-warning"}>Abierto</div> - Cierra pronto {fixedDate(hora.hora_fin)}</div>);
+                    } else {
+                        result = (<div key={key} className={"d-flex flex-row gap-1"}>Horario: <div className={"text-danger"}>Ya a Cerrado</div></div>);
+                    }
+                } else {
+                    result = (<div key={key} className={"d-flex flex-row gap-1"}>Horario: <div className={"text-success"}>Abierto</div> - Cierra a las {fixedDate(hora.hora_fin)}</div>);
+                }
+            }
         }
     })
+    return result;
+}
 
-    return header;
+function hasPassedTime(hora_inicio, hora_fin, today) {
+    let hora_i = parseInt(hora_inicio.split(":")[0])
+    let hora_f = parseInt(hora_fin.split(":")[0])
+
+    for (let i = hora_i; i < hora_f; i++) {
+        console.log(today.getHours()+" ---- "+i)
+        if (today.getHours()===i) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function isNearClose(hora_fin, today) {
+    hora_fin = hora_fin.split(":");
+
+    let time = today.getHours();
+    let hora = parseInt(hora_fin[0]);
+
+    time = time+1;
+    if (time === 24) {
+        time = 0;
+    }
+
+    time = time+1;
+    if (time === 24) {
+        time = 0;
+    }
+
+    return hora<time;
+}
+
+function isClosed(hora, today) {
+    hora = hora.split(":");
+
+    return parseInt(hora[0]) > today.getHours();
+
 }
 
 function textMake(week, horario, array,days) {
     var today = new Date();
 
     while (hasFalse(week)) {
-        horario.map(function (hora, key) {
+        horario.forEach(function (hora, key) {
             //SI ES HOY
             if (getDayNumber(hora.day) === today.getDay()) {
                 days.push(hora.day);
@@ -193,7 +242,7 @@ function orderWeek(week,days) {
             case 'Sabado':
                 array[5] = week[i];
                 break;
-            case 'Domingo':
+            default:
                 array[6] = week[i];
                 break;
         }

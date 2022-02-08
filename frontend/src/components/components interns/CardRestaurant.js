@@ -46,10 +46,10 @@ class CardRestaurant extends Component {
                     <Card.Title className={"text-center"}>{this.props.restaurant.nombre}</Card.Title>
                     <Card.Text>
                         <div className={""}>
-                            Direccion: <a className={"text-black fw-bold text-decoration-none"}>{this.props.restaurant.direccion}</a>
+                            Direccion: <div className={"text-black fw-bold text-decoration-none"}>{this.props.restaurant.direccion}</div>
                         </div>
                         <div className={""}>
-                            Telefono: <a className={"text-black fw-bold text-decoration-none"}>{this.props.restaurant.telefono_restaurante}</a>
+                            Telefono: <div className={"text-black fw-bold text-decoration-none"}>{this.props.restaurant.telefono_restaurante}</div>
                         </div>
                     </Card.Text>
                     <CardTextRestaurant horario={horario}/>
