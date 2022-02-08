@@ -108,18 +108,12 @@ function isClosed(hora, today) {
 }
 
 function textMake(week, horario, array,days) {
-    var today = new Date();
-
     while (hasFalse(week)) {
         horario.map(function (hora, key) {
-            if (getDayNumber(hora.day) === today.getDay()) {
-                days.push(hora.day);
-                array.push(<div key={key} className={"text-success"}>{hora.day}: {fixedDate(hora.hora_inicio)}-{fixedDate(hora.hora_fin)}</div>);
-            } else {
-                days.push(hora.day);
-                array.push(<div key={key} className={"text-dark"}>{hora.day}: {fixedDate(hora.hora_inicio)}-{fixedDate(hora.hora_fin)}</div>);
-            }
+            days.push(hora.day);
+            array.push(<div key={key} className={"text-dark"}>{hora.day}: {fixedDate(hora.hora_inicio)}-{fixedDate(hora.hora_fin)}</div>);
             changeWeekStatus(hora.day,week);
+            return("")
         })
         pushOnTextDay(week,array,days);
     }
@@ -247,7 +241,6 @@ function orderWeek(week,days) {
                     }
                     break;
                 }
-                console.log(array[1])
                 array[1] = week[i];
                 break;
             case 'Miercoles':
