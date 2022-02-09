@@ -47,41 +47,21 @@ class App extends Component {
             </Routes>
           </div>
           
-<footer class="footer w-100 mx-0 mt-5" style="position: static; bottom: 0px;">
+          <footer class="footer w-100 mx-0 mt-5">
+            <footer class="w-100 text-center bg-white">
+              <div class="container pb-0 pt-3">
+                Estas Interesado en registrar tu restaurante? <a class="text-black" href="http://admin.trobalo.me:8080/register"> Registrate</a>  y crealo!
+              </div>
 
-        <footer class="w-100 text-center text-white bg-black">
-            <div class="container p-4 pb-0">
-                <section class="">
-                    <form action="">
-
-                        <div class="row d-flex justify-content-center">
-                            <div class="col-auto">
-                                <p class="pt-2">
-                                    <strong>Apuntate para recibir nuestras noticias</strong>
-                                </p>
-                            </div>
-                            <div class="col-md-5 col-12">
-                                <div class="form-outline form-white mb-4">
-                                    <input type="email" id="form5Example2" class="form-control" />
-                                    <label class="form-label" for="form5Example2">Email address</label>
-                                </div>
-                            </div>
-                            <div class="col-auto">
-                                <button type="submit" class="btn btn-outline-light mb-4">
-                                    Subscribe
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </section>
-            </div>
+              <hr></hr>
             
-            <div class="text-center p-3" style="background-color: rgb(31,31,31)">
-                © 2022 Copyright:
-                <a class="text-white" href="https://www.trobalo.com/">trobalo.com</a>
-            </div>
-        </footer>
-</footer>
+              <div class="text-center p-1">
+                © 2022 Copyright: 
+                <a class="text-black" href="https://www.trobalo.com/"><a href="https://www.trobalo.com/" className="text-decoration-none text-white"> </a>trobalo.me</a>
+              </div>
+            </footer>
+          </footer>
+
         </div>
       </Router>
     );
