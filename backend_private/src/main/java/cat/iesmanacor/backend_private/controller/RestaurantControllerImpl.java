@@ -185,6 +185,9 @@ public class RestaurantControllerImpl {
             if (restaurant.getLocalidad()!=null) {
                 restaurant.setUseracount(useracount);
                 if (restaurant.getLatitud()!=null || restaurant.getLongitud()!=null) {
+                    // ELIMINAR PARA PRODUCION
+                    restaurant.setValidated(true);
+
                     saveRestaurant(restaurant);
                     List<Restaurant> restaurantCreated = restaurantService.findRestaurantByNombre(restaurant.getNombre());
                     if (!restaurantCreated.isEmpty() && !etiquetas.isEmpty()) {
