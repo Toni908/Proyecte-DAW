@@ -62,6 +62,9 @@ $font-sizes: map-merge($font-sizes, $personal-fonts);
 .object-cover {
   object-fit: cover;
 }
+.object-contain {
+  object-fit: contain;
+}
 @for $x from 0 through 10 {
   //Custom width
   .w-#{$x*10} {
