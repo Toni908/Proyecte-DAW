@@ -5,6 +5,7 @@ import { Button, Nav } from 'react-bootstrap';
 
 import Home from "./Home";
 import BuscadorAvanzado from "./BuscadorAvanzado";
+import AboutUs from "./AboutUs";
 
 import './App.css';
 
@@ -23,9 +24,7 @@ class App extends Component {
                 <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                 <li><Link to="/" class="nav-link px-2 text-black">Home</Link></li>
                   <li><Link to="/search" class="nav-link px-2 text-black">Buscador Avanzado</Link></li>
-                  <li><Link to="#" class="nav-link px-2 text-black">Pricing</Link></li>
-                  <li><Link to="#" class="nav-link px-2 text-black">FAQs</Link></li>
-                  <li><Link to="#" class="nav-link px-2 text-black">Sobre Nosotros</Link></li>
+                  <li><Link to="/us" class="nav-link px-2 text-black">Sobre Nosotros</Link></li>
                 </ul>
 
                 <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
@@ -44,6 +43,7 @@ class App extends Component {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/search" element={<BuscadorAvanzado />} />
+              <Route path="/us" element={<AboutUs />} />
             </Routes>
           </div>
           
