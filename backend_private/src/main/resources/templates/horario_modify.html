@@ -21,7 +21,7 @@
 
 <main class="d-flex flex-row justify-content-center">
 
-    <div class="form_section w-50 py-5 my-5">
+    <div class="form_section col-sm-12 col-md-6 py-5 my-5">
         <form method="post" class="container form_container" th:action="@{'/restaurant/admin/periodo/horario/save/'+ ${horario.periodo.id_periodo}}">
 
             <div class="tittle_form">
@@ -47,16 +47,16 @@
                         <div class="paraf_form">Hora Entrada:</div>
                         <label class="w-100 field_form_principal">
                             <select id="selectStart" class="input-text" name="dateStart">
-                                <option value="0:00:00">0:00</option>
-                                <option value="1:00:00">1:00</option>
-                                <option value="2:00:00">2:00</option>
-                                <option value="3:00:00">3:00</option>
-                                <option value="4:00:00">4:00</option>
-                                <option value="5:00:00">5:00</option>
-                                <option value="6:00:00">6:00</option>
-                                <option value="7:00:00">7:00</option>
-                                <option value="8:00:00">8:00</option>
-                                <option value="9:00:00">9:00</option>
+                                <option value="00:00:00">0:00</option>
+                                <option value="01:00:00">1:00</option>
+                                <option value="02:00:00">2:00</option>
+                                <option value="03:00:00">3:00</option>
+                                <option value="04:00:00">4:00</option>
+                                <option value="05:00:00">5:00</option>
+                                <option value="06:00:00">6:00</option>
+                                <option value="07:00:00">7:00</option>
+                                <option value="08:00:00">8:00</option>
+                                <option value="09:00:00">9:00</option>
                                 <option value="10:00:00">10:00</option>
                                 <option value="11:00:00">11:00</option>
                                 <option value="12:00:00">12:00</option>
@@ -76,20 +76,28 @@
                     </div>
                 </div>
 
+                        <div th:if="${horario != null}" th:text="${horario.getHora_inicio()}" id="start" class="d-none">
+
+                        </div>
+
+                        <div th:if="${horario != null}" th:text="${horario.getHora_fin()}" id="end" class="d-none">
+
+                        </div>
+
                 <div class="d-flex justify-content-center col-6">
                     <div class="mb-3 p-0 text-center" style="width: 80%">
                         <div class="paraf_form">Hora Salida:</div>
                         <label class="w-100 field_form_principal">
                             <select id="selectEnd" class="input-text" name="dateEnd">
-                                <option value="1:00:00">1:00</option>
-                                <option value="2:00:00">2:00</option>
-                                <option value="3:00:00">3:00</option>
-                                <option value="4:00:00">4:00</option>
-                                <option value="5:00:00">5:00</option>
-                                <option value="6:00:00">6:00</option>
-                                <option value="7:00:00">7:00</option>
-                                <option value="8:00:00">8:00</option>
-                                <option value="9:00:00">9:00</option>
+                                <option value="01:00:00">1:00</option>
+                                <option value="02:00:00">2:00</option>
+                                <option value="03:00:00">3:00</option>
+                                <option value="04:00:00">4:00</option>
+                                <option value="05:00:00">5:00</option>
+                                <option value="06:00:00">6:00</option>
+                                <option value="07:00:00">7:00</option>
+                                <option value="08:00:00">8:00</option>
+                                <option value="09:00:00">9:00</option>
                                 <option value="10:00:00">10:00</option>
                                 <option value="11:00:00">11:00</option>
                                 <option value="12:00:00">12:00</option>
@@ -215,6 +223,26 @@
             for(num ; num <= 24 ; num++){
                 $('#selectEnd').append("<option value='" + num +":00:00'>" + num + ":00</option>");
             }
+        });
+
+        $('document').ready(function(){
+            var start = $('#start').text();
+            $("#selectStart option[value='"+ start +"']").attr('selected','selected');
+
+            var h = $("#selectStart option:selected").val();
+            var nums = h.split(":");
+            var num = nums[0];
+            num++;
+            $('#selectEnd').find('option').remove().end()
+            for(num ; num <= 24 ; num++){
+                $('#selectEnd').append("<option value='" + num +":00:00'>" + num + ":00</option>");
+            }
+
+            var end = $('#end').text();
+            if(end == ("00:00:00")){
+                end = "24:00:00";
+            }
+            $("#selectEnd option[value='"+ end +"']").attr('selected','selected');
         });
 </script>
 
