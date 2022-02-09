@@ -18251,6 +18251,10 @@ $color-seach: black;
   object-fit: cover;
 }
 
+.object-contain {
+  object-fit: contain;
+}
+
 .w-0 {
   width: 0%;
 }

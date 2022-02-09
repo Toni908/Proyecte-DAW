@@ -44,8 +44,8 @@
 .QuickSand {
   font-family: 'Quicksand', sans-serif;
 }
-.img-cover {
-  object-fit: fill;
+.image-contain-length {
+  object-fit: contain;
   height: 500px;
 }
 .img-size-sm {

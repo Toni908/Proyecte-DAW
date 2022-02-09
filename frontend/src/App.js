@@ -1,27 +1,55 @@
-import './App.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+
+import { Button, Nav } from 'react-bootstrap';
+
+import Home from "./Home";
+import BuscadorAvanzado from "./BuscadorAvanzado";
+
+import './App.css';
 
 class App extends Component {
+
   render() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+      <Router>
+        <div className="App">
+          <Nav className="p-3 bg-dark text-white">
+            <div class="container">
+              <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                <a href="/" class="d-xl-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none d-lg-none">
+                  <img src="./img/trobalot.png" alt="logo trobalo"></img>
+                </a>
+
+                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                  <li><Link to="/" class="nav-link px-2 text-white">Home</Link></li>
+                  <li><Link to="/search" class="nav-link px-2 text-white">Buscador Avanzado</Link></li>
+                  <li><Link to="#" class="nav-link px-2 text-white">Pricing</Link></li>
+                  <li><Link to="#" class="nav-link px-2 text-white">FAQs</Link></li>
+                  <li><Link to="#" class="nav-link px-2 text-white">Sobre Nosotros</Link></li>
+                </ul>
+
+                <div class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
+                  <input type="search" class="form-control form-control-dark" placeholder="Search..." aria-label="Search"/>
+                </div>
+
+                <div class="text-end">
+                  <Button color='light' outline className="me-2">Acceder</Button>
+                  <Button color="warning">Registrarse</Button>
+                </div>
+              </div>
+            </div>
+          </Nav>
+                
+          <div className="content">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/search" element={<BuscadorAvanzado />} />
+            </Routes>
+          </div>
+        </div>
+      </Router>
+    );
   }
 }
 
