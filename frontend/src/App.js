@@ -1,19 +1,11 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
-<<<<<<< HEAD
-import { Button, Nav } from 'reactstrap';
-=======
 import { Button, Nav } from 'react-bootstrap';
->>>>>>> main
 
 import Home from "./Home";
 import BuscadorAvanzado from "./BuscadorAvanzado";
 
-<<<<<<< HEAD
-import logo from './img/trobalot.png'
-=======
->>>>>>> main
 import './App.css';
 
 class App extends Component {
