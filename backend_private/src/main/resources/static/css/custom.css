@@ -18255,6 +18255,14 @@ $color-seach: black;
   object-fit: contain;
 }
 
+.white-hover-grey {
+  color: white !important;
+}
+
+.white-hover-grey:hover {
+  color: darkgrey !important;
+}
+
 .w-0 {
   width: 0%;
 }

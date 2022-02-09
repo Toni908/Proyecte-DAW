@@ -65,6 +65,12 @@ $font-sizes: map-merge($font-sizes, $personal-fonts);
 .object-contain {
   object-fit: contain;
 }
+.white-hover-grey {
+  color: white !important;
+}
+.white-hover-grey:hover {
+  color: darkgrey !important;
+}
 @for $x from 0 through 10 {
   //Custom width
   .w-#{$x*10} {
