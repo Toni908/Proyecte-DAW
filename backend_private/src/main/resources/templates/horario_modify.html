@@ -84,6 +84,10 @@
 
                         </div>
 
+                        <div th:if="${horario != null}" th:text="${horario.getDay()}" id="day" class="d-none">
+
+                        </div>
+
                 <div class="d-flex justify-content-center col-6">
                     <div class="mb-3 p-0 text-center" style="width: 80%">
                         <div class="paraf_form">Hora Salida:</div>
@@ -118,11 +122,13 @@
                     </div>
                 </div>
 
+
+
                 <div th:if="${horario.id_horario != null}" class="d-flex justify-content-center col-9">
                     <div class="mb-3 p-0 text-center" style="width: 80%">
                         <div class="paraf_form">Cambia el dia:</div>
                         <label class="w-100 field_form_principal">
-                            <select class="input-text" name="dateChange">
+                            <select id="selectDay" class="input-text" name="dateChange">
                                 <option value="Lunes">Lunes</option>
                                 <option value="Martes">Martes</option>
                                 <option value="Miercoles">Miercoles</option>
@@ -243,6 +249,9 @@
                 end = "24:00:00";
             }
             $("#selectEnd option[value='"+ end +"']").attr('selected','selected');
+
+            var day = $('#day').text();
+            $("#selectDay option[value='"+ day +"']").attr('selected','selected');
         });
 </script>
 
