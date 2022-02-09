@@ -63,7 +63,14 @@ public class CardController {
     }
 
     @GetMapping("/restaurant/admin/cards/delete/{id}")
-    public String deleteCard(@PathVariable(value = "id") Long id){
+    public String deleteCard(@PathVariable(value = "id") Long id, HttpServletRequest request){
+        Useracount user = getUser(request);
+        Optional<Carta> carta = cartaService.findById(id);
+
+        if(user == null || !carta.get().getRestaurant().getUseracount().equals(user)){
+            return "redirect:/error/401";
+        }
+
         cartaService.deleteById(id);
 
         return "nada";
@@ -85,9 +92,16 @@ public class CardController {
     }
 
     @GetMapping("/restaurant/admin/{id}/card/create")
-    public String createCard(@PathVariable(value = "id") BigInteger id, Model model){
+    public String createCard(@PathVariable(value = "id") BigInteger id, Model model, HttpServletRequest request){
         Carta carta = new Carta();
         Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
+
+        Useracount user = getUser(request);
+
+        if(user == null || !restaurant.get().getUseracount().equals(user)){
+            return "redirect:/error/401";
+        }
+
         carta.setRestaurant(restaurant.get());
         model.addAttribute("carta", carta);
 
@@ -95,10 +109,17 @@ public class CardController {
     }
 
     @PostMapping("/restaurant/admin/{id}/card/save")
-    public RedirectView saveCard(@PathVariable(value = "id") BigInteger id, WebRequest request, @RequestParam("img") MultipartFile img){
+    public RedirectView saveCard(@PathVariable(value = "id") BigInteger id, WebRequest request, @RequestParam("img") MultipartFile img, HttpServletRequest requesthttp){
         Carta carta = new Carta();
         String url;
         Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
+
+        Useracount user = getUser(requesthttp);
+
+        if(user == null || !restaurant.get().getUseracount().equals(user)){
+            return new RedirectView("/error/401") ;
+        }
+
         String name = request.getParameter("name");
         String useimg = request.getParameter("useimg");
         String visible = request.getParameter("visible");
@@ -164,25 +185,45 @@ public class CardController {
     // Category controllers
 
     @GetMapping("/restaurant/admin/category/delete/{id}")
-    public String deleteCategory(@PathVariable(value = "id") Long id){
+    public String deleteCategory(@PathVariable(value = "id") Long id, HttpServletRequest request){
+        Optional<Categoria> categoria = categoriaService.findById(id);
+
+        Useracount user = getUser(request);
+
+        if(user == null || !categoria.get().getCarta().getRestaurant().getUseracount().equals(user)){
+            return "redirect:/error/401";
+        }
+
         categoriaService.deleteById(id);
 
         return "nada";
     }
 
     @GetMapping("/restaurant/admin/card/{id}/categories")
-    public String getCategories(@PathVariable(value = "id") Long id, Model model){
+    public String getCategories(@PathVariable(value = "id") Long id, Model model, HttpServletRequest request){
         Optional<Carta> carta = cartaService.findById(id);
         model.addAttribute("carta", carta.get());
         model.addAttribute("restaurant", carta.get().getRestaurant());
+
+        Useracount user = getUser(request);
+
+        if(user == null || !carta.get().getRestaurant().getUseracount().equals(user)){
+            return "redirect:/error/401";
+        }
 
         return "categories";
     }
 
     @GetMapping("/restaurant/admin/card/{id}/category/create")
-    public String createCategory(@PathVariable(value = "id") Long id, Model model){
+    public String createCategory(@PathVariable(value = "id") Long id, Model model, HttpServletRequest request){
         Categoria category = new Categoria();
         Optional<Carta> carta = cartaService.findById(id);
+
+        Useracount user = getUser(request);
+
+        if(user == null || !carta.get().getRestaurant().getUseracount().equals(user)){
+            return "redirect:/error/401";
+        }
 
         category.setCarta(carta.get());
 
@@ -192,15 +233,21 @@ public class CardController {
     }
 
     @GetMapping("/restaurant/admin/category/edit/{id}")
-    public String editCategory(@PathVariable(value = "id") Long id, Model model){
+    public String editCategory(@PathVariable(value = "id") Long id, Model model, HttpServletRequest request){
         Optional<Categoria> category = categoriaService.findById(id);
         model.addAttribute("category", category.get());
+
+        Useracount user = getUser(request);
+
+        if(user == null || !category.get().getCarta().getRestaurant().getUseracount().equals(user)){
+            return "redirect:/error/401";
+        }
 
         return "category_modify";
     }
 
     @PostMapping("/restaurant/admin/card/{id}/category/save")
-    public String updateCategory(@Valid Categoria category, BindingResult result, @PathVariable(value = "id") Long idc, Model model){
+    public String updateCategory(@Valid Categoria category, BindingResult result, @PathVariable(value = "id") Long idc, Model model, HttpServletRequest request){
         Optional<Carta> carta = cartaService.findById(idc);
         category.setCarta(carta.get());
 
@@ -209,6 +256,12 @@ public class CardController {
         if(idcs != null){
             Optional<Categoria> categorys = categoriaService.findById(idcs);
             category.setPlatos(categorys.get().getPlatos());
+        }
+
+        Useracount user = getUser(request);
+
+        if(user == null || !carta.get().getRestaurant().getUseracount().equals(user)){
+            return "redirect:/error/401";
         }
 
         if(result.hasErrors()){
@@ -229,36 +282,62 @@ public class CardController {
     // Platos Controllers
 
     @GetMapping("/restaurant/admin/dish/delete/{id}")
-    public String deleteDish(@PathVariable(value = "id") Long id){
+    public String deleteDish(@PathVariable(value = "id") Long id, HttpServletRequest request){
+        Optional<Plato> plato = platoService.findById(id);
+
+        Useracount user = getUser(request);
+
+        if(user == null || !plato.get().getCategoria().getCarta().getRestaurant().getUseracount().equals(user)){
+            return "redirect:/error/401";
+        }
+
         platoService.deleteById(id);
 
         return "nada";
     }
 
     @GetMapping("/restaurant/admin/category/{id}/dishes")
-    public String getDish(@PathVariable(value = "id") Long id, Model model){
+    public String getDish(@PathVariable(value = "id") Long id, Model model, HttpServletRequest request){
         Optional<Categoria> category = categoriaService.findById(id);
         model.addAttribute("category", category.get());
         model.addAttribute("restaurant", category.get().getCarta().getRestaurant());
+
+        Useracount user = getUser(request);
+
+        if(user == null || !category.get().getCarta().getRestaurant().getUseracount().equals(user)){
+            return "redirect:/error/401";
+        }
 
         return "platos";
     }
 
     @GetMapping("/restaurant/admin/category/{id}/dish/create")
-    public String createDish(@PathVariable(value = "id") Long id, Model model){
+    public String createDish(@PathVariable(value = "id") Long id, Model model, HttpServletRequest request){
         Plato plato = new Plato();
         Optional<Categoria> categoria = categoriaService.findById(id);
         plato.setCategoria(categoria.get());
         model.addAttribute("restaurant", categoria.get().getCarta().getRestaurant());
         model.addAttribute("plato", plato);
 
+        Useracount user = getUser(request);
+
+        if(user == null || !categoria.get().getCarta().getRestaurant().getUseracount().equals(user)){
+            return "redirect:/error/401";
+        }
+
         return "dish_modify";
     }
 
     @PostMapping("/restaurant/admin/{id}/dish/save")
-    public String saveDish(@Valid Plato plato, BindingResult result, @PathVariable(value = "id") Long id, Model model,@RequestParam("ingredientes") List<String> listaIngredientes, WebRequest request){
+    public String saveDish(@Valid Plato plato, BindingResult result, @PathVariable(value = "id") Long id, Model model,@RequestParam("ingredientes") List<String> listaIngredientes, WebRequest request, HttpServletRequest requesthttp){
         Optional<Categoria> category = categoriaService.findById(id);
         plato.setCategoria(category.get());
+
+        Useracount user = getUser(requesthttp);
+
+        if(user == null || !category.get().getCarta().getRestaurant().getUseracount().equals(user)){
+            return "redirect:/error/401";
+        }
 
         List<Alergeno> lista = new ArrayList<>();
         for(int x = 1 ; x <= 14 ; x++){
@@ -299,8 +378,16 @@ public class CardController {
     }
 
     @GetMapping("/restaurant/admin/dish/edit/{id}")
-    public String editDish(@PathVariable(value = "id") Long id, Model model){
+    public String editDish(@PathVariable(value = "id") Long id, Model model, HttpServletRequest request){
         Optional<Plato> plato = platoService.findById(id);
+
+        Useracount user = getUser(request);
+
+        if(user == null || !plato.get().getCategoria().getCarta().getRestaurant().getUseracount().equals(user)){
+            return "redirect:/error/401";
+        }
+
+
         model.addAttribute("plato", plato.get());
         model.addAttribute("restaurant", plato.get().getCategoria().getCarta().getRestaurant());
 
@@ -308,11 +395,18 @@ public class CardController {
     }
 
     @PostMapping("/edit/category/name/{id}")
-        public String editNameCategory(@PathVariable(value = "id") Long id, WebRequest request){
+        public String editNameCategory(@PathVariable(value = "id") Long id, WebRequest request, HttpServletRequest requesthttp){
             Optional<Categoria> categoria = categoriaService.findById(id);
             categoria.get().setNombre(request.getParameter("name"));
-            categoriaService.save(categoria.get());
+
+        Useracount user = getUser(requesthttp);
+
+        if(user == null || !categoria.get().getCarta().getRestaurant().getUseracount().equals(user)){
+            return "redirect:/error/401";
+        }
+
+        categoriaService.save(categoria.get());
 
             return "redirect:/restaurant/admin/category/" + id + "/dishes";
-        }
+    }
 }

@@ -18,9 +18,6 @@ public class HomeController {
     UseracountService useracountService;
 
     @Autowired
-    LocalidadService localidadService;
-
-    @Autowired
     ImgService imgService;
 
     @GetMapping("/")

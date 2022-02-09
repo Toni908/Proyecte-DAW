@@ -3,6 +3,7 @@ package cat.iesmanacor.backend_private.controller;
 import cat.iesmanacor.backend_private.entities.Factura;
 import cat.iesmanacor.backend_private.entities.Membresia;
 import cat.iesmanacor.backend_private.entities.Restaurant;
+import cat.iesmanacor.backend_private.entities.Useracount;
 import cat.iesmanacor.backend_private.services.FacturaService;
 import cat.iesmanacor.backend_private.services.MembresiaService;
 import cat.iesmanacor.backend_private.services.RestaurantService;
@@ -16,12 +17,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.request.WebRequest;
 
+import javax.servlet.http.HttpServletRequest;
 import java.math.BigInteger;
 import java.nio.charset.Charset;
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.Optional;
 import java.util.Random;
+
+import static cat.iesmanacor.backend_private.componentes.User.getUser;
 
 @Controller
 @RequestMapping("/restaurant/admin/membresia/")
@@ -37,17 +41,30 @@ public class MembresiaController {
     private MembresiaService membresiaService;
 
     @GetMapping("/{id}")
-    public String getMembresia(@PathVariable(value = "id") BigInteger id, Model model){
+    public String getMembresia(@PathVariable(value = "id") BigInteger id, Model model, HttpServletRequest request){
         Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
         model.addAttribute("restaurant", restaurant.get());
+
+        Useracount user = getUser(request);
+
+        if(user == null || !restaurant.get().getUseracount().equals(user)){
+            return "redirect:/error/401";
+        }
 
         return "membresia";
     }
 
     @Transactional
     @PostMapping("/{id}")
-    public String saveMembresia(@PathVariable(value = "id") BigInteger id, Model model, WebRequest request){
+    public String saveMembresia(@PathVariable(value = "id") BigInteger id, Model model, WebRequest request, HttpServletRequest requesthttp){
         Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
+
+        Useracount user = getUser(requesthttp);
+
+        if(user == null || !restaurant.get().getUseracount().equals(user)){
+            return "redirect:/error/401";
+        }
+
         Membresia membresia = new Membresia();
         Factura factura = new Factura();
 
