@@ -30,15 +30,6 @@ public class HomeController {
     }
 
 
-    // ADMIN SECTION DATATABLE RESTAURANTES
-    @GetMapping("/restaurante/configuration/admin")
-    public String adminRestaurantes(ModelMap model){
-        //Condition if is admin
-        model.addAttribute("restaurantes",restaurantService.findAllRestaurants());
-        model.addAttribute("updateRestaurant",new Restaurant());
-        return "restaurantesAdmin";
-    }
-
     @GetMapping("/configuration/cards")
     public String getCards(){
         return "cards";

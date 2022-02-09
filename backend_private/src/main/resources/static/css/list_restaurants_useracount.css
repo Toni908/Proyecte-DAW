@@ -21,8 +21,8 @@
 }
 .img-restaurant {
     border-radius: 30px;
-    height: 400px;
-    object-fit: cover;
+    height: 325px;
+    object-fit: contain;
 }
 @media only screen and (max-width: 1300px) {
     .container_restaurants {
