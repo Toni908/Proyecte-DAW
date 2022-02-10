@@ -24,4 +24,6 @@ public interface Password_recuperarService {
     public List<Password_recuperar> findByUseracount(BigInteger id);
 
     public List<Password_recuperar> isCodeFromUseracount(BigInteger user, BigInteger code);
+
+    void deleteCodesFromUseracount(BigInteger user);
 }

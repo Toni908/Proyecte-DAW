@@ -1,5 +1,6 @@
 package cat.iesmanacor.backend_private.controller;
 
+import cat.iesmanacor.backend_private.componentes.User;
 import cat.iesmanacor.backend_private.entities.Password_recuperar;
 import cat.iesmanacor.backend_private.entities.Useracount;
 import cat.iesmanacor.backend_private.entityDTO.UseracountDTO;
@@ -18,11 +19,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
@@ -137,7 +140,77 @@ public class UseracountController {
 
     // NO PUEDE ENTRAR EN EL USUARIO
     @RequestMapping("/recuperar/password")
+    public String recuperarPassword(@RequestParam("code") BigInteger code, @RequestParam("dni") String dni, @RequestParam("nombre_usuario") String nombre_usuario, @RequestParam("password") String password, @RequestParam("password_confirm") String password_confirm, ModelMap model,HttpSession session) {
+        Optional<Password_recuperar> password_recuperar = password_recuperarService.findById(code);
+
+        if (password_recuperar.isPresent()) {
+            Optional<Useracount> useracount = useracountService.findUseracountById(password_recuperar.get().getUseracount().getId_user());
+            if (useracount.isPresent()) {
+                if (password_recuperar.get().getUseracount().getDni().equals(dni)) {
+                    if (password_recuperar.get().getUseracount().getNombre_usuario().equals(nombre_usuario)) {
+                        if (password.equals(password_confirm)) {
+                            final String encrypted = BCrypt.hashpw(password, BCrypt.gensalt());
+                            useracount.get().setPassword(encrypted);
+                            useracountService.updateUseracount(useracount.get());
+                            password_recuperarService.delete(code);
+                            session.invalidate();
+                            return "redirect:/login";
+                        } else {
+                            model.addAttribute("error", "La contraseñas no coiciden");
+                            return "recuperar";
+                        }
+                    }
+                }
+                model.addAttribute("error", "Credenciales no coiciden");
+                return "recuperar";
+            }
+        }
+        return "redirect:/error/401";
+    }
+
+
+
+    @RequestMapping("/send/code")
+    public String codeSend(@RequestParam("email_actual") String email_actual, ModelMap model) {
+        List<Useracount> useracount = useracountService.findUseracountsByEmail(email_actual);
+        if (!useracount.isEmpty()) {
+            if (useracount.size()==1) {
+                if (password_recuperarService.findByUseracount(useracount.get(0).getId_user()).isEmpty()) {
+                    BigInteger generateCode = generateCode(useracount.get(0));
+                    emailService.sendMessageWithAttachment("militaxx98@gmail.com", "Recuperar contraseña", email_actual, generateCode);
+                    model.addAttribute("hasSend",true);
+                    model.addAttribute("success","Se envio un correo con el codigo");
+                } else {
+                    model.addAttribute("hasSend",false);
+                    model.addAttribute("error","Ya se envio un correo con el codigo");
+                }
+                return "recuperar";
+            }
+        } else {
+            model.addAttribute("error","El correo no se encuentra en ningun registro");
+            return "recuperar";
+        }
+        return "redirect:/error/401";
+    }
+
+    @Transactional
+    @RequestMapping("/regererar/code")
+    public String regenerarCode(@RequestParam("email_actual") String email_actual) {
+        List<Useracount> useracount = useracountService.findUseracountsByEmail(email_actual);
+        if (!useracount.isEmpty()) {
+            password_recuperarService.deleteCodesFromUseracount(useracount.get(0).getId_user());
+        }
+        return "recuperar";
+    }
+
+    @GetMapping("/recuperar")
     public String recuperarPassword() {
+        return "recuperar";
+    }
+
+    @GetMapping("/recuperar/send")
+    public String recuperarPasswordHasSend(ModelMap model) {
+        model.addAttribute("hasSend",true);
         return "recuperar";
     }
 

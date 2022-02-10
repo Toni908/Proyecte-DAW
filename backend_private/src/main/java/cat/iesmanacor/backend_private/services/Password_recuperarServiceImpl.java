@@ -63,4 +63,9 @@ public class Password_recuperarServiceImpl implements Password_recuperarService{
     public List<Password_recuperar> isCodeFromUseracount(BigInteger user, BigInteger code) {
         return password_recuperarRepository.isCodeFromUseracount(user, code);
     }
+
+    @Override
+    public void deleteCodesFromUseracount(BigInteger user) {
+        password_recuperarRepository.deleteCodesFromUseracount(user);
+    }
 }

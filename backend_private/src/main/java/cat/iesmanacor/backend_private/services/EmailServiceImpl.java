@@ -56,7 +56,7 @@ public class EmailServiceImpl implements EmailService {
                 "                 "+codigo+"\n" +
                 "        </section>\n" +
                 "       <p style=\"text-align: center\">Para poder cambiar la contraseña tienes que entrar con tu usuario y en la parte de recuperar insertar el codigo en Codigo verificacion</p>\n"+
-                "       <p style=\"text-align: center\">Sino puedes entrar en tu cuenta ves al <a href='/recuperar/password'>siguiente enlaçe</a></p>\n"+
+                "       <p style=\"text-align: center\">Sino puedes entrar en tu cuenta ves a la secion de ayuda para poder ayudarte</p>\n"+
                 "      </div>\n" +
                 "    </div>\n" +
                 "</body>";
