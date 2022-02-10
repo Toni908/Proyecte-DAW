@@ -52,7 +52,7 @@
                     <a href="/login" class="dropdown-toggle text-white" id="loginDropdown" data-bs-toggle="dropdown" aria-expanded="false" role="button"><i class="bi bi-person-fill fs-3 pe-xl-5 pe-3 align-self-center"></i></a>
                     <ul th:if="${session.user}!=null" class="dropdown-menu" aria-labelledby="loginDropdown">
                         <li th:if="${session.user.isAdmin()}"><a class="dropdown-item" href="/restaurante/configuration/admin">Validar Restaurantes</a></li>
-                        <li><a class="dropdown-item" th:text="'Bienvenido '+${session.user.nombre_usuario}"></a></li>
+                        <li><a class="dropdown-item" href="/user" th:text="'Bienvenido '+${session.user.nombre_usuario}"></a></li>
                         <li><a class="dropdown-item" href="/logout">Logout</a></li>
                     </ul>
                 </div>
@@ -94,7 +94,7 @@
         </a>
         <div th:if="${actualRestaurant}!=null">
             <a class="w-100 select-info text-decoration-none text-black ps-5" th:href="@{'/restaurant/update/'+${actualRestaurant.id_restaurante}}">
-                <i class="bi bi-arrow-left border-3"></i>
+                <i class="bi bi-arrow-left fs-3"></i>
                 Volver al Restaurante
             </a>
             <a th:if="${actualRestaurant.id_restaurante}==${restaurant.id_restaurante}" th:each="restaurant : ${restaurantesUser}" th:for="${restaurant.nombre}" th:name="${restaurant.id_restaurante}" class="restaurantes activeRest d-flex flex-row select-info text-decoration-none text-black ps-5">
