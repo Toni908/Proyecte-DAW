@@ -335,21 +335,25 @@ public class HorarioController {
             }
 
         }else{
+            List<Horario> listhora = new ArrayList<>();
             for(int x = 1 ; x < listaDias.size() ; x++){
                 Horario h = new Horario();
                 h.setHora_inicio(start);
                 h.setHora_fin(end);
                 h.setPeriodo(periodo.get());
                 h.setDay(listaDias.get(x));
-                if(verificarHorario(h, periodop.get())){
-                    horarioService.save(h);
+                if(verificarHorario(horario, periodop.get())){
+                    listhora.add(h);
                 }else{
-                    // model.addAttribute("errorc","Error, uno de los horarios que estas intentando introducir coincide con uno ya existente.");
-                    // return "redirect:/periodo/horario/edit/" + id;
-                    days.add(h.getDay());
+                    model.addAttribute("horario", h);
+                    model.addAttribute("errorc","Error, el horario que estas intentando introducir coincide con otro del " + h.getDay());
+                    return "horario_modify";
                 }
             }
-            if(days.size() == 1){
+            for( Horario hs : listhora){
+                horarioService.save(hs);
+            }
+            /*if(days.size() == 1){
                 Horario k = new Horario();
                 k.setPeriodo(periodop.get());
                 model.addAttribute("horario", k);
@@ -367,6 +371,7 @@ public class HorarioController {
                 model.addAttribute("errorc","Multiples dias coinciden con otros, especificamente los siguientes: " + dais + ". Los demas han sido añadidos correctamente");
                 return "horario_modify";
             }
+             */
         }
 
         return "redirect:/restaurant/admin/periodo/horario/" + id;
@@ -391,8 +396,8 @@ public class HorarioController {
                 if(E == 0){
                     E = 24;
                 }
-                for(int x = S ; x <= E ; x++){
-                    if(Sh >= x || Eh <= x){
+                for(int x = Sh ; x <= Eh ; x++){
+                    if(S >= x && E <= x){
                         return false;
                     }
                 }
