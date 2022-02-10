@@ -1,8 +1,6 @@
 package cat.iesmanacor.backend_private.controller;
 
-import cat.iesmanacor.backend_private.componentes.User;
 import cat.iesmanacor.backend_private.entities.Password_recuperar;
-import cat.iesmanacor.backend_private.entities.Restaurant;
 import cat.iesmanacor.backend_private.entities.Useracount;
 import cat.iesmanacor.backend_private.entityDTO.UseracountDTO;
 import cat.iesmanacor.backend_private.services.EmailService;
@@ -27,7 +25,6 @@ import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.Optional;
 import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 
 import static cat.iesmanacor.backend_private.componentes.User.getUser;
 import static cat.iesmanacor.backend_private.componentes.User.isUserCorrect;
@@ -51,6 +48,7 @@ public class UseracountController {
         if (isUserCorrect(useracount,useracountService)) {
             Optional<Useracount> useracountDDBB = useracountService.findUseracountById(useracount.getId_user());
             if (useracountDDBB.isPresent()) {
+                model.addAttribute("hascode",password_recuperarService.findByUseracount(useracountDDBB.get().getId_user()).isEmpty());
                 model.addAttribute("user", useracountDDBB.get());
                 return "formularios/user_update";
             }
@@ -68,6 +66,7 @@ public class UseracountController {
             if (useracount.isPresent()) {
                 if (BCrypt.checkpw(verified, useracount.get().getPassword())) {
                     model.addAttribute("verified",true);
+                    model.addAttribute("hascode",password_recuperarService.findByUseracount(useracount.get().getId_user()).isEmpty());
                     model.addAttribute("success","Ya puedes ver la informacion importante");
                     model.addAttribute("user", useracount.get());
                     return "formularios/user_update";
@@ -103,23 +102,77 @@ public class UseracountController {
         return "redirect:/error/401";
     }
 
+    // PUEDE ENTRAR EN EL USUARIO
+    @RequestMapping("/user/recuperar")
+    public String recuperar(@RequestParam("codigo_email") BigInteger code,@RequestParam("password_change_recuperar") String password_change_recuperar, @RequestParam("password_change_confirm_recuperar") String password_change_confirm_recuperar, ModelMap model, HttpServletRequest request,HttpSession session) {
+        Optional<Password_recuperar> password_recuperar = password_recuperarService.findById(code);
+        Useracount userVerify = getUser(request);
+        if (password_recuperar.isPresent()) {
+            if (isUserCorrect(userVerify,useracountService)) {
+                if (isCodeFromThisUseracount(code,userVerify)) {
+                    if (password_change_recuperar.equals(password_change_confirm_recuperar)) {
+                        Optional<Useracount> useracountDDBB = useracountService.findUseracountById(userVerify.getId_user());
+                        if (useracountDDBB.isPresent()) {
+                            final String encrypted = BCrypt.hashpw(password_change_recuperar, BCrypt.gensalt());
+                            useracountDDBB.get().setPassword(encrypted);
+                            useracountService.updateUseracount(useracountDDBB.get());
+                            password_recuperarService.delete(code);
+                            session.invalidate();
+                            return "redirect:/login";
+                        } else {
+                            model.addAttribute("error", "No se han encontrado coicidencias");
+                            model.addAttribute("user", userVerify);
+                            return "formularios/user_update";
+                        }
+                    }
+                }
+            }
+        }
+        return "redirect:/error/401";
+    }
+
+    public boolean isCodeFromThisUseracount(BigInteger code, Useracount useracount) {
+        return !password_recuperarService.isCodeFromUseracount(useracount.getId_user(),code).isEmpty();
+    }
+
+    // NO PUEDE ENTRAR EN EL USUARIO
+    @RequestMapping("/recuperar/password")
+    public String recuperarPassword() {
+        return "recuperar";
+    }
+
+    // ENVIO DE CORREO PARA RECUPERAR - MODIFICAR CONTRASEÑA
     @RequestMapping("/user/password")
     public String password(ModelMap model, HttpServletRequest request){
         Useracount userVerify = getUser(request);
         if (isUserCorrect(userVerify,useracountService)) {
             Optional<Useracount> useracount = useracountService.findUseracountById(userVerify.getId_user());
-            useracount.ifPresent(value -> emailService.sendSimpleMessage(value.getCorreo(), "Recuperar contraseña del usuario" + value.getNombre_usuario(), "Para recuperar la contraseña ves a http://127.0.0.1:8080/recuperar y inserta el codigo " + generateCode(useracount.get())));
-            model.addAttribute("success","Se le a enviado un correo a "+)
+            if (useracount.isPresent()) {
+                BigInteger generateCode = generateCode(useracount.get());
+                emailService.sendMessageWithAttachment("militaxx98@gmail.com", "Recuperar contraseña del usuario" + useracount.get().getNombre_usuario(), useracount.get().getCorreo(),generateCode);
+                model.addAttribute("hascode",password_recuperarService.findByUseracount(useracount.get().getId_user()).isEmpty());
+                model.addAttribute("success","Se le a enviado un correo a "+useracount.get().getCorreo());
+                model.addAttribute("user", useracount.get());
+                return "formularios/user_update";
+            }
         }
         return "redirect:/error/401";
     }
 
-    public BigInteger generateCode(Useracount user) {
-        BigInteger start = BigInteger.valueOf(100000);
-        BigInteger end = BigInteger.valueOf(999999);
-        BigInteger randomNum = RandomBigInteger(start,end);
-        //save on ddbb this number
-        Password_recuperar password_recuperar = new Password_recuperar(user.getId_user(),user.getPassword(),randomNum);
+    public BigInteger generateCode(Useracount id) {
+        Optional<Password_recuperar> password;
+        BigInteger randomNum = BigInteger.ONE;
+        boolean empty = true;
+        while (empty) {
+            BigInteger start = BigInteger.valueOf(1000);
+            BigInteger end = BigInteger.valueOf(999999999);
+            randomNum = RandomBigInteger(start, end);
+            password = password_recuperarService.findById(randomNum);
+            if (password.isEmpty()) {
+                empty = false;
+            }
+        }
+        Password_recuperar password_recuperar = new Password_recuperar(id, randomNum);
         password_recuperarService.save(password_recuperar);
         return randomNum;
     }
@@ -149,6 +202,8 @@ public class UseracountController {
         returnInteger = (returnInteger.compareTo(rangeEnd) > 0 ? rangeEnd : returnInteger); //Converts number to the end of output range if it's over it. This is to correct rounding.
         return returnInteger;
     }
+
+    // CAMBIAR CONTRASEÑA SI TE SABES LA ACTUAL
     @RequestMapping("/user/changepassword")
     public String changepassword(@RequestParam("password_actual") String password_actual, @RequestParam("password_change") String password_change, @RequestParam("password_change_confirm") String password_change_confirm, ModelMap model, HttpServletRequest request,HttpSession session){
         Useracount userVerify = getUser(request);
@@ -164,7 +219,7 @@ public class UseracountController {
                         session.invalidate();
                         return "redirect:/login";
                     } else {
-                        model.addAttribute("error","No se han encontrado coicidencias");
+                        model.addAttribute("error", "No se han encontrado coicidencias");
                         model.addAttribute("user", userVerify);
                         return "formularios/user_update";
                     }
@@ -173,19 +228,6 @@ public class UseracountController {
                     model.addAttribute("user", userVerify);
                     return "formularios/user_update";
                 }
-            }
-        }
-        return "redirect:/error/401";
-    }
-
-    @RequestMapping("/user/email")
-    public String email(ModelMap model, HttpServletRequest request){
-        Useracount userVerify = getUser(request);
-
-        if (isUserCorrect(userVerify,useracountService)) {
-            Optional<Useracount> useracount = useracountService.findUseracountById(userVerify.getId_user());
-            if (useracount.isPresent()) {
-
             }
         }
         return "redirect:/error/401";

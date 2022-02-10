@@ -26,16 +26,8 @@
                 No Modificables
             </a>
             <a class="w-100 select-info text-decoration-none text-black ps-5" href="#changepassword">
-                <i class="bi bi-safe2 fs-3"></i>
-                Cambiar Contraseña
-            </a>
-            <a class="w-100 select-info text-decoration-none text-black ps-5" href="#recuperar">
                 <i class="bi bi-safe fs-3"></i>
-                Recuperar Contraseña
-            </a>
-            <a class="w-100 select-info text-decoration-none text-black ps-5" href="#email">
-                <i class="bi bi-envelope fs-3"></i>
-                Cambiar correo
+                Contraseña
             </a>
         </div>
     </aside>
@@ -122,7 +114,7 @@
                             <h4 class="fw-normal text-start text-black QuickSand">Information Important</h4>
                             <p class="paraf_form text-start fw-normal">
                                 Para poder visualizar la informacion importante de un usuario tienes que poner la contraseña y
-                                <a class="text-decoration-none text-danger">en el caso que no la sepas tienes una opcion en la parte de la derecha.</a>
+                                <a class="text-decoration-none text-danger">en el caso que no la sepas tienes una opcion en la parte de la izquierda o mas abajo.</a>
                             </p>
                             <section th:if="${verified}==true">
                                 <div class="container pt-3 m-0 w-100 px-0">
@@ -214,7 +206,7 @@
             </section>
         </main>
     </form>
-    <form id="recuperar" onsubmit="return password()" class="d-flex flex-row justify-content-center mb-5" th:action="@{/user/password}" method="POST">
+    <form th:if="${hascode}==true" id="recuperar" onsubmit="return password()" class="d-flex flex-row justify-content-center mb-5" th:action="@{/user/password}" method="POST">
         <main class="d-flex flex-column justify-content-center body-info">
             <section class="pt-5">
                 <h3 class="title_section-info">Recuperar Contraseña</h3>
@@ -223,7 +215,7 @@
                         <div class="border border-secondary border-1 mt-2 p-4 box-container">
                             <p class="paraf_form">Puede ser que tengas problemas con tu negocio y deseas emprender una vida nueva o un nuevo restaurante, para ello te damos la opcion de eliminar tu restaurante, recuerda <a class="text-decoration-none text-danger">al confirmar que quieres eliminar no se podra recuperar.</a></p>
                             <div class="d-flex flex-row justify-content-center pt-4">
-                                <button type="submit" class="btn btn-danger">Eliminar</button>
+                                <button type="submit" class="btn btn-dark">Enviar Codigo</button>
                             </div>
                         </div>
                     </div>
@@ -231,17 +223,40 @@
             </section>
         </main>
     </form>
-    <form id="email" onsubmit="return correo()" class="d-flex flex-row justify-content-center mb-5" th:action="@{/user/correo}" method="POST">
+    <form th:if="${hascode}==false" id="recuperar" onsubmit="return password()" class="d-flex flex-row justify-content-center mb-5" th:action="@{/user/recuperar}" method="POST">
         <main class="d-flex flex-column justify-content-center body-info">
             <section class="pt-5">
-                <h3 class="title_section-info">Cambiar Correo</h3>
+                <h3 class="title_section-info">Recuperar Contraseña</h3>
                 <div class="d-flex flex-row justify-content-center">
                     <div class="d-flex flex-column justify-content-center length">
                         <div class="border border-secondary border-1 mt-2 p-4 box-container">
-                            <p class="paraf_form">Puede ser que tengas problemas con tu negocio y deseas emprender una vida nueva o un nuevo restaurante, para ello te damos la opcion de eliminar tu restaurante, recuerda <a class="text-decoration-none text-danger">al confirmar que quieres eliminar no se podra recuperar.</a></p>
-                            <div class="d-flex flex-row justify-content-center pt-4">
-                                <button type="submit" class="btn btn-danger">Eliminar</button>
-                            </div>
+                            <section class="container">
+                                <div class="row">
+                                    <div class="col-sm p-0">
+                                        <label class="w-100 pe-2 ps-3">
+                                            Codigo verificacion:
+                                            <input type="text" class="text-center input-text" id="codigo_email" name="codigo_email">
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm p-0">
+                                        <label class="w-100 pe-2 ps-3">
+                                            Contraseña a cambiar:
+                                            <input type="password" class="input-text" id="password_change_recuperar" name="password_change_recuperar">
+                                        </label>
+                                    </div>
+                                    <div class="col-sm p-0">
+                                        <label class="w-100 pe-2 ps-3">
+                                            Confirmar Contraseña a cambiar:
+                                            <input type="password" class="input-text" id="password_change_confirm_recuperar" name="password_change_confirm_recuperar">
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-row justify-content-center pt-4">
+                                    <button type="submit" class="btn btn-dark">Comprovar</button>
+                                </div>
+                            </section>
                         </div>
                     </div>
                 </div>

@@ -2,7 +2,6 @@ package cat.iesmanacor.backend_private.controller;
 
 import cat.iesmanacor.backend_private.entities.*;
 import cat.iesmanacor.backend_private.services.UseracountService;
-import org.apache.catalina.User;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

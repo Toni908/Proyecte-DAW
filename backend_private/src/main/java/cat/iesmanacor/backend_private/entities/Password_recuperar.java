@@ -17,16 +17,11 @@ import java.math.BigInteger;
 @Table(name = "password_recuperar")
 public class Password_recuperar {
 
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "id_user")
+    private Useracount useracount;
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_user")
-    @NotNull(message = "id_user cant be null")
-    private BigInteger id_user;
-
-    @Column(name = "password")
-    @NotNull(message = "password cant be null")
-    private String password;
-
     @Column(name = "codigo")
     @NotNull(message = "codigo cant be null")
     private BigInteger codigo;

@@ -44,14 +44,23 @@ public class Password_recuperarServiceImpl implements Password_recuperarService{
 
     @Override
     public void update(Password_recuperar password) {
-        BigInteger num = password.getId_user();
+        BigInteger num = password.getUseracount().getId_user();
         if (password_recuperarRepository.findById(num).isPresent()) {
             Password_recuperar result = new Password_recuperar(
-                    password.getId_user(),
-                    password.getPassword(),
+                    password.getUseracount(),
                     password.getCodigo()
             );
             password_recuperarRepository.save(result);
         }
+    }
+
+    @Override
+    public List<Password_recuperar> findByUseracount(BigInteger id) {
+        return password_recuperarRepository.findByIdUseracount(id);
+    }
+
+    @Override
+    public List<Password_recuperar> isCodeFromUseracount(BigInteger user, BigInteger code) {
+        return password_recuperarRepository.isCodeFromUseracount(user, code);
     }
 }

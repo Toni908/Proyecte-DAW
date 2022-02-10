@@ -18,4 +18,10 @@ public interface Password_recuperarService {
     public void delete(BigInteger id);
 
     public void update(Password_recuperar password);
+
+    // QUERY
+
+    public List<Password_recuperar> findByUseracount(BigInteger id);
+
+    public List<Password_recuperar> isCodeFromUseracount(BigInteger user, BigInteger code);
 }
