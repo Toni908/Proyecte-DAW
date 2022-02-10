@@ -25,6 +25,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -214,12 +215,21 @@ public class HorarioController {
     @GetMapping("/periodo/horario/{id}")
     public String getHorario(@PathVariable(value = "id") Long id, Model model, HttpServletRequest request){
         Optional<Periodo> periodo = periodoService.findById(id);
-        model.addAttribute("periodo", periodo.get());
+        List<Horario> list = new ArrayList<>();
+        List<String> strings = Arrays.asList("Lunes","Martes","Miercoles","Jueves","Viernes","Sabado","Domingo");
 
         Useracount user = getUser(request);
 
         if(user == null || !periodo.get().getRestaurant().getUseracount().equals(user)){
             return "redirect:/error/401";
+        }
+
+        for(int x = 0 ; x < 7 ; x++){
+            for(Horario hor : periodo.get().getHorarios()){
+                if(hor.getDay().equals(strings.get(x))){
+                    list.add(hor);
+                }
+            }
         }
 
         Date dateStart = periodo.get().getFecha_inicio();
@@ -238,6 +248,7 @@ public class HorarioController {
         model.addAttribute("start", start);
         model.addAttribute("restaurant", periodo.get().getRestaurant());
         model.addAttribute("periodo", periodo.get());
+        model.addAttribute("horarios", list);
 
         return "horarios";
     }
@@ -290,7 +301,7 @@ public class HorarioController {
     }
 
     @PostMapping("/periodo/horario/save/{id}")
-    public String saveHorario(@PathVariable(value = "id") Long id, WebRequest request, @RequestParam("checkbox") List<String> listaDias, HttpServletRequest requesthttp){
+    public String saveHorario(@PathVariable(value = "id") Long id, WebRequest request, @RequestParam("checkbox") List<String> listaDias, HttpServletRequest requesthttp, Model model){
         Horario horario = new Horario();
 
         Optional<Periodo> periodop = periodoService.findById(id);
@@ -310,10 +321,19 @@ public class HorarioController {
         Optional<Periodo> periodo = periodoService.findById(id);
         horario.setPeriodo(periodo.get());
 
+        List<String> days = new ArrayList<>();
+
         if(id_horario != null){
             horario.setId_horario(Long.parseLong(id_horario));
             horario.setDay(request.getParameter("dateChange"));
-            horarioService.save(horario);
+            if(verificarHorario(horario, periodop.get())){
+                horarioService.save(horario);
+            }else{
+                model.addAttribute("horario", horario);
+                model.addAttribute("error","Error, el horario que estas intentando introducir coincide con otro del " + horario.getDay());
+                return "horario_modify";
+            }
+
         }else{
             for(int x = 1 ; x < listaDias.size() ; x++){
                 Horario h = new Horario();
@@ -321,11 +341,65 @@ public class HorarioController {
                 h.setHora_fin(end);
                 h.setPeriodo(periodo.get());
                 h.setDay(listaDias.get(x));
-                horarioService.save(h);
+                if(verificarHorario(h, periodop.get())){
+                    horarioService.save(h);
+                }else{
+                    // model.addAttribute("errorc","Error, uno de los horarios que estas intentando introducir coincide con uno ya existente.");
+                    // return "redirect:/periodo/horario/edit/" + id;
+                    days.add(h.getDay());
+                }
+            }
+            if(days.size() == 1){
+                Horario k = new Horario();
+                k.setPeriodo(periodop.get());
+                model.addAttribute("horario", k);
+                model.addAttribute("errorc","Error, uno de los horarios que estas intentando introducir coincide con uno ya existente. En concreto el dia " +
+                        days.get(0) + ". Los demas dias han sido añadidos correctamente");
+                return "horario_modify";
+            }else if(days.size() > 1){
+                String dais = days.get(0);
+                for(int x = 1 ; x < days.size() ; x++){
+                    dais = dais + ", " + days.get(x);
+                }
+                Horario k = new Horario();
+                k.setPeriodo(periodop.get());
+                model.addAttribute("horario", k);
+                model.addAttribute("errorc","Multiples dias coinciden con otros, especificamente los siguientes: " + dais + ". Los demas han sido añadidos correctamente");
+                return "horario_modify";
             }
         }
 
         return "redirect:/restaurant/admin/periodo/horario/" + id;
+    }
+
+    public boolean verificarHorario(Horario horario, Periodo p){
+        String[] Starth = horario.getHora_inicio().toString().split(":");
+        String[] Endh = horario.getHora_fin().toString().split(":");
+        int Sh = Integer.parseInt(Starth[0]);
+        int Eh = Integer.parseInt(Endh[0]);
+        if(Eh == 0){
+            Eh = 24;
+        }
+        String dayh = horario.getDay();
+        for(Horario h : p.getHorarios()){
+            String day = h.getDay();
+            if(day.equals(dayh)){
+                String[] Start = h.getHora_inicio().toString().split(":");
+                String[] End = h.getHora_fin().toString().split(":");
+                int S = Integer.parseInt(Start[0]);
+                int E = Integer.parseInt(End[0]);
+                if(E == 0){
+                    E = 24;
+                }
+                for(int x = S ; x <= E ; x++){
+                    if(Sh >= x || Eh <= x){
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return true;
     }
 
 }

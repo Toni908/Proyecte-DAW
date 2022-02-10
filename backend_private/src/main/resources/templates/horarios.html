@@ -36,7 +36,7 @@
             <th scope="row"></th>
             </thead>
             <tbody>
-            <tr th:each="horario : ${periodo.horarios}">
+            <tr th:each="horario : ${horarios}">
                 <td class="d-none" th:text="${horario.id_horario}"></td>
                 <td th:text="${horario.day}"></td>
                 <td th:text="${horario.hora_inicio}"></td>
