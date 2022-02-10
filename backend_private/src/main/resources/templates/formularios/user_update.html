@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="'Modificar '+${session.user.nombre_usuario}"></title>
+    <link th:href="@{/css/custom.css}" rel="stylesheet">
+    <link th:href="@{/css/form.css}" rel="stylesheet">
+    <link th:href="@{/css/asideLeft.css}" rel="stylesheet">
+    <link th:href="@{/css/restaurante_update.css}" rel="stylesheet">
+    <link th:href="@{/css/reservas.css}" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<div th:insert="shared/headerVersion1 :: header"></div>
+<div th:if="${error}!=null" th:text="${error}" class="message_error"></div>
+<div th:if="${success}!=null" th:text="${success}" class="message_success"></div>
+<main class="w-100 p-0 m-0">
+    <aside th:if="${user}!=0" class="float-info">
+        <div class="container-info">
+            <a class="w-100 select-info text-decoration-none text-black ps-5" th:href="@{/user}">
+                <i class="bi bi-person-square fs-3"></i>
+                Mi Usuario
+            </a>
+            <a class="w-100 select-info text-decoration-none text-black ps-5" href="#modificables">
+                <i class="bi bi-slash-circle-fill fs-3"></i>
+                No Modificables
+            </a>
+            <a class="w-100 select-info text-decoration-none text-black ps-5" href="#changepassword">
+                <i class="bi bi-safe fs-3"></i>
+                Contraseña
+            </a>
+        </div>
+    </aside>
+    <form class="d-flex flex-row justify-content-center" onsubmit="return validateGeneral()" th:action="@{/user/put}" method="POST" th:object="${user}">
+        <main class="d-flex flex-column justify-content-center body-info">
+            <section class="pt-5">
+                <h3 class="title_section-info">Mi Usuario</h3>
+                <div class="d-flex flex-row justify-content-center pt-2">
+                    <p class="paraf_form text-center fw-normal length-container">Aqui encontraras todas las opciones para poder realizar las modificaciones que deseas actualizar, si tienes alguna pregunta sobre este apartado puedes preguntarlo en la secion de preguntas situada arriba a la derecha</p>
+                </div>
+                <div class="d-flex flex-row justify-content-center">
+                    <div class="d-flex flex-column justify-content-center length">
+                        <div class="border border-secondary border-1 mt-5 p-4 box-container">
+                            <input type="hidden" th:field="*{id_user}" hidden>
+                            <h4 class="fw-normal text-start text-black QuickSand">Informacion General</h4>
+                            <p class="paraf_form text-start fw-normal length-container">
+                                Estos son los datos generales del tu usuario, como podria ser el nombre, y los apellidos, el  movil.
+                                <a class="text-decoration-none text-danger">Ten encuenta que se te quitara la session y tendras que volver a iniciar session.</a>
+                            </p>
+                            <div class="ps-3 text-lg-start text-center">Nombre Usuario:</div>
+                            <label class="w-100">
+                                <input type="text" class="input-text validateNameResponse" th:field="*{nombre_usuario}">
+                            </label>
+                            <div id="validateNameResponse"></div>
+                            <div class="container pt-3 m-0 w-100 px-0">
+                                <div class="row">
+                                    <div class="col-sm p-0">
+                                        <label class="w-100 ps-2 pe-3">
+                                            Nombre:
+                                            <input type="text" class="input-text validateNombre" th:field="*{nombre}">
+                                        </label>
+                                        <div id="validateNombre"></div>
+                                    </div>
+                                    <div class="col-sm p-0">
+                                        <label class="w-100 pe-2 ps-3">
+                                            Primer Apellido:
+                                            <input type="text" class="input-text validateApellido1" th:field="*{apellido1}">
+                                        </label>
+                                        <div id="validateApellido1"></div>
+                                    </div>
+                                    <div class="col-sm p-0">
+                                        <label class="w-100 pe-2 ps-3">
+                                            Ultimo Apellido:
+                                            <input type="text" class="input-text validateApellido2" th:field="*{apellido2}">
+                                        </label>
+                                        <div id="validateApellido2"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="container pt-3 m-0 w-100 px-0">
+                                <div class="row">
+                                    <div class="col-sm p-0">
+                                        <label class="w-100 ps-2 pe-3">
+                                            Telefono:
+                                            <input type="text" class="input-text validateTelefono" th:field="*{telefono}">
+                                        </label>
+                                        <div id="validateTelefono"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-row justify-content-center pt-4">
+                            <button type="submit" class="btn btn-dark">Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </form>
+    <section  id="modificables" class="d-flex flex-row justify-content-center">
+        <main class="d-flex flex-column justify-content-center body-info">
+            <section class="pt-5">
+                <h3 class="title_section-info">Informacion No Modificables</h3>
+                <div class="d-flex flex-row justify-content-center pt-2">
+                    <p class="paraf_form text-start fw-normal length">
+                        <a class="text-decoration-none text-danger">Estas opciones del usuario no las puedes moficar en este apartado</a>
+                        , para ello pulsa el boton de la derecha para realizar la operacion.
+                    </p>
+                </div>
+                <div class="d-flex flex-row justify-content-center">
+                    <div class="d-flex flex-column justify-content-center length">
+                        <div class="border border-secondary border-1 mt-2 p-4 box-container">
+                            <h4 class="fw-normal text-start text-black QuickSand">Information Important</h4>
+                            <p class="paraf_form text-start fw-normal">
+                                Para poder visualizar la informacion importante de un usuario tienes que poner la contraseña y
+                                <a class="text-decoration-none text-danger">en el caso que no la sepas tienes una opcion en la parte de la izquierda o mas abajo.</a>
+                            </p>
+                            <section th:if="${verified}==true">
+                                <div class="container pt-3 m-0 w-100 px-0">
+                                    <div class="row">
+                                        <div class="col-sm p-0">
+                                            <label class="w-100 pe-2 ps-3">
+                                                DNI:
+                                                <input type="text" class="input-text" th:value="${user.dni}" readonly>
+                                            </label>
+                                        </div>
+                                        <div class="col-sm p-0">
+                                            <label class="w-100 pe-2 ps-3">
+                                                Correo:
+                                                <input type="text" class="input-text" th:value="${user.correo}" readonly>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div th:if="${user.isAdmin()}" class="container pt-3 m-0 w-100 px-0">
+                                    <div class="form-check form-switch d-flex flex-row justify-content-center pt-4">
+                                        <label class="w-100 d-flex flex-row justify-content-center">
+                                            Admin:
+                                            <input class="form-check-input m-0 fs-3" type="checkbox" readonly>
+                                        </label>
+                                    </div>
+                                </div>
+                            </section>
+                            <section th:if="${verified}==null">
+                                <form class="container pt-3 m-0 w-100 px-0" th:action="@{/user/verified}" method="POST">
+                                    <div class="col-sm p-0">
+                                        <label class="w-100 pe-2 ps-3">
+                                            Contraseña:
+                                            <input type="password" class="input-text" id="verified" name="verified">
+                                        </label>
+                                    </div>
+                                    <div class="d-flex flex-row justify-content-center pt-4">
+                                        <button type="submit" class="btn btn-dark">Comprovar</button>
+                                    </div>
+                                </form>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </section>
+    <form id="changepassword" onsubmit="return changepassword()" class="d-flex flex-row justify-content-center mb-5" th:action="@{/user/changepassword}" method="POST">
+        <main class="d-flex flex-column justify-content-center body-info">
+            <section class="pt-5">
+                <h3 class="title_section-info">Cambiar Contraseña</h3>
+                <div class="d-flex flex-row justify-content-center">
+                    <div class="d-flex flex-column justify-content-center length">
+                        <div class="border border-secondary border-1 mt-2 p-4 box-container">
+                            <h4 class="fw-normal text-start text-black QuickSand">Cambiar la Contraseña</h4>
+                            <p class="paraf_form">
+                                Puede ser que tengas problemas con tu contraseña y deseas cambiarla, para eso estamos nosotros para ayudarte a cambiar tu contrasña,
+                                <a class="text-decoration-none text-danger">ten encuenta que al cambiar la contraseña se te quitara la session.</a>
+                            </p>
+                            <section class="container">
+                                <div class="row">
+                                    <div class="col-sm p-0">
+                                        <label class="w-100 pe-2 ps-3">
+                                            Actual Contraseña:
+                                            <input type="password" class="input-text" id="password_actual" name="password_actual">
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm p-0">
+                                        <label class="w-100 pe-2 ps-3">
+                                            Contraseña a cambiar:
+                                            <input type="password" class="input-text" id="password_change" name="password_change">
+                                        </label>
+                                    </div>
+                                    <div class="col-sm p-0">
+                                        <label class="w-100 pe-2 ps-3">
+                                            Confirmar Contraseña a cambiar:
+                                            <input type="password" class="input-text" id="password_change_confirm" name="password_change_confirm">
+                                        </label>
+                                    </div>
+                                </div>
+                            </section>
+                            <div class="d-flex flex-row justify-content-center pt-4">
+                                <button type="submit" class="btn btn-dark">Continuar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </form>
+    <form th:if="${hascode}==true" id="recuperar" onsubmit="return password()" class="d-flex flex-row justify-content-center mb-5" th:action="@{/user/password}" method="POST">
+        <main class="d-flex flex-column justify-content-center body-info">
+            <section class="pt-5">
+                <h3 class="title_section-info">Recuperar Contraseña</h3>
+                <div class="d-flex flex-row justify-content-center">
+                    <div class="d-flex flex-column justify-content-center length">
+                        <div class="border border-secondary border-1 mt-2 p-4 box-container">
+                            <p class="paraf_form">Puede ser que tengas problemas con tu negocio y deseas emprender una vida nueva o un nuevo restaurante, para ello te damos la opcion de eliminar tu restaurante, recuerda <a class="text-decoration-none text-danger">al confirmar que quieres eliminar no se podra recuperar.</a></p>
+                            <div class="d-flex flex-row justify-content-center pt-4">
+                                <button type="submit" class="btn btn-dark">Enviar Codigo</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </form>
+    <form th:if="${hascode}==false" id="recuperar" onsubmit="return password()" class="d-flex flex-row justify-content-center mb-5" th:action="@{/user/recuperar}" method="POST">
+        <main class="d-flex flex-column justify-content-center body-info">
+            <section class="pt-5">
+                <h3 class="title_section-info">Recuperar Contraseña</h3>
+                <div class="d-flex flex-row justify-content-center">
+                    <div class="d-flex flex-column justify-content-center length">
+                        <div class="border border-secondary border-1 mt-2 p-4 box-container">
+                            <section class="container">
+                                <div class="row">
+                                    <div class="col-sm p-0">
+                                        <label class="w-100 pe-2 ps-3">
+                                            Codigo verificacion:
+                                            <input type="text" class="text-center input-text" id="codigo_email" name="codigo_email">
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm p-0">
+                                        <label class="w-100 pe-2 ps-3">
+                                            Contraseña a cambiar:
+                                            <input type="password" class="input-text" id="password_change_recuperar" name="password_change_recuperar">
+                                        </label>
+                                    </div>
+                                    <div class="col-sm p-0">
+                                        <label class="w-100 pe-2 ps-3">
+                                            Confirmar Contraseña a cambiar:
+                                            <input type="password" class="input-text" id="password_change_confirm_recuperar" name="password_change_confirm_recuperar">
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-row justify-content-center pt-4">
+                                    <button type="submit" class="btn btn-dark">Comprovar</button>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </form>
+</main>
+<footer th:insert="shared/footer :: footer"></footer>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/js/jquery-3.6.0.min.js}"></script>
+<script th:src="@{/js/headerv2.js}"></script>
+<script th:src="@{/js/asideVersionScroll.js}"></script>
+<script>
+
+    function correo() {
+        return true;
+    }
+
+    function password() {
+        return true;
+    }
+
+    function changepassword() {
+        return true;
+    }
+
+    function changepasswords() {
+        return true;
+    }
+</script>
+</body>
+</html>

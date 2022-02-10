@@ -43,7 +43,7 @@
           <a href="/login" class="dropdown-toggle text-white" id="loginDropdown" data-bs-toggle="dropdown" aria-expanded="false" role="button"><i class="bi bi-person-fill fs-3 pe-xl-5 pe-3 align-self-center"></i></a>
           <ul th:if="${session.user}!=null" class="dropdown-menu" aria-labelledby="loginDropdown">
             <li th:if="${session.user.isAdmin()}"><a class="dropdown-item" href="/restaurante/configuration/admin">Validar Restaurantes</a></li>
-            <li><a class="dropdown-item" th:text="'Bienvenido '+${session.user.nombre_usuario}"></a></li>
+            <li><a class="dropdown-item" href="/user" th:text="'Bienvenido '+${session.user.nombre_usuario}"></a></li>
             <li><a class="dropdown-item" href="/logout">Logout</a></li>
           </ul>
         </div>
