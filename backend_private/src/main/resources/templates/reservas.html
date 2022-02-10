@@ -94,7 +94,7 @@
         </a>
         <div th:if="${actualRestaurant}!=null">
             <a class="w-100 select-info text-decoration-none text-black ps-5" th:href="@{'/restaurant/update/'+${actualRestaurant.id_restaurante}}">
-                <i class="bi bi-shop fs-3"></i>
+                <i class="bi bi-arrow-left border-3"></i>
                 Volver al Restaurante
             </a>
             <a th:if="${actualRestaurant.id_restaurante}==${restaurant.id_restaurante}" th:each="restaurant : ${restaurantesUser}" th:for="${restaurant.nombre}" th:name="${restaurant.id_restaurante}" class="restaurantes activeRest d-flex flex-row select-info text-decoration-none text-black ps-5">
@@ -147,7 +147,7 @@
                     <div class="form-check form-switch d-flex flex-column justify-content-center p-0 m-0">
                         <label class="w-100 d-flex flex-row justify-content-center gap-4">
                             Activo permanentemente
-                            <input class="form-check-input m-0 fs-3" id="datepickcheck" type="checkbox">
+                            <input class="form-check-input m-0 fs-3" id="datepickcheck" type="checkbox" checked>
                         </label>
                     </div>
                     <div class="pt-2 pe-lg-5">

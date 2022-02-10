@@ -142,7 +142,7 @@ function createDataTable(data) {
                 customize: function ( win ) {
                     $(win.document.body)
                         .prepend(
-                            '<p style="position:absolute; top:0; left:0; font-size: 50px; opacity: 0.1" >'+title.text()+'</p>'
+                            '<p style="position:absolute; top:0; left:0; font-size: 50px; opacity: 0.05" >'+title.text()+" del dia "+titleTime.text()+'</p>'
                         );
 
                     $(win.document.body).find( 'table' )
