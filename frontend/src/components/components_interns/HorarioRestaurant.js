@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {Accordion} from "react-bootstrap";
 
-class CardTextRestaurant extends Component {
+class HorarioRestaurant extends Component {
     render() {
         let header = textHeader(this.props.horario);
         let body = isTodayOpen(this.props.horario);
@@ -320,4 +320,4 @@ function fixedDate(date) {
     return date.toString().slice(0,5);
 }
 
-export default CardTextRestaurant
+export default HorarioRestaurant

@@ -27,7 +27,7 @@ import static cat.iesmanacor.backend_private.componentes.User.isUserCorrect;
 
 
 @Controller
-public class RestaurantControllerImpl {
+public class RestaurantController {
     @Autowired
     RestaurantService restaurantService;
 

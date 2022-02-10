@@ -3,7 +3,7 @@ import ImageRestaurant from "./ImageRestaurant";
 import React, {Component} from "react";
 import axios from "axios";
 import './image.css'
-import CardTextRestaurant from "./CardTextRestaurant";
+import HorarioRestaurant from "./HorarioRestaurant";
 
 class CardRestaurant extends Component {
     constructor() {
@@ -52,7 +52,7 @@ class CardRestaurant extends Component {
                             Telefono: <div className={"text-black fw-bold text-decoration-none"}>{this.props.restaurant.telefono_restaurante}</div>
                         </div>
                     </Card.Text>
-                    <CardTextRestaurant horario={horario}/>
+                    <HorarioRestaurant horario={horario}/>
                     <div className={"mt-3"}>
                         <Button variant="outline-dark">Ver Restaurante</Button>
                         <Button className={"ms-3"} variant={"outline-dark"}>Reservar</Button>

@@ -1,6 +1,5 @@
 package cat.iesmanacor.backend_private.controller;
 
-import cat.iesmanacor.backend_private.componentes.User;
 import cat.iesmanacor.backend_private.entities.Restaurant;
 import cat.iesmanacor.backend_private.entities.Useracount;
 import cat.iesmanacor.backend_private.services.ReservasService;
@@ -15,14 +14,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigInteger;
-import java.util.List;
 import java.util.Optional;
 
 import static cat.iesmanacor.backend_private.componentes.User.getUser;
 import static cat.iesmanacor.backend_private.componentes.User.isUserCorrect;
 
 @Controller
-public class ReservaControllerImpl {
+public class ReservaController {
 
     @Autowired
     ReservasService reservasService;
