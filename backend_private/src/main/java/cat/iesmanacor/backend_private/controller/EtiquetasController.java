@@ -19,7 +19,7 @@ import static cat.iesmanacor.backend_private.componentes.User.getUser;
 import static cat.iesmanacor.backend_private.componentes.User.isUserCorrect;
 
 @Controller
-public class EtiquetasControllerImpl {
+public class EtiquetasController {
 
     @Autowired
     EtiquetasService etiquetasService;

@@ -2,7 +2,6 @@ package cat.iesmanacor.backend_private.controller;
 
 import cat.iesmanacor.backend_private.entities.Img;
 import cat.iesmanacor.backend_private.entities.Restaurant;
-import cat.iesmanacor.backend_private.entities.Useracount;
 import cat.iesmanacor.backend_private.files.FileUploadUtil;
 import cat.iesmanacor.backend_private.services.ImgService;
 import cat.iesmanacor.backend_private.services.RestaurantService;
@@ -18,15 +17,13 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
-import java.io.File;
 import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
 @Controller
-public class ImgControllerImpl {
+public class ImgController {
 
     @Autowired
     ImgService imgService;
