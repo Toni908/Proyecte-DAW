@@ -397,7 +397,7 @@ public class HorarioController {
                     E = 24;
                 }
                 for(int x = Sh ; x <= Eh ; x++){
-                    if(S >= x && E <= x){
+                    if(S <= x && E >= x){
                         return false;
                     }
                 }
