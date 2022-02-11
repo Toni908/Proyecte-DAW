@@ -21,17 +21,17 @@
     <form id="restauranteFixed" class="d-flex flex-row justify-content-center" onsubmit="return validateGeneral()" th:action="@{/restaurant/put}" method="POST" th:object="${restaurant}">
         <main class="d-flex flex-column justify-content-center body-info">
             <section class="pt-5">
-                <h3 class="title_section-info">Mi Restaurante</h3>
+                <h3 class="title_section-info" th:text="#{restaurant.update.title}"></h3>
                 <div class="d-flex flex-row justify-content-center pt-2">
-                    <p class="paraf_form text-center fw-normal length-container">Aqui encontraras todas las opciones para poder realizar las modificaciones que deseas actualizar, si tienes alguna pregunta sobre este apartado puedes preguntarlo en la secion de preguntas situada arriba a la derecha</p>
+                    <p class="paraf_form text-center fw-normal length-container" th:text="#{restaurant.update.title.paraf}"></p>
                 </div>
                 <div class="d-flex flex-row justify-content-center">
                     <div class="d-flex flex-column justify-content-center length">
                         <div class="border border-secondary border-1 mt-5 p-4 box-container">
                             <input type="hidden" th:field="*{id_restaurante}" hidden>
-                            <h4 class="fw-normal text-start text-black QuickSand">Informacion General</h4>
-                            <p class="paraf_form text-start fw-normal">Estos son los datos generales del restaurante, como podria ser el nombre, los dias de anticipacio de reservas y el telefono movil enlazado con el restaurante</p>
-                            <div class="ps-3 text-lg-start text-center">Nombre:</div>
+                            <h4 class="fw-normal text-start text-black QuickSand" th:text="#{restaurant.update.info.general}"></h4>
+                            <p class="paraf_form text-start fw-normal" th:text="#{restaurant.update.info.general.paraf}"></p>
+                            <div class="ps-3 text-lg-start text-center" th:text="#{restaurant.form.name}"></div>
                             <label class="w-100">
                                 <input type="text" class="input-text validateNameResponse" th:field="*{nombre}">
                             </label>
@@ -39,22 +39,22 @@
                             <div class="container pt-3 m-0 w-100 px-0">
                                 <div class="row">
                                     <div class="col-sm p-0">
+                                        <div class="ps-3 text-start" th:text="#{restaurant.form.days}"></div>
                                         <label class="w-100 ps-2 pe-3">
-                                            Dias de Anticipacion:
                                             <input type="number" class="input-text validateDiasAnticipacionResponse" th:field="*{dies_anticipacion_reservas}">
                                         </label>
                                         <div id="validateDiasAnticipacionResponse"></div>
                                     </div>
                                     <div class="col-sm p-0">
+                                        <div class="ps-3 text-start" th:text="#{restaurant.form.phone}"></div>
                                         <label class="w-100 pe-2 ps-3">
-                                            Telefono:
                                             <input type="number" class="input-text validateTelefonoResponse" th:field="*{telefono_restaurante}">
                                         </label>
                                         <div id="validateTelefonoResponse"></div>
                                     </div>
                                     <div class="col-sm p-0">
+                                        <div class="ps-3 text-start" th:text="#{restaurant.form.capacity}"></div>
                                         <label class="w-100 pe-2 ps-3">
-                                            Aforo:
                                             <input type="number" class="input-text validateAforo" th:field="*{aforo}">
                                         </label>
                                         <div id="validateAforo"></div>
@@ -62,18 +62,18 @@
                                 </div>
                             </div>
                             <hr>
-                            <p class="paraf_form text-start fw-normal pt-3">Estos son los datos generales del restaurante, como podria ser el nombre, los dias de anticipacio de reservas y el telefono movil enlazado con el restaurante</p>
+                            <p class="paraf_form text-start fw-normal pt-3" th:text="#{restaurant.update.info.title}"></p>
                             <div class="container pt-3 m-0 w-100 px-0">
                                 <div class="row" id="localidadMunicipioChange">
                                     <div class="col-sm">
+                                        <div class="ps-3 text-start" th:text="#{restaurant.form.municipality}"></div>
                                         <label class="w-100">
-                                            Municipio:
                                             <select class="input-text" id="municipio"></select>
                                         </label>
                                     </div>
                                     <div class="col-sm">
+                                        <div class="ps-3 text-start" th:text="#{restaurant.form.location}"></div>
                                         <label class="w-100">
-                                            Localidad:
                                             <select id="localidad" class="input-text validateLocalidadResponse">
 
                                             </select>
@@ -84,45 +84,47 @@
                                 </div>
                                 <div class="row" id="localidadMunicipioActual">
                                     <div class="col-sm">
+                                        <div class="ps-3 text-start" th:text="#{restaurant.form.municipality}"></div>
                                         <label class="w-100">
-                                            Municipio:
                                             <input type="text" class="input-text" disabled="disabled" th:value="${restaurant.localidad.nombre_municipio.nombre_municipio}" readonly/>
                                         </label>
                                     </div>
                                     <div class="col-sm">
+                                        <div class="ps-3 text-start" th:text="#{restaurant.form.location}"></div>
                                         <label class="w-100">
-                                            Localidad:
                                             <input name="myLocalidad" type="text" class="input-text" th:value="${restaurant.localidad.nombre_localidad}" readonly/>
                                         </label>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-check form-switch d-flex flex-row justify-content-center pt-4">
-                                <label class="w-100 d-flex flex-row justify-content-center">
-                                    Deseas cambiar?
-                                    <input class="form-check-input m-0 fs-3" type="checkbox" id="changeLocalidad">
-                                </label>
+                                <div class="d-flex flex-column w-100">
+                                    <div class="text-center" th:text="#{restaurant.update.question.checkbox}"></div>
+                                    <label class="pt-3 w-100 d-flex flex-row justify-content-center">
+                                        <input class="form-check-input m-0 fs-3" type="checkbox" id="changeLocalidad">
+                                    </label>
+                                </div>
                             </div>
                             <hr>
                             <div class="d-flex flex-column justify-content-center">
-                                <h4 class="fw-normal text-center text-black QuickSand">Google Maps</h4>
+                                <h4 class="fw-normal text-center text-black QuickSand" th:text="#{restaurant.update.google.maps}"></h4>
                                 <div class="container pt-3 m-0 w-100 px-0">
                                     <div class="col-sm p-0">
+                                        <div class="ps-3 text-start" th:text="#{restaurant.form.address}"></div>
                                         <label class="w-100 pe-2 ps-3">
-                                            Direccion:
                                             <input type="text" class="input-text" th:field="*{direccion}">
                                         </label>
                                     </div>
                                 </div>
                                 <div class="container-responsive-form d-flex justify-content-center flex-row">
                                     <div class="p-0 form_2 pe-2 w-40">
-                                        <div class="ps-3 paraf_form text-secondary">Longitud</div>
+                                        <div class="ps-3 paraf_form text-secondary" th:text="#{restaurant.form.longitude}"></div>
                                         <label class="w-100 field_form_section">
                                             <input type="number" step="any" id="longitud" class="input-text text-secondary" th:field="*{longitud}" name="longitud" readonly>
                                         </label>
                                     </div>
                                     <div class="p-0 form_2 ps-2 w-40">
-                                        <div class="ps-3 paraf_form text-secondary">Latitud</div>
+                                        <div class="ps-3 paraf_form text-secondary" th:text="#{restaurant.form.latitude}"></div>
                                         <label class="w-100 field_form_section">
                                             <input type="number" step="any" id="latitud" class="input-text text-secondary" th:field="*{latitud}" name="latitud" readonly>
                                         </label>
@@ -139,7 +141,7 @@
                             </div>
                         </div>
                         <div class="d-flex flex-row justify-content-center pt-4">
-                            <button type="submit" class="btn btn-dark">Guardar</button>
+                            <button type="submit" class="btn btn-dark" th:text="#{button.save}"></button>
                         </div>
                     </div>
                 </div>
@@ -149,19 +151,17 @@
     <form id="privacidadFixed" class="d-flex flex-row justify-content-center" th:action="@{/restaurant/visibility}" method="POST">
         <main class="d-flex flex-column justify-content-center body-info">
             <section class="pt-5">
-                <h3 class="title_section-info">Privacidad</h3>
+                <h3 class="title_section-info" th:text="#{restaurant.update.privacy}"></h3>
                 <div class="d-flex flex-row justify-content-center pt-2">
                     <p class="paraf_form text-start fw-normal length">
-                        Puede ser que estes haciendo cambios en tus datos o que basicamente no quieras que se muestre tu restaurante, no te preocupes puedes hacerlo con esta opcion.
+
                     </p>
                 </div>
                 <div class="d-flex flex-row justify-content-center">
                     <div class="d-flex flex-column justify-content-center length">
                         <div class="border border-secondary border-1 mt-2 p-4 box-container">
-                            <h4 class="fw-normal text-start text-black QuickSand">Que significa la visibilidad?</h4>
-                            <p class="paraf_form text-start fw-normal">
-                                La visibilidad es una manera de hacer que tu restaurante no se muestre a tus usuarios, ni en la pagina, de esta forma podras realizar los cambios sin necesidad de procuparte de que otra gente vea esos cambios.
-                            </p>
+                            <h4 class="fw-normal text-start text-black QuickSand" th:text="#{restaurant.update.privacy.info}"></h4>
+                            <p class="paraf_form text-start fw-normal" th:text="#{restaurant.update.privacy.paraf}"></p>
                             <label><input type='number' name='idRestaurante' th:value="${restaurant.id_restaurante}" hidden/></label>
                             <div class="container pt-3 m-0 w-100 px-0">
                                 <div class="form-check form-switch d-flex flex-row justify-content-center pt-4">
@@ -173,7 +173,7 @@
                             </div>
                         </div>
                         <div class="d-flex flex-row justify-content-center pt-4">
-                            <button type="submit" class="btn btn-dark">Guardar</button>
+                            <button type="submit" class="btn btn-dark" th:text="#{button.save}"></button>
                         </div>
                     </div>
                 </div>
@@ -183,32 +183,29 @@
     <form id="etiquetasFixed" class="d-flex flex-row justify-content-center" onsubmit="return validateEtiquetas()" th:action="@{/etiquetas/save}" method="POST">
         <main class="d-flex flex-column justify-content-center body-info">
             <section class="pt-5">
-                <h3 class="title_section-info">Mis Etiquetas</h3>
+                <h3 class="title_section-info" th:text="#{restaurant.update.tags}"></h3>
                 <div class="d-flex flex-row justify-content-center pt-2">
-                    <p class="paraf_form text-start fw-normal length">
-                        Estos son las etiquetas que actualmente tienes activadas en tu restaurante, para cambiarlos solo tienes que dar click encima y desapareceran, recuerda que solo puedes tener 7 activas
-                    </p>
+                    <p class="paraf_form text-start fw-normal length" th:text="#{restaurant.update.tags.paraf}"></p>
                 </div>
                 <div class="d-flex flex-row justify-content-center">
                     <div class="d-flex flex-column justify-content-center length">
                         <div class="border border-secondary border-1 mt-2 p-4 box-container">
-                            <h4 class="fw-normal text-start text-black QuickSand">Etiquetas</h4>
-                            <p class="paraf_form text-start fw-normal">
-                                Para poder insertar etiquetas tienes en la parte izquierda un buscador y creador (sino encuentra ninguno), donde este buscara en todas las etiquetas existentes y asin podras añadir las etiquetas que mas se usan segun tu estilo de restaurante
-                                <a class="text-decoration-none text-danger">Recuerda minimo longitud 3 y maximo 15, y solo puedes tener 7 etiquetas activas</a>
+                            <h4 class="fw-normal text-start text-black QuickSand" th:text="#{restaurant.update.tags.title}"></h4>
+                            <p class="paraf_form text-start fw-normal" th:text="#{restaurant.update.tags.title.paraf}">
+                                <a class="text-decoration-none text-danger" th:text="#{restaurant.update.tags.title.paraf.red}"></a>
                             </p>
                             <label><input type='number' name='idRestaurante' th:value="${restaurant.id_restaurante}" hidden/></label>
                             <div class="container pt-3 m-0 w-100 px-0">
                                 <div class="row">
                                     <div class="col-sm">
+                                        <div class="ps-3 paraf_form text-secondary" th:text="#{restaurant.form.tags}"></div>
                                         <label class="text-center w-100">
-                                            Etiquetas
                                             <input id="selectText" class="input-text" type="text">
                                         </label>
                                     </div>
                                     <div class="col-sm">
+                                        <div class="ps-3 paraf_form text-secondary" th:text="#{restaurant.create.js.search}"></div>
                                         <label class="text-center w-100">
-                                            Buscador
                                             <select class="input-text" id="selectEtiquetas">
                                             </select>
                                             <input class="input-text p-3 border border-2 border-success" id="create_etiqueta" onclick="addEtiqueta()" type="hidden" value="Create">
@@ -219,7 +216,7 @@
                         </div>
                         <!-- BOX OF ETIQUETAS SELECTED -->
                         <div class="align-self-center mt-4 pt-2 w-100">
-                            <div class="text-center paraf_form">Etiquetas selecionadas</div>
+                            <div class="text-center paraf_form" th:text="#{restaurant.form.tags.selected}"></div>
                             <section class="h-100 p-4 h-auto" th:if="${etiquetas}!=null">
                                 <div class="d-flex flex-row justify-content-center flex-wrap gap-2" id="etiquetas_box">
                                     <div class="border border-2 w-auto box-container" th:each="etiqueta : ${etiquetas}" onclick='deleteEtiqueta(this)'>
@@ -232,7 +229,7 @@
                             </section>
                         </div>
                         <div class="d-flex flex-row justify-content-center pt-4">
-                            <button type="submit" class="btn btn-dark">Guardar</button>
+                            <button type="submit" class="btn btn-dark" th:text="#{button.save}"></button>
                         </div>
                     </div>
                 </div>
@@ -242,16 +239,11 @@
     <form id="imagenesFixed" class="d-flex flex-row justify-content-center" th:style="${imagesRestaurant.size()} == 0 ? 'margin-bottom: 50px' : ''" th:action="@{/imagen/saveMultiple}" enctype="multipart/form-data" method="POST">
         <main class="d-flex flex-column justify-content-center body-info">
             <section class="pt-5">
-                <h3 class="title_section-info">Tus imagenes</h3>
+                <h3 class="title_section-info" th:text="#{restaurant.update.images}"></h3>
                 <div class="d-flex flex-row justify-content-center pt-2">
                     <div class="d-flex flex-column justify-content-center length">
-                        <p class="paraf_form fw-normal text-center">
-                            Quieres mas ventajas que nadie, pues hazte miembro y consigue ventajas muy buenas para extender tu restaurante por todo el mundo.
-                            Recuerda que solo puedes guardar 4 imagenes;
-                        </p>
-                        <p class="paraf_form fw-normal text-center" th:text="'Cantidad de imagenes: '+${imagesRestaurant.size()}">
-
-                        </p>
+                        <p class="paraf_form fw-normal text-center" th:text="#{restaurant.update.images.paraf}"></p>
+                        <p class="paraf_form fw-normal text-center" th:text="'Cantidad de imagenes: '+${imagesRestaurant.size()}"></p>
                     </div>
                 </div>
                 <input type="hidden" name="idRestaurant" th:value="${restaurant.id_restaurante}" hidden>
@@ -264,20 +256,20 @@
                                         <img class="d-block w-100 image-contain-length" th:src="@{${restaurant.getPhotosImagePath()}+${image.url}}"  alt=""/>
                                     </div>
                                     <div th:if="${imagesRestaurant.size()}==0">
-                                        <img class="d-block w-100 image-contain-length" th:src="@{/img/no-photo-available.jpg}" alt="Img Restaurant (1)">
+                                        <img class="d-block w-100 image-contain-length" th:src="@{/img/no-photo-available.jpg}" alt="">
                                     </div>
                                 </div>
                                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
                                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Previous</span>
+                                    <span class="visually-hidden" th:text="#{restaurant.update.images.previous}"></span>
                                 </button>
                                 <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
                                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Next</span>
+                                    <span class="visually-hidden" th:text="#{restaurant.update.images.next}"></span>
                                 </button>
                             </div>
                             <div class="mb-3 p-0 mt-3">
-                                <div class="ps-3 paraf_form">Insert images</div>
+                                <div class="ps-3 paraf_form" th:text="#{restaurant.update.images.insert}"></div>
                                 <label class="w-100 field_form_principal">
                                     <input class="input-text validateImagenResponse" name="saveMultiple" multiple accept="image/jpeg, image/jpg, image/png, image/gif" type="file" maxlength="80" placeholder="URL" required>
                                 </label>
@@ -285,7 +277,7 @@
                             </div>
                         </div>
                         <div class="d-flex flex-row justify-content-center pt-4">
-                            <button type="submit" class="btn btn-dark">Guardar</button>
+                            <button type="submit" class="btn btn-dark" th:text="#{button.save}"></button>
                         </div>
                     </div>
                 </div>
@@ -295,7 +287,7 @@
     <form onsubmit="return validateImages()" th:if="${imagesRestaurant.size()} != 0" class="d-flex flex-row justify-content-center mb-5" th:action="@{/imagen/delete}" enctype="multipart/form-data" method="POST">
         <main class="d-flex flex-column justify-content-center body-info">
             <section class="pt-5">
-                <h3 class="title_section-info">Gestion de tus imagenes</h3>
+                <h3 class="title_section-info" th:text="#{restaurant.update.images.manage}"></h3>
                 <input type="hidden" name="idRestaurante" th:value="${restaurant.id_restaurante}" hidden>
                 <div class="d-flex flex-row justify-content-center">
                     <div class="d-flex flex-column justify-content-center length">
@@ -311,23 +303,23 @@
                             </ul>
                         </div>
                         <div id="buttonDeleteImg" class="d-flex flex-row justify-content-center pt-4">
-                            <button type="submit" class="btn btn-danger">Eliminar Selecionados</button>
+                            <button type="submit" class="btn btn-danger" th:text="#{restaurant.update.images.manage.delete}"></button>
                         </div>
                     </div>
                 </div>
             </section>
         </main>
     </form>
-    <form onsubmit="return confirm('Seguro que quieres eliminar el restaurante?')" class="d-flex flex-row justify-content-center mb-5" th:action="@{'/restaurant/delete/'+${restaurant.id_restaurante}}" method="GET">
+    <form onsubmit="return wantConfirm()" class="d-flex flex-row justify-content-center mb-5" th:action="@{'/restaurant/delete/'+${restaurant.id_restaurante}}" method="GET">
         <main class="d-flex flex-column justify-content-center body-info">
             <section class="pt-5">
-                <h3 class="title_section-info">Eliminar <a th:text="${restaurant.nombre}"></a>?</h3>
+                <h3 class="title_section-info" th:text="#{button.delete}"><a th:text="${restaurant.nombre}"></a>?</h3>
                 <div class="d-flex flex-row justify-content-center">
                     <div class="d-flex flex-column justify-content-center length">
                         <div class="border border-secondary border-1 mt-2 p-4 box-container">
-                            <p class="paraf_form">Puede ser que tengas problemas con tu negocio y deseas emprender una vida nueva o un nuevo restaurante, para ello te damos la opcion de eliminar tu restaurante, recuerda <a class="text-decoration-none text-danger">al confirmar que quieres eliminar no se podra recuperar.</a></p>
+                            <p class="paraf_form" th:text="#{restaurant.update.delete.paraf}"><a class="text-decoration-none text-danger" th:text="#{restaurant.update.delete.paraf.red}"></a></p>
                             <div class="d-flex flex-row justify-content-center pt-4">
-                                <button type="submit" class="btn btn-danger">Eliminar</button>
+                                <button type="submit" class="btn btn-danger" th:text="#{button.delete}"></button>
                             </div>
                         </div>
                     </div>
@@ -341,6 +333,31 @@
 <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
 <script th:src="@{/js/headerv2.js}"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBCKiIqCdZGrVxx06LSbe7uG3zXOq1Cz5k&callback=myMap"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+
+    let traductions = {
+        sureDelete: [[#{restaurant.update.delete.confirm}]],
+        buscador: [[#{restaurant.create.js.arrow.search}]],
+        ocurrencias: [[#{restaurant.create.js.occurrences}]],
+        encontrados: [[#{restaurant.create.js.find}]],
+        short: [[#{errors.tags.short}]],
+        long: [[#{errors.tags.long}]],
+        max: [[#{errors.tags.max}]],
+        added: [[#{errors.tags.already.added}]],
+
+        municipality : [[#{restaurant.create.js.municipality}]],
+        selectM: [[#{restaurant.create.js.select.municipality}]],
+
+        formName: [[#{restaurant.create.js.form.name}]],
+        formNumber: [[#{restaurant.update.has.to.be.number}]],
+        formPhone: [[#{restaurant.create.js.form.phone}]],
+        formLocation: [[#{restaurant.create.js.form.location}]]
+    };
+
+    /*]]>*/
+</script>
+<script th:src="@{/js/etiquetas.js}"></script>
 <script th:src="@{/js/restaurante_update.js}"></script>
 <script th:src="@{/js/asideVersionScroll.js}"></script>
 <script th:src="@{/js/hide_messages.js}"></script>

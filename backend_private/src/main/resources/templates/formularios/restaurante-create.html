@@ -23,7 +23,7 @@
             <div class="body_form">
                 <div class="d-flex justify-content-center">
                     <div class="text-center mb-3 p-0 w-80">
-                        <div class="ps-3 paraf_form" th:text="#{restaurant.create.form.name}"></div>
+                        <div class="ps-3 paraf_form" th:text="#{restaurant.form.name}"></div>
                         <label class="w-100 field_form_principal validateNameResponse">
                             <input class="text-center input-text" id="nombre" th:field="*{nombre}" type="text" maxlength="40" th:placeholder="#{restaurant.create.form.name.placeholder}" required>
                         </label>
@@ -33,13 +33,13 @@
                 <div class="container">
                     <div class="row mt-2">
                         <div class="col-lg-6">
-                            <div class="ps-3 paraf_form" th:text="#{restaurant.create.form.days}"></div>
+                            <div class="ps-3 paraf_form" th:text="#{restaurant.form.days}"></div>
                             <label class="w-100 field_form_section">
                                 <input class="input-text" type="number" id="dies_anticipacion_reservas" th:field="*{dies_anticipacion_reservas}" oninput="this.value = Math.abs(this.value)" required>
                             </label>
                         </div>
                         <div class="col-lg-6">
-                            <div class="ps-3 paraf_form" th:text="#{restaurant.create.form.phone}"></div>
+                            <div class="ps-3 paraf_form" th:text="#{restaurant.form.phone}"></div>
                             <label class="w-100 field_form_section">
                                 <input class="input-text validateTelefonoResponse" type="number" id="telefono_restaurante" th:field="*{telefono_restaurante}" oninput="this.value = Math.abs(this.value)" required>
                             </label>
@@ -48,14 +48,14 @@
                     </div>
                     <div class="row mt-2">
                         <div class="col-lg-6">
-                            <div class="paraf_form" th:text="#{restaurant.create.form.capacity}"></div>
+                            <div class="paraf_form" th:text="#{restaurant.form.capacity}"></div>
                             <label class="w-100 field_form_section">
                                 <input type="number" class="input-text validateAforo" id="aforo" th:field="*{aforo}">
                             </label>
                             <div id="validateAforo"></div>
                         </div>
                         <div class="col-lg-6">
-                            <div class="paraf_form" th:text="#{restaurant.create.form.address}"></div>
+                            <div class="paraf_form" th:text="#{restaurant.form.address}"></div>
                             <label class="w-100 field_form_section">
                                 <input type="text" max="40" class="input-text validateDireccion" id="direccion" th:field="*{direccion}">
                             </label>
@@ -64,7 +64,7 @@
                     </div>
                     <div class="row mt-2">
                         <div class="col-lg-6">
-                            <div class="ps-3 paraf_form" th:text="#{restaurant.create.form.municipality}"></div>
+                            <div class="ps-3 paraf_form" th:text="#{restaurant.form.municipality}"></div>
                             <label class="w-100 field_form_section">
                                 <select class="input-text" id="municipio">
 
@@ -72,7 +72,7 @@
                             </label>
                         </div>
                         <div class="col-lg-6">
-                            <div class="ps-3 paraf_form" th:text="#{restaurant.create.form.location}"></div>
+                            <div class="ps-3 paraf_form" th:text="#{restaurant.form.location}"></div>
                             <label class="w-100 field_form_section">
                                 <select id="localidad" class="input-text validateLocalidadResponse" th:field="*{localidad}" required>
 
@@ -83,13 +83,13 @@
                     </div>
                     <div class="row mt-2">
                         <div class="col-lg-6">
-                            <div class="ps-3 paraf_form text-secondary" th:text="#{restaurant.create.form.longitude}"></div>
+                            <div class="ps-3 paraf_form text-secondary" th:text="#{restaurant.form.longitude}"></div>
                             <label class="w-100 field_form_section">
                                 <input type="number" step="any" id="longitud" class="input-text text-secondary" name="longitud" readonly>
                             </label>
                         </div>
                         <div class="col-lg-6">
-                            <div class="ps-3 paraf_form text-secondary" th:text="#{restaurant.create.form.latitude}"></div>
+                            <div class="ps-3 paraf_form text-secondary" th:text="#{restaurant.form.latitude}"></div>
                             <label class="w-100 field_form_section">
                                 <input type="number" step="any" id="latitud" class="input-text text-secondary" name="latitud" readonly>
                             </label>
@@ -106,7 +106,7 @@
                         </div>
                     </div>
                     <div class="row mt-2">
-                        <div class="ps-3 paraf_form" th:text="#{restaurant.create.form.image}"></div>
+                        <div class="ps-3 paraf_form" th:text="#{restaurant.form.image}"></div>
                         <label class="w-100 field_form_principal">
                             <input class="input-text validateImagenResponse" id="image" name="image" type="file" maxlength="80" placeholder="URL" required>
                         </label>
@@ -116,8 +116,8 @@
                 <div class="d-flex justify-content-center">
                     <div class="mb-3 p-0 w-80">
                         <div class="w-100 d-flex flex-row gap-4">
-                            <div class="text-center ps-3 paraf_form w-50" th:text="#{restaurant.create.form.tags}"></div>
-                            <div class="text-center ps-3 paraf_form w-50" th:text="#{restaurant.create.form.results}"></div>
+                            <div class="text-center ps-3 paraf_form w-50" th:text="#{restaurant.form.tags}"></div>
+                            <div class="text-center ps-3 paraf_form w-50" th:text="#{restaurant.form.results}"></div>
                         </div>
                         <div class="w-100 d-flex flex-row gap-4 border-10px" th:if="${etiquetas}!=null">
                             <label class="field_form_section w-50">
@@ -133,7 +133,7 @@
                 </div>
                 <!-- BOX OF ETIQUETAS SELECTED -->
                 <div class="field_form_section align-self-center width-responsive-50">
-                    <div class="text-center paraf_form" th:text="#{restaurant.create.form.tags.selected}"></div>
+                    <div class="text-center paraf_form" th:text="#{restaurant.form.tags.selected}"></div>
                     <section class="h-100 d-flex flex-row flex-wrap gap-5 p-4 h-auto validateEtiquetasResponse" id="etiquetas_box">
 
                     </section>
@@ -149,7 +149,7 @@
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
 <script th:src="@{/js/headerv2.js}"></script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBCKiIqCdZGrVxx06LSbe7uG3zXOq1Cz5k&callback=myMap"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBCKiIqCdZGrVxx06LSbe7uG3zXOq1Cz5k&callback=myMap"></script>
 <script th:inline="javascript">
     /*<![CDATA[*/
 
@@ -176,6 +176,7 @@
 
     /*]]>*/
 </script>
+    <script th:src="@{/js/etiquetas.js}"></script>
     <script th:src="@{/js/restaurante_create.js}"></script>
     <script th:src="@{/js/hide_messages.js}"></script>
 </body>
