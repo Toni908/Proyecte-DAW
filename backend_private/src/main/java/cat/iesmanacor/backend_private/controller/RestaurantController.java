@@ -72,7 +72,7 @@ public class RestaurantController {
             model.addAttribute("restaurantesUser", restaurantService.findRestaurantByUseracount(useracount.getId_user()));
             model.addAttribute("ImgImages", imagesIsEmpties(useracount));
             model.addAttribute("user", useracount);
-            return "listRestaurants";
+            return "lista_restaurants";
         }
         return "redirect:/error/401";
     }
@@ -292,7 +292,7 @@ public class RestaurantController {
                         updateRestaurant(restaurant.get());
                         if (validation) {
                             if (useracount.getCorreo()!=null) {
-//                                emailService.sendSimpleMessage(useracount.getCorreo(), "Validacion " + restaurant.get().getNombre(), "El restaurante " + restaurant.get().getNombre() + " acaba de ser validado por un administrador, ahora mismo ya puede ser visible para todos los usuarios, para realizar algun cambio por si aun no lo has hecho http://restaurantemallorca.me:8080/restaurant/update/" + restaurant.get().getId_restaurante() + " , para mas info visite a la pestaña de preguntas.");
+                                emailService.sendSimpleMessage(useracount.getCorreo(), "Validacion " + restaurant.get().getNombre(), "El restaurante " + restaurant.get().getNombre() + " acaba de ser validado por un administrador, ahora mismo ya puede ser visible para todos los usuarios, para realizar algun cambio por si aun no lo has hecho http://restaurantemallorca.me:8080/restaurant/update/" + restaurant.get().getId_restaurante() + " , para mas info visite a la pestaña de preguntas.");
                             }
                         }
                     }
@@ -314,7 +314,7 @@ public class RestaurantController {
             if (useracount.isAdmin()) {
                 model.addAttribute("restaurantes", restaurantService.findAllRestaurants());
                 model.addAttribute("updateRestaurant", new Restaurant());
-                return "restaurantesAdmin";
+                return "restaurantes_admin";
             }
         }
         return "redirect:/error/401";
