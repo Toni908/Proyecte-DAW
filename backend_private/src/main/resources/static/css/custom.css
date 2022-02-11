@@ -18404,3 +18404,7 @@ $color-seach: black;
 .z-index1 {
   z-index: 1;
 }
+
+.background-color-general {
+  background-color: #9A616D !important;
+}

@@ -60,6 +60,8 @@ $font-sizes: map-merge($font-sizes, $personal-fonts);
 @import "header.scss";
 @import "principalPage.scss";
 
+$general-color: #9A616D;
+
 //Estils Personalitzats General
 .object-cover {
   object-fit: cover;
@@ -133,4 +135,8 @@ $font-sizes: map-merge($font-sizes, $personal-fonts);
 }
 .z-index1 {
   z-index: 1;
+}
+
+.background-color-general {
+  background-color: $general-color !important;
 }

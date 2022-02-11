@@ -47,11 +47,11 @@
                                 Estos son los datos generales del tu usuario, como podria ser el nombre, y los apellidos, el  movil.
                                 <a class="text-decoration-none text-danger">Ten encuenta que se te quitara la session y tendras que volver a iniciar session.</a>
                             </p>
-                            <div class="ps-3 text-lg-start text-center">Nombre Usuario:</div>
+                            <div class="ps-3 text-lg-start text-center" th:text="#{hello}">Nombre Usuario:</div>
                             <label class="w-100">
-                                <input type="text" class="input-text validateNameResponse" th:field="*{nombre_usuario}">
+                                <input type="text" class="input-text validateNameUsuarioResponse" th:field="*{nombre_usuario}">
                             </label>
-                            <div id="validateNameResponse"></div>
+                            <div id="validateNameUsuarioResponse"></div>
                             <div class="container pt-3 m-0 w-100 px-0">
                                 <div class="row">
                                     <div class="col-sm p-0">
@@ -70,10 +70,9 @@
                                     </div>
                                     <div class="col-sm p-0">
                                         <label class="w-100 pe-2 ps-3">
-                                            Ultimo Apellido:
+                                            Ultimo Apellido(Optional):
                                             <input type="text" class="input-text validateApellido2" th:field="*{apellido2}">
                                         </label>
-                                        <div id="validateApellido2"></div>
                                     </div>
                                 </div>
                             </div>
@@ -180,6 +179,7 @@
                                             Actual Contraseña:
                                             <input type="password" class="input-text" id="password_actual" name="password_actual">
                                         </label>
+                                        <div class="password_actual"></div>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -188,12 +188,14 @@
                                             Contraseña a cambiar:
                                             <input type="password" class="input-text" id="password_change" name="password_change">
                                         </label>
+                                        <div class="password_change"></div>
                                     </div>
                                     <div class="col-sm p-0">
                                         <label class="w-100 pe-2 ps-3">
                                             Confirmar Contraseña a cambiar:
                                             <input type="password" class="input-text" id="password_change_confirm" name="password_change_confirm">
                                         </label>
+                                        <div class="password_change_confirm"></div>
                                     </div>
                                 </div>
                             </section>
@@ -206,7 +208,7 @@
             </section>
         </section>
     </form>
-    <form th:if="${hascode}==true" id="recuperar" onsubmit="return password()" class="d-flex flex-row justify-content-center mb-5" th:action="@{/user/password}" method="POST">
+    <form th:if="${hascode}==true" id="recuperar" class="d-flex flex-row justify-content-center mb-5" th:action="@{/user/password}" method="POST">
         <section class="d-flex flex-column justify-content-center body-info">
             <section class="pt-5">
                 <h3 class="title_section-info">Recuperar Contraseña</h3>
@@ -237,6 +239,7 @@
                                             Codigo verificacion:
                                             <input type="text" class="text-center input-text" id="codigo_email" name="codigo_email">
                                         </label>
+                                        <div class="codigo_email"></div>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -245,12 +248,14 @@
                                             Contraseña a cambiar:
                                             <input type="password" class="input-text" id="password_change_recuperar" name="password_change_recuperar">
                                         </label>
+                                        <div class="password_change_recuperar"></div>
                                     </div>
                                     <div class="col-sm p-0">
                                         <label class="w-100 pe-2 ps-3">
                                             Confirmar Contraseña a cambiar:
                                             <input type="password" class="input-text" id="password_change_confirm_recuperar" name="password_change_confirm_recuperar">
                                         </label>
+                                        <div class="password_change_confirm_recuperar"></div>
                                     </div>
                                 </div>
                                 <div class="d-flex flex-row justify-content-center pt-4 gap-2">
@@ -270,23 +275,7 @@
 <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
 <script th:src="@{/js/headerv2.js}"></script>
 <script th:src="@{/js/asideVersionScroll.js}"></script>
-<script>
-
-    function correo() {
-        return true;
-    }
-
-    function password() {
-        return true;
-    }
-
-    function changepassword() {
-        return true;
-    }
-
-    function changepasswords() {
-        return true;
-    }
-</script>
+<script th:src="@{/js/hide_messages.js}"></script>
+<script th:src="@{/js/user_update.js}"></script>
 </body>
 </html>

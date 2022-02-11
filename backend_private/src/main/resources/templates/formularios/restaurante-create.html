@@ -10,10 +10,8 @@
 </head>
 <body class="bg-black">
 <header th:insert="shared/headerVersion1 :: header" class="sticky-top top-0"></header>
-<div th:insert="shared/missage :: messages"></div>
-
-<div id="error" class="message_error"></div>
-
+<div th:if="${error}!=null" th:text="${error}" class="message_error"></div>
+<div th:if="${success}!=null" th:text="${success}" class="message_success"></div>
 <main class="d-flex flex-row justify-content-center bg-white pb-5">
     <form onsubmit="return validate()" id="formRestaurant" class="container form-container" th:action="@{/restaurant/save}" method="POST" enctype="multipart/form-data" th:object="${restaurant}">
         <div class="title_form">
@@ -151,5 +149,6 @@
 <script th:src="@{/js/headerv2.js}"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBCKiIqCdZGrVxx06LSbe7uG3zXOq1Cz5k&callback=myMap"></script>
 <script th:src="@{/js/restaurante_create.js}"></script>
+<script th:src="@{/js/hide_messages.js}"></script>
 </body>
 </html>
