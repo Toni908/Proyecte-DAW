@@ -36,6 +36,8 @@ $personal-fonts: (
         7: $font-size-base * .75
 );
 
+$spinner-border-width:    1em;
+
 //merge the maps
 
 $theme-colors: map-merge($theme-colors,$colors-personalitzats);

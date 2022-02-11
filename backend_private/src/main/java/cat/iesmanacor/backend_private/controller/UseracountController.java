@@ -1,6 +1,5 @@
 package cat.iesmanacor.backend_private.controller;
 
-import cat.iesmanacor.backend_private.componentes.User;
 import cat.iesmanacor.backend_private.entities.Password_recuperar;
 import cat.iesmanacor.backend_private.entities.Useracount;
 import cat.iesmanacor.backend_private.entityDTO.UseracountDTO;
@@ -47,7 +46,6 @@ public class UseracountController {
     @GetMapping("/user")
     public String user(ModelMap model, HttpServletRequest request){
         Useracount useracount = getUser(request);
-
         if (isUserCorrect(useracount,useracountService)) {
             Optional<Useracount> useracountDDBB = useracountService.findUseracountById(useracount.getId_user());
             if (useracountDDBB.isPresent()) {
@@ -146,19 +144,17 @@ public class UseracountController {
         if (password_recuperar.isPresent()) {
             Optional<Useracount> useracount = useracountService.findUseracountById(password_recuperar.get().getUseracount().getId_user());
             if (useracount.isPresent()) {
-                if (password_recuperar.get().getUseracount().getDni().equals(dni)) {
-                    if (password_recuperar.get().getUseracount().getNombre_usuario().equals(nombre_usuario)) {
-                        if (password.equals(password_confirm)) {
-                            final String encrypted = BCrypt.hashpw(password, BCrypt.gensalt());
-                            useracount.get().setPassword(encrypted);
-                            useracountService.updateUseracount(useracount.get());
-                            password_recuperarService.delete(code);
-                            session.invalidate();
-                            return "redirect:/login";
-                        } else {
-                            model.addAttribute("error", "La contraseñas no coiciden");
-                            return "recuperar";
-                        }
+                if (password_recuperar.get().getUseracount().getDni().equals(dni) && password_recuperar.get().getUseracount().getNombre_usuario().equals(nombre_usuario)) {
+                    if (password.equals(password_confirm)) {
+                        final String encrypted = BCrypt.hashpw(password, BCrypt.gensalt());
+                        useracount.get().setPassword(encrypted);
+                        useracountService.updateUseracount(useracount.get());
+                        password_recuperarService.delete(code);
+                        session.invalidate();
+                        return "redirect:/login";
+                    } else {
+                        model.addAttribute("error", "La contraseñas no coiciden");
+                        return "recuperar";
                     }
                 }
                 model.addAttribute("error", "Credenciales no coiciden");
@@ -177,7 +173,9 @@ public class UseracountController {
             if (useracount.size()==1) {
                 if (password_recuperarService.findByUseracount(useracount.get(0).getId_user()).isEmpty()) {
                     BigInteger generateCode = generateCode(useracount.get(0));
-                    emailService.sendMessageWithAttachment("militaxx98@gmail.com", "Recuperar contraseña", email_actual, generateCode);
+                    System.out.println("Enviado el correo a "+useracount.get(0).getCorreo());
+                    emailService.sendMessageWithAttachment(useracount.get(0).getCorreo(), "Recuperar contraseña",  email_actual, generateCode);
+//                    emailService.sendMessageWithAttachment("militaxx98@gmail.com", "Recuperar contraseña", email_actual, generateCode);
                     model.addAttribute("hasSend",true);
                     model.addAttribute("success","Se envio un correo con el codigo");
                 } else {
@@ -195,10 +193,13 @@ public class UseracountController {
 
     @Transactional
     @RequestMapping("/regererar/code")
-    public String regenerarCode(@RequestParam("email_actual") String email_actual) {
-        List<Useracount> useracount = useracountService.findUseracountsByEmail(email_actual);
+    public String regenerarCode(@RequestParam("email") String email, ModelMap model) {
+        List<Useracount> useracount = useracountService.findUseracountsByEmail(email);
         if (!useracount.isEmpty()) {
             password_recuperarService.deleteCodesFromUseracount(useracount.get(0).getId_user());
+            codeSend(email,model);
+        } else {
+            model.addAttribute("error","No se encontro ningun codigo relacionado con el correo");
         }
         return "recuperar";
     }
@@ -222,7 +223,8 @@ public class UseracountController {
             Optional<Useracount> useracount = useracountService.findUseracountById(userVerify.getId_user());
             if (useracount.isPresent()) {
                 BigInteger generateCode = generateCode(useracount.get());
-                emailService.sendMessageWithAttachment("militaxx98@gmail.com", "Recuperar contraseña del usuario" + useracount.get().getNombre_usuario(), useracount.get().getCorreo(),generateCode);
+                System.out.println("Enviado el correo a "+useracount.get().getCorreo());
+                emailService.sendMessageWithAttachment(useracount.get().getCorreo(), "Recuperar contraseña del usuario" + useracount.get().getNombre_usuario(), useracount.get().getCorreo(),generateCode);
                 model.addAttribute("hascode",password_recuperarService.findByUseracount(useracount.get().getId_user()).isEmpty());
                 model.addAttribute("success","Se le a enviado un correo a "+useracount.get().getCorreo());
                 model.addAttribute("user", useracount.get());

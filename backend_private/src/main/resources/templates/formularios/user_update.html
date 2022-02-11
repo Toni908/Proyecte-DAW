@@ -32,7 +32,7 @@
         </div>
     </aside>
     <form class="d-flex flex-row justify-content-center" onsubmit="return validateGeneral()" th:action="@{/user/put}" method="POST" th:object="${user}">
-        <main class="d-flex flex-column justify-content-center body-info">
+        <section class="d-flex flex-column justify-content-center body-info">
             <section class="pt-5">
                 <h3 class="title_section-info">Mi Usuario</h3>
                 <div class="d-flex flex-row justify-content-center pt-2">
@@ -96,10 +96,10 @@
                     </div>
                 </div>
             </section>
-        </main>
+        </section>
     </form>
     <section  id="modificables" class="d-flex flex-row justify-content-center">
-        <main class="d-flex flex-column justify-content-center body-info">
+        <section class="d-flex flex-column justify-content-center body-info">
             <section class="pt-5">
                 <h3 class="title_section-info">Informacion No Modificables</h3>
                 <div class="d-flex flex-row justify-content-center pt-2">
@@ -159,10 +159,10 @@
                     </div>
                 </div>
             </section>
-        </main>
+        </section>
     </section>
     <form id="changepassword" onsubmit="return changepassword()" class="d-flex flex-row justify-content-center mb-5" th:action="@{/user/changepassword}" method="POST">
-        <main class="d-flex flex-column justify-content-center body-info">
+        <section class="d-flex flex-column justify-content-center body-info">
             <section class="pt-5">
                 <h3 class="title_section-info">Cambiar Contraseña</h3>
                 <div class="d-flex flex-row justify-content-center">
@@ -204,10 +204,10 @@
                     </div>
                 </div>
             </section>
-        </main>
+        </section>
     </form>
     <form th:if="${hascode}==true" id="recuperar" onsubmit="return password()" class="d-flex flex-row justify-content-center mb-5" th:action="@{/user/password}" method="POST">
-        <main class="d-flex flex-column justify-content-center body-info">
+        <section class="d-flex flex-column justify-content-center body-info">
             <section class="pt-5">
                 <h3 class="title_section-info">Recuperar Contraseña</h3>
                 <div class="d-flex flex-row justify-content-center">
@@ -221,10 +221,10 @@
                     </div>
                 </div>
             </section>
-        </main>
+        </section>
     </form>
     <form th:if="${hascode}==false" id="recuperar" onsubmit="return password()" class="d-flex flex-row justify-content-center mb-5" th:action="@{/user/recuperar}" method="POST">
-        <main class="d-flex flex-column justify-content-center body-info">
+        <section class="d-flex flex-column justify-content-center body-info">
             <section class="pt-5">
                 <h3 class="title_section-info">Recuperar Contraseña</h3>
                 <div class="d-flex flex-row justify-content-center">
@@ -253,15 +253,16 @@
                                         </label>
                                     </div>
                                 </div>
-                                <div class="d-flex flex-row justify-content-center pt-4">
+                                <div class="d-flex flex-row justify-content-center pt-4 gap-2">
                                     <button type="submit" class="btn btn-dark">Comprovar</button>
+                                    <a href="/recuperar" class="btn btn-dark">Regenerar</a>
                                 </div>
                             </section>
                         </div>
                     </div>
                 </div>
             </section>
-        </main>
+        </section>
     </form>
 </main>
 <footer th:insert="shared/footer :: footer"></footer>

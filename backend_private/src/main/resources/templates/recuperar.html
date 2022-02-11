@@ -71,20 +71,27 @@
             <div class="row g-0 m-auto w-100">
               <div class="col-md-6 col-lg-7 d-flex align-items-center w-100">
                 <div class="card-body p-4 p-lg-5 text-black w-100">
-                  <form th:if="${hasSend}==null" class="w-100" method="post" th:action="@{/send/code}">
+
+                  <form id="sendCode" th:if="${hasSend}==null" class="w-100" method="post" th:action="@{/send/code}">
                     <div class="d-flex align-items-center mb-3 pb-1">
                       <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
                       <span class="h1 fw-bold mb-0">Recuperacion Contraseña</span>
                     </div>
-
+                    <div class="spinner w-100 text-center position-fixed" style="display: none;top: 30%; left: 0">
+                      <div class="spinner-border fs-3" style="width: 6em; height: 6em" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                      </div>
+                    </div>
                     <!-- One "tab" for each step in the form: -->
                     <div class="tab form-outline mb-4">Correo:
                       <p><input placeholder="Correo..." type="email" id="email_actual" name="email_actual" class="form-control form-control-lg" oninput="this.className = ''"></p>
                     </div>
-                    <div class="text-center form-outline mb-4" style="width: min-content">
-                      <input type="submit" class="btn btn-dark" value="Enviar Codigo">
+                    <div class="text-center form-outline my-4 d-flex flex-row justify-content-start gap-2" style="width: min-content">
+                      <input type="button" onclick="showSpinner()" class="btn btn-dark" value="Enviar Codigo">
+                      <a type="button" class="btn btn-secondary" th:href="@{/recuperar/send}">Continuar</a>
                     </div>
                   </form>
+
                   <form th:if="${hasSend}==true" class="w-100" method="post" th:action="@{/recuperar/password}">
                     <div class="d-flex align-items-center mb-3 pb-1">
                       <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
@@ -93,30 +100,23 @@
                     <div class="tab form-outline mb-4">Codigo del Correo:
                       <p><input type="number" id="code" name="code" class="form-control form-control-lg" placeholder="Codigo..." oninput="this.className = ''"></p>
                     </div>
-
                     <div class="tab form-outline mb-4">Nombre Usuario:
                       <p><input type="text" id="nombre_usuario" name="nombre_usuario" class="form-control form-control-lg" placeholder="Nombre Usuario..." oninput="this.className = ''"></p>
                     </div>
-
                     <div class="tab">DNI:
                       <p><input type="text" name="dni" id="dni" class="form-control form-control-lg" placeholder="DNI..." oninput="this.className = ''"></p>
                     </div>
-
                     <div class="tab form-outline mb-4">Nueva Contraseña:
-                      <p><input type="number" id="password" name="password" class="form-control form-control-lg" placeholder="Password..." oninput="this.className = ''"></p>
+                      <p><input type="password" id="password" name="password" class="form-control form-control-lg" placeholder="Password..." oninput="this.className = ''"></p>
                     </div>
 
                     <div class="tab form-outline mb-4">Confirmar Nueva Contraseña:
-                      <p><input type="text" id="password_confirm" name="password_confirm" class="form-control form-control-lg" placeholder="Password Confirm..." oninput="this.className = ''"></p>
+                      <p><input type="password" id="password_confirm" name="password_confirm" class="form-control form-control-lg" placeholder="Password Confirm..." oninput="this.className = ''"></p>
                     </div>
-
-                    <div th:if="${hasSend}==true" style="overflow:auto;">
-                      <div style="float:right;">
-                        <button type="button" id="prevBtn" onclick="nextPrev(-1)">Volver</button>
-                        <button type="button" id="nextBtn" onclick="nextPrev(1)">Siguiente</button>
-                      </div>
+                    <div th:if="${hasSend}==true" class="overflow-auto w-100 d-flex flex-row justify-content-between">
+                      <button type="button" class="btn btn-outline-diw" id="prevBtn" onclick="nextPrev(-1)">Volver</button>
+                      <button type="button" class="btn btn-outline-diw" id="nextBtn" onclick="nextPrev(1)">Siguiente</button>
                     </div>
-
                     <!-- Circles which indicates the steps of the form: -->
                     <div style="text-align:center;margin-top:40px;">
                       <span class="step"></span>
@@ -124,23 +124,34 @@
                       <span class="step"></span>
                       <span class="step"></span>
                     </div>
-
                   </form>
-                  <form th:if="${hasSend}==false" th:action="@{/regererar/code}">
+
+                  <form id="regenerateCode" th:if="${hasSend}==false" th:action="@{/regererar/code}">
                     <div class="d-flex align-items-center mb-3 pb-1">
                       <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
                       <span class="h1 fw-bold mb-0">Recuperacion Contraseña</span>
                     </div>
-                    <p>Ya se encuentra un codigo enlazado con el correo, para cambiar el correo pulsa regenerar, con el correo insertado</p>
-
-                    <div class="tab form-outline mb-4">Correo:
-                      <p><input placeholder="Correo..." type="email" id="email_actual" name="email_actual" class="form-control form-control-lg" oninput="this.className = ''"></p>
+                    <p>Ya se encuentra un codigo enlazado con el correo, para cambiar el correo pulsa regenerar, con el correo insertado. Pulsa continuar para continuar con la recuperacion de contraseña.</p>
+                    <div class="spinner w-100 text-center position-fixed" style="display: none;top: 30%; left: 0">
+                      <div class="spinner-border fs-3" style="width: 6em; height: 6em" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                      </div>
                     </div>
                     <div class="text-center form-outline mb-4">
-                      <button type="submit" class="btn btn-secondary mt-3">Regenerar</button>
                       <a type="button" class="btn btn-secondary mt-3" th:href="@{/recuperar/send}">Continuar</a>
                     </div>
                   </form>
+
+
+                  <form id="1" th:if="${hasSend}==true" method="post" th:action="@{/regererar/code}">
+                    <div class="form-outline mb-4">Regenerar codigo del Correo:
+                      <p><input placeholder="Correo..." type="email" id="email" name="email" class="form-control form-control-lg"></p>
+                    </div>
+                    <div class="text-center form-outline mb-4">
+                      <button type="button" onclick="showSpinner1()" class="btn btn-secondary mt-3">Regenerar</button>
+                    </div>
+                  </form>
+
                 </div>
               </div>
             </div>
@@ -151,6 +162,7 @@
   </section>
 </main>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/js/jquery-3.6.0.min.js}"></script>
 <script>
   var currentTab = 0; // Current tab is set to be the first tab (0)
   showTab(currentTab); // Display the current tab
@@ -225,6 +237,21 @@
     }
     //... and adds the "active" class to the current step:
     x[n].className += " active";
+  }
+
+  function showSpinner(){
+    $(".spinner").css("display","block");
+    setTimeout(function (){$("#sendCode").submit()},1500);
+  }
+
+  function showSpinnerRegenerate(){
+    $(".spinner").css("display","block");
+    setTimeout(function (){$("#regenerateCode").submit()},1500);
+  }
+
+  function showSpinner1(){
+    $(".spinner").css("display","block");
+    setTimeout(function (){$("#1").submit()},1500);
   }
 </script>
 </body>
