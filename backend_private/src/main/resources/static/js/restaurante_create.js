@@ -1,15 +1,15 @@
-var selectEtiqueta = $("#selectEtiquetas");
-var numEtiquetas = 7;
-var etiquetasAdded = [];
+let selectEtiqueta = $("#selectEtiquetas");
+let numEtiquetas = 7;
+let etiquetasAdded = [];
 
-var error = $("#error");
-var municipios = $("#municipio");
-var selectEtiquetas = $('#selectEtiquetas');
-var createEtiqueta = $("#create_etiqueta");
+let error = $("#error");
+let municipios = $("#municipio");
+let selectEtiquetas = $('#selectEtiquetas');
+let createEtiqueta = $("#create_etiqueta");
 
 error.hide();
 
-selectEtiqueta.append("<option selected><-- Buscador</option>");
+selectEtiqueta.append("<option selected>"+traductions.buscador+"</option>");
 createEtiqueta.attr("type","hidden");
 selectEtiqueta.show();
 
@@ -42,10 +42,11 @@ function searchEtiquetas(etiquetaSearched) {
             selectEtiquetas.hide();
             $("#create_etiqueta").attr("type","button");
         } else {
-            $("#selectEtiquetas").prepend("<option selected value='null'>Find "+length+" occurences</option>");
+            $("#selectEtiquetas").prepend("<option selected value='null'>"+traductions.encontrados+" "+length+" "+traductions.ocurrencias+"</option>");
         }
     });
 }
+
 function addEtiqueta(value) {
     let selectText = $("#selectText");
     if (numEtiquetas!==0) {
@@ -57,17 +58,17 @@ function addEtiqueta(value) {
                         etiquetasAdded.push(selectText.val());
                         numEtiquetas--;
                     } else {
-                        error.text("Etiqueta too short");
+                        error.text(traductions.short);
                         error.show();
                         setTimeout(function() {$("#error").hide()}, 1200);
                     }
                 } else {
-                    error.text("Etiqueta too long");
+                    error.text(traductions.long);
                     error.show();
                     setTimeout(function() {$("#error").hide()}, 1200);
                 }
             } else {
-                error.text("Etiqueta already added");
+                error.text(traductions.added);
                 error.show();
                 setTimeout(function() {$("#error").hide()}, 1200);
             }
@@ -79,25 +80,25 @@ function addEtiqueta(value) {
                         etiquetasAdded.push(value);
                         numEtiquetas--;
                     } else {
-                        error.text("Etiqueta too short");
+                        error.text(traductions.short);
                         error.show();
                         setTimeout(function () {
                             $("#error").hide()
                         }, 1200);
                     }
                 } else {
-                    error.text("Etiqueta too long");
+                    error.text(traductions.long);
                     error.show();
                     setTimeout(function() {$("#error").hide()}, 1200);
                 }
             } else {
-                error.text("Etiqueta already added");
+                error.text(traductions.added);
                 error.show();
                 setTimeout(function() {$("#error").hide()}, 1200);
             }
         }
     } else {
-        error.text("Max length is 7 for etiquetas");
+        error.text(traductions.max);
         error.show();
         setTimeout(function() {$("#error").hide()}, 1200);
     }
@@ -123,7 +124,7 @@ $.getJSON("/get/municipios/admin/json", function (data) {
     $.each(data, function (key, object) {
         $("#municipio").append("<option value='" + key + "'>" + object.nombre_municipio + "</option>")
     });
-    municipios.prepend("<option value='' selected>-- Municipios --</option>");
+    municipios.prepend("<option value='' selected>"+traductions.municipality+"</option>");
 });
 
 // MUNICIPIO Y LOCALIDADES
@@ -136,7 +137,7 @@ municipios.on('change', function () {
 function showLocalidades() {
     let municipioSelected = $("#municipio option:selected").text();
 
-    if (municipioSelected!=="-- Municipios --") {
+    if (municipioSelected!==traductions.municipality) {
         $.getJSON("/get/localidades/admin/json", function (dataLocalidad) {
             $("#localidad").empty();
             $.each(dataLocalidad, function (key, object) {
@@ -152,7 +153,7 @@ function showLocalidades() {
 
 function hideLocalidad() {
     $("#localidad").empty();
-    $("#localidad").append("<option value=\"\"><-Seleciona antes un Municipio</option>")
+    $("#localidad").append("<option value=\"\">"+traductions.selectM+"</option>")
 }
 
 function validate() {
@@ -163,49 +164,49 @@ function validate() {
     if (!checkNamePattern()) {
         errors++;
         $(".validateNameResponse").addClass("border border-danger border-2")
-        $("#validateNameResponse").append("<p class='text-danger fw-bold pt-2'>El nombre no puede contener numberos y tiene que ser minuscula menos la primera letra</p>");
+        $("#validateNameResponse").append("<p class='text-danger fw-bold pt-2'>"+traductions.formName+"</p>");
     } else {
         $(".validateNameResponse").addClass("border border-success border-2")
     }
     if ($("#telefono_restaurante").val()==="0") {
         errors++;
         $(".validateTelefonoResponse").addClass("border border-danger border-2")
-        $("#validateTelefonoResponse").append("<p class='text-danger fw-bold pt-2'>No has selecionado ningun telefono</p>");
+        $("#validateTelefonoResponse").append("<p class='text-danger fw-bold pt-2'>"+traductions.formPhone+"</p>");
     } else {
         $(".validateTelefonoResponse").addClass("border border-success border-2")
     }
     if ($("#localidad option:selected").text()==="<-Seleciona antes un Municipio") {
         errors++;
         $(".validateLocalidadResponse").addClass("border border-danger border-2")
-        $("#validateLocalidadResponse").append("<p class='text-danger fw-bold pt-2'>No has selecionado ninguna localidad</p>");
+        $("#validateLocalidadResponse").append("<p class='text-danger fw-bold pt-2'>"+traductions.formLocation+"</p>");
     } else {
         $(".validateLocalidadResponse").addClass("border border-success border-2")
     }
     if ($("#image").val()==="") {
         errors++;
         $(".validateImagenResponse").addClass("border border-danger border-2")
-        $("#validateImagenResponse").append("<p class='text-danger fw-bold pt-2'>Se requiere de minimo una imagen</p>");
+        $("#validateImagenResponse").append("<p class='text-danger fw-bold pt-2'>"+traductions.formImage+"</p>");
     } else {
         $(".validateImagenResponse").addClass("border border-success border-2")
     }
     if ($("input[name=etiquetas]").length===0) {
         errors++;
         $(".validateEtiquetasResponse").addClass("border border-danger border-2")
-        $("#validateEtiquetasResponse").append("<p class='text-danger fw-bold pt-2 text-center w-100'>Necesitas selecionar una etiqueta como minimo</p>");
+        $("#validateEtiquetasResponse").append("<p class='text-danger fw-bold pt-2 text-center w-100'>"+traductions.formTag+"</p>");
     } else {
         $(".validateEtiquetasResponse").addClass("border border-success border-2")
     }
     if ($("#direccion").val()==="") {
         errors++;
         $(".validateDireccion").addClass("border border-danger border-2")
-        $("#validateDireccion").append("<p class='text-danger fw-bold pt-2 text-center w-100'>Necesitas selecionar una direccion como minimo</p>");
+        $("#validateDireccion").append("<p class='text-danger fw-bold pt-2 text-center w-100'>"+traductions.formAddress+"</p>");
     } else {
         $(".validateDireccion").addClass("border border-success border-2")
     }
     if ($("#aforo").val()==="" || $("#aforo").val()===0) {
         errors++;
         $(".validateAforo").addClass("border border-danger border-2")
-        $("#validateAforo").append("<p class='text-danger fw-bold pt-2 text-center w-100'>Necesitas selecionar un aforo de 1 como minimo</p>");
+        $("#validateAforo").append("<p class='text-danger fw-bold pt-2 text-center w-100'>"+traductions.formCapacity+"</p>");
     } else {
         $(".validateAforo").addClass("border border-success border-2")
     }
@@ -214,9 +215,8 @@ function validate() {
     if (latitud.val()==null || longitud.val()==null) {
         errors++;
         $("#miGoogleMap").addClass("border border-danger border-2")
-        $(".googleMaps").append("<p class='text-danger fw-bold pt-2 text-center w-100'>Necesitas selecionar una posicion en el mapa/p>");
+        $(".googleMaps").append("<p class='text-danger fw-bold pt-2 text-center w-100'>"+traductions.formMap+"</p>");
     }
-    console.log(latitud.val()+" --- "+longitud.val())
     return errors===0;
 }
 function checkNamePattern(){
@@ -228,8 +228,7 @@ var latitud = $("#latitud");
 var longitud = $("#longitud");
 // GOOGLE MAPS
 
-myMap();
-function myMap() {
+$(document).ready(function() {
     var mapProp= {
         center:new google.maps.LatLng(39.59939, 2.98024),
         zoom:10,
@@ -255,4 +254,4 @@ function myMap() {
     google.maps.event.addListener(map, 'click', function(event) {
         placeMarker(event.latLng);
     });
-}
+});
