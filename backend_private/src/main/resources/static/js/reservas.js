@@ -64,7 +64,7 @@ function activeTheFirstIfExist() {
             createDataTable(data);
         });
     } else {
-        $("#table").append("<h1 class='title_principal text-center'>No hay restaurantes creados para ver las reservas, <a href='/restaurant/create' class='z-index1 text-success fw-bold'>crea uno ahora</a></h1>")
+        $("#table").append("<h1 class='title_principal text-center'>"+traducciones.noRestaurant+"<a href='/restaurant/create' class='z-index1 text-success fw-bold'>"+traducciones.noRestaurantRed+"</a></h1>")
     }
 }
 
@@ -142,7 +142,7 @@ function createDataTable(data) {
                 customize: function ( win ) {
                     $(win.document.body)
                         .prepend(
-                            '<p style="position:absolute; top:0; left:0; font-size: 50px; opacity: 0.05" >'+title.text()+" del dia "+titleTime.text()+'</p>'
+                            '<p style="position:absolute; top:0; left:0; font-size: 50px; opacity: 0.05" >'+title.text()+" "+traducciones.delDia+" "+titleTime.text()+'</p>'
                         );
 
                     $(win.document.body).find( 'table' )
@@ -164,26 +164,7 @@ function createDataTable(data) {
             {"data": "Hora", "defaultContent": getHoraDate(fecha)},
             {"data":"correo"}
         ],
-        language: {
-            "decimal": "",
-            "emptyTable": "No hay información",
-            "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
-            "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
-            "infoFiltered": "(Filtrado de _MAX_ total entradas)",
-            "infoPostFix": "",
-            "thousands": ",",
-            "lengthMenu": "Mostrar _MENU_ Entradas",
-            "loadingRecords": "Cargando...",
-            "processing": "Procesando...",
-            "search": "Buscar:",
-            "zeroRecords": "Sin resultados encontrados",
-            "paginate": {
-                "first": "Primero",
-                "last": "Ultimo",
-                "next": "Siguiente",
-                "previous": "Anterior"
-            }
-        },
+        language: traducciones.language
     });
 }
 
@@ -203,15 +184,15 @@ $('#table tbody').on('click', 'td.dt-control', function () {
 function format ( d ) {
     return '<table cellpadding="6" cellspacing="0" border="0" class="displayColumn">'+
         '<tr>'+
-        '<td>Fecha:</td>'+
+        '<td>'+traducciones.date+'</td>'+
         '<td>'+d.fecha+'</td>'+
         '</tr>'+
         '<tr>'+
-        '<td>Telefono:</td>'+
+        '<td>'+traducciones.phone+'</td>'+
         '<td>'+d.telefono+'</td>'+
         '</tr>'+
         '<tr>'+
-        '<td>Lenguaje:</td>'+
+        '<td>'+traducciones.lang+'</td>'+
         '<td>'+d.lenguaje+'</td>'+
         '</tr>'+
         '</table>';

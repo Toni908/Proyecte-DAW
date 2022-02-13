@@ -12,10 +12,10 @@ function showTab(n) {
         document.getElementById("prevBtn").style.display = "inline";
     }
     if (n == (x.length - 1)) {
-        document.getElementById("nextBtn").innerHTML = "Submit";
+        document.getElementById("nextBtn").innerHTML = traductions.enviar;
         setTimeout(function (){document.getElementById("nextBtn").setAttribute('type','submit')},500);
     } else {
-        document.getElementById("nextBtn").innerHTML = "Next";
+        document.getElementById("nextBtn").innerHTML = traductions.siguiente;
         setTimeout(function (){document.getElementById("nextBtn").setAttribute('type','button')},500);
     }
     // ... and run a function that displays the correct step indicator:

@@ -2,9 +2,10 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>AdminSection</title>
+    <title th:text="#{restaurants.admin.meta}"></title>
   <link th:href="@{/css/custom.css}" rel="stylesheet"/>
   <link th:href="@{/css/form.css}" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css"/>
   <link rel="stylesheet" href="https://cdn.datatables.net/select/1.3.3/css/select.dataTables.min.css"/>
 </head>
@@ -13,20 +14,20 @@
 <form id="form" th:action="@{/restaurant/validation}" method="POST">
   <main class="pt-3 mx-auto w-75">
     <div id="restaurantes">
-      <h3 class="mt-5">Restaurantes</h3>
+      <h3 class="mt-5" th:text="#{restaurants.admin.title}"></h3>
       <table id="restaurant_table" class="display w-100">
         <thead class="thead-dark">
-        <th scope="row">Id</th>
-        <th scope="row">Name</th>
-        <th scope="row">Dies Anticipacion</th>
-        <th scope="row">Telefono</th>
-        <th scope="row">Validated</th>
-        <th scope="row">Aforo</th>
-        <th scope="row">Direccion</th>
-        <th scope="row">localidad</th>
-        <th scope="row">membresia</th>
-        <th scope="row">useracount</th>
-        <th scope="row">visible</th>
+        <th scope="row" th:text="#{restaurants.admin.row.id}"></th>
+        <th scope="row" th:text="#{restaurants.admin.row.name}"></th>
+        <th scope="row" th:text="#{restaurants.admin.row.days}"></th>
+        <th scope="row" th:text="#{restaurants.admin.row.phone}"></th>
+        <th scope="row" th:text="#{restaurants.admin.row.validated}"></th>
+        <th scope="row" th:text="#{restaurants.admin.row.capacity}"></th>
+        <th scope="row" th:text="#{restaurants.admin.row.address}"></th>
+        <th scope="row" th:text="#{restaurants.admin.row.locality}"></th>
+        <th scope="row" th:text="#{restaurants.admin.row.membership}"></th>
+        <th scope="row" th:text="#{restaurants.admin.row.useracount}"></th>
+        <th scope="row" th:text="#{restaurants.admin.row.visible}"></th>
         </thead>
         <tbody>
 

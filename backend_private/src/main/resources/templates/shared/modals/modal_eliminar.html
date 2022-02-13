@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Modal ELIMINAR</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
 <!-- container -->
@@ -15,15 +16,13 @@
 
                 <!-- header modal -->
 
-                <div class="modal-header">
-                    Estas seguro de que quieres eliminarlo?
-                </div>
+                <div class="modal-header" th:text="#{modal.header.delete}"></div>
 
                 <!-- body modal -->
 
                 <div class="modal-body d-flex justify-content-evenly">
-                    <button type="button" id="eliminarbutton" class="btn btn-danger text-center">Eliminar</button>
-                    <button type="button" class="btn btn-secondary text-center" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" id="eliminarbutton" class="btn btn-danger text-center" th:text="#{button.delete}"></button>
+                    <button type="button" class="btn btn-secondary text-center" data-bs-dismiss="modal" th:text="#{button.cancel}"></button>
                 </div>
             </div>
         </div>

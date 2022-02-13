@@ -9,9 +9,8 @@
 </head>
 <body>
 
-<footer class="footer w-100 mx-0 mt-5" style="position: static; bottom: 0px;">
-
-        <footer class="w-100 text-center text-white bg-black">
+<footer class="footer w-100 mx-0 mt-5">
+        <div class="w-100 text-center text-white bg-black">
             <!-- Grid container -->
             <div class="container p-4 pb-0">
                 <!-- Section: Form -->
@@ -22,7 +21,7 @@
                             <!--Grid column-->
                             <div class="col-auto">
                                 <p class="pt-2">
-                                    <strong>Apuntate para recibir nuestras noticias</strong>
+                                    <strong th:text="#{footer.message}"></strong>
                                 </p>
                             </div>
                             <!--Grid column-->
@@ -32,7 +31,7 @@
                                 <!-- Email input -->
                                 <div class="form-outline form-white mb-4">
                                     <input type="email" id="form5Example2" class="form-control" />
-                                    <label class="form-label" for="form5Example2">Email address</label>
+                                    <label class="form-label" for="form5Example2" th:text="#{footer.address}"></label>
                                 </div>
                             </div>
                             <!--Grid column-->
@@ -40,9 +39,7 @@
                             <!--Grid column-->
                             <div class="col-auto">
                                 <!-- Submit button -->
-                                <button type="submit" class="btn btn-outline-light mb-4">
-                                    Subscribe
-                                </button>
+                                <button type="submit" class="btn btn-outline-light mb-4" th:text="#{button.subscribe}"></button>
                             </div>
                             <!--Grid column-->
                         </div>
@@ -59,7 +56,7 @@
                 <a class="text-white" href="https://www.trobalo.com/">trobalo.com</a>
             </div>
             <!-- Copyright -->
-        </footer>
+        </div>
 </footer>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <script th:src="@{/js/jquery-3.6.0.min.js}"></script>

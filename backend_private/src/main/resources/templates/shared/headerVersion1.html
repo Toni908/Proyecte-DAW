@@ -2,16 +2,16 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>HEADER VERSION 2</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
 <!-- Header -->
 <header id="header1" class="w-100 bg-front m-0">
   <div class="h-100 pt-2 pb-2 margin-nav-header1">
     <nav class="h-100 navbar navbar-light p-0 d-flex justify-content-lg-end justify-content-center border-e-grey">
-      <a class="nav-link size-header1 d-lg-none d-block text-white align-self-center p-0 pe-3 ps-3" href="#">Buscadar Avanzado</a>
-      <a class="nav-link size-header1 text-white align-self-center p-0 pe-3 ps-3" href="#">Preguntas</a>
-      <a class="nav-link size-header1 text-white align-self-center p-0 pe-3 ps-3" href="#">Quien Somos?</a>
+      <a class="nav-link size-header1 text-white align-self-center p-0 pe-3 ps-3" href="#" th:text="#{header.right.question1}"></a>
+      <a class="nav-link size-header1 text-white align-self-center p-0 pe-3 ps-3" href="#" th:text="#{header.right.question2}"></a>
     </nav>
   </div>
 </header>
@@ -32,9 +32,9 @@
       </div>
       <div class="col-lg-6 d-xl-block d-none h-100 p-0">
         <nav id="navbarContent" class="h-100 d-flex flex-row justify-content-center navbar navbar-light fw-bold">
-          <a class="align-self-center p-0 pe-3 ps-3" href="/">Inicio</a>
-          <a class="align-self-center p-0 pe-3 ps-3" href="/restaurant/create">Crear Restaurante</a>
-          <a class="align-self-center p-0 pe-3 ps-3" href="/reservas">Mis Reservas</a>
+          <a class="align-self-center p-0 pe-3 ps-3" href="/" th:text="#{header.middle.start}"></a>
+          <a class="align-self-center p-0 pe-3 ps-3" href="/restaurant/create" th:text="#{header.middle.create.restaurant}"></a>
+          <a class="align-self-center p-0 pe-3 ps-3" href="/reservas" th:text="#{header.middle.bookings}"></a>
         </nav>
       </div>
       <div class="col-lg-3 col-4 d-flex flex-row justify-content-end">
@@ -42,17 +42,17 @@
         <div class="btn-group dropstart white-hover-grey">
           <a href="/login" class="dropdown-toggle text-white" id="loginDropdown" data-bs-toggle="dropdown" aria-expanded="false" role="button"><i class="bi bi-person-fill fs-3 pe-xl-5 pe-3 align-self-center"></i></a>
           <ul th:if="${session.user}!=null" class="dropdown-menu" aria-labelledby="loginDropdown">
-            <li th:if="${session.user.isAdmin()}"><a class="dropdown-item" href="/restaurante/configuration/admin">Validar Restaurantes</a></li>
-            <li><a class="dropdown-item" href="/user" th:text="'Bienvenido '+${session.user.nombre_usuario}"></a></li>
-            <li><a class="dropdown-item" href="/logout">Logout</a></li>
+            <li th:if="${session.user.isAdmin()}"><a class="dropdown-item" href="/restaurante/configuration/admin" th:text="#{header.user.admin.validation}"></a></li>
+            <li><a class="dropdown-item" href="/user" th:text="#{header.user.update}+' '+${session.user.nombre_usuario}"></a></li>
+            <li><a class="dropdown-item" href="/logout" th:text="#{header.user.logout}"></a></li>
           </ul>
         </div>
         <div class="btn-group dropstart">
           <a class="dropdown-toggle white-hover-grey" id="idiomaDropdown" data-bs-toggle="dropdown" aria-expanded="false" role="button"><i class="bi bi-globe fs-3 pe-xl-5 pe-3 align-self-center"></i></a>
           <ul class="dropdown-menu" aria-labelledby="idiomaDropdown">
-            <li><a class="dropdown-item" href="?lang=es">Castellano</a></li>
-            <li><a class="dropdown-item" href="?lang=ca">Catalan</a></li>
-            <li><a class="dropdown-item" href="?lang=en">Ingles</a></li>
+            <li><a class="dropdown-item" href="?lang=es" th:text="#{header.lang.es}"></a></li>
+            <li><a class="dropdown-item" href="?lang=ca" th:text="#{header.lang.ca}"></a></li>
+            <li><a class="dropdown-item" href="?lang=en" th:text="#{header.lang.en}"></a></li>
           </ul>
         </div>
       </div>
