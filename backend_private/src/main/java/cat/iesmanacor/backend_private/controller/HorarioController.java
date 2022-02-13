@@ -1,5 +1,6 @@
 package cat.iesmanacor.backend_private.controller;
 
+import cat.iesmanacor.backend_private.componentes.ComparaDia;
 import cat.iesmanacor.backend_private.entities.Horario;
 import cat.iesmanacor.backend_private.entities.Periodo;
 import cat.iesmanacor.backend_private.entities.Restaurant;
@@ -24,10 +25,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static cat.iesmanacor.backend_private.componentes.User.getUser;
 
@@ -215,8 +213,7 @@ public class HorarioController {
     @GetMapping("/periodo/horario/{id}")
     public String getHorario(@PathVariable(value = "id") Long id, Model model, HttpServletRequest request){
         Optional<Periodo> periodo = periodoService.findById(id);
-        List<Horario> list = new ArrayList<>();
-        List<String> strings = Arrays.asList("Lunes","Martes","Miercoles","Jueves","Viernes","Sabado","Domingo");
+        List<String> list = new ArrayList<>();
 
         Useracount user = getUser(request);
 
@@ -224,13 +221,7 @@ public class HorarioController {
             return "redirect:/error/401";
         }
 
-        for(int x = 0 ; x < 7 ; x++){
-            for(Horario hor : periodo.get().getHorarios()){
-                if(hor.getDay().equals(strings.get(x))){
-                    list.add(hor);
-                }
-            }
-        }
+        Collections.sort(periodo.get().getHorarios(), new ComparaDia());
 
         Date dateStart = periodo.get().getFecha_inicio();
         Date dateEnd = periodo.get().getFecha_fin();
