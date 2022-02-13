@@ -14,4 +14,5 @@ class CartaController extends Controller
 
         return $carta->toJson(JSON_PRETTY_PRINT);
     }
+
 }

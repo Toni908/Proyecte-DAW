@@ -5,6 +5,7 @@ import { Button, Nav } from 'react-bootstrap';
 
 import Home from "./Home";
 import BuscadorAvanzado from "./BuscadorAvanzado";
+import Buscador from "./components/components_interns/Buscador";
 import AboutUs from "./AboutUs";
 
 import './App.css';
@@ -38,19 +39,8 @@ class App extends Component {
               </div>
             </div>
           </Nav>
-          <div class="p-3 mb-3">
-            <h1 class="text-center"> Buscar Restaurante </h1>
-            <div class="d-flex bg-danger justify-content-center">
-              <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-                <select class="form-select" aria-label="Default select example">
-                  <option selected>Open this select menu</option>
-                  <option value="1">One</option>
-                  <option value="2">Two</option>
-                  <option value="3">Three</option>
-                </select>
-              </form>
-            </div>
-          </div>
+          
+          <Buscador />
                 
           <div className="content">
             <Routes>

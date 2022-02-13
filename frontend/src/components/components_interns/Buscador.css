@@ -1,0 +1,9 @@
+.inputBuscador{
+    background-color: lightgray;
+    padding-right: 50px;
+    border-radius: 6;
+}
+
+.buscarTitulo{
+    color: rgb(168,169,236);
+}

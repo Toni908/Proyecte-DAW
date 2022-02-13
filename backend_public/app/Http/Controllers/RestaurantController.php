@@ -33,6 +33,10 @@ class RestaurantController extends Controller
         return json_decode(json_encode($restaurant), true);
     }
 
+    public function showPrice(){
+        
+    }
+
 
     // HELPER FUNCTIONS
 
