@@ -11,6 +11,8 @@ use App\Http\Controllers\UseracountController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartaController;
 use App\Http\Controllers\RestaurantController;
+use App\Http\Controllers\EtiquetasController;
+use App\Http\Controllers\MunicipioController;
 use App\Models\Carta;
 
 /*
@@ -41,3 +43,9 @@ Route::get('/reserva/{id}',[ReservasController::class, 'show']);
 Route::post('/reserva',[ReservasController::class, 'reservasRestaurant']);
 
 Route::get('/horario/{id}',[HorarioController::class, 'show']);
+
+Route::get('/etiquetas',[EtiquetasController::class, 'showAll']);
+
+Route::get('/localidad',[MunicipioController::class, 'showAll']);
+
+Route::get('/prueba',[RestaurantController::class, 'showPrice']);

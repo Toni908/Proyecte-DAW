@@ -65,7 +65,7 @@
                 <div class="mb-3 p-0 text-center" style="width: 100%">
                     <div class="ps-3 paraf_form" th:text="#{dish.description}"></div>
                     <label class="w-100 field_form_principal p-0">
-                        <textarea class="input-text" id="descripcion" name="descripcion" th:text="${plato.descripcion}" required></textarea>
+                        <textarea class="input-text" id="descripcion" name="descripcion" th:text="${plato.descripcion}"></textarea>
                     </label>
                     <div th:if="${error != null && error.containsKey('descripcion')}" th:text="${error.descripcion}" class="error-validation"></div>
                 </div>

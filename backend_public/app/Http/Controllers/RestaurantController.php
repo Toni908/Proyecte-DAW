@@ -33,9 +33,26 @@ class RestaurantController extends Controller
         return json_decode(json_encode($restaurant), true);
     }
 
+    public function showPrice(){
+        $restaurant = Restaurante::select('*')
+        ->join('carta', 'carta.id_restaurante', '=', 'restaurante.id_restaurante')
+        ->where('restaurante.validated', '=', 1)
+        ->where('restaurante.visible', '=', 1)
+        ->where('carta.visible', '=', 1)
+        ->get();
+
+        return $restaurant;
+        //$restaurant = Restaurante::with('cartas')->get()->whereNotNull('id_membresia')->toArray();
+        //$restaurant = $this->fullValidationRestaurant($restaurant);
+        //return json_decode(json_encode($restaurant), true);
+    }
+
 
     // HELPER FUNCTIONS
 
+    /*public function cartas($array): ?array
+    {
+    }*/
 
     public function fullValidationRestaurant($array): ?array
     {

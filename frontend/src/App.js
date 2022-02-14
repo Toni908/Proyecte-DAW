@@ -5,6 +5,7 @@ import { Button, Nav } from 'react-bootstrap';
 
 import Home from "./Home";
 import BuscadorAvanzado from "./BuscadorAvanzado";
+import Buscador from "./components/components_interns/Buscador";
 import AboutUs from "./AboutUs";
 
 import './App.css';
@@ -38,6 +39,8 @@ class App extends Component {
               </div>
             </div>
           </Nav>
+          
+          <Buscador />
                 
           <div className="content">
             <Routes>
@@ -55,7 +58,7 @@ class App extends Component {
 
               <hr></hr>
             
-              <div class="text-center p-1">
+              <div class="text-center p-1 mb-4">
                 © 2022 Copyright: 
                 <a class="text-black" href="https://www.trobalo.com/"><a href="https://www.trobalo.com/" className="text-decoration-none text-white"> </a>trobalo.me</a>
               </div>
