@@ -45,7 +45,6 @@ public class Traductions {
     public String getTraductionLocale(HttpServletRequest request) {
         MvnConfiguration mvnConfiguration = new MvnConfiguration();
         String lang = String.valueOf(mvnConfiguration.localeResolver().resolveLocale(request));
-        System.out.println(lang);
         if (lang.equals("es")) {
             return this.spain;
         } else if (lang.equals("en")) {

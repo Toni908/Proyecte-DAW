@@ -45,7 +45,7 @@ public class ImgController {
     //////////////         ROUTES        ////////////////////
 
 
-    @RequestMapping(value = "/imagen/save",method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/imagen/save",method = RequestMethod.POST)
         public RedirectView save(@ModelAttribute @Valid Img img, BindingResult errors, RedirectAttributes model, @RequestParam("image") MultipartFile multipartFile, HttpServletRequest request) {
         if (errors.hasErrors()) {
             return new RedirectView("/error/401");
@@ -62,7 +62,7 @@ public class ImgController {
             }
             String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
 
-            if (fileName.matches("[^\\s-]")) {
+            if (fileName.matches("^[\\S]+$")) {
                 Img imgSumbited = saveImg(img);
 
                 fileName = imgSumbited.getId_img() + fileName;
@@ -71,14 +71,14 @@ public class ImgController {
                 FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
             } else {
                 Traductions traductions = new Traductions("El nombre de la imagen no debe de contener espacios","The image name must not contain spaces","El nom de la imatge no ha de contenir espais");
-                model.addAttribute("error", traductions.getTraductionLocale(request));
+                model.addFlashAttribute("error", traductions.getTraductionLocale(request));
             }
             return new RedirectView("/restaurant/update/" + img.getRestaurant().getId_restaurante(), true);
         }
         return new RedirectView("/error/401");
     }
 
-    @RequestMapping(value = "/imagen/saveMultiple",method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/imagen/saveMultiple",method = RequestMethod.POST)
     public RedirectView saveMultiple(@RequestParam("saveMultiple") List<MultipartFile> multipartFile, RedirectAttributes model, @RequestParam("idRestaurant") BigInteger id, HttpServletRequest request) {
         Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
 
@@ -88,11 +88,11 @@ public class ImgController {
                     for (MultipartFile url : multipartFile) {
                         if (checkUrlisEmpty(url.getOriginalFilename())) {
                             if (id != null) {
-                                if (StringUtils.cleanPath(Objects.requireNonNull(url.getOriginalFilename())).matches("[^\\s-]")) {
+                                if (StringUtils.cleanPath(Objects.requireNonNull(url.getOriginalFilename())).matches("^[\\S]+$")) {
                                     restaurant.ifPresent(value -> saveImageRestaurant(url, value));
                                 } else {
                                     Traductions traductions = new Traductions("El nombre de la imagen no debe de contener espacios","The image name must not contain spaces","El nom de la imatge no ha de contenir espais");
-                                    model.addAttribute("error", traductions.getTraductionLocale(request));
+                                    model.addFlashAttribute("error", traductions.getTraductionLocale(request));
                                 }
                             }
                         }
@@ -101,7 +101,7 @@ public class ImgController {
             } else {
                 RedirectView redirectView = new RedirectView("/restaurant/update/" + id, true);
                 Traductions traductions = new Traductions("No puedes añadir mas imagenes, el limite son "+num_images,"You can not add more images, the limit is "+num_images,"No pots afegir més imatges, el límit són "+num_images);
-                model.addAttribute("error", traductions.getTraductionLocale(request));
+                model.addFlashAttribute("error", traductions.getTraductionLocale(request));
                 return redirectView;
             }
             return new RedirectView("/restaurant/update/"+id,false);

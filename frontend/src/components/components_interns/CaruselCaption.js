@@ -2,9 +2,6 @@ import React, { Component } from 'react';
 import {Carousel, Button} from "react-bootstrap";
 
 class CaruselCaption extends Component {
-    constructor() {
-        super();
-    }
 
     render() {
         if (this.props.restaurante.imgs.length>0) {

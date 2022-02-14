@@ -18,6 +18,7 @@ class CaruselRestaurant extends Component {
                             </Carousel.Item>
                         )
                     }
+                    return("")
                 })}
             </Carousel>
         );

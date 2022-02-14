@@ -18,7 +18,7 @@ class Main extends Component {
 
     componentDidMount() {
         this.setState({ isLoading: true });
-        axios.get("http://www.restaurantemallorca.me:8000/restaurants")
+        axios.get("http://127.0.0.1:8000/restaurants")
             .then(result => this.setState({
                 restaurants: result.data,
                 isLoading: false
@@ -46,24 +46,12 @@ class Main extends Component {
             <section className={"w-100"}>
                 <CaruselRestaurant restaurants={restaurants}/>
                 <section className={"w-100"}>
-                    <section className={"w-100 h-100 pb-5 p-0 d-flex flex-row justify-content-center background-gradial-general"}>
-                        <div className={"position-relative w-80"}>
-                            <h2 className={"position-absolute bottom-0 text-center w-100 pb-5 text-black text-color-general"}>
-                                ¿TIenes un restaurante?
-                                <p>¡Puedes añadirlo para que <br/>todo el mundo pueda ver tu negocio!</p>
-                                <Button variant="outline-light" size="lg">Creador</Button>
-                            </h2>
-                            <img className="principal w-100" src={front} alt="front"/>
-                        </div>
-                    </section>
-                </section>
-                <section className={"w-100"}>
-                    <section className={"w-100 m-0 p-0 background-general max-w-full"}>
-                        <div className={"row w-100 px-5 m-0"}>
+                    <section className={"w-100 m-0 p-0 max-w-full"}>
+                        <div className={"row w-100 px-5 m-0 pt-lg-0 pt-5"}>
                             {restaurants.map(function(item, key) {
                                 if (key<6) {
                                     return (
-                                        <article key={key} className={"col-6 p-5"}>
+                                        <article key={key} className={"col-xxl-4 col-lg-6 col-12 p-lg-5 h-100"}>
                                             <CardRestaurant restaurant={item}/>
                                         </article>
                                     )
