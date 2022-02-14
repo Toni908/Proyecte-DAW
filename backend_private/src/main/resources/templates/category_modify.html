@@ -2,9 +2,11 @@
 <html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Edit cards</title>
+    <title th:text="#{category.modify.meta}"></title>
     <link th:href="@{/css/custom.css}" rel="stylesheet"/>
+    <link th:href="@{/css/card_modify.css}" rel="stylesheet"/>
     <link th:href="@{/css/form.css}" rel="stylesheet"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
 <div th:insert="shared/headerVersion2 :: header(${category.carta.restaurant})"/>
@@ -12,10 +14,10 @@
 <div class="container my-5">
     <div class="row justify-content-center">
         <a class="col-lg-3 col-md-4 col-sm-6 col-12 my-1 justify-content-center" th:href="@{'/restaurant/admin/card/' + ${category.carta.id_carta} + '/categories'}">
-            <button class="w-100 pt-2 pb-2 paraf_form rounded" value="Editar Platos"> Volver a las Categorias </button>
+            <button class="w-100 pt-2 pb-2 paraf_form rounded" value="Editar Platos" th:text="#{category.return.category}"></button>
         </a>
         <a class="col-lg-3 col-md-4 col-sm-6 col-12 my-1 justify-content-center" th:if="${category.id_categoria != null}" th:href="@{'/restaurant/admin/category/' + ${category.id_categoria} + '/dishes'}">
-            <button class="w-100 pt-2 pb-2 paraf_form rounded" value="Editar Platos"> Modificar Platos de la Carta </button>
+            <button class="w-100 pt-2 pb-2 paraf_form rounded" value="Editar Platos" th:text="#{category.modify.dish}"></button>
         </a>
     </div>
 </div>
@@ -29,14 +31,14 @@
     <form method="post" class="container form_container" th:action="@{'/restaurant/admin/card/'+ ${category.carta.id_carta} +'/category/save' }" th:object="${category}">
 
         <div class="tittle_form">
-            <h1 class="text-center" th:if="${category.id_categoria != null}"> Editar Categoria </h1>
-            <h1 class="text-center" th:unless="${category.id_categoria != null}"> Crear Categoria </h1>
+            <h1 class="text-center" th:if="${category.id_categoria != null}" th:text="#{category.edit.category}"></h1>
+            <h1 class="text-center" th:unless="${category.id_categoria != null}" th:text="#{category.create.category}"></h1>
         </div>
 
         <div class="body_form">
             <div th:if="${category.id_categoria != null}" class="d-none d-flex justify-content-center">
-                <div class="mb-3 p-0 text-center" style="width: 80%">
-                    <div class="ps-3 paraf_form">Id:</div>
+                <div class="mb-3 p-0 text-center length-card">
+                    <div class="ps-3 paraf_form" th:text="#{card.table.id}"></div>
                     <label class="w-100 field_form_principal">
                         <input class="input-text" id="id_categoria" name="id_categoria" th:value="${category.id_categoria}" type="text" readonly>
                     </label>
@@ -44,17 +46,17 @@
             </div>
 
             <div class="d-flex justify-content-center">
-                <div class="mb-3 p-0 text-center" style="width: 80%">
-                    <div class="ps-3 paraf_form">Nombre:</div>
+                <div class="mb-3 p-0 text-center length-card">
+                    <div class="ps-3 paraf_form" th:text="#{card.table.name}"></div>
                     <label class="w-100 field_form_principal">
                         <input class="input-text" id="nombre" name="nombre" th:value="${category.nombre}" type="text" maxlength="50" required>
                     </label>
-                    <div th:if="${error != null && error.containsKey('nombre')}" th:text="${error.nombre}" style="font-size: 14px; color: red;"></div>
+                    <div th:if="${error != null && error.containsKey('nombre')}" th:text="${error.nombre}" class="error-validation"></div>
                 </div>
             </div>
 
             <div class="pt-3 row d-flex flex-row justify-content-center gap-5">
-                <input class="w-20 pt-2 pb-2 paraf_form rounded" type="submit" value="Submit" />
+                <input class="w-20 pt-2 pb-2 paraf_form rounded" type="submit" th:value="#{button.submit}" />
             </div>
 
         </div>

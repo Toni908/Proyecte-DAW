@@ -2,9 +2,10 @@
 <html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Edit cards</title>
+    <title th:text="#{card.modify.meta}"></title>
     <link th:href="@{/css/custom.css}" rel="stylesheet"/>
     <link th:href="@{/css/form.css}" rel="stylesheet"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
 <div th:insert="shared/headerVersion2 :: header(${carta.restaurant})"/>
@@ -12,10 +13,10 @@
 <div class="container my-5">
     <div class="row justify-content-center">
     <a class="col-lg-3 col-md-4 col-sm-6 col-12 my-1 justify-content-center" th:href="@{'/restaurant/admin/' + ${carta.restaurant.id_restaurante} + '/cards'}">
-        <button class="w-100 pt-2 pb-2 paraf_form rounded" value="Editar Platos"> Volver a las Cartas </button>
+        <button class="w-100 pt-2 pb-2 paraf_form rounded" value="Editar Platos" th:text="#{card.modify.button.return}"></button>
     </a>
     <a class="col-lg-3 col-md-4 col-sm-6 col-12 my-1 justify-content-center" th:if="${carta.id_carta!= null}" th:href="@{'/restaurant/admin/card/' + ${carta.id_carta} + '/categories'}">
-        <button class="w-100 pt-2 pb-2 paraf_form rounded" value="Editar Platos"> Modificar Categorias de la Carta </button>
+        <button class="w-100 pt-2 pb-2 paraf_form rounded" value="Editar Platos" th:text="#{card.modify.button.modify.category}"></button>
     </a>
     </div>
 </div>
@@ -29,15 +30,15 @@
         <form method="post" class="container form_container" th:action="@{'/restaurant/admin/'+ ${carta.restaurant.id_restaurante} +'/card/save' }" enctype="multipart/form-data">
 
             <div class="tittle_form">
-                <h1 class="text-center" th:if="${carta.id_carta != null}"> Editar Carta </h1>
-                <h1 class="text-center" th:unless="${carta.id_carta != null}"> Crear Carta </h1>
+                <h1 class="text-center" th:if="${carta.id_carta != null}" th:text="#{card.modify.edit.card}"></h1>
+                <h1 class="text-center" th:unless="${carta.id_carta != null}" th:text="#{card.modify.create.card}"></h1>
             </div>
 
             <div class="body_form">
 
                 <div th:if="${carta.id_carta != null}" class="d-none d-flex justify-content-center">
-                    <div class="mb-3 p-0 text-center" style="width: 80%">
-                        <div class="paraf_form">Id:</div>
+                    <div class="mb-3 p-0 text-center length-card">
+                        <div class="paraf_form" th:text="#{card.modify.form.id}"></div>
                         <label class="w-100 field_form_principal">
                             <input class="input-text" id="id" name="id" th:value="${carta.id_carta}" type="text" readonly>
                         </label>
@@ -45,8 +46,8 @@
                 </div>
 
                 <div class="d-flex justify-content-center">
-                    <div class="mb-3 p-0 text-center" style="width: 80%">
-                        <div class="paraf_form">Nombre:</div>
+                    <div class="mb-3 p-0 text-center length-card">
+                        <div class="paraf_form" th:text="#{card.modify.form.name}"></div>
                         <label class="w-100 field_form_principal">
                             <input class="input-text" id="name" name="name" th:value="${carta.nombre}" type="text" maxlength="50" required>
                         </label>
@@ -54,8 +55,8 @@
                 </div>
 
                 <div class="d-flex justify-content-center">
-                    <div class="mb-3 p-0 text-center" style="width: 80%">
-                        <div class="paraf_form">Usa imagen: </div>
+                    <div class="mb-3 p-0 text-center length-card">
+                        <div class="paraf_form" th:text="#{card.modify.form.image}"></div>
                         <div class="form-check form-switch d-flex justify-content-center">
                             <input class="form-check-input" type="checkbox" id="useimg" name="useimg" value="1" th:checked="${carta.usa_img}"/>
                         </div>
@@ -63,8 +64,8 @@
                 </div>
 
                 <div class="d-flex justify-content-center" th:if="${carta.id_carta != null}">
-                    <div class="mb-3 p-0 text-center" style="width: 80%">
-                        <div class="paraf_form">Carta en Uso: </div>
+                    <div class="mb-3 p-0 text-center length-card">
+                        <div class="paraf_form" th:text="#{card.modify.form.card.active}"></div>
                         <div class="form-check form-switch d-flex justify-content-center">
                             <input class="form-check-input" type="checkbox" id="visible" name="visible" value="1" th:checked="${carta.visible}"/>
                         </div>
@@ -72,8 +73,8 @@
                 </div>
 
                 <div class="d-flex justify-content-center">
-                    <div class="mb-3 p-0" style="width: 80%">
-                        <div class="text-center paraf_form">Imagen: (Opcional)</div>
+                    <div class="mb-3 p-0 length-card">
+                        <div class="text-center paraf_form" th:text="#{card.modify.form.image.optional}"></div>
                         <label class="w-100 field_form_principal">
                             <input class="input-text" name="img" type="file" id="img" maxlength="80" accept="image/png, image/jpeg" placeholder="URL"/>
                         </label>
@@ -81,7 +82,7 @@
                 </div>
 
                 <div class="pt-3 row d-flex flex-row justify-content-center gap-5">
-                    <input class="w-20 pt-2 pb-2 paraf_form rounded" type="submit" value="Submit" />
+                    <input class="w-20 pt-2 pb-2 paraf_form rounded" type="submit" th:value="#{button.submit}" />
                 </div>
 
             </div>

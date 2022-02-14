@@ -1,32 +1,24 @@
 // VARIABLES Y COSAS QUE TIENEN QUE PASAR AL PRINCIPIO DE CARGAR LA PAGINA
 
-const selectEtiqueta = $("#selectEtiquetas");
-let numEtiquetas = 7;
-let etiquetasAdded = [];
 getEtiquetasGenerated();
-
-const actualMunicipioLocalidad = $("#localidadMunicipioActual");
-const changeMunicipioLocalidad = $("#localidadMunicipioChange");
 changeMunicipioLocalidad.hide();
 
-const municipios = $("#municipio");
 hideLocalidad();
 municipios.show();
 
 $("#hacerseMiembro").hide();
 
-const error = $("#error");
-
 error.hide();
 
-const selectEtiquetas = $('#selectEtiquetas');
-const createEtiqueta = $("#create_etiqueta");
-
-selectEtiqueta.append("<option selected><-- Buscador</option>");
+selectEtiqueta.append("<option selected>"+traductions.buscador+"</option>");
 createEtiqueta.attr("type","hidden");
 selectEtiqueta.show();
 
 // ETIQUETAS
+
+function wantConfirm() {
+    return confirm(traductions.sureDelete);
+}
 
 $('#selectText').on('input',function(){
     createEtiqueta.attr("type","hidden");
@@ -39,82 +31,6 @@ selectEtiquetas.on('change', function () {
     addEtiqueta(valueSelected)
 });
 
-function searchEtiquetas(etiquetaSearched) {
-    $.getJSON( "/get/etiquetas/admin/json", function( data ) {
-        let length = 0;
-        selectEtiqueta.empty();
-        $.each( data, function(key, object) {
-            if (object.nombre.includes(etiquetaSearched)) {
-                selectEtiqueta.append("<option id='" + object.id_etiqueta + "'>" + object.nombre + "</option>");
-                length++;
-            }
-        });
-
-        if (selectEtiqueta.text()==="") {
-            selectEtiquetas.hide();
-            $("#create_etiqueta").attr("type","button");
-        } else {
-            $("#selectEtiquetas").prepend("<option selected value='null'>Find "+length+" occurences</option>");
-        }
-    });
-}
-function addEtiqueta(value) {
-    let selectText = $("#selectText");
-    if (numEtiquetas!==0) {
-        if (value == null) {
-            if (isEtiquetaAdded(selectText.val())===false) {
-                if (selectText.val().length<15) {
-                    if (selectText.val().length>2) {
-                        $("#etiquetas_box").append(getEtiquetaHTML(selectText.val()));
-                        etiquetasAdded.push(selectText.val());
-                        numEtiquetas--;
-                    } else {
-                        error.text("Etiqueta too short");
-                        error.show();
-                        setTimeout(function() {$("#error").hide()}, 1200);
-                    }
-                } else {
-                    error.text("Etiqueta too long");
-                    error.show();
-                    setTimeout(function() {$("#error").hide()}, 1200);
-                }
-            } else {
-                error.text("Etiqueta already added");
-                error.show();
-                setTimeout(function() {$("#error").hide()}, 1200);
-            }
-        } else {
-            if (isEtiquetaAdded(value)===false) {
-                if (value.length<15) {
-                    if (value.length>2) {
-                        $("#etiquetas_box").append(getEtiquetaHTML(value));
-                        etiquetasAdded.push(value);
-                        numEtiquetas--;
-                    } else {
-                        error.text("Etiqueta too short");
-                        error.show();
-                        setTimeout(function () {
-                            $("#error").hide()
-                        }, 1200);
-                    }
-                } else {
-                    error.text("Etiqueta too long");
-                    error.show();
-                    setTimeout(function() {$("#error").hide()}, 1200);
-                }
-            } else {
-                error.text("Etiqueta already added");
-                error.show();
-                setTimeout(function() {$("#error").hide()}, 1200);
-            }
-        }
-    } else {
-        error.text("Max length is 7 for etiquetas");
-        error.show();
-        setTimeout(function() {$("#error").hide()}, 1200);
-    }
-}
-
 function getEtiquetaHTML(value) {
     return "" +
         "<div class=\"border border-2 w-auto\" style=\"border-color: #808080;border-radius: 15px\" onclick='deleteEtiqueta(this)'>" +
@@ -125,20 +41,6 @@ function getEtiquetaHTML(value) {
         "</div>";
 }
 
-function deleteEtiqueta(etiqueta) {
-    etiquetasAdded = etiquetasAdded.filter(value => value !== etiqueta.firstChild.value);
-    etiqueta.remove();
-    numEtiquetas++;
-}
-
-function isEtiquetaAdded(value) {
-    for (let i = 0; i < etiquetasAdded.length; i++) {
-        if (etiquetasAdded[i] === value) {
-            return true;
-        }
-    }
-    return false;
-}
 function getEtiquetasGenerated() {
     const etiquetas = $("input[name='etiquetas']");
     for (let i = 0; i < etiquetas.length; i++) {
@@ -158,7 +60,7 @@ $('#changeLocalidad').on( 'click', function() {
             $.each(data, function (key, object) {
                 $("#municipio").append("<option value='" + key + "'>" + object.nombre_municipio + "</option>")
             });
-            municipios.prepend("<option value='' selected>-- Municipios --</option>");
+            municipios.prepend("<option value='' selected>"+traductions.municipality+"</option>");
         });
     } else {
         changeMunicipioLocalidad.hide();
@@ -178,7 +80,7 @@ municipios.on('change', function () {
 function showLocalidades() {
     let municipioSelected = $("#municipio option:selected").text();
 
-    if (municipioSelected!=="-- Municipios --") {
+    if (municipioSelected!==traductions.municipality) {
         $.getJSON("/get/localidades/admin/json", function (dataLocalidad) {
             $("#localidad").empty();
             $.each(dataLocalidad, function (key, object) {
@@ -201,7 +103,7 @@ $( '#checkMiembro' ).on( 'click', function() {
 
 function hideLocalidad() {
     $("#localidad").empty();
-    $("#localidad").append("<option value=\"\"><-Seleciona antes un Municipio</option>")
+    $("#localidad").append("<option value=\"\">"+traductions.selectM+"</option>")
 }
 
 // VALIDATIONS
@@ -228,7 +130,7 @@ function validateGeneral() {
     if (!checkNamePattern()) {
         errors++;
         $(".validateNameResponse").addClass("border border-danger border-2");
-        $("#validateNameResponse").append("<p class='text-danger fw-bold pt-2'>El nombre no puede contener numberos y tiene que ser minuscula menos la primera letra</p>");
+        $("#validateNameResponse").append("<p class='text-danger fw-bold pt-2'>"+traductions.formName+"</p>");
     } else {
         $(".validateNameResponse").addClass("border border-success border-2")
     }
@@ -236,7 +138,7 @@ function validateGeneral() {
     if (!Number.isInteger(parseInt($("#dies_anticipacion_reservas").val()))) {
         errors++;
         $(".validateDiasAnticipacionResponse").addClass("border border-danger border-2");
-        $("#validateDiasAnticipacionResponse").append("<p class='text-danger fw-bold pt-2'>Tiene que ser un numero</p>");
+        $("#validateDiasAnticipacionResponse").append("<p class='text-danger fw-bold pt-2'>"+traductions.formNumber+"</p>");
     } else {
         $(".validateDiasAnticipacionResponse").addClass("border border-success border-2");
     }
@@ -244,7 +146,7 @@ function validateGeneral() {
     if ($("#telefono_restaurante").val()==="") {
         errors++;
         $(".validateTelefonoResponse").addClass("border border-danger border-2")
-        $("#validateTelefonoResponse").append("<p class='text-danger fw-bold pt-2'>No has selecionado ningun telefono</p>");
+        $("#validateTelefonoResponse").append("<p class='text-danger fw-bold pt-2'>"+traductions.formPhone+"</p>");
     } else {
         $(".validateTelefonoResponse").addClass("border border-success border-2")
     }
@@ -253,7 +155,7 @@ function validateGeneral() {
         if ($("#localidad option:selected").text()==="<-Seleciona antes un Municipio") {
             errors++;
             $(".validateLocalidadResponse").addClass("border border-danger border-2")
-            $("#validateLocalidadResponse").append("<p class='text-danger fw-bold pt-2'>No has selecionado ninguna localidad</p>");
+            $("#validateLocalidadResponse").append("<p class='text-danger fw-bold pt-2'>"+traductions.formLocation+"</p>");
         } else {
             $(".validateLocalidadResponse").addClass("border border-success border-2")
         }
@@ -270,7 +172,6 @@ function validateImages() {
     const matches = $("#inputSubmitImages").find('input[type="checkbox"]:not(:checked)');
     for (let i = 0; i < matches.length; i++) {
         matches.get(i).disable = "disabled";
-        console.log(matches.get(i))
     }
     return true;
 }
@@ -281,8 +182,7 @@ var latitud = $("#latitud");
 var longitud = $("#longitud");
 // GOOGLE MAPS
 
-myMap();
-function myMap() {
+$(document).ready(function() {
     var mapProp= {
         center:new google.maps.LatLng(latitud.val(), longitud.val()),
         zoom:10,
@@ -313,4 +213,4 @@ function myMap() {
     google.maps.event.addListener(map, 'click', function(event) {
         placeMarker(event.latLng);
     });
-}
+});

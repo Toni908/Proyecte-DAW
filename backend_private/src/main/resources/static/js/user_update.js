@@ -5,28 +5,28 @@ function validateGeneral() {
     if ($(".validateNameUsuarioResponse").val()==="") {
         errors++;
         $(".validateNameUsuarioResponse").addClass("border border-danger border-2")
-        $(".validateNameUsuarioResponse").append("<p class='text-danger fw-bold pt-2'>No puede estar vacio</p>");
+        $(".validateNameUsuarioResponse").append("<p class='text-danger fw-bold pt-2'>"+traductions.formResponse+"</p>");
     } else {
         $(".validateNameUsuarioResponse").addClass("border border-success border-2")
     }
     if ($(".validateNombre").val()==="") {
         errors++;
         $(".validateNombre").addClass("border border-danger border-2")
-        $(".validateNombre").append("<p class='text-danger fw-bold pt-2'>No puede estar vacio</p>");
+        $(".validateNombre").append("<p class='text-danger fw-bold pt-2'>"+traductions.formResponse+"</p>");
     } else {
         $(".validateNombre").addClass("border border-success border-2")
     }
     if ($(".validateApellido1").val()==="") {
         errors++;
         $(".validateApellido1").addClass("border border-danger border-2")
-        $(".validateApellido1").append("<p class='text-danger fw-bold pt-2'>No puede estar vacio</p>");
+        $(".validateApellido1").append("<p class='text-danger fw-bold pt-2'>"+traductions.formResponse+"</p>");
     } else {
         $(".validateApellido1").addClass("border border-success border-2")
     }
     if ($(".validateTelefono").val()==="") {
         errors++;
         $(".validateTelefono").addClass("border border-danger border-2")
-        $(".validateTelefono").append("<p class='text-danger fw-bold pt-2'>No puede estar vacio</p>");
+        $(".validateTelefono").append("<p class='text-danger fw-bold pt-2'>"+traductions.formResponse+"</p>");
     } else {
         $(".validateTelefono").addClass("border border-success border-2")
     }
@@ -60,7 +60,7 @@ function changepassword() {
     if ($("#password_actual").val()==="") {
         errors++;
         $("#password_actual").addClass("border border-danger border-2")
-        $(".password_actual").append("<p class='text-danger fw-bold pt-2'>No puede estar vacio</p>");
+        $(".password_actual").append("<p class='text-danger fw-bold pt-2'>"+traductions.formResponse+"</p>");
     } else {
         $("#password_actual").addClass("border border-success border-2")
     }
@@ -68,14 +68,14 @@ function changepassword() {
     if ($("#password_change").val()==="") {
         errors++;
         $("#password_change").addClass("border border-danger border-2")
-        $(".password_change").append("<p class='text-danger fw-bold pt-2'>No puede estar vacio</p>");
+        $(".password_change").append("<p class='text-danger fw-bold pt-2'>"+traductions.formResponse+"</p>");
     } else {
         $("#password_change").addClass("border border-success border-2")
     }
     if ($("#password_change_confirm").val()==="") {
         errors++;
         $("#password_change_confirm").addClass("border border-danger border-2")
-        $(".password_change_confirm").append("<p class='text-danger fw-bold pt-2'>No puede estar vacio</p>");
+        $(".password_change_confirm").append("<p class='text-danger fw-bold pt-2'>"+traductions.formResponse+"</p>");
     } else {
         $("#password_change_confirm").addClass("border border-success border-2")
     }
@@ -89,7 +89,7 @@ function password() {
     if ($("#codigo_email").val()==="") {
         errors++;
         $("#codigo_email").addClass("border border-danger border-2")
-        $(".codigo_email").append("<p class='text-danger fw-bold pt-2'>No puede estar vacio</p>");
+        $(".codigo_email").append("<p class='text-danger fw-bold pt-2'>"+traductions.formResponse+"</p>");
     } else {
         $("#codigo_email").addClass("border border-success border-2")
     }
@@ -97,14 +97,14 @@ function password() {
     if ($("#password_change_recuperar").val()==="") {
         errors++;
         $("#password_change_recuperar").addClass("border border-danger border-2")
-        $(".password_change_recuperar").append("<p class='text-danger fw-bold pt-2'>No puede estar vacio</p>");
+        $(".password_change_recuperar").append("<p class='text-danger fw-bold pt-2'>"+traductions.formResponse+"</p>");
     } else {
         $("#password_change_recuperar").addClass("border border-success border-2")
     }
     if ($("#password_change_confirm_recuperar").val()==="") {
         errors++;
         $("#password_change_confirm_recuperar").addClass("border border-danger border-2")
-        $(".password_change_confirm_recuperar").append("<p class='text-danger fw-bold pt-2'>No puede estar vacio</p>");
+        $(".password_change_confirm_recuperar").append("<p class='text-danger fw-bold pt-2'>"+traductions.formResponse+"</p>");
     } else {
         $("#password_change_confirm_recuperar").addClass("border border-success border-2")
     }

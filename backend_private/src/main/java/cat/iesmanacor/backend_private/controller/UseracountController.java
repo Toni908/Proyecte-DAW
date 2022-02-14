@@ -204,6 +204,22 @@ public class UseracountController {
         return "recuperar";
     }
 
+    @Transactional
+    @GetMapping("/delete/code")
+    public String deleteCode(HttpServletRequest request, HttpSession session) {
+        Useracount userVerify = getUser(request);
+        if (isUserCorrect(userVerify,useracountService)) {
+            List<Password_recuperar> password_recuperar = password_recuperarService.findByUseracount(userVerify.getId_user());
+            if (!password_recuperar.isEmpty()) {
+                password_recuperarService.delete(password_recuperar.get(0).getCodigo());
+                session.invalidate();
+                return "/login";
+            }
+        }
+        return "redirect:/error/401";
+    }
+
+
     @GetMapping("/recuperar")
     public String recuperarPassword() {
         return "recuperar";

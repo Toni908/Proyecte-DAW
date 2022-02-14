@@ -2,11 +2,13 @@
 <html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Edit Horarios</title>
+    <title th:text="#{hours.meta}"></title>
     <link th:href="@{/css/custom.css}" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css"/>
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.1.0/css/buttons.dataTables.min.css"/>
+    <link th:href="@{/css/card_modify.css}" rel="stylesheet"/>
     <link th:href="@{/css/form.css}" rel="stylesheet"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link th:href="@{/css/asideLeft.css}" rel="stylesheet">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
@@ -21,18 +23,21 @@
 <main class="mt-5 mx-auto w-60">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{'/restaurant/admin/horario/' + ${periodo.restaurant.id_restaurante}}">Periodos</a></li>
+            <li class="breadcrumb-item"><a th:href="@{'/restaurant/admin/horario/' + ${periodo.restaurant.id_restaurante}}" th:text="#{hours.periode}"></a></li>
             <li class="breadcrumb-item active" th:text="${periodo.nombre}" aria-current="page"></li>
         </ol>
     </nav>
     <div id="Cards">
-        <h3 th:inline="text">Horarios de [[${periodo.nombre}]]</h3>
+        <div class="d-flex flex-row justify-content-start gap-2">
+            <h3 th:text="#{hours.of}"></h3>
+            <h3 th:text="${periodo.nombre}"></h3>
+        </div>
         <table id="card_table" class="display" style="width:100%">
             <thead class="thead-dark">
-            <th scope="row" class="d-none">Id</th>
-            <th scope="row">Dia</th>
-            <th scope="row">Inicio Turno</th>
-            <th scope="row">Final Turno</th>
+            <th scope="row" class="d-none" th:text="#{hours.form.id}"></th>
+            <th scope="row" th:text="#{hours.form.day}"></th>
+            <th scope="row" th:text="#{hours.form.start}"></th>
+            <th scope="row" th:text="#{hours.form.end}"></th>
             <th scope="row"></th>
             </thead>
             <tbody>
@@ -48,8 +53,8 @@
             </tr>
             </tbody>
         </table>
-        <a class="" id="e1" th:href="@{'/restaurant/admin/periodo/horario/create/' + ${periodo.id_periodo}}"><button class="btn btn-primary mt-2">Crear Nuevo Horario</button></a>
-        <a class="" id="e2" th:href="@{'/restaurant/admin/horario/' + ${periodo.restaurant.id_restaurante}}"><button class="btn btn-secondary mt-2">Volver</button></a>
+        <a class="" id="e1" th:href="@{'/restaurant/admin/periodo/horario/create/' + ${periodo.id_periodo}}"><button class="btn btn-primary mt-2" th:text="#{hours.form.button}"></button></a>
+        <a class="" id="e2" th:href="@{'/restaurant/admin/horario/' + ${periodo.restaurant.id_restaurante}}"><button class="btn btn-secondary mt-2" th:text="#{button.return}"></button></a>
     </div>
 
     <div th:insert="shared/modals/modal_eliminar :: section"/>
@@ -61,8 +66,8 @@
         <form method="post" class="container form_container" th:action="@{'/restaurant/admin/horario/periodo/save/'+ ${periodo.restaurant.id_restaurante}}">
 
             <div class="tittle_form">
-                <h1 class="text-center" th:if="${periodo.id_periodo != null}"> Editar Periodo </h1>
-                <h1 class="text-center" th:unless="${periodo.id_periodo != null}"> Crear Periodo </h1>
+                <h1 class="text-center" th:if="${periodo.id_periodo != null}" th:text="#{hours.edit.periode}"></h1>
+                <h1 class="text-center" th:unless="${periodo.id_periodo != null}" th:text="#{hours.create.periode}"></h1>
             </div>
 
             <div class="body_form">
@@ -70,8 +75,8 @@
                     <div class="row justify-content-md-center">
 
                         <div th:if="${periodo.id_periodo != null}" class="d-flex justify-content-center d-none col-6">
-                            <div class="mb-3 p-0 text-center" style="width: 80%">
-                                <div class="paraf_form">Id:</div>
+                            <div class="mb-3 p-0 text-center length-card">
+                                <div class="paraf_form" th:text="#{periode.form.id}"></div>
                                 <label class="w-100 field_form_principal">
                                     <input class="input-text" id="id_periodo" name="id_periodo" th:value="${periodo.id_periodo}" type="text" readonly>
                                 </label>
@@ -79,8 +84,8 @@
                         </div>
 
                         <div class="d-flex justify-content-center col-6">
-                            <div class="mb-3 p-0 text-center" style="width: 80%">
-                                <div class="paraf_form">Nombre:</div>
+                            <div class="mb-3 p-0 text-center length-card">
+                                <div class="paraf_form" th:text="#{periode.form.name}"></div>
                                 <label class="w-100 field_form_principal">
                                     <input class="input-text" id="nombre" name="nombre" th:value="${periodo.nombre}" type="text" maxlength="254" required>
                                 </label>
@@ -88,8 +93,8 @@
                         </div>
 
                         <div class="d-flex justify-content-center col-6">
-                            <div class="mb-3 p-0 text-center" style="width: 80%">
-                                <div class="paraf_form">Capacidad:</div>
+                            <div class="mb-3 p-0 text-center length-card">
+                                <div class="paraf_form" th:text="#{periode.form.capacity}"></div>
                                 <label class="w-100 field_form_principal">
                                     <input class="input-text" id="capacidad" name="capacidad" th:value="${periodo.capacidad}" type="number" min="1" required>
                                 </label>
@@ -100,18 +105,18 @@
                 </div>
 
                 <div class="d-flex justify-content-center">
-                    <div class="mb-3 p-0 text-center" style="width: 80%">
-                        <div class="paraf_form">Rango del Periodo:</div>
+                    <div class="mb-3 p-0 text-center length-card">
+                        <div class="paraf_form" th:text="#{periode.form.range}"></div>
                         <label class="w-50 field_form_principal">
                             <input th:if="${dateValue != null}" class="text-center w-100 field_form_principal" type="text" name="daterange" th:value="${dateValue}" required/>
                             <input th:unless="${dateValue != null}" class="text-center w-100 field_form_principal" type="text" name="daterange" value="" required/>
                         </label>
-                        <div th:if="${error != null}" th:text="${error}" style="font-size: 14px; color: red;"></div>
+                        <div th:if="${error != null}" th:text="${error}" class="error-validation"></div>
                     </div>
                 </div>
 
                 <div class="pt-3 row d-flex flex-row justify-content-center gap-5">
-                    <input class="w-20 pt-2 pb-2 paraf_form rounded" type="submit" value="Submit" />
+                    <input class="w-20 pt-2 pb-2 paraf_form rounded" type="submit" th:value="#{button.submit}" />
                 </div>
 
             </div>

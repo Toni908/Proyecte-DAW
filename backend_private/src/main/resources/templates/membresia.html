@@ -6,6 +6,8 @@
     <link th:href="@{/css/custom.css}" rel="stylesheet"/>
     <link th:href="@{/css/form.css}" rel="stylesheet">
     <link th:href="@{/css/asideLeft.css}" rel="stylesheet">
+    <link th:href="@{/css/card_modify.css}" rel="stylesheet"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
 <div th:insert="shared/headerVersion2 :: header(${restaurant})"></div>
@@ -18,27 +20,27 @@
     <form class="d-flex flex-row justify-content-center" th:action="@{'/restaurant/admin/membresia/'+ ${restaurant.id_restaurante}}" method="POST">
         <main class="d-flex flex-column justify-content-center body-info">
             <section class="pt-5" id="restauranteFixed">
-                <h3 class="title_section-info">Membresia</h3>
+                <h3 class="title_section-info" th:text="#{membership.title}"></h3>
                 <div class="d-flex flex-row justify-content-center pt-2">
-                    <p class="paraf_form text-center fw-normal length-container">Al apuntarte a nuestra membresia conseguiras multiples ventajas que ayudaran a que este viaje sea mas facil!</p>
+                    <p class="paraf_form text-center fw-normal length-container" th:text="#{membership.paraf}"></p>
                 </div>
                 <div th:if="${restaurant.membresia == null}" class="d-flex flex-row justify-content-center">
                     <div class="d-flex flex-column justify-content-center length">
                         <div class="border border-secondary border-1 mt-5 p-4 box-container">
-                            <h4 class="fw-normal text-start text-black QuickSand">Subscripcion</h4>
-                            <p class="paraf_form text-start fw-normal">Introduce tus datos y la membresia que quieres comprar:</p>
+                            <h4 class="fw-normal text-start text-black QuickSand" th:text="#{membership.subscription}"></h4>
+                            <p class="paraf_form text-start fw-normal" th:text="#{membership.data.paraf}"></p>
                             <div class="container pt-3 m-0 w-100 px-0">
                                 <div class="row">
                                     <div class="col-sm p-0">
+                                        <div th:text="#{membership.form.number}"></div>
                                         <label class="w-100 ps-2 pe-3">
-                                            Numero de la tarjeta:
                                             <input type="number" class="input-text validateDiasAnticipacionResponse">
                                         </label>
                                         <div></div>
                                     </div>
                                     <div class="col-sm p-0">
+                                        <div th:text="#{membership.form.address}"></div>
                                         <label class="w-100 pe-2 ps-3">
-                                            Direccion Facturacion:
                                             <input type="text" name="dirrecion" class="input-text validateDireccion" required>
                                         </label>
                                         <div></div>
@@ -49,22 +51,22 @@
                             <div class="container pt-3 m-0 w-100 px-0">
                                 <div class="row">
                                     <div class="col-sm p-0">
+                                        <div th:text="#{membership.form.titular}"></div>
                                         <label class="w-100 ps-2 pe-3">
-                                            Titular de la tarjeta:
                                             <input type="text" class="input-text validateDiasAnticipacionResponse">
                                         </label>
                                         <div id="validateDiasAnticipacionResponse"></div>
                                     </div>
                                     <div class="col-sm p-0">
+                                        <div th:text="#{membership.form.date.end}"></div>
                                         <label class="w-100 pe-2 ps-3">
-                                            Fecha de espiracion:
                                             <input type="text" class="input-text validateTelefonoResponse">
                                         </label>
                                         <div id="validateTelefonoResponse"></div>
                                     </div>
                                     <div class="col-sm p-0">
+                                        <div th:text="#{membership.form.secret.number}"></div>
                                         <label class="w-100 pe-2 ps-3">
-                                            Numero secreto:
                                             <input type="number" class="input-text validateAforo">
                                         </label>
                                         <div id="validateAforo"></div>
@@ -72,19 +74,19 @@
                                 </div>
                             </div>
                             <hr>
-                            <p class="paraf_form text-start fw-normal pt-3">Escoge membresia</p>
+                            <p class="paraf_form text-start fw-normal pt-3" th:text="#{membership.title.select}"></p>
                             <div class="container pt-3 m-0 w-100 px-0">
                                 <div class="row">
                                     <div class="col-sm p-0">
                                         <label class="w-100 ps-2 pe-3">
                                             Programas:
                                             <select class="input-text" name="duracion">
-                                                <option value="1">1 Mes / 20€</option>
-                                                <option value="3">3 Meses / 50€</option>
-                                                <option value="6">6 Meses / 90€</option>
-                                                <option value="12">1 año / 150€ (Mejor Oferta)</option>
-                                                <option value="24">2 años / 260€</option>
-                                                <option value="36">3 años / 360€</option>
+                                                <option value="1" th:text="#{membership.one.month}"></option>
+                                                <option value="3" th:text="#{membership.three.month}"></option>
+                                                <option value="6" th:text="#{membership.six.month}"></option>
+                                                <option value="12" th:text="#{membership.one.year}"></option>
+                                                <option value="24" th:text="#{membership.two.years}"></option>
+                                                <option value="36" th:text="#{membership.three.years}"></option>
                                             </select>
                                         </label>
                                         <div id="validateDireccion"></div>
@@ -93,15 +95,19 @@
                             </div>
                         </div>
                         <div class="d-flex flex-row justify-content-center pt-4">
-                            <button type="submit" class="btn btn-dark">Contratar</button>
+                            <button type="submit" class="btn btn-dark" th:text="#{button.contract}"></button>
                         </div>
                     </div>
                 </div>
                 <div th:if="${restaurant.membresia != null}" class="d-flex flex-row justify-content-center">
                     <div class="d-flex flex-column justify-content-center length">
                         <div class="border border-secondary border-1 mt-5 p-4 box-container">
-                            <h4 class="fw-normal text-start text-black QuickSand">Subscripcion</h4>
-                            <p th:inline="text" class="paraf_form text-start fw-normal">Este restaurante esta subscrito a nuestra membresia. Esta acabara el [[${restaurant.membresia.getFecha_fin()}]] </p>
+                            <h4 class="fw-normal text-start text-black QuickSand" th:text="#{membership.subscription}"></h4>
+                            <div class="d-flex flex-row justify-content-start gap-2">
+                                <p class="paraf_form text-start fw-normal" th:text="#{membership.end.paraf}"></p>
+                                <p th:text="${restaurant.membresia.getFecha_fin()}"></p>
+                            </div>
+
                         </div>
                     </div>
                 </div>

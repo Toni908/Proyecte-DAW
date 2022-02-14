@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title th:text="'Modificar '+${session.user.nombre_usuario}"></title>
+    <title th:text="#{user.update.meta}+' '+${session.user.nombre_usuario}"></title>
     <link th:href="@{/css/custom.css}" rel="stylesheet">
     <link th:href="@{/css/form.css}" rel="stylesheet">
     <link th:href="@{/css/asideLeft.css}" rel="stylesheet">
@@ -19,35 +19,34 @@
         <div class="container-info">
             <a class="w-100 select-info text-decoration-none text-black ps-5" th:href="@{/user}">
                 <i class="bi bi-person-square fs-3"></i>
-                Mi Usuario
+                <div th:text="#{user.aside.person}"></div>
             </a>
             <a class="w-100 select-info text-decoration-none text-black ps-5" href="#modificables">
                 <i class="bi bi-slash-circle-fill fs-3"></i>
-                No Modificables
+                <div th:text="#{user.aside.no.modified}"></div>
             </a>
             <a class="w-100 select-info text-decoration-none text-black ps-5" href="#changepassword">
                 <i class="bi bi-safe fs-3"></i>
-                Contraseña
+                <div th:text="#{user.aside.password}"></div>
             </a>
         </div>
     </aside>
     <form class="d-flex flex-row justify-content-center" onsubmit="return validateGeneral()" th:action="@{/user/put}" method="POST" th:object="${user}">
         <section class="d-flex flex-column justify-content-center body-info">
             <section class="pt-5">
-                <h3 class="title_section-info">Mi Usuario</h3>
+                <h3 class="title_section-info" th:text="#{user.aside.person}"></h3>
                 <div class="d-flex flex-row justify-content-center pt-2">
-                    <p class="paraf_form text-center fw-normal length-container">Aqui encontraras todas las opciones para poder realizar las modificaciones que deseas actualizar, si tienes alguna pregunta sobre este apartado puedes preguntarlo en la secion de preguntas situada arriba a la derecha</p>
+                    <p class="paraf_form text-center fw-normal length-container" th:text="#{user.update.paraf}"></p>
                 </div>
                 <div class="d-flex flex-row justify-content-center">
                     <div class="d-flex flex-column justify-content-center length">
                         <div class="border border-secondary border-1 mt-5 p-4 box-container">
                             <input type="hidden" th:field="*{id_user}" hidden>
-                            <h4 class="fw-normal text-start text-black QuickSand">Informacion General</h4>
-                            <p class="paraf_form text-start fw-normal length-container">
-                                Estos son los datos generales del tu usuario, como podria ser el nombre, y los apellidos, el  movil.
-                                <a class="text-decoration-none text-danger">Ten encuenta que se te quitara la session y tendras que volver a iniciar session.</a>
+                            <h4 class="fw-normal text-start text-black QuickSand" th:text="#{user.update.info}"></h4>
+                            <p class="paraf_form text-start fw-normal length-container" th:text="#{user.update.info.paraf}">
+                                <a class="text-decoration-none text-danger" th:text="#{user.update.info.paraf.red}"></a>
                             </p>
-                            <div class="ps-3 text-lg-start text-center" th:text="#{hello}">Nombre Usuario:</div>
+                            <div class="ps-3 text-lg-start text-center" th:text="#{user.update.username}"></div>
                             <label class="w-100">
                                 <input type="text" class="input-text validateNameUsuarioResponse" th:field="*{nombre_usuario}">
                             </label>
@@ -55,22 +54,22 @@
                             <div class="container pt-3 m-0 w-100 px-0">
                                 <div class="row">
                                     <div class="col-sm p-0">
+                                        <div class="ps-3 paraf_form" th:text="#{user.update.name}"></div>
                                         <label class="w-100 ps-2 pe-3">
-                                            Nombre:
                                             <input type="text" class="input-text validateNombre" th:field="*{nombre}">
                                         </label>
                                         <div id="validateNombre"></div>
                                     </div>
                                     <div class="col-sm p-0">
+                                        <div class="ps-3 paraf_form" th:text="#{user.update.surname1}"></div>
                                         <label class="w-100 pe-2 ps-3">
-                                            Primer Apellido:
                                             <input type="text" class="input-text validateApellido1" th:field="*{apellido1}">
                                         </label>
                                         <div id="validateApellido1"></div>
                                     </div>
                                     <div class="col-sm p-0">
+                                        <div class="ps-3 paraf_form" th:text="#{user.update.surname2}"></div>
                                         <label class="w-100 pe-2 ps-3">
-                                            Ultimo Apellido(Optional):
                                             <input type="text" class="input-text validateApellido2" th:field="*{apellido2}">
                                         </label>
                                     </div>
@@ -80,8 +79,8 @@
                             <div class="container pt-3 m-0 w-100 px-0">
                                 <div class="row">
                                     <div class="col-sm p-0">
+                                        <div class="ps-3 paraf_form" th:text="#{user.update.phone}"></div>
                                         <label class="w-100 ps-2 pe-3">
-                                            Telefono:
                                             <input type="text" class="input-text validateTelefono" th:field="*{telefono}">
                                         </label>
                                         <div id="validateTelefono"></div>
@@ -90,7 +89,7 @@
                             </div>
                         </div>
                         <div class="d-flex flex-row justify-content-center pt-4">
-                            <button type="submit" class="btn btn-dark">Guardar</button>
+                            <button type="submit" class="btn btn-dark" th:text="#{button.save}"></button>
                         </div>
                     </div>
                 </div>
@@ -100,33 +99,30 @@
     <section  id="modificables" class="d-flex flex-row justify-content-center">
         <section class="d-flex flex-column justify-content-center body-info">
             <section class="pt-5">
-                <h3 class="title_section-info">Informacion No Modificables</h3>
-                <div class="d-flex flex-row justify-content-center pt-2">
-                    <p class="paraf_form text-start fw-normal length">
-                        <a class="text-decoration-none text-danger">Estas opciones del usuario no las puedes moficar en este apartado</a>
-                        , para ello pulsa el boton de la derecha para realizar la operacion.
-                    </p>
-                </div>
+                <h3 class="title_section-info" th:text="#{user.aside.no.modified}"></h3>
                 <div class="d-flex flex-row justify-content-center">
                     <div class="d-flex flex-column justify-content-center length">
                         <div class="border border-secondary border-1 mt-2 p-4 box-container">
-                            <h4 class="fw-normal text-start text-black QuickSand">Information Important</h4>
-                            <p class="paraf_form text-start fw-normal">
-                                Para poder visualizar la informacion importante de un usuario tienes que poner la contraseña y
-                                <a class="text-decoration-none text-danger">en el caso que no la sepas tienes una opcion en la parte de la izquierda o mas abajo.</a>
+                            <h4 class="fw-normal text-start text-black QuickSand" th:text="#{user.update.important.title}"></h4>
+                            <p class="paraf_form text-start fw-normal QuickSand" th:text="#{user.update.important.paraf}">
+                                <a class="text-decoration-none text-danger QuickSand" th:text="#{user.update.important.paraf.red}"></a>
                             </p>
+                            <div class="w-100 text-center paraf_form fw-normal length">
+                                <a class="text-decoration-none text-danger" th:text="#{user.update.info.no.modified.paraf.red}"></a>
+                                <div th:text="#{user.update.info.no.modified.paraf}"></div>
+                            </div>
                             <section th:if="${verified}==true">
                                 <div class="container pt-3 m-0 w-100 px-0">
                                     <div class="row">
                                         <div class="col-sm p-0">
+                                            <div class="ps-3 paraf_form" th:text="#{user.update.dni}"></div>
                                             <label class="w-100 pe-2 ps-3">
-                                                DNI:
                                                 <input type="text" class="input-text" th:value="${user.dni}" readonly>
                                             </label>
                                         </div>
                                         <div class="col-sm p-0">
+                                            <div class="ps-3 paraf_form" th:text="#{user.update.correo}"></div>
                                             <label class="w-100 pe-2 ps-3">
-                                                Correo:
                                                 <input type="text" class="input-text" th:value="${user.correo}" readonly>
                                             </label>
                                         </div>
@@ -134,8 +130,8 @@
                                 </div>
                                 <div th:if="${user.isAdmin()}" class="container pt-3 m-0 w-100 px-0">
                                     <div class="form-check form-switch d-flex flex-row justify-content-center pt-4">
+                                        <div class="ps-3 paraf_form" th:text="#{user.update.admin}"></div>
                                         <label class="w-100 d-flex flex-row justify-content-center">
-                                            Admin:
                                             <input class="form-check-input m-0 fs-3" type="checkbox" readonly>
                                         </label>
                                     </div>
@@ -144,13 +140,13 @@
                             <section th:if="${verified}==null">
                                 <form class="container pt-3 m-0 w-100 px-0" th:action="@{/user/verified}" method="POST">
                                     <div class="col-sm p-0">
+                                        <div class="ps-3 paraf_form" th:text="#{user.update.password}"></div>
                                         <label class="w-100 pe-2 ps-3">
-                                            Contraseña:
                                             <input type="password" class="input-text" id="verified" name="verified">
                                         </label>
                                     </div>
                                     <div class="d-flex flex-row justify-content-center pt-4">
-                                        <button type="submit" class="btn btn-dark">Comprovar</button>
+                                        <button type="submit" class="btn btn-dark" th:text="#{button.prove}"></button>
                                     </div>
                                 </form>
                             </section>
@@ -163,20 +159,19 @@
     <form id="changepassword" onsubmit="return changepassword()" class="d-flex flex-row justify-content-center mb-5" th:action="@{/user/changepassword}" method="POST">
         <section class="d-flex flex-column justify-content-center body-info">
             <section class="pt-5">
-                <h3 class="title_section-info">Cambiar Contraseña</h3>
+                <h3 class="title_section-info" th:text="#{user.update.password.title}"></h3>
                 <div class="d-flex flex-row justify-content-center">
                     <div class="d-flex flex-column justify-content-center length">
                         <div class="border border-secondary border-1 mt-2 p-4 box-container">
-                            <h4 class="fw-normal text-start text-black QuickSand">Cambiar la Contraseña</h4>
-                            <p class="paraf_form">
-                                Puede ser que tengas problemas con tu contraseña y deseas cambiarla, para eso estamos nosotros para ayudarte a cambiar tu contrasña,
-                                <a class="text-decoration-none text-danger">ten encuenta que al cambiar la contraseña se te quitara la session.</a>
+                            <h4 class="fw-normal text-start text-black QuickSand" th:text="#{user.update.password.sub.title}"></h4>
+                            <p class="paraf_form" th:text="#{user.update.password.sub.title.paraf}">
+                                <a class="text-decoration-none text-danger" th:text="#{user.update.password.sub.title.paraf.red}"></a>
                             </p>
                             <section class="container">
                                 <div class="row">
                                     <div class="col-sm p-0">
+                                        <div class="ps-3 paraf_form" th:text="#{user.update.password.now}"></div>
                                         <label class="w-100 pe-2 ps-3">
-                                            Actual Contraseña:
                                             <input type="password" class="input-text" id="password_actual" name="password_actual">
                                         </label>
                                         <div class="password_actual"></div>
@@ -184,15 +179,15 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-sm p-0">
+                                        <div class="ps-3 paraf_form" th:text="#{user.update.password.change}"></div>
                                         <label class="w-100 pe-2 ps-3">
-                                            Contraseña a cambiar:
                                             <input type="password" class="input-text" id="password_change" name="password_change">
                                         </label>
                                         <div class="password_change"></div>
                                     </div>
                                     <div class="col-sm p-0">
+                                        <div class="ps-3 paraf_form" th:text="#{user.update.password.change.confirm}"></div>
                                         <label class="w-100 pe-2 ps-3">
-                                            Confirmar Contraseña a cambiar:
                                             <input type="password" class="input-text" id="password_change_confirm" name="password_change_confirm">
                                         </label>
                                         <div class="password_change_confirm"></div>
@@ -200,7 +195,7 @@
                                 </div>
                             </section>
                             <div class="d-flex flex-row justify-content-center pt-4">
-                                <button type="submit" class="btn btn-dark">Continuar</button>
+                                <button type="submit" class="btn btn-dark" th:text="#{button.continue}"></button>
                             </div>
                         </div>
                     </div>
@@ -211,13 +206,13 @@
     <form th:if="${hascode}==true" id="recuperar" class="d-flex flex-row justify-content-center mb-5" th:action="@{/user/password}" method="POST">
         <section class="d-flex flex-column justify-content-center body-info">
             <section class="pt-5">
-                <h3 class="title_section-info">Recuperar Contraseña</h3>
+                <h3 class="title_section-info" th:text="#{user.update.recover.password.title}"></h3>
                 <div class="d-flex flex-row justify-content-center">
                     <div class="d-flex flex-column justify-content-center length">
                         <div class="border border-secondary border-1 mt-2 p-4 box-container">
-                            <p class="paraf_form">Puede ser que tengas problemas con tu negocio y deseas emprender una vida nueva o un nuevo restaurante, para ello te damos la opcion de eliminar tu restaurante, recuerda <a class="text-decoration-none text-danger">al confirmar que quieres eliminar no se podra recuperar.</a></p>
+                            <p class="paraf_form" th:text="#{user.update.recover.password.paraf}"><a class="text-decoration-none text-danger" th:text="#{user.update.recover.password.paraf.red}"></a></p>
                             <div class="d-flex flex-row justify-content-center pt-4">
-                                <button type="submit" class="btn btn-dark">Enviar Codigo</button>
+                                <button type="submit" class="btn btn-dark" th:text="#{button.send.code}"></button>
                             </div>
                         </div>
                     </div>
@@ -228,15 +223,15 @@
     <form th:if="${hascode}==false" id="recuperar" onsubmit="return password()" class="d-flex flex-row justify-content-center mb-5" th:action="@{/user/recuperar}" method="POST">
         <section class="d-flex flex-column justify-content-center body-info">
             <section class="pt-5">
-                <h3 class="title_section-info">Recuperar Contraseña</h3>
+                <h3 class="title_section-info" th:text="#{user.update.recover.password.title}"></h3>
                 <div class="d-flex flex-row justify-content-center">
                     <div class="d-flex flex-column justify-content-center length">
                         <div class="border border-secondary border-1 mt-2 p-4 box-container">
                             <section class="container">
                                 <div class="row">
                                     <div class="col-sm p-0">
+                                        <div class="ps-3 paraf_form" th:text="#{user.update.password.code.verify}"></div>
                                         <label class="w-100 pe-2 ps-3">
-                                            Codigo verificacion:
                                             <input type="text" class="text-center input-text" id="codigo_email" name="codigo_email">
                                         </label>
                                         <div class="codigo_email"></div>
@@ -244,23 +239,24 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-sm p-0">
+                                        <div class="ps-3 paraf_form" th:text="#{user.update.password.change}"></div>
                                         <label class="w-100 pe-2 ps-3">
-                                            Contraseña a cambiar:
                                             <input type="password" class="input-text" id="password_change_recuperar" name="password_change_recuperar">
                                         </label>
                                         <div class="password_change_recuperar"></div>
                                     </div>
                                     <div class="col-sm p-0">
+                                        <div class="ps-3 paraf_form" th:text="#{user.update.password.change.confirm}"></div>
                                         <label class="w-100 pe-2 ps-3">
-                                            Confirmar Contraseña a cambiar:
                                             <input type="password" class="input-text" id="password_change_confirm_recuperar" name="password_change_confirm_recuperar">
                                         </label>
                                         <div class="password_change_confirm_recuperar"></div>
                                     </div>
                                 </div>
                                 <div class="d-flex flex-row justify-content-center pt-4 gap-2">
-                                    <button type="submit" class="btn btn-dark">Comprovar</button>
-                                    <a href="/recuperar" class="btn btn-dark">Regenerar</a>
+                                    <button type="submit" class="btn btn-dark" th:text="#{button.prove}"></button>
+                                    <a href="/recuperar" class="btn btn-dark" th:text="#{button.generate.code}"></a>
+                                    <a href="/delete/code" class="btn btn-danger" th:text="#{button.delete.code}"></a>
                                 </div>
                             </section>
                         </div>
@@ -276,6 +272,11 @@
 <script th:src="@{/js/headerv2.js}"></script>
 <script th:src="@{/js/asideVersionScroll.js}"></script>
 <script th:src="@{/js/hide_messages.js}"></script>
+<script th:inline="javascript">
+    let traducciones = {
+        formResponse: [[#{user.update.js.form}]]
+    }
+</script>
 <script th:src="@{/js/user_update.js}"></script>
 </body>
 </html>

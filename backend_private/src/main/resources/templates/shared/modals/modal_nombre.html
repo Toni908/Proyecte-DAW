@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>MODEL NOMBRE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
 <!-- Modal Edita Model -->
@@ -21,7 +22,7 @@
 
                 <div class="modal-body d-flex justify-content-evenly">
                     <input type="submit" id="eliminarbutton" class="btn btn-primary text-center"></input>
-                    <button type="button" class="btn btn-secondary text-center" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-secondary text-center" data-bs-dismiss="modal" th:text="#{button.cancel}"></button>
                 </div>
             </form>
             </div>

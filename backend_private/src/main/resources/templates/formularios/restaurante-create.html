@@ -2,153 +2,182 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Crear Restaurante</title>
+    <title th:text="#{restaurant.create.meta}"></title>
     <link th:href="@{/css/custom.css}" rel="stylesheet">
     <link th:href="@{/css/form.css}" rel="stylesheet">
     <link th:href="@{/css/restaurant_create.css}" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body class="bg-black">
-<header th:insert="shared/headerVersion1 :: header" class="sticky-top top-0"></header>
-<div th:if="${error}!=null" th:text="${error}" class="message_error"></div>
-<div th:if="${success}!=null" th:text="${success}" class="message_success"></div>
-<main class="d-flex flex-row justify-content-center bg-white pb-5">
-    <form onsubmit="return validate()" id="formRestaurant" class="container form-container" th:action="@{/restaurant/save}" method="POST" enctype="multipart/form-data" th:object="${restaurant}">
-        <div class="title_form">
-            <h1 class="text-center">Your Restaurant</h1>
-            <h4 class="text-center sub_comment_title">Que contiene tu restaurante?</h4>
-        </div>
-        <div class="body_form">
-            <div class="d-flex justify-content-center">
-                <div class="text-center mb-3 p-0 w-80">
-                    <div class="ps-3 paraf_form">Nombre</div>
-                    <label class="w-100 field_form_principal validateNameResponse">
-                        <input class="text-center input-text" id="nombre" th:field="*{nombre}" type="text" maxlength="40" placeholder="NOMBRE RESTAURANTE" required>
-                    </label>
-                    <div id="validateNameResponse"></div>
-                </div>
+    <header th:insert="shared/headerVersion1 :: header" class="sticky-top top-0"></header>
+    <div th:if="${error}!=null" th:text="${error}" class="z-index1 message_error"></div>
+    <div th:if="${success}!=null" th:text="${success}" class="z-index1 message_success"></div>
+
+    <div id="error" class="z-index1 message_error"></div>
+    <main class="d-flex flex-row justify-content-center bg-white pb-5">
+        <form onsubmit="return validate()" id="formRestaurant" class="container form-container" th:action="@{/restaurant/save}" method="POST" enctype="multipart/form-data" th:object="${restaurant}">
+            <div class="title_form">
+                <h1 class="text-center" th:text="#{restaurant.create.title}"></h1>
+                <h4 class="text-center sub_comment_title" th:text="#{restaurant.create.sub_comment_title}"></h4>
             </div>
-            <div class="container">
-                <div class="row mt-2">
-                    <div class="col-lg-6">
-                        <div class="ps-3 paraf_form">Anticipacion reservas</div>
-                        <label class="w-100 field_form_section">
-                            <input class="input-text" type="number" id="dies_anticipacion_reservas" th:field="*{dies_anticipacion_reservas}" oninput="this.value = Math.abs(this.value)" required>
+            <div class="body_form">
+                <div class="d-flex justify-content-center">
+                    <div class="text-center mb-3 p-0 w-80">
+                        <div class="ps-3 paraf_form" th:text="#{restaurant.form.name}"></div>
+                        <label class="w-100 field_form_principal validateNameResponse">
+                            <input class="text-center input-text" id="nombre" th:field="*{nombre}" type="text" maxlength="40" th:placeholder="#{restaurant.create.form.name.placeholder}" required>
                         </label>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="ps-3 paraf_form">Telefono</div>
-                        <label class="w-100 field_form_section">
-                            <input class="input-text validateTelefonoResponse" type="number" id="telefono_restaurante" th:field="*{telefono_restaurante}" oninput="this.value = Math.abs(this.value)" required>
-                        </label>
-                        <div id="validateTelefonoResponse"></div>
+                        <div id="validateNameResponse"></div>
                     </div>
                 </div>
-                <div class="row mt-2">
-                    <div class="col-lg-6">
-                        <div class="paraf_form">Aforo:</div>
-                        <label class="w-100 field_form_section">
-                            <input type="number" class="input-text validateAforo" id="aforo" th:field="*{aforo}">
-                        </label>
-                        <div id="validateAforo"></div>
+                <div class="container">
+                    <div class="row mt-2">
+                        <div class="col-lg-6">
+                            <div class="ps-3 paraf_form" th:text="#{restaurant.form.days}"></div>
+                            <label class="w-100 field_form_section">
+                                <input class="input-text" type="number" id="dies_anticipacion_reservas" th:field="*{dies_anticipacion_reservas}" oninput="this.value = Math.abs(this.value)" required>
+                            </label>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="ps-3 paraf_form" th:text="#{restaurant.form.phone}"></div>
+                            <label class="w-100 field_form_section">
+                                <input class="input-text validateTelefonoResponse" type="number" id="telefono_restaurante" th:field="*{telefono_restaurante}" oninput="this.value = Math.abs(this.value)" required>
+                            </label>
+                            <div id="validateTelefonoResponse"></div>
+                        </div>
                     </div>
-                    <div class="col-lg-6">
-                        <div class="paraf_form">Direccion:</div>
-                        <label class="w-100 field_form_section">
-                            <input type="text" max="40" class="input-text validateDireccion" id="direccion" th:field="*{direccion}">
-                        </label>
-                        <div id="validateDireccion"></div>
+                    <div class="row mt-2">
+                        <div class="col-lg-6">
+                            <div class="paraf_form" th:text="#{restaurant.form.capacity}"></div>
+                            <label class="w-100 field_form_section">
+                                <input type="number" class="input-text validateAforo" id="aforo" th:field="*{aforo}">
+                            </label>
+                            <div id="validateAforo"></div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="paraf_form" th:text="#{restaurant.form.address}"></div>
+                            <label class="w-100 field_form_section">
+                                <input type="text" max="40" class="input-text validateDireccion" id="direccion" th:field="*{direccion}">
+                            </label>
+                            <div id="validateDireccion"></div>
+                        </div>
                     </div>
-                </div>
-                <div class="row mt-2">
-                    <div class="col-lg-6">
-                        <div class="ps-3 paraf_form">Municipio</div>
-                        <label class="w-100 field_form_section">
-                            <select class="input-text" id="municipio">
+                    <div class="row mt-2">
+                        <div class="col-lg-6">
+                            <div class="ps-3 paraf_form" th:text="#{restaurant.form.municipality}"></div>
+                            <label class="w-100 field_form_section">
+                                <select class="input-text" id="municipio">
 
-                            </select>
-                        </label>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="ps-3 paraf_form">Localidad</div>
-                        <label class="w-100 field_form_section">
-                            <select id="localidad" class="input-text validateLocalidadResponse" th:field="*{localidad}" required>
+                                </select>
+                            </label>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="ps-3 paraf_form" th:text="#{restaurant.form.location}"></div>
+                            <label class="w-100 field_form_section">
+                                <select id="localidad" class="input-text validateLocalidadResponse" th:field="*{localidad}" required>
 
-                            </select>
-                        </label>
-                        <div id="validateLocalidadResponse"></div>
+                                </select>
+                            </label>
+                            <div id="validateLocalidadResponse"></div>
+                        </div>
                     </div>
-                </div>
-                <div class="row mt-2">
-                    <div class="col-lg-6">
-                        <div class="ps-3 paraf_form text-secondary">Longitud</div>
-                        <label class="w-100 field_form_section">
-                            <input type="number" step="any" id="longitud" class="input-text text-secondary" name="longitud" readonly>
-                        </label>
+                    <div class="row mt-2">
+                        <div class="col-lg-6">
+                            <div class="ps-3 paraf_form text-secondary" th:text="#{restaurant.form.longitude}"></div>
+                            <label class="w-100 field_form_section">
+                                <input type="number" step="any" id="longitud" class="input-text text-secondary" name="longitud" readonly>
+                            </label>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="ps-3 paraf_form text-secondary" th:text="#{restaurant.form.latitude}"></div>
+                            <label class="w-100 field_form_section">
+                                <input type="number" step="any" id="latitud" class="input-text text-secondary" name="latitud" readonly>
+                            </label>
+                        </div>
                     </div>
-                    <div class="col-lg-6">
-                        <div class="ps-3 paraf_form text-secondary">Latitud</div>
-                        <label class="w-100 field_form_section">
-                            <input type="number" step="any" id="latitud" class="input-text text-secondary" name="latitud" readonly>
-                        </label>
-                    </div>
-                </div>
-                <div class="row mt-2">
-                    <div class="d-flex justify-content-center mt-3">
-                        <div class="mb-3 p-0 w-100">
-                            <div class="w-100 googleMaps-Height" id="miGoogleMap"></div>
-                            <div class="googleMaps w-100">
+                    <div class="row mt-2">
+                        <div class="d-flex justify-content-center mt-3">
+                            <div class="mb-3 p-0 w-100">
+                                <div class="w-100 googleMaps-Height" id="miGoogleMap"></div>
+                                <div class="googleMaps w-100 z-index-1">
 
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row mt-2">
-                    <div class="ps-3 paraf_form">Image</div>
-                    <label class="w-100 field_form_principal">
-                        <input class="input-text validateImagenResponse" id="image" name="image" type="file" maxlength="80" placeholder="URL" required>
-                    </label>
-                    <div id="validateImagenResponse"></div>
-                </div>
-            </div>
-            <div class="d-flex justify-content-center">
-                <div class="mb-3 p-0 w-80">
-                    <div class="w-100 d-flex flex-row gap-4">
-                        <div class="text-center ps-3 paraf_form w-50">Etiquetas</div>
-                        <div class="text-center ps-3 paraf_form w-50">Resultados</div>
-                    </div>
-                    <div class="w-100 d-flex flex-row gap-4 border-10px" th:if="${etiquetas}!=null">
-                        <label class="field_form_section w-50">
-                            <input id="selectText" class="input-text" type="text">
+                    <div class="row mt-2">
+                        <div class="ps-3 paraf_form" th:text="#{restaurant.form.image}"></div>
+                        <label class="w-100 field_form_principal">
+                            <input class="input-text validateImagenResponse" id="image" name="image" type="file" maxlength="80" placeholder="URL" required>
                         </label>
-                        <label class="field_form_section w-50">
-                            <select class="input-text" id="selectEtiquetas">
-                            </select>
-                            <input class="input-text p-3 border border-2 border-success" id="create_etiqueta" onclick="addEtiqueta()" type="hidden" value="Create">
-                        </label>
+                        <div id="validateImagenResponse"></div>
                     </div>
                 </div>
-            </div>
-            <!-- BOX OF ETIQUETAS SELECTED -->
-            <div class="field_form_section align-self-center width-responsive-50">
-                <div class="text-center paraf_form">Etiquetas selecionadas</div>
-                <section class="h-100 d-flex flex-row flex-wrap gap-5 p-4 h-auto validateEtiquetasResponse" id="etiquetas_box">
+                <div class="d-flex justify-content-center">
+                    <div class="mb-3 p-0 w-80">
+                        <div class="w-100 d-flex flex-row gap-4">
+                            <div class="text-center ps-3 paraf_form w-50" th:text="#{restaurant.form.tags}"></div>
+                            <div class="text-center ps-3 paraf_form w-50" th:text="#{restaurant.form.results}"></div>
+                        </div>
+                        <div class="w-100 d-flex flex-row gap-4 border-10px" th:if="${etiquetas}!=null">
+                            <label class="field_form_section w-50">
+                                <input id="selectText" class="input-text" type="text">
+                            </label>
+                            <label class="field_form_section w-50">
+                                <select class="input-text" id="selectEtiquetas">
+                                </select>
+                                <input class="input-text p-3 border border-2 border-success" id="create_etiqueta" onclick="addEtiqueta()" type="hidden" value="Create">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <!-- BOX OF ETIQUETAS SELECTED -->
+                <div class="field_form_section align-self-center width-responsive-50">
+                    <div class="text-center paraf_form" th:text="#{restaurant.form.tags.selected}"></div>
+                    <section class="h-100 d-flex flex-row flex-wrap gap-5 p-4 h-auto validateEtiquetasResponse" id="etiquetas_box">
 
-                </section>
+                    </section>
+                </div>
+                <div class="w-100 d-flex flex-row justify-content-start" id="validateEtiquetasResponse"></div>
+                <div class="pt-3 row d-flex flex-row justify-content-center gap-5">
+                    <input id="submit" class="w-20 pt-2 pb-2 paraf_form rounded" type="submit" th:value="#{button.submit}" />
+                </div>
             </div>
-            <div class="w-100 d-flex flex-row justify-content-start" id="validateEtiquetasResponse"></div>
-            <div class="pt-3 row d-flex flex-row justify-content-center gap-5">
-                <input id="submit" class="w-20 pt-2 pb-2 paraf_form rounded" type="submit" value="Submit" />
-            </div>
-        </div>
-    </form>
-</main>
+        </form>
+    </main>
 <footer th:insert="shared/footer :: footer"></footer>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
 <script th:src="@{/js/headerv2.js}"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBCKiIqCdZGrVxx06LSbe7uG3zXOq1Cz5k&callback=myMap"></script>
-<script th:src="@{/js/restaurante_create.js}"></script>
-<script th:src="@{/js/hide_messages.js}"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBCKiIqCdZGrVxx06LSbe7uG3zXOq1Cz5k&callback=myMap"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+
+    let traductions = {
+        buscador: [[#{restaurant.create.js.arrow.search}]],
+        ocurrencias: [[#{restaurant.create.js.occurrences}]],
+        encontrados: [[#{restaurant.create.js.find}]],
+        short: [[#{errors.tags.short}]],
+        long: [[#{errors.tags.long}]],
+        max: [[#{errors.tags.max}]],
+        added: [[#{errors.tags.already.added}]],
+        municipality : [[#{restaurant.create.js.municipality}]],
+        selectM: [[#{restaurant.create.js.select.municipality}]],
+
+        formName: [[#{restaurant.create.js.form.name}]],
+        formPhone: [[#{restaurant.create.js.form.phone}]],
+        formLocation: [[#{restaurant.create.js.form.location}]],
+        formImage: [[#{restaurant.create.js.form.image}]],
+        formTag: [[#{restaurant.create.js.form.tag}]],
+        formAddress: [[#{restaurant.create.js.form.address}]],
+        formCapacity: [[#{restaurant.create.js.form.capacity}]],
+        formMap: [[#{restaurant.create.js.form.map}]]
+    };
+
+    /*]]>*/
+</script>
+    <script th:src="@{/js/etiquetas.js}"></script>
+    <script th:src="@{/js/restaurante_create.js}"></script>
+    <script th:src="@{/js/hide_messages.js}"></script>
 </body>
 </html>

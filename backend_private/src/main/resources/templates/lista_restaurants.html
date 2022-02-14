@@ -9,9 +9,9 @@
 </head>
 <body>
 <header th:insert="shared/headerVersion1 :: header" class="sticky-top top-0"></header>
-    <h2 class="text-center pt-5 fw-bold title_principal">Los Restaurantes de <a class="text-decoration-none text-dark fw-bold" th:text="${user.nombre_usuario}"></a></h2>
+    <h2 class="text-center pt-5 fw-bold title_principal" th:text="#{list.restaurants.title}+' '+${user.nombre_usuario}"></h2>
     <div class="d-flex flex-row justify-content-center w-100 gap-3 fw-bold sub_comment_title">
-        Numeros de Restaurantes
+        <div th:text="#{list.restaurants.sub.title}"></div>
         <div th:text="' '+${restaurantesUser.size()}"></div>
     </div>
     <div class="d-flex justify-content-center">
@@ -22,51 +22,49 @@
                         <div th:each="imageSingle, iterationImg : ${ImgImages}">
                             <div th:if="${restaurante.id_restaurante}==${imageSingle.id_restaurant}">
                                 <div th:if="${imageSingle.isEmpty()} == false">
-                                    <img class="img-restaurant p-3 w-100" th:src="@{${restaurante.getPhotosImagePath()}+${imageSingle.getImgs()[0].url}}" alt="Img Restaurant (1)">
+                                    <img class="img-restaurant p-3 w-100" th:src="@{${restaurante.getPhotosImagePath()}+${imageSingle.getImgs()[0].url}}" th:alt="#{list.restaurants.image.no.found}">
                                 </div>
                                 <div th:if="${imageSingle.isEmpty()} == true">
-                                    <img class="img-restaurant p-3 w-100" th:src="@{/img/no-photo-available.jpg}" alt="Img Restaurant (1)">
+                                    <img class="img-restaurant p-3 w-100" th:src="@{/img/no-photo-available.jpg}" th:alt="#{list.restaurants.image.no.found}">
                                 </div>
                             </div>
                         </div>
                         <div class="container">
                             <div class="d-flex flex-row justify-content-center">
-                                <h4 class="text-center"><b th:text="${restaurante.nombre}"></b></h4>
+                                <h4 class="text-center" th:text="${restaurante.nombre}"></h4>
                             </div>
                             <div class="container">
                                 <div class="row" th:each="carta : ${cartas}" th:if="${carta.restaurant.id_restaurante}==${restaurante.id_restaurante}">
                                     <div class="col-12">
                                         <div th:if="${carta.hasVisible}==true" class="d-flex flex-row justify-content-center fw-bold gap-2">
-                                            Carta activa:
+                                            <div th:text="#{list.restaurants.active.card}"></div>
                                             <p class="mb-1 fw-normal" th:each="carta1 : ${carta.restaurant.cartas}" th:if="${carta1.visible}==true" th:text="${carta1.nombre}"></p>
                                         </div>
                                     </div>
                                     <div class="col-12" th:if="${carta.isEmpty()}==false">
                                         <div th:if="${carta.hasVisible}==false" class="d-flex flex-row justify-content-center fw-bold gap-2">
-                                            Carta activa:
-                                            <p class="mb-1 fw-normal text-danger fw-bold">No hay una carta visible</p>
+                                            <div th:text="#{list.restaurants.active.card}"></div>
+                                            <p class="mb-1 fw-normal text-danger fw-bold" th:text="#{list.restaurants.no.active}"></p>
                                         </div>
                                     </div>
 
                                     <div th:if="${carta.isEmpty()}==true" class="col-12">
-                                        <div class="d-flex flex-row justify-content-center text-danger gap-2 fw-bold">
-                                            No hay cartas creadas
-                                        </div>
+                                        <div class="d-flex flex-row justify-content-center text-danger gap-2 fw-bold" th:text="#{list.restaurants.no.cards}"></div>
                                     </div>
                                 </div>
                                 <div class="row pt-3">
                                     <div class="col-lg-6 d-flex flex-row gap-2 fw-bold">
-                                        Aforo:
+                                        <div th:text="#{restaurant.form.capacity}"></div>
                                         <p class="mb-1 fw-normal" th:text="${restaurante.aforo}"></p>
                                     </div>
                                     <div class="col-lg-6 d-flex flex-row gap-2 fw-bold">
-                                        Tef:
+                                        <div th:text="#{restaurant.form.phone}"></div>
                                         <p class="mb-1 fw-normal" th:text="${restaurante.telefono_restaurante}"></p>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="d-flex flex-row gap-2 fw-bold">
-                                        Localidad:
+                                        <div th:text="#{restaurant.form.location}"></div>
                                         <p class="mb-1 fw-normal" th:text="${restaurante.localidad.nombre_localidad}"></p>
                                     </div>
                                 </div>

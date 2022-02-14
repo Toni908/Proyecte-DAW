@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Mis Reservas</title>
+    <title th:text="#{header.middle.bookings}"></title>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
     <link th:href="@{/css/custom.css}" rel="stylesheet">
     <link th:href="@{/css/form.css}" rel="stylesheet">
@@ -18,9 +18,8 @@
 <header th:if="${restaurantesUser.size()}!=0" th:fragment="header(restaurant)" id="header1" class="w-100 bg-front m-0">
     <div class="h-100 pt-2 pb-2 margin-nav-header1">
         <nav class="h-100 navbar navbar-light p-0 d-flex justify-content-lg-end justify-content-center border-e-grey">
-            <a class="nav-link size-header1 d-lg-none d-block text-white align-self-center p-0 pe-3 ps-3" href="#">Buscadar Avanzado</a>
-            <a class="nav-link size-header1 text-white align-self-center p-0 pe-3 ps-3" href="#">Preguntas</a>
-            <a class="nav-link size-header1 text-white align-self-center p-0 pe-3 ps-3" href="#">Quien Somos?</a>
+            <a class="nav-link size-header1 text-white align-self-center p-0 pe-3 ps-3" href="#" th:text="#{header.right.question1}"></a>
+            <a class="nav-link size-header1 text-white align-self-center p-0 pe-3 ps-3" href="#" th:text="#{header.right.question2}"></a>
         </nav>
     </div>
 </header>
@@ -41,9 +40,9 @@
             </div>
             <div class="col-lg-6 d-xl-block d-none h-100 p-0">
                 <nav id="navbarContent" class="h-100 d-flex flex-row justify-content-center navbar navbar-light fw-bold">
-                    <a class="align-self-center p-0 pe-3 ps-3" href="/">Inicio</a>
-                    <a class="align-self-center p-0 pe-3 ps-3" href="/restaurant/create">Crear Restaurante</a>
-                    <a class="align-self-center p-0 pe-3 ps-3" href="/reservas">Mis Reservas</a>
+                    <a class="align-self-center p-0 pe-3 ps-3" href="/" th:text="#{header.middle.start}"></a>
+                    <a class="align-self-center p-0 pe-3 ps-3" href="/restaurant/create" th:text="#{header.middle.create.restaurant}"></a>
+                    <a class="align-self-center p-0 pe-3 ps-3" href="/reservas" th:text="#{header.middle.bookings}"></a>
                 </nav>
             </div>
             <div class="col-lg-3 col-4 d-flex flex-row justify-content-end">
@@ -51,17 +50,17 @@
                 <div class="btn-group dropstart white-hover-grey">
                     <a href="/login" class="dropdown-toggle text-white" id="loginDropdown" data-bs-toggle="dropdown" aria-expanded="false" role="button"><i class="bi bi-person-fill fs-3 pe-xl-5 pe-3 align-self-center"></i></a>
                     <ul th:if="${session.user}!=null" class="dropdown-menu" aria-labelledby="loginDropdown">
-                        <li th:if="${session.user.isAdmin()}"><a class="dropdown-item" href="/restaurante/configuration/admin">Validar Restaurantes</a></li>
-                        <li><a class="dropdown-item" href="/user" th:text="'Bienvenido '+${session.user.nombre_usuario}"></a></li>
-                        <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                        <li th:if="${session.user.isAdmin()}"><a class="dropdown-item" href="/restaurante/configuration/admin" th:text="#{header.user.admin.validation}"></a></li>
+                        <li><a class="dropdown-item" href="/user" th:text="#{header.user.update}+' '+${session.user.nombre_usuario}"></a></li>
+                        <li><a class="dropdown-item" href="/logout" th:text="#{header.user.logout}"></a></li>
                     </ul>
                 </div>
                 <div class="btn-group dropstart">
                     <a class="dropdown-toggle white-hover-grey" id="idiomaDropdown" data-bs-toggle="dropdown" aria-expanded="false" role="button"><i class="bi bi-globe fs-3 pe-xl-5 pe-3 align-self-center"></i></a>
                     <ul class="dropdown-menu" aria-labelledby="idiomaDropdown">
-                        <li><a class="dropdown-item" href="/?lang=es">Castellano</a></li>
-                        <li><a class="dropdown-item" href="/?lang=ca">Catalan</a></li>
-                        <li><a class="dropdown-item" href="/?lang=en">Ingles</a></li>
+                        <li><a class="dropdown-item" href="?lang" th:text="#{header.lang.es}"></a></li>
+                        <li><a class="dropdown-item" href="?lang=ca" th:text="#{header.lang.ca}"></a></li>
+                        <li><a class="dropdown-item" href="?lang=en" th:text="#{header.lang.en}"></a></li>
                     </ul>
                 </div>
             </div>
@@ -70,12 +69,12 @@
     <div>
         <div class="offcanvas offcanvas-start" tabindex="-1" id="asideHeader" aria-labelledby="asideHeaderLabel">
             <div class="offcanvas-header">
-                <h5 class="offcanvas-title" id="asideHeaderLabel">Opciones</h5>
+                <h5 class="offcanvas-title" id="asideHeaderLabel" th:text="#{model.title}"></h5>
                 <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <a class="w-100 select-info text-decoration-none text-black ps-5" th:href="@{/lista/restaurantes}">
                 <i class="bi bi-shop fs-3"></i>
-                Lista Restaurantes
+                <div th:text="#{reservas.aside.list.restaurant}"></div>
             </a>
             <a th:each="restaurant : ${restaurantesUser}" th:for="${restaurant.nombre}" th:name="${restaurant.id_restaurante}" class="restaurantes w-100 d-flex flex-row select-info text-decoration-none text-black ps-5">
                 <i class="bi bi-journal-text fs-3"></i>
@@ -84,7 +83,7 @@
             <hr>
             <a class="w-100 select-info text-decoration-none text-black ps-5" th:href="@{/user}">
                 <i class="bi bi-person-square fs-3"></i>
-                Mi Usuario
+                <div th:text="#{aside.user}"></div>
             </a>
         </div>
     </div>
@@ -95,12 +94,12 @@
     <div class="container-info">
         <a class="w-100 select-info text-decoration-none text-black ps-5" th:href="@{/lista/restaurantes}">
             <i class="bi bi-shop fs-3"></i>
-            Lista Restaurantes
+            <div th:text="#{reservas.aside.list.restaurant}"></div>
         </a>
         <div th:if="${actualRestaurant}!=null">
             <a class="w-100 select-info text-decoration-none text-black ps-5" th:href="@{'/restaurant/update/'+${actualRestaurant.id_restaurante}}">
                 <i class="bi bi-arrow-left fs-3"></i>
-                Volver al Restaurante
+                <div th:text="#{reservas.aside.list.restaurant.return}"></div>
             </a>
             <a th:if="${actualRestaurant.id_restaurante}==${restaurant.id_restaurante}" th:each="restaurant : ${restaurantesUser}" th:for="${restaurant.nombre}" th:name="${restaurant.id_restaurante}" class="restaurantes activeRest d-flex flex-row select-info text-decoration-none text-black ps-5">
                 <i class="bi bi-journal-text fs-3"></i>
@@ -122,11 +121,9 @@
         <section class="pt-5 w-100 d-flex flex-row justify-content-center">
             <div>
                 <h1 id="title" class="pb-3" th:if="${restaurantesUser.size()}!=0"></h1>
-                <h1 class="pb-3" th:if="${restaurantesUser.size()}==0">No hay restaurantes</h1>
+                <h1 class="pb-3" th:if="${restaurantesUser.size()}==0" th:text="#{reservas.no.restaurnt}"></h1>
                 <h3 class="text-center" id="titleTime"></h3>
             </div>
-
-
         </section>
         <div th:if="${restaurantesUser.size()}==0" class="container_restaurants">
             <div th:insert="shared/noRestaurante :: norestaurant"></div>
@@ -138,11 +135,11 @@
                     <thead>
                     <tr>
                         <th></th>
-                        <th>nombre</th>
-                        <th>personas</th>
-                        <th class="displayColumn">telefono</th>
-                        <th>Hora</th>
-                        <th>Correo</th>
+                        <th th:text="#{reservas.table.name}"></th>
+                        <th th:text="#{reservas.table.person}"></th>
+                        <th class="displayColumn" th:text="#{reservas.table.phone}"></th>
+                        <th th:text="#{reservas.table.hour}"></th>
+                        <th th:text="#{reservas.table.address}"></th>
                     </tr>
                     </thead>
                 </table>
@@ -150,16 +147,18 @@
             <div class="check-datepicker">
                 <section class="w-100 d-flex flex-column justify-content-center p-lg-3 pt-0">
                     <div class="form-check form-switch d-flex flex-column justify-content-center p-0 m-0">
+                        <div class="w-100 text-center text-capitalize" th:text="#{reservas.datepicker}"></div>
                         <label class="w-100 d-flex flex-row justify-content-center gap-4">
-                            Activo permanentemente
                             <input class="form-check-input m-0 fs-3" id="datepickcheck" type="checkbox" checked>
                         </label>
                     </div>
-                    <div class="pt-2 pe-lg-5">
+                    <div class="text-center">
                         <input id="datepicker" type="text" class="form-control">
                     </div>
-                    <div class="datepicker">
+                    <div class="d-flex flex-row justify-content-center pt-2">
+                        <div class="datepicker">
 
+                        </div>
                     </div>
                 </section>
             </div>
@@ -179,6 +178,36 @@
 <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
+<script th:inline="javascript">
+    let traducciones = {
+        noRestaurant: [[#{reservas.js.no.restaurant}]],
+        noRestaurantRed: [[#{reservas.js.no.restaurant.red}]],
+        delDia: [[#{reservas.js.to.day}]],
+        language: {
+            "decimal": "",
+            "emptyTable": [[#{reservas.js.datatables.emptyTable}]],
+            "info": [[#{reservas.js.datatables.info}]],
+            "infoEmpty": [[#{reservas.js.datatables.infoEmpty}]],
+            "infoFiltered": [[#{reservas.js.datatables.infoFiltered}]],
+            "infoPostFix": "",
+            "thousands": ",",
+            "lengthMenu": [[#{reservas.js.datatables.lengthMenu}]],
+            "loadingRecords": [[#{reservas.js.datatables.loadingRecords}]],
+            "processing": [[#{reservas.js.datatables.processing}]],
+            "search": [[#{reservas.js.datatables.search}]],
+            "zeroRecords": [[#{reservas.js.datatables.zeroRecords}]],
+            "paginate": {
+                "first": [[#{reservas.js.datatables.first}]],
+                "last": [[#{reservas.js.datatables.last}]],
+                "next": [[#{reservas.js.datatables.next}]],
+                "previous": [[#{reservas.js.datatables.previous}]]
+            }
+        },
+        date: [[#{reservas.js.date}]],
+        phone: [[#{reservas.js.phone}]],
+        lang: [[#{reservas.js.lang}]]
+    }
+</script>
 <script th:src="@{/js/reservas.js}"></script>
 </body>
 </html>

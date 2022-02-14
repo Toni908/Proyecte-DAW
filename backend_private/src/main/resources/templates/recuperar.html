@@ -2,10 +2,12 @@
 <html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Register</title>
+  <title th:text="#{password.generate.title}"></title>
   <link th:href="@{/css/custom.css}" rel="stylesheet"/>
   <link th:href="@{/css/spinner.css}" rel="stylesheet"/>
+  <link th:href="@{/css/login.css}" rel="stylesheet"/>
   <link th:href="@{/css/pagination_tab.css}" rel="stylesheet"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body class="background-color-general">
 <main>
@@ -15,26 +17,26 @@
     <div class="container py-5 h-auto">
       <div class="row d-flex justify-content-center align-items-center h-100">
         <div class="col col-xl-10">
-          <div class="card" style="border-radius: 1rem;">
+          <div class="card border-radius-1">
             <div class="row g-0 m-auto w-100">
               <div class="col-md-6 col-lg-7 d-flex align-items-center w-100">
                 <div class="card-body p-4 p-lg-5 text-black w-100">
 
                   <form id="sendCode" th:if="${hasSend}==null" class="w-100" method="post" th:action="@{/send/code}">
                     <div class="d-flex align-items-center mb-3 pb-1">
-                      <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
-                      <span class="h1 fw-bold mb-0">Recuperacion Contraseña</span>
+                      <span class="h1 fw-bold mb-0" th:text="#{password.generate.title}"></span>
                     </div>
                     <div class="spinner w-100 text-center position-fixed">
                       <div class="spinner-border fs-3 spinner-lg" role="status">
-                        <span class="visually-hidden">Loading...</span>
+                        <span class="visually-hidden"></span>
                       </div>
                     </div>
                     <!-- One "tab" for each step in the form: -->
-                    <div class="tab form-outline mb-4">Correo:
+                    <div class="tab form-outline mb-4">
+                      <div class="ps-3 paraf_form text-secondary" th:text="#{restaurant.form.address}"></div>
                       <p><input placeholder="Correo..." type="email" id="email_actual" name="email_actual" class="QuickSand form-control form-control-lg" oninput="this.className = ''"></p>
                     </div>
-                    <div class="text-center form-outline my-4 d-flex flex-row justify-content-start gap-2" style="width: min-content">
+                    <div class="text-center form-outline my-4 d-flex flex-row justify-content-start gap-2 width-min-content">
                       <input type="button" onclick="showSpinner()" class="btn btn-dark" value="Enviar Codigo">
                       <a type="button" class="btn btn-secondary" th:href="@{/recuperar/send}">Continuar</a>
                     </div>
@@ -43,27 +45,31 @@
                   <form th:if="${hasSend}==true" class="w-100" method="post" th:action="@{/recuperar/password}">
                     <div class="d-flex align-items-center mb-3 pb-1">
                       <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
-                      <span class="h1 fw-bold mb-0">Recuperacion Contraseña</span>
+                      <span class="h1 fw-bold mb-0" th:text="#{password.generate.recover.title}"></span>
                     </div>
-                    <div class="tab form-outline mb-4">Codigo del Correo:
-                      <p><input type="number" id="code" name="code" class="QuickSand form-control form-control-lg" placeholder="Codigo..." oninput="this.className = ''"></p>
+                    <div class="tab form-outline mb-4">
+                      <div class="ps-3 paraf_form text-secondary" th:text="#{password.generate.tab.code}"></div>
+                      <p><input type="number" id="code" name="code" class="QuickSand form-control form-control-lg" th:placeholder="#{password.generate.tab.code.placeholder}" oninput="this.className = ''"></p>
                     </div>
-                    <div class="tab form-outline mb-4">Nombre Usuario:
-                      <p><input type="text" id="nombre_usuario" name="nombre_usuario" class="QuickSand form-control form-control-lg" placeholder="Nombre Usuario..." oninput="this.className = ''"></p>
+                    <div class="tab form-outline mb-4">
+                      <div class="ps-3 paraf_form text-secondary" th:text="#{password.generate.tab.username}"></div>
+                      <p><input type="text" id="nombre_usuario" name="nombre_usuario" class="QuickSand form-control form-control-lg" th:placeholder="#{password.generate.tab.username.placeholder}" oninput="this.className = ''"></p>
                     </div>
-                    <div class="tab">DNI:
-                      <p><input type="text" name="dni" id="dni" class="QuickSand form-control form-control-lg" placeholder="DNI..." oninput="this.className = ''"></p>
+                    <div class="tab">
+                      <div class="ps-3 paraf_form text-secondary" th:text="#{password.generate.tab.dni}"></div>
+                      <p><input type="text" name="dni" id="dni" class="QuickSand form-control form-control-lg" th:placeholder="#{password.generate.tab.dni.placeholder}" oninput="this.className = ''"></p>
                     </div>
-                    <div class="tab form-outline mb-4">Nueva Contraseña:
-                      <p><input type="password" id="password" name="password" class="QuickSand form-control form-control-lg" placeholder="Password..." oninput="this.className = ''"></p>
+                    <div class="tab form-outline mb-4">
+                      <div class="ps-3 paraf_form text-secondary" th:text="#{password.generate.tab.password}"></div>
+                      <p><input type="password" id="password" name="password" class="QuickSand form-control form-control-lg" th:placeholder="#{password.generate.tab.password.placeholder}" oninput="this.className = ''"></p>
                     </div>
-
-                    <div class="tab form-outline mb-4">Confirmar Nueva Contraseña:
-                      <p><input type="password" id="password_confirm" name="password_confirm" class="QuickSand form-control form-control-lg" placeholder="Password Confirm..." oninput="this.className = ''"></p>
+                    <div class="tab form-outline mb-4">
+                      <div class="ps-3 paraf_form text-secondary" th:text="#{password.generate.tab.new.password}"></div>
+                      <p><input type="password" id="password_confirm" name="password_confirm" class="QuickSand form-control form-control-lg" th:placeholder="#{password.generate.tab.new.password.placeholder}" oninput="this.className = ''"></p>
                     </div>
                     <div th:if="${hasSend}==true" class="overflow-auto w-100 d-flex flex-row justify-content-between">
-                      <button type="button" class="QuickSand btn btn-outline-diw" id="prevBtn" onclick="nextPrev(-1)">Volver</button>
-                      <button type="button" class="QuickSand btn btn-outline-diw" id="nextBtn" onclick="nextPrev(1)">Siguiente</button>
+                      <button type="button" class="QuickSand btn btn-outline-diw" id="prevBtn" onclick="nextPrev(-1)" th:text="#{button.return}"></button>
+                      <button type="button" class="QuickSand btn btn-outline-diw" id="nextBtn" onclick="nextPrev(1)" th:text="#{button.continue}"></button>
                     </div>
                     <!-- Circles which indicates the steps of the form: -->
                     <div class="text-center mt-5">
@@ -76,26 +82,27 @@
 
                   <form id="regenerateCode" th:if="${hasSend}==false" th:action="@{/regererar/code}">
                     <div class="d-flex align-items-center mb-3 pb-1">
-                      <span class="h1 fw-bold mb-0">Recuperacion Contraseña</span>
+                      <span class="h1 fw-bold mb-0" th:text="#{password.generate.title}"></span>
                     </div>
-                    <p class="QuickSand">Ya se encuentra un codigo enlazado con el correo, para cambiar el correo pulsa regenerar, con el correo insertado. Pulsa continuar para continuar con la recuperacion de contraseña.</p>
+                    <p class="QuickSand" th:text="#{password.generate.already.send}"></p>
                     <div class="spinner w-100 text-center position-fixed spinner">
                       <div class="spinner-border fs-3 spinner-lg" role="status">
-                        <span class="visually-hidden">Loading...</span>
+                        <span class="visually-hidden"></span>
                       </div>
                     </div>
                     <div class="text-center form-outline mb-4">
-                      <a type="button" class="QuickSand btn btn-secondary mt-3" th:href="@{/recuperar/send}">Continuar</a>
+                      <a type="button" class="QuickSand btn btn-secondary mt-3" th:href="@{/recuperar/send}" th:text="#{button.continue}"></a>
                     </div>
                   </form>
 
 
                   <form id="1" th:if="${hasSend}==true" method="post" th:action="@{/regererar/code}">
-                    <div class="form-outline mb-4">Regenerar codigo del Correo:
-                      <p><input placeholder="Correo..." type="email" id="email" name="email" class="QuickSand form-control form-control-lg"></p>
+                    <div class="form-outline mb-4">
+                      <div class="ps-3 paraf_form text-secondary" th:text="#{password.re.generate.title}"></div>
+                      <p><input th:placeholder="#{password.generate.tab.address.placeholder}" type="email" id="email" name="email" class="QuickSand form-control form-control-lg"></p>
                     </div>
                     <div class="text-center form-outline mb-4">
-                      <button type="button" onclick="showSpinner1()" class="QuickSand btn btn-secondary mt-3">Regenerar</button>
+                      <button type="button" onclick="showSpinner1()" class="QuickSand btn btn-secondary mt-3" th:text="#{button.re.generate}"></button>
                     </div>
                   </form>
 
@@ -110,6 +117,12 @@
 </main>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
+<script th:inline="javascript">
+  let traducciones = {
+    enviar: [[#{button.submit}]],
+    siguiente: [[#{button.continue}]]
+  }
+</script>
 <script th:src="@{/js/pagination_tab.js}"></script>
 <script th:src="@{/js/spinner_2s.js}"></script>
 <script th:src="@{/js/hide_messages.js}"></script>
