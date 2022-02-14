@@ -46,10 +46,10 @@
                 </div>
 
                 <div class="d-flex justify-content-center">
-                    <div class="mb-3 p-0 text-center length-card">
+                    <div class="mb-3 w-75 p-0 text-center length-card">
                         <div class="paraf_form" th:text="#{card.modify.form.name}"></div>
                         <label class="w-100 field_form_principal">
-                            <input class="input-text" id="name" name="name" th:value="${carta.nombre}" type="text" maxlength="50" required>
+                            <input class="input-text w-100" id="name" name="name" th:value="${carta.nombre}" type="text" maxlength="50" required>
                         </label>
                     </div>
                 </div>
@@ -97,6 +97,7 @@
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
 <script th:src="@{/js/headerv2.js}"></script>
+<script th:src="@{/js/asideVersionScroll.js}"></script>
 
 </body>
 </html>
