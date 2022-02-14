@@ -2,9 +2,11 @@
 <html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Edit cards</title>
+    <title th:text="#{card.modify.meta}"></title>
     <link th:href="@{/css/custom.css}" rel="stylesheet"/>
+    <link th:href="@{/css/card_modify.css}" rel="stylesheet"/>
     <link th:href="@{/css/form.css}" rel="stylesheet"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
 <div th:insert="shared/headerVersion2 :: header(${horario.periodo.restaurant})"/>
@@ -12,7 +14,7 @@
 <div class="container my-5">
     <div class="row justify-content-center">
         <a class="col-lg-3 col-md-4 col-sm-6 col-12 my-1 justify-content-center" th:href="@{'/restaurant/admin/periodo/horario/' + ${horario.periodo.id_periodo}}">
-            <button class="w-100 pt-2 pb-2 paraf_form rounded" value="Editar Platos"> Volver a los Horarios </button>
+            <button class="w-100 pt-2 pb-2 paraf_form rounded" value="Editar Platos" th:text="#{hours.return}"></button>
         </a>
     </div>
 </div>
@@ -25,8 +27,8 @@
         <form method="post" class="container form_container" th:action="@{'/restaurant/admin/periodo/horario/save/'+ ${horario.periodo.id_periodo}}">
 
             <div class="tittle_form">
-                <h1 class="text-center" th:if="${horario.id_horario != null}"> Editar Horario </h1>
-                <h1 class="text-center" th:unless="${horario.id_horario != null}"> Crear Horario </h1>
+                <h1 class="text-center" th:if="${horario.id_horario != null}" th:text="#{hours.edit}"></h1>
+                <h1 class="text-center" th:unless="${horario.id_horario != null}" th:text="#{hours.create}"></h1>
             </div>
 
             <div class="body_form">
@@ -34,8 +36,8 @@
                     <div class="row justify-content-md-center">
 
                 <div th:if="${horario.id_horario != null}" class="d-none d-flex justify-content-center">
-                    <div class="mb-3 p-0 text-center" style="width: 80%">
-                        <div class="paraf_form">Id:</div>
+                    <div class="mb-3 p-0 text-center length-card">
+                        <div class="paraf_form" th:text="#{hours.id}"></div>
                         <label class="w-100 field_form_principal">
                             <input class="input-text" id="id_horario" name="id_horario" th:value="${horario.id_horario}" type="text" readonly>
                         </label>
@@ -43,8 +45,8 @@
                 </div>
 
                 <div class="d-flex justify-content-center col-6">
-                    <div class="mb-3 p-0 text-center" style="width: 80%">
-                        <div class="paraf_form">Hora Entrada:</div>
+                    <div class="mb-3 p-0 text-center length-card">
+                        <div class="paraf_form" th:text="#{hours.start}"></div>
                         <label class="w-100 field_form_principal">
                             <select id="selectStart" class="input-text" name="dateStart">
                                 <option value="00:00:00">0:00</option>
@@ -89,8 +91,8 @@
                         </div>
 
                 <div class="d-flex justify-content-center col-6">
-                    <div class="mb-3 p-0 text-center" style="width: 80%">
-                        <div class="paraf_form">Hora Salida:</div>
+                    <div class="mb-3 p-0 text-center length-card">
+                        <div class="paraf_form" th:text="#{hours.end}"></div>
                         <label class="w-100 field_form_principal">
                             <select id="selectEnd" class="input-text" name="dateEnd">
                                 <option value="01:00:00">1:00</option>
@@ -125,17 +127,17 @@
 
 
                 <div th:if="${horario.id_horario != null}" class="d-flex justify-content-center col-9">
-                    <div class="mb-3 p-0 text-center" style="width: 80%">
-                        <div class="paraf_form">Cambia el dia:</div>
+                    <div class="mb-3 p-0 text-center length-card">
+                        <div class="paraf_form" th:text="#{hours.change.day}"></div>
                         <label class="w-100 field_form_principal">
                             <select id="selectDay" class="input-text" name="dateChange">
-                                <option value="Lunes">Lunes</option>
-                                <option value="Martes">Martes</option>
-                                <option value="Miercoles">Miercoles</option>
-                                <option value="Jueves">Jueves</option>
-                                <option value="Viernes">Viernes</option>
-                                <option value="Sabado">Sabado</option>
-                                <option value="Domingo">Domingo</option>
+                                <option value="Lunes" th:text="#{hours.monday}"></option>
+                                <option value="Martes" th:text="#{hours.tuesday}"></option>
+                                <option value="Miercoles" th:text="#{hours.wednesday}"></option>
+                                <option value="Jueves" th:text="#{hours.thursday}"></option>
+                                <option value="Viernes" th:text="#{hours.friday}"></option>
+                                <option value="Sabado" th:text="#{hours.saturday}"></option>
+                                <option value="Domingo" th:text="#{hours.sunday}"></option>
                             </select>
                         </label>
                     </div>
@@ -144,54 +146,54 @@
                         <div class="form-check text-start ms-3 d-none">
                             <input class="form-check-input" type="checkbox" value="nada" name="checkbox" checked id="flexCheckDefault">
                             <label class="form-check-label" for="flexCheckDefault">
-                                nada
+                                <div th:text="#{hours.nothing}"></div>
                             </label>
                         </div>
 
                         <div th:unless="${horario.id_horario != null}" class="d-flex justify-content-center col-6">
-                            <div class="mb-3 p-0 text-center" style="width: 80%">
-                                <div class="paraf_form">Seleciona los dias:</div>
+                            <div class="mb-3 p-0 text-center length-card">
+                                <div class="paraf_form" th:text="#{hours.select.days}"></div>
                                 <label class="w-100 field_form_principal">
                                     <div class="form-check text-start ms-3 my-1">
                                         <input class="form-check-input" type="checkbox" value="Lunes" name="checkbox" id="flexCheckDefault">
                                         <label class="form-check-label" for="flexCheckDefault">
-                                            Lunes
+                                            <div th:text="#{hours.monday}"></div>
                                         </label>
                                     </div>
                                     <div class="form-check text-start ms-3">
                                         <input class="form-check-input" type="checkbox" value="Martes" name="checkbox" id="flexCheckDefault">
                                         <label class="form-check-label" for="flexCheckDefault">
-                                            Martes
+                                            <div th:text="#{hours.tuesday}"></div>
                                         </label>
                                     </div>
                                     <div class="form-check text-start ms-3">
                                         <input class="form-check-input" type="checkbox" value="Miercoles" name="checkbox" id="flexCheckDefault">
                                         <label class="form-check-label" for="flexCheckDefault">
-                                            Miercoles
+                                            <div th:text="#{hours.wednesday}"></div>
                                         </label>
                                     </div>
                                     <div class="form-check text-start ms-3">
                                         <input class="form-check-input" type="checkbox" value="Jueves" name="checkbox" id="flexCheckDefault">
                                         <label class="form-check-label" for="flexCheckDefault">
-                                            Jueves
+                                            <div th:text="#{hours.thursday}"></div>
                                         </label>
                                     </div>
                                     <div class="form-check text-start ms-3">
                                         <input class="form-check-input" type="checkbox" value="Viernes" name="checkbox" id="flexCheckDefault">
                                         <label class="form-check-label" for="flexCheckDefault">
-                                            Viernes
+                                            <div th:text="#{hours.friday}"></div>
                                         </label>
                                     </div>
                                     <div class="form-check text-start ms-3">
                                         <input class="form-check-input" type="checkbox" value="Sabado" name="checkbox" id="flexCheckDefault">
                                         <label class="form-check-label" for="flexCheckDefault">
-                                            Sabado
+                                            <div th:text="#{hours.saturday}"></div>
                                         </label>
                                     </div>
                                     <div class="form-check text-start ms-3">
                                         <input class="form-check-input" type="checkbox" value="Domingo" name="checkbox" id="flexCheckDefault">
                                         <label class="form-check-label" for="flexCheckDefault">
-                                            Domingo
+                                            <div th:text="#{hours.sunday}"></div>
                                         </label>
                                     </div>
                                 </label>
@@ -202,7 +204,7 @@
         </div>
 
                 <div class="pt-3 row d-flex flex-row justify-content-center gap-5">
-                    <input class="w-20 pt-2 pb-2 paraf_form rounded" type="submit" value="Submit" />
+                    <input class="w-20 pt-2 pb-2 paraf_form rounded" type="submit" th:value="#{button.submit}" />
                 </div>
 
             </div>

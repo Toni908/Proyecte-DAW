@@ -2,7 +2,8 @@
 <html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Cards</title>
+    <title th:text="#{card.category.meta}"></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link th:href="@{/css/custom.css}" rel="stylesheet"/>
     <link th:href="@{/css/asideLeft.css}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css"/>
@@ -13,22 +14,25 @@
 <main class="mt-5 mx-auto w-60">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{'/restaurant/admin/' + ${category.carta.restaurant.id_restaurante} + '/cards'}">Cartas</a></li>
+            <li class="breadcrumb-item"><a th:href="@{'/restaurant/admin/' + ${category.carta.restaurant.id_restaurante} + '/cards'}" th:text="#{card.category.meta}"></a></li>
             <li class="breadcrumb-item"><a th:inline="text" th:href="@{'/restaurant/admin/card/' + ${category.carta.id_carta} + '/categories'}">[[${category.carta.nombre}]]</a></li>
             <li class="breadcrumb-item active" th:text="${category.nombre}" aria-current="page"></li>
         </ol>
     </nav>
     <div id="Cards">
         <div class="d-flex d-flex justify-content-between mb-2">
-            <h3 th:inline="text"> Platos de [[${category.nombre}]]</h3>
-            <button style="left:0px;" type='button' class='border border-dark btn btn-info' onclick="loadModalNombre()">Editar Nombre</button>
+            <div class="d-flex flex-row justify-content-start gap-2">
+                <h3 th:text="#{dish.of}"></h3>
+                <h3 th:text="${category.nombre}"></h3>
+            </div>
+            <button style="left:0px;" type='button' class='border border-dark btn btn-info' onclick="loadModalNombre()" th:text="#{dish.edit.name}"></button>
         </div>
         <table id="card_table" class="display" style="width:100%">
             <thead class="thead-dark">
-            <th scope="row" class="d-none">Id</th>
-            <th scope="row">Name</th>
-            <th scope="row">Precio</th>
-            <th scope="row">Descripcion</th>
+            <th scope="row" class="d-none" th:text="#{dish.form.id}"></th>
+            <th scope="row" th:text="#{dish.form.name}"></th>
+            <th scope="row" th:text="#{dish.form.price}"></th>
+            <th scope="row" th:text="#{dish.form.description}"></th>
             <th scope="row"></th>
             </thead>
             <tbody>
@@ -44,8 +48,8 @@
             </tr>
             </tbody>
         </table>
-        <a th:href="@{'/restaurant/admin/category/'+ ${category.id_categoria} +'/dish/create'}"><button class="btn btn-primary mt-2">Crear Plato</button></a>
-        <a th:href="@{'/restaurant/admin/card/'+ ${category.carta.id_carta} +'/categories'}"><button class="btn btn-secondary mt-2">Volver</button></a>
+        <a th:href="@{'/restaurant/admin/category/'+ ${category.id_categoria} +'/dish/create'}"><button class="btn btn-primary mt-2" th:text="#{dish.create}"></button></a>
+        <a th:href="@{'/restaurant/admin/card/'+ ${category.carta.id_carta} +'/categories'}"><button class="btn btn-secondary mt-2" th:text="#{button.return}"></button></a>
     </div>
 
     <div th:insert="shared/modals/modal_eliminar :: section"/>

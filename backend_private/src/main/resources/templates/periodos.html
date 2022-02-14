@@ -2,12 +2,12 @@
 <html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Edit cards</title>
+    <title th:text="#{card.modify.meta}"></title>
     <link th:href="@{/css/custom.css}" rel="stylesheet"/>
     <link th:href="@{/css/asideLeft.css}" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css"/>
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.1.0/css/buttons.dataTables.min.css"/>
-
 </head>
 <body>
 <div th:insert="shared/headerVersion2 :: header(${restaurant})"/>
@@ -17,18 +17,18 @@
 <main class="mt-5 mx-auto w-60">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item active" aria-current="page">Periodos</li>
+            <li class="breadcrumb-item active" aria-current="page" th:text="#{periodo.title}"></li>
         </ol>
     </nav>
     <div id="Cards">
         <h3 th:text="${restaurant.nombre}"> </h3>
         <table id="card_table" class="display" style="width:100%">
             <thead class="thead-dark">
-            <th scope="row" class="d-none">Id</th>
-            <th scope="row">Nombre</th>
-            <th scope="row">Fecha Inicio Periodo</th>
-            <th scope="row">Fecha Final Periodo</th>
-            <th scope="row">Capacidad</th>
+            <th scope="row" class="d-none" th:text="#{periodo.form.id}"></th>
+            <th scope="row" th:text="#{periodo.form.name}"></th>
+            <th scope="row" th:text="#{periodo.form.date.start}"></th>
+            <th scope="row" th:text="#{periodo.form.date.end}"></th>
+            <th scope="row" th:text="#{periodo.form.capacity}"></th>
             <th scope="row"></th>
             </thead>
             <tbody>
@@ -45,8 +45,8 @@
             </tr>
             </tbody>
         </table>
-        <a class="" id="e1" th:href="@{'/restaurant/admin/horario/create/periodo/' + ${restaurant.id_restaurante}}"><button class="btn btn-primary mt-2">Crear Nuevo Periodo</button></a>
-        <a class="" id="e2" th:href="@{'/restaurant/update/' + ${restaurant.id_restaurante}}"><button class="btn btn-secondary mt-2">Volver</button></a>
+        <a class="" id="e1" th:href="@{'/restaurant/admin/horario/create/periodo/' + ${restaurant.id_restaurante}}"><button class="btn btn-primary mt-2" th:text="#{periodo.new.create}"></button></a>
+        <a class="" id="e2" th:href="@{'/restaurant/update/' + ${restaurant.id_restaurante}}"><button class="btn btn-secondary mt-2" th:text="#{button.return}"></button></a>
     </div>
 
     <div th:insert="shared/modals/modal_eliminar :: section"/>
@@ -70,24 +70,6 @@
 
     var listar = function(){
         var card_table = $("#card_table").DataTable({
-            /*
-            dom: 'Bfrtip',
-            buttons: [
-                {
-                    text: 'Crear Carta',
-                    attr: {class: "btn btn-primary mt-2"},
-                    action: function ( e, dt, node, config ) {
-                        window.location.href = $("#e1").attr(href);
-                    }
-                },
-                {
-                    text: 'Volver',
-                    attr: {class: "btn btn-secondary mt-2"},
-                    action: function ( e, dt, node, config ) {
-                        alert( 'Button activated' );
-                    }
-                },
-            ] */
         });
         obtener_data("#card_table", card_table, "button.eliminar");
         obtener_data("#card_table", card_table, "button.editar");

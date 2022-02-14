@@ -15,7 +15,7 @@ class Etiquetas extends Model
 
     public function restaurantes()
     {
-        return $this->belongsToMany(Restaurante::class, 'restaurante_etiquetas',"id_etiqueta","id_etiqueta");
+        return $this->belongsToMany(Restaurante::class, 'restaurante_etiquetas',"id_etiqueta","id_restaurante");
     }
 
 }
