@@ -9,8 +9,9 @@ class App extends Component {
         municipios:[]
     }
     componentDidMount(){
+        var ip = process.env.REACT_APP_API_URL;
         axios
-            .get("http://127.0.0.1:8000/etiquetas")
+            .get( ip + "/etiquetas")
             .then((response) => {
                 console.log(response);
                 
@@ -21,7 +22,7 @@ class App extends Component {
             });
         
         axios
-            .get("http://127.0.0.1:8000/localidad")
+            .get( ip + "/localidad")
             .then((response) => {
                 console.log(response);
                 
@@ -34,7 +35,7 @@ class App extends Component {
 
   render() {
     return (
-        <div className="p-3 mb-3">
+        <div className="mb-3">
             <h1 className="text-center buscarTitulo"> Buscar Restaurante</h1>
             <div className="text-center mt-4">
                 <form className="d-flex w-50 justify-content-center mx-auto">

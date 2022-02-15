@@ -27,13 +27,13 @@ class App extends Component {
                   <li><Link to="/us" class="nav-link px-2 text-black">Sobre Nosotros</Link></li>
                 </ul>
 
-                <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-                  <input type="search" class="form-control" placeholder="Search..." aria-label="Search"/>
+                <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" method="GET" action="/search">
+                  <input type="search" class="form-control" name="name" placeholder="Search Restaurant..." aria-label="Search"/>
                 </form>
 
                 <div class="text-end">
-                  <Button color='light' outline className="me-2">Acceder</Button>
-                  <Button color="warning">Registrarse</Button>
+                  <Button className="button me-2">Acceder</Button>
+                  <Button >Registrarse</Button>
                 </div>
               </div>
             </div>
