@@ -41,27 +41,26 @@ class Main extends Component {
         }
 
         return (
-            <section className={"w-100"}>
-                <CaruselRestaurant restaurants={restaurants}/>
-                <section className={"w-100"}>
-                    <section className={"w-100 m-0 p-0 max-w-full background-color-general"}>
-                        <div className={"w-100 text-center pt-5 pb-2"}>
-                            <h2>Mejores Restaurantes</h2>
-                        </div>
-                        <div className={"row w-100 px-xxl-0 px-2 m-0 pt-xxl-0 pt-5"}>
-                            {restaurants.map(function(item, key) {
-                                if (key<6) {
+            <section className={"d-flex flex-row justify-content-center w-100 background-color-general"}>
+                <div className={"d-flex flex-column main-width"}>
+                    <CaruselRestaurant restaurants={restaurants}/>
+                    <section className={"w-100"}>
+                        <section className={"w-100 m-0 p-0 max-w-full"}>
+                            <div className={"w-100 text-center pt-5 pb-2"}>
+                                <h2>Mejores Restaurantes</h2>
+                            </div>
+                            <div className={"row w-100 m-0 pt-xxl-0 pt-5 mb-5 mt-5"}>
+                                {restaurants.map(function(item, key) {
                                     return (
-                                        <article key={key} className={"col-xxl-4 col-lg-6 col-12 p-lg-5 h-100"}>
+                                        <article key={key} className={"col-xxl-3 col-xl-4 col-lg-6 col-12 h-100 p-0 pe-2"}>
                                             <CardRestaurant restaurant={item}/>
                                         </article>
                                     )
-                                }
-                                return("")
-                            })}
-                        </div>
+                                })}
+                            </div>
+                        </section>
                     </section>
-                </section>
+                </div>
             </section>
         )
     }

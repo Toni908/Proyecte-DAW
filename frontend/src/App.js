@@ -16,24 +16,24 @@ class App extends Component {
     return (
       <Router>
         <div className="App">
-          <Nav class="p-3 mb-3 border-bottom">
-            <div class="container">
-              <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-                <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
+          <Nav className="p-3 mb-3 border-bottom">
+            <div className="container">
+              <div className="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                <a href="/" className="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
                 </a>
 
-                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                <li><Link to="/" class="nav-link px-2 text-black">Home</Link></li>
-                  <li><Link to="/search" class="nav-link px-2 text-black">Buscador Avanzado</Link></li>
-                  <li><Link to="/us" class="nav-link px-2 text-black">Sobre Nosotros</Link></li>
+                <ul className="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                <li><Link to="/" className="nav-link px-2 text-black">Home</Link></li>
+                  <li><Link to="/search" className="nav-link px-2 text-black">Buscador Avanzado</Link></li>
+                  <li><Link to="/us" className="nav-link px-2 text-black">Sobre Nosotros</Link></li>
                 </ul>
 
-                <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-                  <input type="search" class="form-control" placeholder="Search..." aria-label="Search"/>
+                <form className="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
+                  <input type="search" className="form-control" placeholder="Search..." aria-label="Search"/>
                 </form>
 
-                <div class="text-end">
-                  <Button color='light' outline className="me-2">Acceder</Button>
+                <div className="text-end">
+                  <Button color='light' className="me-2">Acceder</Button>
                   <Button color="warning">Registrarse</Button>
                 </div>
               </div>
@@ -50,17 +50,17 @@ class App extends Component {
             </Routes>
           </div>
           
-          <footer class="footer w-100 mx-0 mt-5">
-            <footer class="w-100 text-center bg-white">
-              <div class="container pb-0 pt-3">
-                Estas Interesado en registrar tu restaurante? <a class="text-black" href="http://admin.trobalo.me:8080/register"> Registrate</a>  y crealo!
+          <footer className="footer w-100 mx-0 mt-5">
+            <footer className="w-100 text-center bg-white">
+              <div className="container pb-0 pt-3">
+                Estas Interesado en registrar tu restaurante? <a className="text-black" href="http://admin.trobalo.me:8080/register"> Registrate</a>  y crealo!
               </div>
 
               <hr></hr>
             
-              <div class="text-center p-1 mb-4">
+              <div className="text-center p-1 mb-4">
                 © 2022 Copyright: 
-                <a class="text-black" href="https://www.trobalo.com/"><a href="https://www.trobalo.com/" className="text-decoration-none text-white"> </a>trobalo.me</a>
+                <div><a className="text-black" href="https://www.trobalo.com/">trobalo.me</a><a href="https://www.trobalo.com/" className="text-decoration-none text-white"> </a></div>
               </div>
             </footer>
           </footer>

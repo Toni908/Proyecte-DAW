@@ -48,7 +48,7 @@
                             </p>
                             <div class="ps-3 text-lg-start text-center" th:text="#{user.update.username}"></div>
                             <label class="w-100">
-                                <input type="text" class="input-text validateNameUsuarioResponse" th:field="*{nombre_usuario}">
+                                <input type="text" class="input-text validateNameUsuarioResponse" th:field="*{nombre_usuario}" required>
                             </label>
                             <div id="validateNameUsuarioResponse"></div>
                             <div class="container pt-3 m-0 w-100 px-0">
@@ -56,14 +56,14 @@
                                     <div class="col-sm p-0">
                                         <div class="ps-3 paraf_form" th:text="#{user.update.name}"></div>
                                         <label class="w-100 ps-2 pe-3">
-                                            <input type="text" class="input-text validateNombre" th:field="*{nombre}">
+                                            <input type="text" class="input-text validateNombre" th:field="*{nombre}" required>
                                         </label>
                                         <div id="validateNombre"></div>
                                     </div>
                                     <div class="col-sm p-0">
                                         <div class="ps-3 paraf_form" th:text="#{user.update.surname1}"></div>
                                         <label class="w-100 pe-2 ps-3">
-                                            <input type="text" class="input-text validateApellido1" th:field="*{apellido1}">
+                                            <input type="text" class="input-text validateApellido1" th:field="*{apellido1}" required>
                                         </label>
                                         <div id="validateApellido1"></div>
                                     </div>
@@ -81,7 +81,7 @@
                                     <div class="col-sm p-0">
                                         <div class="ps-3 paraf_form" th:text="#{user.update.phone}"></div>
                                         <label class="w-100 ps-2 pe-3">
-                                            <input type="text" class="input-text validateTelefono" th:field="*{telefono}">
+                                            <input type="text" class="input-text validateTelefono" th:field="*{telefono}" required>
                                         </label>
                                         <div id="validateTelefono"></div>
                                     </div>
@@ -142,7 +142,7 @@
                                     <div class="col-sm p-0">
                                         <div class="ps-3 paraf_form" th:text="#{user.update.password}"></div>
                                         <label class="w-100 pe-2 ps-3">
-                                            <input type="password" class="input-text" id="verified" name="verified">
+                                            <input type="password" class="input-text" id="verified" name="verified" required>
                                         </label>
                                     </div>
                                     <div class="d-flex flex-row justify-content-center pt-4">
@@ -172,7 +172,7 @@
                                     <div class="col-sm p-0">
                                         <div class="ps-3 paraf_form" th:text="#{user.update.password.now}"></div>
                                         <label class="w-100 pe-2 ps-3">
-                                            <input type="password" class="input-text" id="password_actual" name="password_actual">
+                                            <input type="password" class="input-text" id="password_actual" name="password_actual" required>
                                         </label>
                                         <div class="password_actual"></div>
                                     </div>
@@ -181,14 +181,14 @@
                                     <div class="col-sm p-0">
                                         <div class="ps-3 paraf_form" th:text="#{user.update.password.change}"></div>
                                         <label class="w-100 pe-2 ps-3">
-                                            <input type="password" class="input-text" id="password_change" name="password_change">
+                                            <input type="password" class="input-text" id="password_change" name="password_change" required>
                                         </label>
                                         <div class="password_change"></div>
                                     </div>
                                     <div class="col-sm p-0">
                                         <div class="ps-3 paraf_form" th:text="#{user.update.password.change.confirm}"></div>
                                         <label class="w-100 pe-2 ps-3">
-                                            <input type="password" class="input-text" id="password_change_confirm" name="password_change_confirm">
+                                            <input type="password" class="input-text" id="password_change_confirm" name="password_change_confirm" required>
                                         </label>
                                         <div class="password_change_confirm"></div>
                                     </div>
@@ -232,7 +232,7 @@
                                     <div class="col-sm p-0">
                                         <div class="ps-3 paraf_form" th:text="#{user.update.password.code.verify}"></div>
                                         <label class="w-100 pe-2 ps-3">
-                                            <input type="text" class="text-center input-text" id="codigo_email" name="codigo_email">
+                                            <input type="text" class="text-center input-text" id="codigo_email" name="codigo_email" required>
                                         </label>
                                         <div class="codigo_email"></div>
                                     </div>
@@ -241,14 +241,14 @@
                                     <div class="col-sm p-0">
                                         <div class="ps-3 paraf_form" th:text="#{user.update.password.change}"></div>
                                         <label class="w-100 pe-2 ps-3">
-                                            <input type="password" class="input-text" id="password_change_recuperar" name="password_change_recuperar">
+                                            <input type="password" class="input-text" id="password_change_recuperar" name="password_change_recuperar" required>
                                         </label>
                                         <div class="password_change_recuperar"></div>
                                     </div>
                                     <div class="col-sm p-0">
                                         <div class="ps-3 paraf_form" th:text="#{user.update.password.change.confirm}"></div>
                                         <label class="w-100 pe-2 ps-3">
-                                            <input type="password" class="input-text" id="password_change_confirm_recuperar" name="password_change_confirm_recuperar">
+                                            <input type="password" class="input-text" id="password_change_confirm_recuperar" name="password_change_confirm_recuperar" required>
                                         </label>
                                         <div class="password_change_confirm_recuperar"></div>
                                     </div>
