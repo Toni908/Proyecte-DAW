@@ -41,7 +41,7 @@ class RestaurantController extends Controller
         ->where('carta.visible', '=', 1)
         ->get();
 
-        return $restaurant;
+        return $restaurant->toJson();
         //$restaurant = Restaurante::with('cartas')->get()->whereNotNull('id_membresia')->toArray();
         //$restaurant = $this->fullValidationRestaurant($restaurant);
         //return json_decode(json_encode($restaurant), true);

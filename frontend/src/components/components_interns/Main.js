@@ -5,6 +5,9 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import CaruselRestaurant from "./CaruselRestaurant";
 import CardRestaurant from "./CardRestaurant";
+import './Buscador.css';
+
+import Buscador from "./Buscador";
 
 class Main extends Component {
     constructor() {
@@ -44,6 +47,7 @@ class Main extends Component {
 
         return (
             <section className={"w-100"}>
+                <Buscador />
                 <CaruselRestaurant restaurants={restaurants}/>
                 <section className={"w-100"}>
                     <section className={"w-100 h-100 pb-5 p-0 d-flex flex-row justify-content-center background-gradial-general"}>
