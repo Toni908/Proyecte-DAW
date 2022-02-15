@@ -5,7 +5,6 @@ import { Button, Nav } from 'react-bootstrap';
 
 import Home from "./Home";
 import BuscadorAvanzado from "./BuscadorAvanzado";
-import Buscador from "./components/components_interns/Buscador";
 import AboutUs from "./AboutUs";
 
 import './App.css';
@@ -23,7 +22,7 @@ class App extends Component {
                 </a>
 
                 <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                <li><Link to="/" class="nav-link px-2 text-black">Home</Link></li>
+                  <li><Link to="/" class="nav-link px-2 text-black">Home</Link></li>
                   <li><Link to="/search" class="nav-link px-2 text-black">Buscador Avanzado</Link></li>
                   <li><Link to="/us" class="nav-link px-2 text-black">Sobre Nosotros</Link></li>
                 </ul>
@@ -40,7 +39,7 @@ class App extends Component {
             </div>
           </Nav>
           
-          <Buscador />
+          
                 
           <div className="content">
             <Routes>
