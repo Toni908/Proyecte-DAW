@@ -40,17 +40,15 @@ function addEtiqueta(value) {
                         numEtiquetas--;
                     } else {
                         error.text(traductions.short);
-                        error.show();
-                        setTimeout(function() {$("#error").hide()}, 1200);
+                        flashMessages();
                     }
                 } else {
                     error.text(traductions.long);
-                    error.show();
-                    setTimeout(function() {$("#error").hide()}, 1200);
+                    flashMessages();
                 }
             } else {
                 error.text(traductions.added);
-                error.show();
+                flashMessages();
                 setTimeout(function() {$("#error").hide()}, 1200);
             }
         } else {
@@ -62,26 +60,20 @@ function addEtiqueta(value) {
                         numEtiquetas--;
                     } else {
                         error.text(traductions.short);
-                        error.show();
-                        setTimeout(function () {
-                            $("#error").hide()
-                        }, 1200);
+                        flashMessages();
                     }
                 } else {
                     error.text(traductions.long);
-                    error.show();
-                    setTimeout(function() {$("#error").hide()}, 1200);
+                    flashMessages();
                 }
             } else {
                 error.text(traductions.added);
-                error.show();
-                setTimeout(function() {$("#error").hide()}, 1200);
+                flashMessages();
             }
         }
     } else {
         error.text(traductions.max);
-        error.show();
-        setTimeout(function() {$("#error").hide()}, 1200);
+        flashMessages();
     }
 }
 

@@ -1,6 +1,4 @@
 import './main.css';
-import front from '../../img/imgFront.jpg';
-import { Button } from 'react-bootstrap';
 import React, { Component } from 'react';
 import axios from 'axios';
 import CaruselRestaurant from "./CaruselRestaurant";
@@ -46,8 +44,11 @@ class Main extends Component {
             <section className={"w-100"}>
                 <CaruselRestaurant restaurants={restaurants}/>
                 <section className={"w-100"}>
-                    <section className={"w-100 m-0 p-0 max-w-full"}>
-                        <div className={"row w-100 px-5 m-0 pt-lg-0 pt-5"}>
+                    <section className={"w-100 m-0 p-0 max-w-full background-color-general"}>
+                        <div className={"w-100 text-center pt-5 pb-2"}>
+                            <h2>Mejores Restaurantes</h2>
+                        </div>
+                        <div className={"row w-100 px-xxl-0 px-2 m-0 pt-xxl-0 pt-5"}>
                             {restaurants.map(function(item, key) {
                                 if (key<6) {
                                     return (

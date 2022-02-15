@@ -20,7 +20,7 @@ class Restaurante extends Model
 
     public function localidad()
     {
-        return $this->belongsTo(Localidad::class, 'id_localidad');
+        return $this->belongsTo(Localidad::class, 'id_restaurante');
     }
 
     public function etiquetas()
@@ -40,7 +40,7 @@ class Restaurante extends Model
 
     public function user()
     {
-        return $this->belongsTo(User_Account::class, 'id_user');
+        return $this->belongsTo(User_Account::class, 'id_restaurante');
     }
 
     public function reservas()
