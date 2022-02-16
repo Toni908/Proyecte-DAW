@@ -9,13 +9,13 @@
     <link th:href="@{/css/card_modify.css}" rel="stylesheet"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
 <div th:insert="shared/headerVersion2 :: header(${restaurant})"></div>
 <div th:insert="shared/asideList :: aside"></div>
 
 <div class="w-40"></div>
 
-<main class="mt-5 mx-auto w-100">
+<main class="mt-5 mx-auto w-100 mb-5">
 
     <form class="d-flex flex-row justify-content-center" th:action="@{'/restaurant/admin/membresia/'+ ${restaurant.id_restaurante}}" method="POST">
         <main class="d-flex flex-column justify-content-center body-info">
@@ -117,7 +117,8 @@
 
 </main>
 
-<div th:insert="shared/footer :: footer"></div>
+<footer th:insert="shared/footer :: body" class="mt-auto fot"></footer>
+
 
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <script th:src="@{/js/jquery-3.6.0.min.js}"></script>

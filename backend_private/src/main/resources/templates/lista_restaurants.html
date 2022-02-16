@@ -7,7 +7,7 @@
     <link th:href="@{/css/list_restaurants_useracount.css}" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
 <header th:insert="shared/headerVersion1 :: header" class="sticky-top top-0"></header>
     <h2 class="text-center pt-5 fw-bold title_principal" th:text="#{list.restaurants.title}+' '+${user.nombre_usuario}"></h2>
     <div class="d-flex flex-row justify-content-center w-100 gap-3 fw-bold sub_comment_title">
@@ -87,7 +87,7 @@
         </div>
     </div>
 </body>
-<footer th:insert="shared/footer :: footer"></footer>
+<footer th:insert="shared/footer :: body" class="mt-auto fot"></footer>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
 <script th:src="@{/js/headerv2.js}"></script>

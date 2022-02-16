@@ -20,6 +20,11 @@
     border-bottom-left-radius: 10px;
 }
 
+.buscarletra:hover{
+    color: rgb(250,180,185);
+    border-color: rgb(250,180,185);
+}
+
 .inputBuscador{
     border-width: 2px;
     border-color: rgb(168,169,236);

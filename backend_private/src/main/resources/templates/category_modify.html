@@ -8,7 +8,7 @@
     <link th:href="@{/css/form.css}" rel="stylesheet"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
 <div th:insert="shared/headerVersion2 :: header(${category.carta.restaurant})"/>
 
 <div class="container my-5">
@@ -65,6 +65,7 @@
     </div>
 </main>
 
+<footer th:insert="shared/footer :: body" class="mt-auto fot"></footer>
 
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <script th:src="@{/js/jquery-3.6.0.min.js}"></script>

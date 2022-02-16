@@ -14,7 +14,7 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <div className="App">
+        <div className="d-flex flex-column min-vh-100 App">
           <Nav className="p-3 mb-3 border-bottom">
             <div className="container">
               <div className="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
@@ -22,9 +22,9 @@ class App extends Component {
                 </a>
 
                 <ul className="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                <li><Link to="/" className="nav-link px-2 text-black">Home</Link></li>
-                  <li><Link to="/search" className="nav-link px-2 text-black">Buscador Avanzado</Link></li>
-                  <li><Link to="/us" className="nav-link px-2 text-black">Sobre Nosotros</Link></li>
+                <li><Link to="/" className="nav-link px-3 text-black">Home</Link></li>
+                  <li><Link to="/search" className="nav-link px-3 text-black">Buscador</Link></li>
+                  <li><Link to="/us" className="nav-link px-3 text-black">Sobre Nosotros</Link></li>
                 </ul>
 
                 <form className="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" method="GET" action="/search">
@@ -32,8 +32,12 @@ class App extends Component {
                 </form>
 
                 <div className="text-end">
-                  <Button className="button me-2">Acceder</Button>
-                  <Button >Registrarse</Button>
+                  <a href="http://admin.trobalo.me:8080/login">
+                    <Button className="me-2 login">Acceder</Button>
+                  </a>
+                  <a href="http://admin.trobalo.me:8080/register">
+                    <Button className="login">Registrarse</Button>
+                  </a>
                 </div>
               </div>
             </div>
@@ -49,7 +53,7 @@ class App extends Component {
             </Routes>
           </div>
           
-          <footer className="footer w-100 mx-0">
+          <footer className="footer w-100 mx-0 mt-auto">
             <div className="w-100 text-center bg-white">
               <div className="container pb-0 pt-3">
                 Estas Interesado en registrar tu restaurante? <a className="text-black" href="http://admin.trobalo.me:8080/register"> Registrate</a>  y crealo!
@@ -57,7 +61,7 @@ class App extends Component {
 
               <hr></hr>
             
-              <div className="text-center p-1 mb-4">
+              <div className="text-center p-1 mb-0">
                 © 2022 Copyright: 
                 <div><a className="text-black" href="https://www.trobalo.com/">trobalo.me</a><a href="https://www.trobalo.com/" className="text-decoration-none text-white"> </a></div>
               </div>
