@@ -20,7 +20,7 @@
             <a th:if="${restaurant} != null" class="w-100 select-info text-decoration-none text-black ps-5" th:href="@{'/restaurant/update/'+${restaurant.id_restaurante}+'#privacidadFixed'}">
                 <i th:if="${restaurant.visible} == true" class="bi bi-eye-fill fs-3"></i>
                 <i th:if="${restaurant.visible} == false" class="bi bi-eye-slash-fill fs-3"></i>
-                <div th:text="#{aside.privacity}"></div>
+                <div th:text="#{aside.privacy}"></div>
             </a>
             <a class="w-100 select-info text-decoration-none text-black ps-5" th:href="@{'/restaurant/update/'+${restaurant.id_restaurante}+'#etiquetasFixed'}">
                 <i class="bi bi-tags fs-3"></i>
@@ -59,5 +59,27 @@
     </div>
 </div>
 
+<div th:fragment="modelUser">
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="asideHeader" aria-labelledby="asideHeaderLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="asideHeaderLabel" th:text="#{model.title}"></h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body p-0">
+            <a class="w-100 select-info text-decoration-none text-black ps-5" th:href="@{/user}">
+                <i class="bi bi-person-square fs-3"></i>
+                <div th:text="#{user.aside.person}"></div>
+            </a>
+            <a class="w-100 select-info text-decoration-none text-black ps-5" href="#modificables">
+                <i class="bi bi-slash-circle-fill fs-3"></i>
+                <div th:text="#{user.aside.no.modified}"></div>
+            </a>
+            <a class="w-100 select-info text-decoration-none text-black ps-5" href="#changepassword">
+                <i class="bi bi-safe fs-3"></i>
+                <div th:text="#{user.aside.password}"></div>
+            </a>
+        </div>
+    </div>
+</div>
 </body>
 </html>

@@ -299,16 +299,18 @@ public class CardController {
     @GetMapping("/restaurant/admin/category/{id}/dishes")
     public String getDish(@PathVariable(value = "id") Long id, Model model, HttpServletRequest request){
         Optional<Categoria> category = categoriaService.findById(id);
-        model.addAttribute("category", category.get());
-        model.addAttribute("restaurant", category.get().getCarta().getRestaurant());
+        if (category.isPresent()) {
+            model.addAttribute("category", category.get());
+            model.addAttribute("restaurant", category.get().getCarta().getRestaurant());
 
-        Useracount user = getUser(request);
+            Useracount user = getUser(request);
 
-        if(user == null || !category.get().getCarta().getRestaurant().getUseracount().equals(user)){
-            return "redirect:/error/401";
+            if (user == null || !category.get().getCarta().getRestaurant().getUseracount().equals(user)) {
+                return "redirect:/error/401";
+            }
+            return "platos";
         }
-
-        return "platos";
+        return "redirect:/error/401";
     }
 
     @GetMapping("/restaurant/admin/category/{id}/dish/create")
@@ -369,6 +371,7 @@ public class CardController {
             });
             model.addAttribute("error", errores);
             model.addAttribute("plato", plato);
+            model.addAttribute("restaurant", category.get().getCarta().getRestaurant());
             return "dish_modify";
         }
 

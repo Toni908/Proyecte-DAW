@@ -40,7 +40,7 @@ class Buscador extends Component {
             <div className="text-center mt-4">
                 <form className="d-flex w-50 justify-content-center mx-auto">
                     <select name="labels" className="form-select mx-4 inputBuscador w-auto" aria-label="Default select example">
-                        <option selected>-- Etiquetas --</option>
+                        <option defaultValue>-- Etiquetas --</option>
                     {this.state.etiquetas.map(elemento=>( 
                             <option key={elemento.id_etiqueta} value={elemento.nombre}>{elemento.nombre}</option>
                         )
@@ -49,7 +49,7 @@ class Buscador extends Component {
                     </select>
 
                     <select name="municipality" className="form-select mx-4 inputBuscador w-auto" aria-label="Default select example">
-                    <option  selected>-- Lugares --</option>
+                    <option  defaultValue>-- Lugares --</option>
                         {this.state.municipios.map(elemento=>( 
                             <option key={elemento.nombre_municipio} value={elemento.nombre_municipio}>{elemento.nombre_municipio}</option>
                         )
@@ -58,7 +58,7 @@ class Buscador extends Component {
                     </select>
 
                     <select name="price" className="form-select mx-4 inputBuscador w-auto" aria-label="Default select example">
-                        <option selected>Precio</option>
+                        <option defaultValue>Precio</option>
                         <option value="1">$</option>
                         <option value="2">$$</option>
                         <option value="3">$$$</option>
