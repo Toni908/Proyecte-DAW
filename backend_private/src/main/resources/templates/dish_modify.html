@@ -10,7 +10,7 @@
     <link th:href="@{/css/card_modify.css}" rel="stylesheet"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
 <div th:insert="shared/headerVersion2 :: header(${restaurant})"/>
 <div th:insert="shared/asideList :: aside" class="position-absolute"/>
 
@@ -197,11 +197,13 @@
     </div>
 
 </main>
-<div th:insert="shared/footer :: footer"/>
+
+<footer th:insert="shared/footer :: body" class="mt-auto fot"></footer>
 
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
 <script th:src="@{/js/headerv2.js}"></script>
+<script th:src="@{/js/asideVersionScroll.js}"></script>
 
 <script th:inline="javascript">
 

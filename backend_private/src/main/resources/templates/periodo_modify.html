@@ -11,7 +11,7 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 </head>
-<body>
+<body >
 <div th:insert="shared/headerVersion2 :: header(${restaurant})"/>
 
 <div class="container my-5">
@@ -92,6 +92,8 @@
     </div>
 
 </main>
+
+<footer th:insert="shared/footer :: body" class="mt-auto fot"></footer>
 
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <script th:src="@{/js/headerv2.js}"></script>
