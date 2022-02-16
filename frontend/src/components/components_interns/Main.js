@@ -56,7 +56,7 @@ class Main extends Component {
                                 <div className={"w-100 text-center pt-5 pb-2"}>
                                     <h2>Mejores Restaurantes</h2>
                                 </div>
-                                <div className={"row w-100 m-0 pt-xxl-0 pt-5 mb-5 mt-5 gap-1"}>
+                                <div className={"row w-100 m-0 pt-xxl-0 pt-5 mb-5 mt-5"}>
                                     {restaurants.map(function(item, key) {
                                         return (
                                             <article key={key} className={"col-xxl-3 col-xl-4 col-lg-6 col-12 h-100"}>
