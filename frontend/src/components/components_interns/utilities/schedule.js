@@ -1,9 +1,6 @@
-import React, {Component} from "react";
+import React from "react";
 
 class schedule {
-    constructor(horario) {
-
-    }
     static isTodayOpen(horario) {
         return isTodayOpen(horario);
     }

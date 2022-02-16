@@ -29,10 +29,11 @@ class CardRestaurant extends Component {
         this.setState({isShown: value});
     }
 
-    render() {
 
+
+    render() {
         return (
-            <Card className={"w-100 rounded rounded-3 mb-xxl-0 mb-4"}>
+            <Card className={"myCarusel rounded rounded-3 mb-xxl-0 mb-4 pt-2"}>
                 <ImageRestaurant height={'image-height'} restaurante={this.props.restaurant}/>
                 <Card.Body>
                     <div className={"position-relative"}>
@@ -59,8 +60,6 @@ class CardRestaurant extends Component {
         )
     }
 }
-
-
 
 function getDayAnticipacion(day) {
     var date = new Date();

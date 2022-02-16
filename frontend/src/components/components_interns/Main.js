@@ -52,30 +52,8 @@ class Main extends Component {
                         <section className={"w-100"}>
                             <section className={"w-100 m-0 p-0 max-w-full"}>
                                 <ListRestaurant title={"Los Mejores Restaurantes"} restaurants={restaurants}/>
-
-                                {/*<h4 className={"pt-5 pb-2"}>Los Mas Economicos</h4>*/}
-                                {/*<div className={"myCaruselEco row w-100 m-0 pt-xxl-0 mb-5 px-2 px-lg-0"}>*/}
-                                {/*    {restaurants.map(function(item, key) {*/}
-                                {/*        return (*/}
-                                {/*            <article key={key} className={"p-0"}>*/}
-                                {/*                <div className={"myCarusel"}>*/}
-                                {/*                    <CardRestaurant restaurant={item}/>*/}
-                                {/*                </div>*/}
-                                {/*            </article>*/}
-                                {/*        )*/}
-                                {/*    })}*/}
-                                {/*</div>*/}
-
-                                {/*<h4 className={"pt-5 pb-2"}>Los Mejores Valorados</h4>*/}
-                                {/*<div className={"myCaruselVal row w-100 m-0 pt-xxl-0 mb-5 px-2 px-lg-0"}>*/}
-                                {/*    {restaurants.map(function(item, key) {*/}
-                                {/*        return (*/}
-                                {/*            <article key={key} className={"myCarusel p-0"}>*/}
-                                {/*                <CardRestaurant restaurant={item}/>*/}
-                                {/*            </article>*/}
-                                {/*        )*/}
-                                {/*    })}*/}
-                                {/*</div>*/}
+                                <ListRestaurant title={"Los Mas Economicos"} restaurants={restaurants}/>
+                                <ListRestaurant title={"Los Mejores Valorados"} restaurants={restaurants}/>
                             </section>
                         </section>
                     </div>
