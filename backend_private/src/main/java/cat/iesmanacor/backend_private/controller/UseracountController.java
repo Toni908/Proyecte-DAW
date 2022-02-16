@@ -1,6 +1,5 @@
 package cat.iesmanacor.backend_private.controller;
 
-import cat.iesmanacor.backend_private.configuration.MvnConfiguration;
 import cat.iesmanacor.backend_private.entities.Password_recuperar;
 import cat.iesmanacor.backend_private.entities.Traductions;
 import cat.iesmanacor.backend_private.entities.Useracount;
