@@ -11,6 +11,10 @@
   width: 75%;
   text-align: center;
 }
+
+.max-content {
+  height: 60vh;
+}
 @media only screen and (max-width: 1105px) {
   .float-info {
     display: none;
