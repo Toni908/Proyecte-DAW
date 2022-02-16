@@ -56,9 +56,20 @@ class RestaurantController extends Controller
         ->get();
 
         return $restaurant->toJson();
-        //$restaurant = Restaurante::with('cartas')->get()->whereNotNull('id_membresia')->toArray();
-        //$restaurant = $this->fullValidationRestaurant($restaurant);
-        //return json_decode(json_encode($restaurant), true);
+    }
+
+    public function buscador(){
+        $restaurant = Restaurante::select('restaurante.*', DB::raw('Round(AVG(platos.precio),0) as price'))
+        ->join('carta', 'carta.id_restaurante', '=', 'restaurante.id_restaurante')
+        ->join('categoria_platos', 'categoria_platos.id_carta', '=', 'carta.id_carta')
+        ->join('platos', 'platos.id_categoria', '=', 'categoria_platos.id_categoria')
+        ->where('restaurante.validated', '=', 1)
+        ->where('restaurante.visible', '=', 1)
+        ->where('carta.visible', '=', 1)
+        ->groupBy('id_restaurante')
+        ->get();
+
+        return $restaurant->toJson();
     }
 
 
