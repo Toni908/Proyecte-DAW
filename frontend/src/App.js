@@ -49,8 +49,8 @@ class App extends Component {
             </Routes>
           </div>
           
-          <footer className="footer w-100 mx-0 mt-5">
-            <footer className="w-100 text-center bg-white">
+          <footer className="footer w-100 mx-0">
+            <div className="w-100 text-center bg-white">
               <div className="container pb-0 pt-3">
                 Estas Interesado en registrar tu restaurante? <a className="text-black" href="http://admin.trobalo.me:8080/register"> Registrate</a>  y crealo!
               </div>
@@ -61,7 +61,7 @@ class App extends Component {
                 © 2022 Copyright: 
                 <div><a className="text-black" href="https://www.trobalo.com/">trobalo.me</a><a href="https://www.trobalo.com/" className="text-decoration-none text-white"> </a></div>
               </div>
-            </footer>
+            </div>
           </footer>
 
         </div>

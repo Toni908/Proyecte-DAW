@@ -44,6 +44,7 @@ class Main extends Component {
         }
 
         return (
+
             <section className={"d-flex flex-row justify-content-center w-100 background-color-general"}>
                 <div className={"d-flex flex-column main-width"}>
                     <CaruselRestaurant restaurants={restaurants}/>

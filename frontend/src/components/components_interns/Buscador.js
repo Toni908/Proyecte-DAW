@@ -3,7 +3,7 @@ import axios from "axios";
 
 import './Buscador.css';
 
-class App extends Component {
+class Buscador extends Component {
     state={
         etiquetas:[],
         municipios:[]
@@ -70,4 +70,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default Buscador;
