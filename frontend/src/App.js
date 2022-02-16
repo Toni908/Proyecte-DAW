@@ -5,7 +5,6 @@ import { Button, Nav } from 'react-bootstrap';
 
 import Home from "./Home";
 import BuscadorAvanzado from "./BuscadorAvanzado";
-import Buscador from "./components/components_interns/Buscador";
 import AboutUs from "./AboutUs";
 
 import './App.css';
@@ -40,7 +39,7 @@ class App extends Component {
             </div>
           </Nav>
           
-          <Buscador />
+          
                 
           <div className="content">
             <Routes>

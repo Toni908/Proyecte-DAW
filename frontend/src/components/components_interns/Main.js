@@ -3,6 +3,9 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import CaruselRestaurant from "./CaruselRestaurant";
 import CardRestaurant from "./CardRestaurant";
+import './Buscador.css';
+
+import Buscador from "./Buscador";
 
 class Main extends Component {
     constructor() {
