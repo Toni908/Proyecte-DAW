@@ -1,66 +1,56 @@
 import {Button, Card} from "react-bootstrap";
 import ImageRestaurant from "./ImageRestaurant";
 import React, {Component} from "react";
-import axios from "axios";
 import './image.css'
+import 'bootstrap-icons/font/bootstrap-icons.css';
 import HorarioRestaurant from "./HorarioRestaurant";
+import AforoIcon from "./AforoIcon";
 
 class CardRestaurant extends Component {
     constructor() {
         super();
 
         this.state = {
-            horario: [],
-            isLoading: false,
-            error: null,
+            isShown: true
         };
     }
 
-    componentDidMount() {
-        this.setState({ isLoading: true });
-        axios.get("http://www.restaurantemallorca.me:8000/horario/"+this.props.restaurant.id_restaurante)
-            .then(result => this.setState({
-                horario: result.data,
-                isLoading: false
-            }))
-            .catch(error => this.setState({
-                error,
-                isLoading: false
-            }));}
-
     render() {
-        const { horario, isLoading, error } = this.state;
-
-        if (error) {
-            return <p>{error.message}</p>;
-        }
-
-        if (isLoading) {
-            return <p>Loading ...</p>;
-        }
 
         return (
-            <Card className={"w-100"}>
+            <Card className={"w-100 rounded rounded-3 mb-xxl-0 mb-4"}>
                 <ImageRestaurant height={'image-height'} restaurante={this.props.restaurant}/>
                 <Card.Body>
-                    <Card.Title className={"text-center"}>{this.props.restaurant.nombre}</Card.Title>
-                    <Card.Text>
-                        <div className={"d-flex flex-row gap-2"}>
-                            Direccion: <div className={"text-black fw-bold text-decoration-none"}>{this.props.restaurant.direccion}</div>
+                    <div className={"position-relative"}>
+                        <AforoIcon restaurant={this.props.restaurant}/>
+                        <Card.Title className={"text-center p-2"}>{this.props.restaurant.nombre}</Card.Title>
+                        <div className={"d-flex flex-row gap-2 pb-3"}>
+                            <i className="ps-1 bi bi-geo-alt-fill"/><div className={"text-black fw-bold"}>{this.props.restaurant.direccion}</div><div className={"text-black fw-bold d-flex flex-row gap-1"}><div>/</div>{this.props.restaurant.localidad.nombre_municipio}</div>
                         </div>
-                        <div className={"d-flex flex-row gap-2"}>
-                            Telefono: <div className={"text-black fw-bold text-decoration-none"}>{this.props.restaurant.telefono_restaurante}</div>
+                        <div className={"d-flex flex-row gap-2 pb-2"}>
+                            <i className="ps-1 bi bi-telephone-inbound-fill"/><div className={"text-black fw-bold"}>{this.props.restaurant.telefono_restaurante}</div>
                         </div>
-                    </Card.Text>
-                    <HorarioRestaurant horario={horario}/>
+                    </div>
+                    <HorarioRestaurant restaurant={this.props.restaurant}/>
+                    {this.state.isShown && (
+                        <div className={"d-flex flex-row gap-2 pt-2"}>
+                            <div className={"text-warning"}>Displonible las reservas desde el {getDayAnticipacion(this.props.restaurant.dies_anticipacion_reservas)}</div>
+                        </div>
+                    )}
                     <div className={"mt-3"}>
                         <Button variant="outline-dark">Ver Restaurante</Button>
-                        <Button className={"ms-3"} variant={"outline-dark"}>Reservar</Button>
+                        <Button type={"button"} className={"ms-3"} variant={"outline-dark"}>Reservar</Button>
                     </div>
                 </Card.Body>
             </Card>
         )
     }
+}
+
+function getDayAnticipacion(day) {
+    var date = new Date();
+    date.setDate(date.getDate() + day);
+    return date.getDate()+"-"+(date.getMonth()+1)+"-"+date.getFullYear()
 }
 
 export default CardRestaurant

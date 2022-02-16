@@ -51,7 +51,8 @@
 .img-size-sm {
   height: 120px;
 }
-.googleMaps-Height {
+.googleMap {
+  z-index: 0;
   height: 300px;
 }
 @media only screen and (max-width: 800px) {

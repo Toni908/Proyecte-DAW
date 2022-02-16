@@ -6,16 +6,16 @@ function showTab(n) {
     var x = document.getElementsByClassName("tab");
     x[n].style.display = "block";
     // ... and fix the Previous/Next buttons:
-    if (n == 0) {
+    if (n === 0) {
         document.getElementById("prevBtn").style.display = "none";
     } else {
         document.getElementById("prevBtn").style.display = "inline";
     }
-    if (n == (x.length - 1)) {
-        document.getElementById("nextBtn").innerHTML = traductions.enviar;
+    if (n === 4) {
+        document.getElementById("nextBtn").innerHTML = traducciones.enviar;
         setTimeout(function (){document.getElementById("nextBtn").setAttribute('type','submit')},500);
     } else {
-        document.getElementById("nextBtn").innerHTML = traductions.siguiente;
+        document.getElementById("nextBtn").innerHTML = traducciones.siguiente;
         setTimeout(function (){document.getElementById("nextBtn").setAttribute('type','button')},500);
     }
     // ... and run a function that displays the correct step indicator:

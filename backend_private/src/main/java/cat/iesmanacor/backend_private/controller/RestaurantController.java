@@ -1,5 +1,6 @@
 package cat.iesmanacor.backend_private.controller;
 
+import cat.iesmanacor.backend_private.configuration.MvnConfiguration;
 import cat.iesmanacor.backend_private.entities.*;
 import cat.iesmanacor.backend_private.files.FileUploadUtil;
 import cat.iesmanacor.backend_private.services.*;
@@ -119,7 +120,6 @@ public class RestaurantController {
     @RequestMapping(value = "/restaurant/create", method = RequestMethod.GET)
     public String create(ModelMap model, HttpServletRequest request) {
         Useracount useracount = getUser(request);
-
         if (useracount!=null) {
             Optional<Useracount> useracountDDBB = useracountService.findUseracountById(useracount.getId_user());
             if (useracountDDBB.isPresent()) {
@@ -177,7 +177,8 @@ public class RestaurantController {
         if (isUserCorrect(useracount,useracountService)) {
             if (restaurant.getNombre()!=null) {
                 if (!checkNameisEmpty(restaurant.getNombre())) {
-                    model.addAttribute("error", "Restaurant name already taken");
+                    Traductions traductions = new Traductions("El nombre del restaurante ya esta cogido!","Restaurant name already taken","El nom del restaurant ya esta en us");
+                    model.addAttribute("error", traductions.getTraductionLocale(request));
                     return create(model,request);
                 }
             }
@@ -195,7 +196,8 @@ public class RestaurantController {
                     saveImageRestaurantFirst(multipartFile, restaurant);
                     return "redirect:/restaurant/update/" + restaurant.getId_restaurante();
                 }
-                return create(model.addAttribute("error", "Localizacion no selecionado"),request);
+                Traductions traductions = new Traductions("Localización no selecionado","Location not selected","Localització no seleccionat");
+                return create(model.addAttribute("error", traductions.getTraductionLocale(request)),request);
             }
         }
 
@@ -213,30 +215,39 @@ public class RestaurantController {
             }
 
             Localidad localidad = new Localidad();
-            if (myLocalidadChanged.equals("<-Seleciona antes un Municipio")) {
-                localidad.setNombre_localidad(localidadName);
-            } else {
-                localidad.setNombre_localidad(myLocalidadChanged);
-            }
+            localidad.setNombre_localidad(myLocalidadChanged);
 
             if (restaurant.getId_restaurante() != null) {
                 if (localidad.getNombre_localidad() != null) {
                     List<Localidad> localidadFindInfo = localidadService.findLocalidadByNombre_localidad(localidad.getNombre_localidad());
+                    Optional<Restaurant> restaurantBefore = restaurantService.findRestaurantById(restaurant.getId_restaurante());
                     if (!localidadFindInfo.isEmpty()) {
                         restaurant.setLocalidad(localidadFindInfo.get(0));
-                    }
-                    Optional<Restaurant> restaurantBefore = restaurantService.findRestaurantById(restaurant.getId_restaurante());
-                    if (restaurantBefore.isPresent()) {
-                        // Valores que no deberian cambiarse con esta operacion
-                        restaurant.setMembresia(restaurantBefore.get().getMembresia());
-                        restaurant.setUseracount(restaurantBefore.get().getUseracount());
-                        restaurant.setCartas(restaurantBefore.get().getCartas());
-                        restaurant.setVisible(restaurantBefore.get().isVisible());
-                        restaurant.setValidated(restaurantBefore.get().isValidated());
-                        model = checkToUpdate(restaurant, restaurantBefore.get(), model);
-                        model.addAttribute("success", "Cambios realizados correctamente");
+                        if (restaurantBefore.isPresent()) {
+                            // Valores que no deberian cambiarse con esta operacion
+                            restaurant.setMembresia(restaurantBefore.get().getMembresia());
+                            restaurant.setUseracount(restaurantBefore.get().getUseracount());
+                            restaurant.setCartas(restaurantBefore.get().getCartas());
+                            restaurant.setVisible(restaurantBefore.get().isVisible());
+                            restaurant.setValidated(restaurantBefore.get().isValidated());
+                            model = checkToUpdate(restaurant, restaurantBefore.get(), model, request);
+                            Traductions traductions = new Traductions("Cambios realizados correctamente", "Changes made successfully", "Canvis realitzats correctament");
+                            model.addAttribute("success", traductions.getTraductionLocale(request));
+                        } else {
+                            return "redirect:/error/401";
+                        }
                     } else {
-                        return "redirect:/error/401";
+                        if (restaurantBefore.isPresent()) {
+                            restaurant.setLocalidad(restaurantBefore.get().getLocalidad());
+                            restaurant.setMembresia(restaurantBefore.get().getMembresia());
+                            restaurant.setUseracount(restaurantBefore.get().getUseracount());
+                            restaurant.setCartas(restaurantBefore.get().getCartas());
+                            restaurant.setVisible(restaurantBefore.get().isVisible());
+                            restaurant.setValidated(restaurantBefore.get().isValidated());
+                            model = checkToUpdate(restaurant, restaurantBefore.get(), model, request);
+                            Traductions traductions = new Traductions("Cambios realizados correctamente", "Changes made successfully", "Canvis realitzats correctament");
+                            model.addAttribute("success", traductions.getTraductionLocale(request));
+                        }
                     }
                     return update(restaurant.getId_restaurante(), model, request);
                 }
@@ -257,16 +268,19 @@ public class RestaurantController {
                         if (!imgs.isEmpty()) {
                             restaurant.get().setVisible(true);
                             updateRestaurant(restaurant.get());
-                            model.addAttribute("success", "El restaurante " + restaurant.get().getNombre() + " es visible");
+                            Traductions traductions = new Traductions("El restaurante " + restaurant.get().getNombre() + " es visible","Restaurant "+restaurant.get().getNombre()+" is visible","El Restaurant "+restaurant.get().getNombre()+" es visible");
+                            model.addAttribute("success", traductions.getTraductionLocale(request));
                             return update(restaurant.get().getId_restaurante(), model, request);
                         } else {
-                            model.addAttribute("error", "El restaurante no tiene imagen, no se puede hacer visible");
+                            Traductions traductions = new Traductions("El restaurante no tiene imagen, no se puede hacer visible","The restaurant has no image, it cannot be made visible","El restaurant no té imatge, no es pot fer visible");
+                            model.addAttribute("error", traductions.getTraductionLocale(request));
                             return update(restaurant.get().getId_restaurante(), model, request);
                         }
                     } else {
                         restaurant.get().setVisible(false);
                         updateRestaurant(restaurant.get());
-                        model.addAttribute("success", "El restaurante " + restaurant.get().getNombre() + " es invisible");
+                        Traductions traductions = new Traductions("El restaurante " + restaurant.get().getNombre() + " es invisible","Restaurant "+restaurant.get().getNombre()+" is invisible","El Restaurant "+restaurant.get().getNombre()+" es invisible");
+                        model.addAttribute("success", traductions.getTraductionLocale(request));
                         return update(restaurant.get().getId_restaurante(), model, request);
                     }
                 } else {
@@ -380,9 +394,10 @@ public class RestaurantController {
         return true;
     }
 
-    public ModelMap checkToUpdate(Restaurant restaurant, Restaurant restaurantBefore, ModelMap model) {
+    public ModelMap checkToUpdate(Restaurant restaurant, Restaurant restaurantBefore, ModelMap model, HttpServletRequest request) {
         if (isNameRestaurantTaken(restaurant,restaurantBefore)) {
-            model.addAttribute("error","name restaurant is taken");
+            Traductions traductions = new Traductions("Nombre ya esta cogido","Name already taken","Nom en us");
+            model.addAttribute("error",traductions.getTraductionLocale(request));
             return model;
         }
         updateRestaurant(restaurant);

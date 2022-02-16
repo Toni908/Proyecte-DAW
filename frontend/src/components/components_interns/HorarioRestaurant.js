@@ -1,10 +1,44 @@
 import React, {Component} from "react";
 import {Accordion} from "react-bootstrap";
+import axios from "axios";
+import "./utilities/schedule";
 
 class HorarioRestaurant extends Component {
+    constructor() {
+        super();
+
+        this.state = {
+            horario: [],
+            isLoading: false,
+            error: null,
+        };
+    }
+
+    componentDidMount() {
+        this.setState({ isLoading: true });
+        axios.get("http://127.0.0.1:8000/horario/"+this.props.restaurant.id_restaurante)
+            .then(result => this.setState({
+                horario: result.data,
+                isLoading: false
+            }))
+            .catch(error => this.setState({
+                error,
+                isLoading: false
+            }));}
+
     render() {
-        let header = textHeader(this.props.horario);
-        let body = isTodayOpen(this.props.horario);
+        const { horario, isLoading, error } = this.state;
+
+        if (error) {
+            return <p>{error.message}</p>;
+        }
+
+        if (isLoading) {
+            return <p>Loading ...</p>;
+        }
+
+        let header = textHeader(horario);
+        let body = isTodayOpen(horario);
         return (
             <Accordion>
                 <Accordion.Item eventKey="0">
@@ -19,7 +53,6 @@ class HorarioRestaurant extends Component {
         )
     }
 }
-
 function isTodayOpen(horario) {
     // Lunes a domingo
     var week = [false,false,false,false,false,false,false]
@@ -49,24 +82,26 @@ function textHeader(horario) {
 
 function getResultHour(horario,today) {
     let result = (<div className={"d-flex flex-row gap-1"}>Horario: <div className={"text-danger"}>Cerrado</div></div>);
-    horario.forEach(function (hora, key) {
+    for (let i = 0; i < horario.length; i++) {
         //SI ES HOY
-        if (getDayNumber(hora.day) === today.getDay()) {
-            if (isClosed(fixedDate(hora.hora_inicio),today)) {
-                result = (<div key={key} className={"d-flex flex-row gap-1"}>Horario: <div className={"text-warning"}>Cerrado</div> - Abierto a las {fixedDate(hora.hora_inicio)}</div>);
+        if (getDayNumber(horario[i].day) === today.getDay()) {
+            if (isClosed(fixedDate(horario[i].hora_inicio), today)) {
+                result = (<div key={i} className={"d-flex flex-row gap-1"}>Horario: <div className={"text-warning"}>Cerrado</div> - Abierto a las {fixedDate(horario[i].hora_inicio)}</div>);
             } else {
-                if (isNearClose(fixedDate(hora.hora_fin),today)){
-                    if (hasPassedTime(fixedDate(hora.hora_inicio),fixedDate(hora.hora_fin),today)) {
-                        result = (<div key={key} className={"d-flex flex-row gap-1"}>Horario: <div className={"text-warning"}>Abierto</div> - Cierra pronto {fixedDate(hora.hora_fin)}</div>);
+                if (isNearClose(fixedDate(horario[i].hora_fin), today)) {
+                    if (hasPassedTime(fixedDate(horario[i].hora_inicio), fixedDate(horario[i].hora_fin), today)) {
+                        result = (<div key={i} className={"d-flex flex-row gap-1"}>Horario: <div className={"text-warning"}>Abierto</div> - Cierra pronto {fixedDate(horario[i].hora_fin)}</div>);
+                        break;
                     } else {
-                        result = (<div key={key} className={"d-flex flex-row gap-1"}>Horario: <div className={"text-danger"}>Ya a Cerrado</div></div>);
+                        result = (<div key={i} className={"d-flex flex-row gap-1"}>Horario: <div className={"text-danger"}>Ya a Cerrado</div></div>);
                     }
                 } else {
-                    result = (<div key={key} className={"d-flex flex-row gap-1"}>Horario: <div className={"text-success"}>Abierto</div> - Cierra a las {fixedDate(hora.hora_fin)}</div>);
+                    result = (<div key={i} className={"d-flex flex-row gap-1"}>Horario: <div className={"text-success"}>Abierto</div> - Cierra a las {fixedDate(horario[i].hora_fin)}</div>);
+                    break;
                 }
             }
         }
-    })
+    }
     return result;
 }
 
