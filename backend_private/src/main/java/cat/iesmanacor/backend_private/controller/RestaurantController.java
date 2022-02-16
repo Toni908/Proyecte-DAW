@@ -1,6 +1,5 @@
 package cat.iesmanacor.backend_private.controller;
 
-import cat.iesmanacor.backend_private.configuration.MvnConfiguration;
 import cat.iesmanacor.backend_private.entities.*;
 import cat.iesmanacor.backend_private.files.FileUploadUtil;
 import cat.iesmanacor.backend_private.services.*;
@@ -58,9 +57,6 @@ public class RestaurantController {
 
     @Autowired
     EmailService emailService;
-
-    private final String __route_formulari_create = "formularios/restaurante-create";
-    private final String __route_formulari_update = "formularios/restaurante-update";
 
     // LISTAS DE RESTURANTES POR X USUARIO
 
@@ -127,6 +123,7 @@ public class RestaurantController {
                     model.addAttribute("restaurant", new Restaurant());
                     model.addAttribute("etiqueta", new Etiquetas());
                     model.addAttribute("etiquetas", etiquetasService.findAllEtiquetas());
+                    String __route_formulari_create = "formularios/restaurante-create";
                     return __route_formulari_create;
                 }
             }
@@ -148,6 +145,7 @@ public class RestaurantController {
                     model.addAttribute("etiqueta", new Etiquetas());
                     model.addAttribute("etiquetas", getEtiquetasFromRestaurant_Etiqueta(restaurant.get().getId_restaurante()));
                     model.addAttribute("array", localidadService.findAllLocalidad());
+                    String __route_formulari_update = "formularios/restaurante-update";
                     return __route_formulari_update;
                 }
             }
@@ -225,28 +223,14 @@ public class RestaurantController {
                         restaurant.setLocalidad(localidadFindInfo.get(0));
                         if (restaurantBefore.isPresent()) {
                             // Valores que no deberian cambiarse con esta operacion
-                            restaurant.setMembresia(restaurantBefore.get().getMembresia());
-                            restaurant.setUseracount(restaurantBefore.get().getUseracount());
-                            restaurant.setCartas(restaurantBefore.get().getCartas());
-                            restaurant.setVisible(restaurantBefore.get().isVisible());
-                            restaurant.setValidated(restaurantBefore.get().isValidated());
-                            model = checkToUpdate(restaurant, restaurantBefore.get(), model, request);
-                            Traductions traductions = new Traductions("Cambios realizados correctamente", "Changes made successfully", "Canvis realitzats correctament");
-                            model.addAttribute("success", traductions.getTraductionLocale(request));
+                            model = defaultValuesRestaurant(restaurant, model, request, restaurantBefore);
                         } else {
                             return "redirect:/error/401";
                         }
                     } else {
                         if (restaurantBefore.isPresent()) {
                             restaurant.setLocalidad(restaurantBefore.get().getLocalidad());
-                            restaurant.setMembresia(restaurantBefore.get().getMembresia());
-                            restaurant.setUseracount(restaurantBefore.get().getUseracount());
-                            restaurant.setCartas(restaurantBefore.get().getCartas());
-                            restaurant.setVisible(restaurantBefore.get().isVisible());
-                            restaurant.setValidated(restaurantBefore.get().isValidated());
-                            model = checkToUpdate(restaurant, restaurantBefore.get(), model, request);
-                            Traductions traductions = new Traductions("Cambios realizados correctamente", "Changes made successfully", "Canvis realitzats correctament");
-                            model.addAttribute("success", traductions.getTraductionLocale(request));
+                            model = defaultValuesRestaurant(restaurant, model, request, restaurantBefore);
                         }
                     }
                     return update(restaurant.getId_restaurante(), model, request);
@@ -254,6 +238,23 @@ public class RestaurantController {
             }
         }
         return "redirect:/error/401";
+    }
+
+    private ModelMap defaultValuesRestaurant(@ModelAttribute @Valid Restaurant restaurant, ModelMap model, HttpServletRequest request, Optional<Restaurant> restaurantBefore) {
+        if (restaurantBefore.isPresent()) {
+            restaurant.setMembresia(restaurantBefore.get().getMembresia());
+            restaurant.setUseracount(restaurantBefore.get().getUseracount());
+            restaurant.setCartas(restaurantBefore.get().getCartas());
+            restaurant.setVisible(restaurantBefore.get().isVisible());
+            restaurant.setValidated(restaurantBefore.get().isValidated());
+            model = checkToUpdate(restaurant, restaurantBefore.get(), model, request);
+            Traductions traductions = new Traductions("Cambios realizados correctamente", "Changes made successfully", "Canvis realitzats correctament");
+            model.addAttribute("success", traductions.getTraductionLocale(request));
+        } else{
+            Traductions traductions = new Traductions("No se pudo realizar el cambio", "Changes cant be done", "No es pot fer els cambis");
+            model.addAttribute("success", traductions.getTraductionLocale(request));
+        }
+        return model;
     }
 
     @RequestMapping(value = "/restaurant/visibility", method = RequestMethod.POST, produces = "application/json")
@@ -270,19 +271,17 @@ public class RestaurantController {
                             updateRestaurant(restaurant.get());
                             Traductions traductions = new Traductions("El restaurante " + restaurant.get().getNombre() + " es visible","Restaurant "+restaurant.get().getNombre()+" is visible","El Restaurant "+restaurant.get().getNombre()+" es visible");
                             model.addAttribute("success", traductions.getTraductionLocale(request));
-                            return update(restaurant.get().getId_restaurante(), model, request);
                         } else {
                             Traductions traductions = new Traductions("El restaurante no tiene imagen, no se puede hacer visible","The restaurant has no image, it cannot be made visible","El restaurant no té imatge, no es pot fer visible");
                             model.addAttribute("error", traductions.getTraductionLocale(request));
-                            return update(restaurant.get().getId_restaurante(), model, request);
                         }
                     } else {
                         restaurant.get().setVisible(false);
                         updateRestaurant(restaurant.get());
                         Traductions traductions = new Traductions("El restaurante " + restaurant.get().getNombre() + " es invisible","Restaurant "+restaurant.get().getNombre()+" is invisible","El Restaurant "+restaurant.get().getNombre()+" es invisible");
                         model.addAttribute("success", traductions.getTraductionLocale(request));
-                        return update(restaurant.get().getId_restaurante(), model, request);
                     }
+                    return update(restaurant.get().getId_restaurante(), model, request);
                 } else {
                     return "redirect:/error/401";
                 }
