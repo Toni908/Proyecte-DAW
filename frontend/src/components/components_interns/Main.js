@@ -44,27 +44,33 @@ class Main extends Component {
         }
 
         return (
-            <section className={"d-flex flex-row justify-content-center w-100 background-color-general"}>
-                <div className={"d-flex flex-column main-width"}>
-                    <CaruselRestaurant restaurants={restaurants}/>
-                    <section className={"w-100"}>
-                        <section className={"w-100 m-0 p-0 max-w-full"}>
-                            <div className={"w-100 text-center pt-5 pb-2"}>
-                                <h2>Mejores Restaurantes</h2>
-                            </div>
-                            <div className={"row w-100 m-0 pt-xxl-0 pt-5 mb-5 mt-5"}>
-                                {restaurants.map(function(item, key) {
-                                    return (
-                                        <article key={key} className={"col-xxl-3 col-xl-4 col-lg-6 col-12 h-100 p-0 pe-2"}>
-                                            <CardRestaurant restaurant={item}/>
-                                        </article>
-                                    )
-                                })}
-                            </div>
+            <section>
+                <div className={"d-md-block d-none"}>
+                    <Buscador />
+                </div>
+                <div className={"d-flex flex-row justify-content-center w-100 background-color-general"}>
+                    <div className={"d-flex flex-column main-width"}>
+                        <CaruselRestaurant restaurants={restaurants}/>
+                        <section className={"w-100"}>
+                            <section className={"w-100 m-0 p-0 max-w-full"}>
+                                <div className={"w-100 text-center pt-5 pb-2"}>
+                                    <h2>Mejores Restaurantes</h2>
+                                </div>
+                                <div className={"row w-100 m-0 pt-xxl-0 pt-5 mb-5 mt-5"}>
+                                    {restaurants.map(function(item, key) {
+                                        return (
+                                            <article key={key} className={"col-xxl-3 col-xl-4 col-lg-6 col-12 h-100 p-0 pe-2 ps-lg-0 ps-2"}>
+                                                <CardRestaurant restaurant={item}/>
+                                            </article>
+                                        )
+                                    })}
+                                </div>
+                            </section>
                         </section>
-                    </section>
+                    </div>
                 </div>
             </section>
+
         )
     }
 }

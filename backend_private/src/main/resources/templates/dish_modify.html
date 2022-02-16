@@ -19,7 +19,7 @@
     <div class="form_section w-60 py-5 my-5">
     <form method="post" class="container form_container" th:action="@{'/restaurant/admin/'+ ${plato.categoria.id_categoria} +'/dish/save' }" enctype="multipart/form-data">
 
-        <input type="text" id="idl" th:value="${plato.categoria.id_categoria}" hidden/>
+        <input type="number" id="idl" th:value="${plato.categoria.id_categoria}" hidden/>
 
         <div class="tittle_form text-center">
             <h1 th:if="${plato.id_plato != null}" th:text="#{dish.edit}"></h1>
