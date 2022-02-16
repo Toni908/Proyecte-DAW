@@ -12,7 +12,7 @@ class CardRestaurant extends Component {
         super();
 
         this.state = {
-            isShown: true
+            isShown: false
         };
 
         this.cambiarVisible = this.cambiarVisible.bind(this);
@@ -29,7 +29,14 @@ class CardRestaurant extends Component {
                 <ImageRestaurant height={'image-height'} restaurante={this.props.restaurant}/>
                 <Card.Body>
                     <div className={"position-relative"}>
-                        <Card.Title className={"text-center p-2"}>{this.props.restaurant.nombre}</Card.Title>
+                        <Card.Title className={"text-center p-2 pb-0"}>{this.props.restaurant.nombre}</Card.Title>
+                        <div className={"d-flex flex-row pb-3 paraf_info_card ps-3"}>
+                            <i className="bi bi-star-fill"/>
+                            <i className="bi bi-star-fill"/>
+                            <i className="bi bi-star-fill"/>
+                            <i className="bi bi-star-fill"/>
+                            <i className="bi bi-star-fill"/>
+                        </div>
                         <div className={"d-flex flex-row pb-3 paraf_info_card"}>
                             <i className="ps-1 bi bi-geo-alt-fill"/><div className={"ps-2 text-black fw-bold"}>{this.props.restaurant.direccion}</div><div className={"text-black fw-bold d-flex flex-row gap-1"}><div>/</div>{this.props.restaurant.localidad.nombre_municipio}</div>
                         </div>
@@ -40,7 +47,7 @@ class CardRestaurant extends Component {
                     <HorarioRestaurant restaurant={this.props.restaurant}/>
                     {this.state.isShown && (
                         <div className={"d-flex flex-row gap-2 pt-2 paraf_info_card"}>
-                            <div className={"text-warning"}>Displonible las reservas desde el {getDayAnticipacion(this.props.restaurant.dies_anticipacion_reservas)}</div>
+                            <div className={"text-warning"}>Disponible las reservas desde el {getDayAnticipacion(this.props.restaurant.dies_anticipacion_reservas)}</div>
                         </div>
                     )}
                     <div className={"mt-3"}>

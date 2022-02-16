@@ -53,13 +53,33 @@ class Main extends Component {
                         <CaruselRestaurant restaurants={restaurants}/>
                         <section className={"w-100"}>
                             <section className={"w-100 m-0 p-0 max-w-full"}>
-                                <div className={"w-100 text-center pt-5 pb-2"}>
-                                    <h2>Mejores Restaurantes</h2>
-                                </div>
-                                <div className={"row w-100 m-0 pt-xxl-0 pt-5 mb-5 mt-5"}>
+                                <h4 className={"pt-5 pb-2"}>Los Mejores Restaurantes</h4>
+                                <div className={"row w-100 m-0 pt-xxl-0 mb-5"}>
                                     {restaurants.map(function(item, key) {
                                         return (
-                                            <article key={key} className={"col-xxl-3 col-xl-4 col-lg-6 col-12 h-100"}>
+                                            <article key={key} className={"col-xxl-3 col-xl-4 col-lg-6 col-12 h-100 p-0"}>
+                                                <CardRestaurant restaurant={item}/>
+                                            </article>
+                                        )
+                                    })}
+                                </div>
+
+                                <h4 className={"pt-5 pb-2"}>Los Mas Economicos</h4>
+                                <div className={"row w-100 m-0 pt-xxl-0 mb-5"}>
+                                    {restaurants.map(function(item, key) {
+                                        return (
+                                            <article key={key} className={"col-xxl-3 col-xl-4 col-lg-6 col-12 h-100 p-0"}>
+                                                <CardRestaurant restaurant={item}/>
+                                            </article>
+                                        )
+                                    })}
+                                </div>
+
+                                <h4 className={"pt-5 pb-2"}>Los Mejores Valorados</h4>
+                                <div className={"row w-100 m-0 pt-xxl-0 mb-5"}>
+                                    {restaurants.map(function(item, key) {
+                                        return (
+                                            <article key={key} className={"col-xxl-3 col-xl-4 col-lg-6 col-12 h-100 p-0"}>
                                                 <CardRestaurant restaurant={item}/>
                                             </article>
                                         )
