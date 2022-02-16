@@ -27,13 +27,13 @@ class App extends Component {
                   <li><Link to="/us" className="nav-link px-2 text-black">Sobre Nosotros</Link></li>
                 </ul>
 
-                <form className="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-                  <input type="search" className="form-control" placeholder="Search..." aria-label="Search"/>
+                <form className="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" method="GET" action="/search">
+                  <input type="search" className="form-control" name="name" placeholder="Search Restaurant..." aria-label="Search"/>
                 </form>
 
                 <div className="text-end">
-                  <Button color='light' className="me-2">Acceder</Button>
-                  <Button color="warning">Registrarse</Button>
+                  <Button className="button me-2">Acceder</Button>
+                  <Button >Registrarse</Button>
                 </div>
               </div>
             </div>
@@ -49,8 +49,8 @@ class App extends Component {
             </Routes>
           </div>
           
-          <footer className="footer w-100 mx-0 mt-5">
-            <footer className="w-100 text-center bg-white">
+          <footer className="footer w-100 mx-0">
+            <div className="w-100 text-center bg-white">
               <div className="container pb-0 pt-3">
                 Estas Interesado en registrar tu restaurante? <a className="text-black" href="http://admin.trobalo.me:8080/register"> Registrate</a>  y crealo!
               </div>
@@ -61,7 +61,7 @@ class App extends Component {
                 © 2022 Copyright: 
                 <div><a className="text-black" href="https://www.trobalo.com/">trobalo.me</a><a href="https://www.trobalo.com/" className="text-decoration-none text-white"> </a></div>
               </div>
-            </footer>
+            </div>
           </footer>
 
         </div>
