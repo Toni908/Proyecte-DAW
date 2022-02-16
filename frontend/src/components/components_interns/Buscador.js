@@ -42,6 +42,7 @@ class Buscador extends Component {
     }
 
     changeEtiqueta(e){
+        alert(e.value);
         this.setState({etiqueta: e.target.value});
     }
     changeSitio(e){
@@ -60,7 +61,7 @@ class Buscador extends Component {
             <h1 className="text-center buscarTitulo"> Buscar Restaurante</h1>
             <div className="text-center mt-4">
                 <div className="d-flex w-50 justify-content-center mx-auto">
-                    <select name="labels" className="form-select mx-4 inputBuscador w-auto" aria-label="Default select example" onChange={this.changeEtiqueta}>
+                    <select name="labels" className="form-select mx-4 inputBuscador w-auto" aria-label="Default select example" onChange={ () => this.changeEtiqueta}>
                         <option defaultValue>-- Etiquetas --</option>
                     {this.state.etiquetas.map(elemento=>( 
                             <option key={elemento.id_etiqueta} value={elemento.nombre}>{elemento.nombre}</option>
