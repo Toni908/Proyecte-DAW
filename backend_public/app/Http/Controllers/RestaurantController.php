@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Reserva;
 use App\Models\Restaurante;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use PhpParser\Node\Expr\Cast\Object_;
 
 class RestaurantController extends Controller
 {
@@ -20,16 +22,26 @@ class RestaurantController extends Controller
 
     public function showRestaurantsWithMembresia()
     {
-        $restaurant = Restaurante::with('localidad','imgs','cartas','etiquetas','periodos','user','reservas')->get()->whereNotNull('id_membresia')->toArray();
-        $restaurant = $this->fullValidationRestaurant($restaurant);
+        $restaurant = Restaurante::with('localidad','imgs','cartas','etiquetas','periodos','user','reservas')
+            ->get()
+            ->where('validated', '=', 1)
+            ->where('visible', '=', 1)
+            ->whereNotNull('id_membresia')
+            ->toArray();
+        if ($restaurant==null) {
+            return $this->showRestaurants();
+        }
         return json_decode(json_encode($restaurant), true);
     }
 
     public function showRestaurants()
     {
-        $restaurant = Restaurante::with('localidad','imgs','cartas','etiquetas','periodos','user','reservas')->orderBy('id_restaurante', 'asc')->get()->toArray();
-        $restaurant = $this->getOnlyValidatedRestaurants($restaurant);
-        $restaurant = $this->getOnlyVisibleRestaurants($restaurant);
+        $restaurant = Restaurante::with('localidad','imgs','cartas','etiquetas','periodos','user','reservas')
+            ->orderBy('id_restaurante', 'asc')
+            ->where('validated', '=', 1)
+            ->where('visible', '=', 1)
+            ->get()
+            ->toArray();
         return json_decode(json_encode($restaurant), true);
     }
 
@@ -54,69 +66,15 @@ class RestaurantController extends Controller
     {
     }*/
 
-    public function fullValidationRestaurant($array): ?array
-    {
-        $array = $this->getOnlyValidatedRestaurants($array);
-        $array = $this->getOnlyVisibleRestaurants($array);
-        $array = $this->getOnlyRestaurantWithImg($array);
+    public function aforo($id) {
+        $aforos = Reserva::all('id_restaurante','personas')->where('id_restaurante','==',$id);
 
-        if ($array==null) {
-            return $this->showRestaurants();
-        }
-        return $array;
-    }
-
-    public function getOnlyRestaurantWithImg($array): ?array
-    {
-        if ($array==null) {
-            return null;
-        }
-        $arrayRestaurantComplet = [];
-        if (count($array) != 0) {
-            for ($i = 0; $i < count($array); $i++) {
-                if (count($array[$i]['imgs'])!=0) {
-                    array_push($arrayRestaurantComplet,$array[$i]);
-                }
+        $sum = 0;
+        if (count($aforos) != 0) {
+            foreach($aforos as $v){
+                $sum += $v['personas'];
             }
-        } else {
-            return null;
         }
-        return $arrayRestaurantComplet;
-    }
-
-    public function getOnlyVisibleRestaurants($array): ?array
-    {
-        if ($array==null) {
-            return null;
-        }
-        $restaurants = [];
-        if (count($array) != 0) {
-            for ($i = 0; $i < count($array); $i++) {
-                if ($array[$i]['visible']!=false) {
-                    array_push($restaurants,$array[$i]);
-                }
-            }
-        } else {
-            return null;
-        }
-        return $restaurants;
-    }
-
-    public function getOnlyValidatedRestaurants($array): ?array
-    {
-        if ($array==null) {
-            return null;
-        }
-        $restaurants = [];
-        if (count($array) != 0) {
-            for ($i = 0; $i < count($array); $i++) {
-                if ($array[$i]['validated']!=false) {
-                    array_push($restaurants,$array[$i]);
-                }
-            }
-        } else {
-            return null;
-        }
-        return $restaurants;
+        return json_decode(json_encode($sum), true);
     }
 }

@@ -1,6 +1,8 @@
 package cat.iesmanacor.backend_private.controller;
 
+import cat.iesmanacor.backend_private.configuration.MvnConfiguration;
 import cat.iesmanacor.backend_private.entities.Password_recuperar;
+import cat.iesmanacor.backend_private.entities.Traductions;
 import cat.iesmanacor.backend_private.entities.Useracount;
 import cat.iesmanacor.backend_private.entityDTO.UseracountDTO;
 import cat.iesmanacor.backend_private.services.EmailService;
@@ -62,13 +64,13 @@ public class UseracountController {
         Useracount userVerify = getUser(request);
 
         if (isUserCorrect(userVerify,useracountService)) {
-            // ID Y CONTRASEÑA TIENEN QUE SER IGUALES
             Optional<Useracount> useracount = useracountService.findUseracountById(userVerify.getId_user());
             if (useracount.isPresent()) {
                 if (BCrypt.checkpw(verified, useracount.get().getPassword())) {
                     model.addAttribute("verified",true);
                     model.addAttribute("hascode",password_recuperarService.findByUseracount(useracount.get().getId_user()).isEmpty());
-                    model.addAttribute("success","Ya puedes ver la informacion importante");
+                    Traductions traductions = new Traductions("Ya puedes ver la informacion importante","You can now see the important information","Ja pots veure la informació important");
+                    model.addAttribute("success", traductions.getTraductionLocale(request));
                     model.addAttribute("user", useracount.get());
                     return "formularios/user_update";
                 }
@@ -121,7 +123,8 @@ public class UseracountController {
                             session.invalidate();
                             return "redirect:/login";
                         } else {
-                            model.addAttribute("error", "No se han encontrado coicidencias");
+                            Traductions traductions = new Traductions("No se han encontrado coincidencias","No matches found","No s'han trobat coincidències");
+                            model.addAttribute("error", traductions.getTraductionLocale(request));
                             model.addAttribute("user", userVerify);
                             return "formularios/user_update";
                         }
@@ -153,11 +156,13 @@ public class UseracountController {
                         session.invalidate();
                         return "redirect:/login";
                     } else {
-                        model.addAttribute("error", "La contraseñas no coiciden");
+                        Traductions traductions = new Traductions("La contraseñas no coinciden","The passwords do not match","Les contrasenyes no coincideixen");
+                        model.addAttribute("error", traductions.getTraduction());
                         return "recuperar";
                     }
                 }
-                model.addAttribute("error", "Credenciales no coiciden");
+                Traductions traductions = new Traductions("Credenciales no coinciden","Credentials do not match","Credencials no coincideixen");
+                model.addAttribute("error", traductions.getTraduction());
                 return "recuperar";
             }
         }
@@ -173,19 +178,20 @@ public class UseracountController {
             if (useracount.size()==1) {
                 if (password_recuperarService.findByUseracount(useracount.get(0).getId_user()).isEmpty()) {
                     BigInteger generateCode = generateCode(useracount.get(0));
-                    System.out.println("Enviado el correo a "+useracount.get(0).getCorreo());
                     emailService.sendMessageWithAttachment(useracount.get(0).getCorreo(), "Recuperar contraseña",  email_actual, generateCode);
-//                    emailService.sendMessageWithAttachment("militaxx98@gmail.com", "Recuperar contraseña", email_actual, generateCode);
                     model.addAttribute("hasSend",true);
-                    model.addAttribute("success","Se envio un correo con el codigo");
+                    Traductions traductions = new Traductions("Se envió un correo con el código","An email with the code was sent","Es va enviar un correu amb el codi");
+                    model.addAttribute("success", traductions.getTraduction());
                 } else {
                     model.addAttribute("hasSend",false);
-                    model.addAttribute("error","Ya se envio un correo con el codigo");
+                    Traductions traductions = new Traductions("Ya se envío un correo con el código","An email with the code has already been sent.","Ja s'envio un correu amb el codi");
+                    model.addAttribute("error", traductions.getTraduction());
                 }
                 return "recuperar";
             }
         } else {
-            model.addAttribute("error","El correo no se encuentra en ningun registro");
+            Traductions traductions = new Traductions("El correo no se encuentra en ningún registro","The mail is not found in any record","El correu no es troba a cap registre");
+            model.addAttribute("error", traductions.getTraduction());
             return "recuperar";
         }
         return "redirect:/error/401";
@@ -199,7 +205,8 @@ public class UseracountController {
             password_recuperarService.deleteCodesFromUseracount(useracount.get(0).getId_user());
             codeSend(email,model);
         } else {
-            model.addAttribute("error","No se encontro ningun codigo relacionado con el correo");
+            Traductions traductions = new Traductions("No se encontró ningún código relacionado con el correo","No mail-related code found","No s'ha trobat cap codi relacionat amb el correu");
+            model.addAttribute("error", traductions.getTraduction());
         }
         return "recuperar";
     }
@@ -239,10 +246,10 @@ public class UseracountController {
             Optional<Useracount> useracount = useracountService.findUseracountById(userVerify.getId_user());
             if (useracount.isPresent()) {
                 BigInteger generateCode = generateCode(useracount.get());
-                System.out.println("Enviado el correo a "+useracount.get().getCorreo());
                 emailService.sendMessageWithAttachment(useracount.get().getCorreo(), "Recuperar contraseña del usuario" + useracount.get().getNombre_usuario(), useracount.get().getCorreo(),generateCode);
                 model.addAttribute("hascode",password_recuperarService.findByUseracount(useracount.get().getId_user()).isEmpty());
-                model.addAttribute("success","Se le a enviado un correo a "+useracount.get().getCorreo());
+                Traductions traductions = new Traductions("Se le a enviado un correo a "+useracount.get().getCorreo(),"An email has been sent to "+useracount.get().getCorreo(),"Se li ha enviat un correu a"+useracount.get().getCorreo());
+                model.addAttribute("success", traductions.getTraduction());
                 model.addAttribute("user", useracount.get());
                 return "formularios/user_update";
             }
@@ -310,12 +317,14 @@ public class UseracountController {
                         session.invalidate();
                         return "redirect:/login";
                     } else {
-                        model.addAttribute("error", "No se han encontrado coicidencias");
+                        Traductions traductions = new Traductions("No se han encontrado coincidencias","No matches found","No s'han trobat coincidències");
+                        model.addAttribute("error", traductions.getTraduction());
                         model.addAttribute("user", userVerify);
                         return "formularios/user_update";
                     }
                 } else {
-                    model.addAttribute("error","Las contraseñas a cambiar no coiciden");
+                    Traductions traductions = new Traductions("Las contraseñas a cambiar no coinciden","The passwords to change do not match","Les contrasenyes a canviar no coincideixen");
+                    model.addAttribute("error", traductions.getTraduction());
                     model.addAttribute("user", userVerify);
                     return "formularios/user_update";
                 }

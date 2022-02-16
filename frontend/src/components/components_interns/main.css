@@ -1,35 +1,23 @@
-.height-Carousel {
-    height: 80vh;
+.main-width {
+    width: 1500px;
 }
-.carousel-inner {
+
+.height-Carousel {
     height: 100%;
 }
 .height-img {
-    height: 80vh;
+    height: 670px;
 }
 .object-cover {
     object-fit: cover;
 }
 .text-color-general {
-    color: #9A616D;
+    color: rgb(168,169,236);
     text-shadow: 1px 0 0 #fff, -1px 0 0 #fff, 0 1px 0 #fff, 0 -1px 0 #fff, 1px 1px #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;
-}
-.background-general {
-    background-color: #9A616D;
-}
-.background-gradial-general {
-    background: rgb(255,255,255);
-    background: linear-gradient(180deg, rgba(255,255,255,1) 50%, rgba(2,0,36,1) 50%, rgba(154,97,109,1) 50%);
-}
-.title_principal {
-    padding-top: 400px;
-}
-.principal {
-    height: 75vh; margin-top: 100px; border-radius: 20px
-}
-.w-80 {
-    width: 80%;
 }
 .max-w-full {
     max-width: 100%;
+}
+.background-color-general {
+    background: linear-gradient(180deg, rgba(2,0,36,1) 0%, rgba(255,255,255,1) 0%, rgba(168,169,236) 100%);
 }

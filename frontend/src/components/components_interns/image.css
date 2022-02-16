@@ -1,3 +1,6 @@
 .image-height {
-    height: 40vh;
+    height: 240px;
+}
+.card-title {
+    height: 60px;
 }

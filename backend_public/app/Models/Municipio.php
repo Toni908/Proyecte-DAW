@@ -16,6 +16,6 @@ class Municipio extends Model
 
     public function localidad()
     {
-        return $this->belongsTo(Localidad::class, 'id_localidad');
+        return $this->belongsTo(Localidad::class, 'nombre_municipio','nombre_municipio');
     }
 }

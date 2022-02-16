@@ -121,7 +121,10 @@ $general-color: #9A616D;
   width: auto;
   position: fixed;
   bottom: 30px;
-  right: 100px;
+  right: 0;
+  animation-name: animationMessages;
+  animation-duration: 3.6s;
+  animation-iteration-count: 1;
 }
 .message_success {
   background-color: forestgreen;
@@ -131,7 +134,10 @@ $general-color: #9A616D;
   width: auto;
   position: fixed;
   bottom: 30px;
-  right: 100px;
+  right: 0;
+  animation-name: animationMessages;
+  animation-duration: 3.6s;
+  animation-iteration-count: 1;
 }
 .z-index1 {
   z-index: 1;
@@ -139,4 +145,60 @@ $general-color: #9A616D;
 
 .background-color-general {
   background-color: $general-color !important;
+}
+
+@media only screen and (max-width: 600px) {
+  .message_success {
+    z-index: 10 !important;
+    background-color: forestgreen;
+    border-radius: 20px;
+    color: white;
+    padding: 10px;
+    width: auto;
+    position: fixed;
+    bottom: 30px;
+    right: 0;
+  }
+  .message_error {
+    z-index: 10 !important;
+    background-color: indianred;
+    border-radius: 20px;
+    color: white;
+    padding: 10px;
+    width: auto;
+    position: fixed;
+    bottom: 30px;
+    right: 0;
+  }
+}
+
+@keyframes animationMessages {
+  0%{
+    position: fixed;
+    bottom: 30px;
+    right: 0;
+  }
+  30%{
+    position: fixed;
+    bottom: 30px;
+    right: 3%;
+  }
+  50%{
+    position: fixed;
+    bottom: 30px;
+    right: 3%;
+    opacity: 1;
+  }
+  90%{
+    position: fixed;
+    bottom: 30px;
+    right: 3%;
+    opacity: 1;
+  }
+  100% {
+    position: fixed;
+    bottom: 30px;
+    right: 0;
+    opacity: 0;
+  }
 }

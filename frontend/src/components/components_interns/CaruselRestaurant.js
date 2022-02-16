@@ -8,7 +8,7 @@ class CaruselRestaurant extends Component {
 
     render() {
         return (
-            <Carousel className={"text-color-general height-Carousel p-4 py-0 mt-4"}>
+            <Carousel className={"text-color-general height-Carousel mt-4"}>
                 {this.props.restaurants.map(function(item, key) {
                     if (key<6) {
                         return (
@@ -18,6 +18,7 @@ class CaruselRestaurant extends Component {
                             </Carousel.Item>
                         )
                     }
+                    return("")
                 })}
             </Carousel>
         );
