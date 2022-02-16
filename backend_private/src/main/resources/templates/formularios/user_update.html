@@ -31,6 +31,7 @@
             </a>
         </div>
     </aside>
+    <div th:insert="shared/model :: modelUser"></div>
     <form class="d-flex flex-row justify-content-center" onsubmit="return validateGeneral()" th:action="@{/user/put}" method="POST" th:object="${user}">
         <section class="d-flex flex-column justify-content-center body-info">
             <section class="pt-5">

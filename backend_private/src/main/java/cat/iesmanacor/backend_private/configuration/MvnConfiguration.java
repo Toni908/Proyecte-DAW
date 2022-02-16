@@ -31,7 +31,7 @@ public class MvnConfiguration extends WebMvcConfigurerAdapter {
     @Bean
     public LocaleResolver localeResolver() {
         SessionLocaleResolver localeResolver = new SessionLocaleResolver();
-        localeResolver.setDefaultLocale(new Locale("me"));
+        localeResolver.setDefaultLocale(new Locale("es"));
         return localeResolver;
     }
 
