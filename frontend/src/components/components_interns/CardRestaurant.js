@@ -4,7 +4,6 @@ import React, {Component} from "react";
 import './image.css'
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import HorarioRestaurant from "./HorarioRestaurant";
-import AforoIcon from "./AforoIcon";
 import "./cardrestaurant.css";
 
 class CardRestaurant extends Component {
@@ -16,6 +15,14 @@ class CardRestaurant extends Component {
         };
 
         this.cambiarVisible = this.cambiarVisible.bind(this);
+    }
+
+    jQueryCode = () => {
+
+    }
+
+    componentDidMount() {
+        this.jQueryCode();
     }
 
     cambiarVisible(value){
@@ -30,13 +37,6 @@ class CardRestaurant extends Component {
                 <Card.Body>
                     <div className={"position-relative"}>
                         <Card.Title className={"text-center p-2 pb-0"}>{this.props.restaurant.nombre}</Card.Title>
-                        <div className={"d-flex flex-row pb-3 paraf_info_card ps-3"}>
-                            <i className="bi bi-star-fill"/>
-                            <i className="bi bi-star-fill"/>
-                            <i className="bi bi-star-fill"/>
-                            <i className="bi bi-star-fill"/>
-                            <i className="bi bi-star-fill"/>
-                        </div>
                         <div className={"d-flex flex-row pb-3 paraf_info_card"}>
                             <i className="ps-1 bi bi-geo-alt-fill"/><div className={"ps-2 text-black fw-bold"}>{this.props.restaurant.direccion}</div><div className={"text-black fw-bold d-flex flex-row gap-1"}><div>/</div>{this.props.restaurant.localidad.nombre_municipio}</div>
                         </div>
