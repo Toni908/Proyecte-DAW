@@ -1,8 +1,12 @@
 package cat.iesmanacor.backend_private.controller;
 
 import cat.iesmanacor.backend_private.entities.*;
+import cat.iesmanacor.backend_private.entityDTO.RestaurantDTO;
+import cat.iesmanacor.backend_private.entityDTO.RestaurantSecureDTO;
+import cat.iesmanacor.backend_private.entityDTO.SimpleUserDTO;
 import cat.iesmanacor.backend_private.files.FileUploadUtil;
 import cat.iesmanacor.backend_private.services.*;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -65,10 +69,12 @@ public class RestaurantController {
         Useracount useracount = getUser(request);
 
         if (isUserCorrect(useracount,useracountService)) {
+            ModelMapper modelMapper = new ModelMapper();
+            SimpleUserDTO simpleUserDTO = modelMapper.map(useracount, SimpleUserDTO.class);
             model.addAttribute("cartas", getCartasRestaurantActive(useracount));
             model.addAttribute("restaurantesUser", restaurantService.findRestaurantByUseracount(useracount.getId_user()));
             model.addAttribute("ImgImages", imagesIsEmpties(useracount));
-            model.addAttribute("user", useracount);
+            model.addAttribute("user", simpleUserDTO);
             return "lista_restaurants";
         }
         return "redirect:/error/401";
@@ -120,11 +126,10 @@ public class RestaurantController {
             Optional<Useracount> useracountDDBB = useracountService.findUseracountById(useracount.getId_user());
             if (useracountDDBB.isPresent()) {
                 if (useracountDDBB.get().equals(useracount)) {
-                    model.addAttribute("restaurant", new Restaurant());
+                    model.addAttribute("restaurant", new RestaurantDTO());
                     model.addAttribute("etiqueta", new Etiquetas());
                     model.addAttribute("etiquetas", etiquetasService.findAllEtiquetas());
-                    String __route_formulari_create = "formularios/restaurante-create";
-                    return __route_formulari_create;
+                    return "formularios/restaurante-create";
                 }
             }
         }
@@ -139,14 +144,15 @@ public class RestaurantController {
             Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
             if (restaurant.isPresent()) {
                 if (restaurant.get().getUseracount().equals(useracount)) {
+                    ModelMapper modelMapper = new ModelMapper();
+                    RestaurantSecureDTO restaurantDTO = modelMapper.map(restaurant.get(), RestaurantSecureDTO.class);
                     model.addAttribute("imageModified", getProvisionalNameImgFromUrlByUseracount(useracount));
                     model.addAttribute("imagesRestaurant", imgService.findImgFromRestaurantId(restaurant.get().getId_restaurante()));
-                    model.addAttribute("restaurant", restaurant.get());
+                    model.addAttribute("restaurant", restaurantDTO);
                     model.addAttribute("etiqueta", new Etiquetas());
                     model.addAttribute("etiquetas", getEtiquetasFromRestaurant_Etiqueta(restaurant.get().getId_restaurante()));
                     model.addAttribute("array", localidadService.findAllLocalidad());
-                    String __route_formulari_update = "formularios/restaurante-update";
-                    return __route_formulari_update;
+                    return "formularios/restaurante-update";
                 }
             }
         }
@@ -158,7 +164,7 @@ public class RestaurantController {
 
     @RequestMapping(value = "/restaurant/save")
     @Transactional()
-    public String save(@ModelAttribute @Valid Restaurant restaurant,
+    public String save(@ModelAttribute @Valid RestaurantDTO restaurantDTO,
                        BindingResult errors,
                        ModelMap model,
                        @RequestParam("image") MultipartFile multipartFile,
@@ -173,37 +179,42 @@ public class RestaurantController {
 
         Useracount useracount = getUser(request);
         if (isUserCorrect(useracount,useracountService)) {
+            ModelMapper modelMapper = new ModelMapper();
+            Restaurant restaurant = modelMapper.map(restaurantDTO, Restaurant.class);
+
+            restaurant.setUseracount(useracount);
+
             if (restaurant.getNombre()!=null) {
                 if (!checkNameisEmpty(restaurant.getNombre())) {
                     Traductions traductions = new Traductions("El nombre del restaurante ya esta cogido!","Restaurant name already taken","El nom del restaurant ya esta en us");
                     model.addAttribute("error", traductions.getTraductionLocale(request));
                     return create(model,request);
                 }
-            }
-            if (restaurant.getLocalidad()!=null) {
-                restaurant.setUseracount(useracount);
-                if (restaurant.getLatitud()!=null || restaurant.getLongitud()!=null) {
-                    // ELIMINAR PARA PRODUCION
-                    restaurant.setValidated(true);
+                if (restaurant.getLocalidad()!=null) {
+                    if (restaurant.getLatitud()!=null || restaurant.getLongitud()!=null) {
+                        // ELIMINAR PARA PRODUCION
+                        restaurant.setValidated(true);
 
-                    saveRestaurant(restaurant);
-                    List<Restaurant> restaurantCreated = restaurantService.findRestaurantByNombre(restaurant.getNombre());
-                    if (!restaurantCreated.isEmpty() && !etiquetas.isEmpty()) {
-                        saveEtiquetas(etiquetas, restaurantCreated.get(0), etiquetasService, restaurante_etiquetasService);
+                        saveRestaurant(restaurant);
+                        List<Restaurant> restaurantCreated = restaurantService.findRestaurantByNombre(restaurant.getNombre());
+                        if (!restaurantCreated.isEmpty() && !etiquetas.isEmpty()) {
+                            saveEtiquetas(etiquetas, restaurantCreated.get(0), etiquetasService, restaurante_etiquetasService);
+                        }
+                        saveImageRestaurantFirst(multipartFile, restaurant);
+                        return "redirect:/restaurant/update/" + restaurant.getId_restaurante();
                     }
-                    saveImageRestaurantFirst(multipartFile, restaurant);
-                    return "redirect:/restaurant/update/" + restaurant.getId_restaurante();
+                    Traductions traductions = new Traductions("Localización no selecionado","Location not selected","Localització no seleccionat");
+                    return create(model.addAttribute("error", traductions.getTraductionLocale(request)),request);
                 }
-                Traductions traductions = new Traductions("Localización no selecionado","Location not selected","Localització no seleccionat");
-                return create(model.addAttribute("error", traductions.getTraductionLocale(request)),request);
             }
+            Traductions traductions = new Traductions("Nombre no disponible","Name dont available","Nom no disponible");
+            return create(model.addAttribute("error", traductions.getTraductionLocale(request)),request);
         }
-
-        return "redirect:/restaurant/create";
+        return "redirect:/error/401";
     }
 
     @RequestMapping(value = "/restaurant/put")
-    public String put(@ModelAttribute @Valid Restaurant restaurant, @RequestParam("myLocalidad") String localidadName, @RequestParam("myLocalidadChanged") String myLocalidadChanged, BindingResult errors, ModelMap model, HttpServletRequest request) {
+    public String put(@ModelAttribute @Valid RestaurantDTO restaurantDTO, @RequestParam("myLocalidadChanged") String myLocalidadChanged, BindingResult errors, ModelMap model, HttpServletRequest request) {
         inicializeModelMap(model);
         Useracount useracount = getUser(request);
 
@@ -211,30 +222,22 @@ public class RestaurantController {
             if (errors.hasErrors()) {
                 return "redirect:/error/401";
             }
-
-            Localidad localidad = new Localidad();
-            localidad.setNombre_localidad(myLocalidadChanged);
+            ModelMapper modelMapper = new ModelMapper();
+            Restaurant restaurant = modelMapper.map(restaurantDTO, Restaurant.class);
 
             if (restaurant.getId_restaurante() != null) {
-                if (localidad.getNombre_localidad() != null) {
-                    List<Localidad> localidadFindInfo = localidadService.findLocalidadByNombre_localidad(localidad.getNombre_localidad());
-                    Optional<Restaurant> restaurantBefore = restaurantService.findRestaurantById(restaurant.getId_restaurante());
-                    if (!localidadFindInfo.isEmpty()) {
-                        restaurant.setLocalidad(localidadFindInfo.get(0));
-                        if (restaurantBefore.isPresent()) {
-                            // Valores que no deberian cambiarse con esta operacion
-                            model = defaultValuesRestaurant(restaurant, model, request, restaurantBefore);
-                        } else {
-                            return "redirect:/error/401";
-                        }
+                Optional<Restaurant> restaurantBefore = restaurantService.findRestaurantById(restaurant.getId_restaurante());
+                if (restaurantBefore.isPresent()) {
+                    if (!localidadService.findLocalidadByNombre_localidad(myLocalidadChanged).isEmpty()) {
+                        restaurant.setLocalidad(localidadService.findLocalidadByNombre_localidad(myLocalidadChanged).get(0));
                     } else {
-                        if (restaurantBefore.isPresent()) {
-                            restaurant.setLocalidad(restaurantBefore.get().getLocalidad());
-                            model = defaultValuesRestaurant(restaurant, model, request, restaurantBefore);
-                        }
+                        restaurant.setLocalidad(restaurantBefore.get().getLocalidad());
                     }
-                    return update(restaurant.getId_restaurante(), model, request);
+                    model = defaultValuesRestaurant(restaurant, model, request, restaurantBefore);
+                } else {
+                    return "redirect:/error/401";
                 }
+                return update(restaurant.getId_restaurante(), model, request);
             }
         }
         return "redirect:/error/401";

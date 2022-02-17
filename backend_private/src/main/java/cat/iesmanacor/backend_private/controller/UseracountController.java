@@ -1,6 +1,8 @@
 package cat.iesmanacor.backend_private.controller;
 
+import cat.iesmanacor.backend_private.componentes.User;
 import cat.iesmanacor.backend_private.entities.Password_recuperar;
+import cat.iesmanacor.backend_private.entities.Restaurant;
 import cat.iesmanacor.backend_private.entities.Traductions;
 import cat.iesmanacor.backend_private.entities.Useracount;
 import cat.iesmanacor.backend_private.entityDTO.UseracountDTO;
@@ -8,6 +10,7 @@ import cat.iesmanacor.backend_private.services.EmailService;
 import cat.iesmanacor.backend_private.services.Password_recuperarService;
 import cat.iesmanacor.backend_private.services.UseracountService;
 import org.mindrot.jbcrypt.BCrypt;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -49,9 +52,11 @@ public class UseracountController {
         Useracount useracount = getUser(request);
         if (isUserCorrect(useracount,useracountService)) {
             Optional<Useracount> useracountDDBB = useracountService.findUseracountById(useracount.getId_user());
+            ModelMapper modelMapper = new ModelMapper();
             if (useracountDDBB.isPresent()) {
+                UseracountDTO useracountDTO = modelMapper.map(useracountDDBB.get(), UseracountDTO.class);
                 model.addAttribute("hascode",password_recuperarService.findByUseracount(useracountDDBB.get().getId_user()).isEmpty());
-                model.addAttribute("user", useracountDDBB.get());
+                model.addAttribute("user", useracountDTO);
                 return "formularios/user_update";
             }
         }
@@ -66,11 +71,14 @@ public class UseracountController {
             Optional<Useracount> useracount = useracountService.findUseracountById(userVerify.getId_user());
             if (useracount.isPresent()) {
                 if (BCrypt.checkpw(verified, useracount.get().getPassword())) {
+                    ModelMapper modelMapper = new ModelMapper();
+                    UseracountDTO useracountDTO = modelMapper.map(useracount, UseracountDTO.class);
+
                     model.addAttribute("verified",true);
                     model.addAttribute("hascode",password_recuperarService.findByUseracount(useracount.get().getId_user()).isEmpty());
                     Traductions traductions = new Traductions("Ya puedes ver la informacion importante","You can now see the important information","Ja pots veure la informació important");
                     model.addAttribute("success", traductions.getTraductionLocale(request));
-                    model.addAttribute("user", useracount.get());
+                    model.addAttribute("user", useracountDTO);
                     return "formularios/user_update";
                 }
             }
@@ -79,7 +87,7 @@ public class UseracountController {
     }
 
     @RequestMapping("/user/put")
-    public String put(@ModelAttribute @Valid UseracountDTO useracount, BindingResult errors, HttpServletRequest request, HttpSession session){
+    public String put(@ModelAttribute @Valid UseracountDTO useracountDTO, BindingResult errors, HttpServletRequest request, HttpSession session){
         Useracount userVerify = getUser(request);
 
         //Errores redirect
@@ -91,12 +99,13 @@ public class UseracountController {
             // ID Y CONTRASEÑA TIENEN QUE SER IGUALES
             Optional<Useracount> useracountDDBB = useracountService.findUseracountById(userVerify.getId_user());
             if (useracountDDBB.isPresent()) {
-                useracountDDBB.get().setNombre_usuario(useracount.getNombre_usuario());
-                useracountDDBB.get().setNombre(useracount.getNombre());
-                useracountDDBB.get().setApellido1(useracount.getApellido1());
-                useracountDDBB.get().setApellido2(useracount.getApellido2());
-                useracountDDBB.get().setTelefono(useracount.getTelefono());
-                useracountService.updateUseracount(useracountDDBB.get());
+                ModelMapper modelMapper = new ModelMapper();
+                Useracount useracount = modelMapper.map(useracountDTO, Useracount.class);
+                useracount.setAdmin(useracountDDBB.get().isAdmin());
+                useracount.setPassword(useracountDDBB.get().getPassword());
+                useracount.setCorreo(useracountDDBB.get().getCorreo());
+                useracount.setDni(useracountDDBB.get().getDni());
+                useracountService.updateUseracount(useracount);
                 session.invalidate();
                 return "redirect:/login";
             }
