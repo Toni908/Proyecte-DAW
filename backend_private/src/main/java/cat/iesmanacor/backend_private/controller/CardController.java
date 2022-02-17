@@ -1,8 +1,10 @@
 package cat.iesmanacor.backend_private.controller;
 
+import cat.iesmanacor.backend_private.componentes.QRCodeGenerator;
 import cat.iesmanacor.backend_private.entities.*;
 import cat.iesmanacor.backend_private.files.FileUploadUtil;
 import cat.iesmanacor.backend_private.services.*;
+import com.google.zxing.WriterException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -50,6 +52,15 @@ public class CardController {
 
         if(user == null || !restaurant.get().getUseracount().equals(user)){
             return "redirect:/error/401";
+        }
+
+        String qr = "https://www.trobalo.me/carta/" + id;
+        String path = "./src/main/resources/static/imgqr/"+id+".png";
+
+        try {
+            QRCodeGenerator.generateQRCodeImage(qr,250,250,path);
+        } catch (WriterException | IOException e) {
+            e.printStackTrace();
         }
 
         String name = "Cartas de " + restaurant.get().getNombre();

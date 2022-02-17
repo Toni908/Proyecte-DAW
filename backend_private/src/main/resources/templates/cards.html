@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css"/>
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.1.0/css/buttons.dataTables.min.css"/>
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
 <div th:insert="shared/headerVersion2 :: header(${restaurant})"></div>
 <div th:insert="shared/asideList :: aside"></div>
 <div class="w-40"></div>
@@ -58,11 +58,20 @@
         <a class="" id="e2" href="#"><button class="btn btn-secondary mt-2" th:text="#{button.return}"></button></a>
     </div>
 
+    <section class="mx-auto mt-3">
+        <h2 class="text-center">
+            QR de la carta Activa:
+        </h2>
+        <div class="d-flex justify-content-center">
+            <img th:src="@{${'/imgqr/' + restaurant.id_restaurante + '.png'}}" alt="qr carta activa restaurante" class="text-center"/>
+        </div>
+    </section>
+
     <div th:insert="shared/modals/modal_eliminar :: section"/>
 
 </main>
 
-<div th:insert="shared/footer :: body"></div>
+
 
     <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
     <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
