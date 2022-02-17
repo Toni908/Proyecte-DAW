@@ -45,24 +45,24 @@ public class Traductions {
     public String getTraductionLocale(HttpServletRequest request) {
         MvnConfiguration mvnConfiguration = new MvnConfiguration();
         String lang = String.valueOf(mvnConfiguration.localeResolver().resolveLocale(request));
-        if (lang.equals("es")) {
-            return this.spain;
+        if (lang.equals("ca")) {
+            return this.catala;
         } else if (lang.equals("en")) {
             return this.english;
         } else {
-            return this.catala;
+            return this.spain;
         }
     }
 
     public String getTraduction() {
         MvnConfiguration mvnConfiguration = new MvnConfiguration();
         String lang = String.valueOf(mvnConfiguration.localeResolver());
-        if (lang.equals("es")) {
-            return this.spain;
+        if (lang.equals("ca")) {
+            return this.catala;
         } else if (lang.equals("en")) {
             return this.english;
         } else {
-            return this.catala;
+            return this.spain;
         }
     }
 }

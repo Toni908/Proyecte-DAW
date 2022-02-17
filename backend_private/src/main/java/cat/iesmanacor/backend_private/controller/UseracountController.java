@@ -1,33 +1,23 @@
 package cat.iesmanacor.backend_private.controller;
 
-import cat.iesmanacor.backend_private.componentes.User;
-import cat.iesmanacor.backend_private.entities.Password_recuperar;
-import cat.iesmanacor.backend_private.entities.Restaurant;
-import cat.iesmanacor.backend_private.entities.Traductions;
-import cat.iesmanacor.backend_private.entities.Useracount;
+import cat.iesmanacor.backend_private.entities.*;
 import cat.iesmanacor.backend_private.entityDTO.UseracountDTO;
-import cat.iesmanacor.backend_private.services.EmailService;
-import cat.iesmanacor.backend_private.services.Password_recuperarService;
-import cat.iesmanacor.backend_private.services.UseracountService;
+import cat.iesmanacor.backend_private.files.FileUploadUtil;
+import cat.iesmanacor.backend_private.services.*;
 import org.mindrot.jbcrypt.BCrypt;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
-import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.math.RoundingMode;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -45,7 +35,16 @@ public class UseracountController {
     EmailService emailService;
 
     @Autowired
-    Password_recuperarService password_recuperarService;
+    CodeService codeService;
+
+    @Autowired
+    ImgService imgService;
+
+    @Autowired
+    RestaurantService restaurantService;
+
+    public String typeCodePassword = "recoverPassword";
+    public String typeCodeUser = "deleteUser";
 
     @GetMapping("/user")
     public String user(ModelMap model, HttpServletRequest request){
@@ -55,7 +54,7 @@ public class UseracountController {
             ModelMapper modelMapper = new ModelMapper();
             if (useracountDDBB.isPresent()) {
                 UseracountDTO useracountDTO = modelMapper.map(useracountDDBB.get(), UseracountDTO.class);
-                model.addAttribute("hascode",password_recuperarService.findByUseracount(useracountDDBB.get().getId_user()).isEmpty());
+                model.addAttribute("hascode", codeService.findById(new CodesId(useracountDDBB.get(), typeCodePassword)).isEmpty());
                 model.addAttribute("user", useracountDTO);
                 return "formularios/user_update";
             }
@@ -63,7 +62,7 @@ public class UseracountController {
         return "redirect:/error/401";
     }
 
-    @RequestMapping("/user/verified")
+    @RequestMapping(value = "/user/verified",method = RequestMethod.POST)
     public String verified(@RequestParam("verified") String verified, ModelMap model, HttpServletRequest request){
         Useracount userVerify = getUser(request);
 
@@ -71,22 +70,22 @@ public class UseracountController {
             Optional<Useracount> useracount = useracountService.findUseracountById(userVerify.getId_user());
             if (useracount.isPresent()) {
                 if (BCrypt.checkpw(verified, useracount.get().getPassword())) {
-                    ModelMapper modelMapper = new ModelMapper();
-                    UseracountDTO useracountDTO = modelMapper.map(useracount, UseracountDTO.class);
-
                     model.addAttribute("verified",true);
-                    model.addAttribute("hascode",password_recuperarService.findByUseracount(useracount.get().getId_user()).isEmpty());
                     Traductions traductions = new Traductions("Ya puedes ver la informacion importante","You can now see the important information","Ja pots veure la informació important");
                     model.addAttribute("success", traductions.getTraductionLocale(request));
-                    model.addAttribute("user", useracountDTO);
-                    return "formularios/user_update";
+                } else {
+                    Traductions traductions = new Traductions("Contraseña incorrecta","Incorrect Password","Contrasenya incorrecte");
+                    model.addAttribute("error", traductions.getTraductionLocale(request));
                 }
+                model.addAttribute("hascode", codeService.findById(new CodesId(useracount.get(), typeCodePassword)).isEmpty());
+                model.addAttribute("user", useracount.get());
+                return "formularios/user_update";
             }
         }
         return "redirect:/error/401";
     }
 
-    @RequestMapping("/user/put")
+    @RequestMapping(value = "/user/put",method = RequestMethod.POST)
     public String put(@ModelAttribute @Valid UseracountDTO useracountDTO, BindingResult errors, HttpServletRequest request, HttpSession session){
         Useracount userVerify = getUser(request);
 
@@ -114,79 +113,90 @@ public class UseracountController {
     }
 
     // PUEDE ENTRAR EN EL USUARIO
-    @RequestMapping("/user/recuperar")
-    public String recuperar(@RequestParam("codigo_email") BigInteger code,@RequestParam("password_change_recuperar") String password_change_recuperar, @RequestParam("password_change_confirm_recuperar") String password_change_confirm_recuperar, ModelMap model, HttpServletRequest request,HttpSession session) {
-        Optional<Password_recuperar> password_recuperar = password_recuperarService.findById(code);
+    @RequestMapping(value = "/user/recuperar",method = RequestMethod.POST)
+    public String recuperar(@RequestParam("codigo_email") String code,@RequestParam("password_change_recuperar") String password_change_recuperar, @RequestParam("password_change_confirm_recuperar") String password_change_confirm_recuperar, ModelMap model, HttpServletRequest request,HttpSession session) {
         Useracount userVerify = getUser(request);
-        if (password_recuperar.isPresent()) {
-            if (isUserCorrect(userVerify,useracountService)) {
-                if (isCodeFromThisUseracount(code,userVerify)) {
-                    if (password_change_recuperar.equals(password_change_confirm_recuperar)) {
-                        Optional<Useracount> useracountDDBB = useracountService.findUseracountById(userVerify.getId_user());
-                        if (useracountDDBB.isPresent()) {
-                            final String encrypted = BCrypt.hashpw(password_change_recuperar, BCrypt.gensalt());
-                            useracountDDBB.get().setPassword(encrypted);
-                            useracountService.updateUseracount(useracountDDBB.get());
-                            password_recuperarService.delete(code);
-                            session.invalidate();
-                            return "redirect:/login";
-                        } else {
-                            Traductions traductions = new Traductions("No se han encontrado coincidencias","No matches found","No s'han trobat coincidències");
-                            model.addAttribute("error", traductions.getTraductionLocale(request));
-                            model.addAttribute("user", userVerify);
-                            return "formularios/user_update";
+        CodesId result;
+
+        if (isUserCorrect(userVerify,useracountService)) {
+            Optional<Useracount> useracount = useracountService.findUseracountById(userVerify.getId_user());
+            if (useracount.isPresent()) {
+                List<Codes> codes = codeService.findFromCodesAndUseracount(useracount.get().getId_user(),code);
+                for (Codes value : codes) {
+                    if (value.getId().getTypes().equals(typeCodePassword)) {
+                        result = value.getId();
+                        if (password_change_recuperar.equals(password_change_confirm_recuperar)) {
+                            Optional<Useracount> useracountDDBB = useracountService.findUseracountById(userVerify.getId_user());
+                            if (useracountDDBB.isPresent()) {
+                                final String encrypted = BCrypt.hashpw(password_change_recuperar, BCrypt.gensalt());
+                                useracountDDBB.get().setPassword(encrypted);
+                                useracountService.updateUseracount(useracountDDBB.get());
+                                codeService.delete(result);
+                                session.invalidate();
+                                return "redirect:/login";
+                            } else {
+                                Traductions traductions = new Traductions("No se han encontrado coincidencias","No matches found","No s'han trobat coincidències");
+                                model.addAttribute("error", traductions.getTraductionLocale(request));
+                                model.addAttribute("user", userVerify);
+                                return "formularios/user_update";
+                            }
                         }
+                        break;
                     }
                 }
+
             }
         }
         return "redirect:/error/401";
-    }
-
-    public boolean isCodeFromThisUseracount(BigInteger code, Useracount useracount) {
-        return !password_recuperarService.isCodeFromUseracount(useracount.getId_user(),code).isEmpty();
     }
 
     // NO PUEDE ENTRAR EN EL USUARIO
-    @RequestMapping("/recuperar/password")
-    public String recuperarPassword(@RequestParam("code") BigInteger code, @RequestParam("dni") String dni, @RequestParam("nombre_usuario") String nombre_usuario, @RequestParam("password") String password, @RequestParam("password_confirm") String password_confirm, ModelMap model,HttpSession session) {
-        Optional<Password_recuperar> password_recuperar = password_recuperarService.findById(code);
+    @RequestMapping(value = "/recuperar/password",method = RequestMethod.POST)
+    public String recuperarPassword(@RequestParam("code") String code, @RequestParam("dni") String dni, @RequestParam("nombre_usuario") String nombre_usuario, @RequestParam("password") String password, @RequestParam("password_confirm") String password_confirm, ModelMap model,HttpSession session) {
+        List<Codes> codes = codeService.findFromTypesAndCodes(code, typeCodePassword);
 
-        if (password_recuperar.isPresent()) {
-            Optional<Useracount> useracount = useracountService.findUseracountById(password_recuperar.get().getUseracount().getId_user());
+        if (!password.equals(password_confirm)) {
+            Traductions traductions = new Traductions("Credenciales no coinciden", "Credentials do not match", "Credencials no coincideixen");
+            model.addAttribute("error", traductions.getTraduction());
+            return "recuperar";
+        }
+
+        boolean hasPassed = false;
+        for (Codes value : codes) {
+            Optional<Useracount> useracount = useracountService.findUseracountById(value.getId().getUseracount().getId_user());
             if (useracount.isPresent()) {
-                if (password_recuperar.get().getUseracount().getDni().equals(dni) && password_recuperar.get().getUseracount().getNombre_usuario().equals(nombre_usuario)) {
-                    if (password.equals(password_confirm)) {
+                if (useracount.get().getDni().equals(dni)) {
+                    if (useracount.get().getNombre_usuario().equals(nombre_usuario)) {
                         final String encrypted = BCrypt.hashpw(password, BCrypt.gensalt());
                         useracount.get().setPassword(encrypted);
                         useracountService.updateUseracount(useracount.get());
-                        password_recuperarService.delete(code);
+                        codeService.delete(new CodesId(useracount.get(), typeCodePassword));
                         session.invalidate();
                         return "redirect:/login";
                     } else {
-                        Traductions traductions = new Traductions("La contraseñas no coinciden","The passwords do not match","Les contrasenyes no coincideixen");
-                        model.addAttribute("error", traductions.getTraduction());
-                        return "recuperar";
+                        hasPassed = true;
                     }
                 }
-                Traductions traductions = new Traductions("Credenciales no coinciden","Credentials do not match","Credencials no coincideixen");
-                model.addAttribute("error", traductions.getTraduction());
-                return "recuperar";
             }
+        }
+        if (hasPassed) {
+            Traductions traductions = new Traductions("La contraseñas no coinciden", "The passwords do not match", "Les contrasenyes no coincideixen");
+            model.addAttribute("error", traductions.getTraduction());
+            return "recuperar";
         }
         return "redirect:/error/401";
     }
 
 
 
-    @RequestMapping("/send/code")
+    @RequestMapping(value = "/send/code",method = RequestMethod.POST)
     public String codeSend(@RequestParam("email_actual") String email_actual, ModelMap model) {
         List<Useracount> useracount = useracountService.findUseracountsByEmail(email_actual);
         if (!useracount.isEmpty()) {
             if (useracount.size()==1) {
-                if (password_recuperarService.findByUseracount(useracount.get(0).getId_user()).isEmpty()) {
-                    BigInteger generateCode = generateCode(useracount.get(0));
-                    emailService.sendMessageWithAttachment(useracount.get(0).getCorreo(), "Recuperar contraseña",  email_actual, generateCode);
+                if (codeService.findById(new CodesId(useracount.get(0), typeCodePassword)).isEmpty()) {
+                    String generateCode = generateCode(useracount.get(0),typeCodePassword);
+                    emailService.sendMessageWithAttachment(useracount.get(0).getCorreo(), "Recuperar contraseña",  email_actual, generateCode,"Se ha querido restaurar<br> la contraseña del usuario");
                     model.addAttribute("hasSend",true);
                     Traductions traductions = new Traductions("Se envió un correo con el código","An email with the code was sent","Es va enviar un correu amb el codi");
                     model.addAttribute("success", traductions.getTraduction());
@@ -206,11 +216,11 @@ public class UseracountController {
     }
 
     @Transactional
-    @RequestMapping("/regererar/code")
+    @RequestMapping(value = "/regererar/code",method = RequestMethod.POST)
     public String regenerarCode(@RequestParam("email") String email, ModelMap model) {
         List<Useracount> useracount = useracountService.findUseracountsByEmail(email);
         if (!useracount.isEmpty()) {
-            password_recuperarService.deleteCodesFromUseracount(useracount.get(0).getId_user());
+            codeService.delete(new CodesId(useracount.get(0), typeCodePassword));
             codeSend(email,model);
         } else {
             Traductions traductions = new Traductions("No se encontró ningún código relacionado con el correo","No mail-related code found","No s'ha trobat cap codi relacionat amb el correu");
@@ -220,15 +230,18 @@ public class UseracountController {
     }
 
     @Transactional
-    @GetMapping("/delete/code")
+    @GetMapping(value = "/delete/code/password")
     public String deleteCode(HttpServletRequest request, HttpSession session) {
         Useracount userVerify = getUser(request);
         if (isUserCorrect(userVerify,useracountService)) {
-            List<Password_recuperar> password_recuperar = password_recuperarService.findByUseracount(userVerify.getId_user());
-            if (!password_recuperar.isEmpty()) {
-                password_recuperarService.delete(password_recuperar.get(0).getCodigo());
-                session.invalidate();
-                return "/login";
+            Optional<Useracount> useracount = useracountService.findUseracountById(userVerify.getId_user());
+            if (useracount.isPresent()) {
+                Optional<Codes> codes = codeService.findById(new CodesId(useracount.get(), typeCodePassword));
+                if (codes.isPresent()) {
+                    codeService.delete(codes.get().getId());
+                    session.invalidate();
+                    return "/login";
+                }
             }
         }
         return "redirect:/error/401";
@@ -253,9 +266,14 @@ public class UseracountController {
         if (isUserCorrect(userVerify,useracountService)) {
             Optional<Useracount> useracount = useracountService.findUseracountById(userVerify.getId_user());
             if (useracount.isPresent()) {
-                BigInteger generateCode = generateCode(useracount.get());
-                emailService.sendMessageWithAttachment(useracount.get().getCorreo(), "Recuperar contraseña del usuario" + useracount.get().getNombre_usuario(), useracount.get().getCorreo(),generateCode);
-                model.addAttribute("hascode",password_recuperarService.findByUseracount(useracount.get().getId_user()).isEmpty());
+                String generateCode = generateCode(useracount.get(),typeCodePassword);
+                if (generateCode==null) {
+                    Traductions traductions = new Traductions("No puedes realizar esta operacion","You cant do this operation","Tu no pots realitzar aquesta operació");
+                    model.addAttribute("error", traductions.getTraduction());
+                    return "formularios/user_update";
+                }
+                emailService.sendMessageWithAttachment(useracount.get().getCorreo(), "Recuperar contraseña del usuario" + useracount.get().getNombre_usuario(), useracount.get().getCorreo(),generateCode,"Se ha querido recuperar<br> la contraseña del usuario");
+                model.addAttribute("hascode", codeService.findById(new CodesId(useracount.get(), typeCodePassword)).isEmpty());
                 Traductions traductions = new Traductions("Se le a enviado un correo a "+useracount.get().getCorreo(),"An email has been sent to "+useracount.get().getCorreo(),"Se li ha enviat un correu a"+useracount.get().getCorreo());
                 model.addAttribute("success", traductions.getTraduction());
                 model.addAttribute("user", useracount.get());
@@ -265,52 +283,26 @@ public class UseracountController {
         return "redirect:/error/401";
     }
 
-    public BigInteger generateCode(Useracount id) {
-        Optional<Password_recuperar> password;
-        BigInteger randomNum = BigInteger.ONE;
-        boolean empty = true;
-        while (empty) {
-            BigInteger start = BigInteger.valueOf(1000);
-            BigInteger end = BigInteger.valueOf(999999999);
-            randomNum = RandomBigInteger(start, end);
-            password = password_recuperarService.findById(randomNum);
-            if (password.isEmpty()) {
-                empty = false;
-            }
+    public String generateCode(Useracount useracount, String type) {
+        CodesId codesId = new CodesId(useracount, type);
+        Random random = new Random();
+
+        if (codeService.findById(codesId).isPresent()) {
+            return null;
         }
-        Password_recuperar password_recuperar = new Password_recuperar(id, randomNum);
-        password_recuperarService.save(password_recuperar);
-        return randomNum;
-    }
 
-    private static BigInteger RandomBigInteger(BigInteger rangeStart, BigInteger rangeEnd){
-
-        Random rand = new Random();
-        int scale = rangeEnd.toString().length();
-        String generated = "";
-        for(int i = 0; i < rangeEnd.toString().length(); i++){
-            generated += rand.nextInt(10);
-        }
-        BigDecimal inputRangeStart = new BigDecimal("0").setScale(scale, RoundingMode.FLOOR);
-        BigDecimal inputRangeEnd = new BigDecimal(String.format("%0" + (rangeEnd.toString().length()) +  "d", 0).replace('0', '9')).setScale(scale, RoundingMode.FLOOR);
-        BigDecimal outputRangeStart = new BigDecimal(rangeStart).setScale(scale, RoundingMode.FLOOR);
-        BigDecimal outputRangeEnd = new BigDecimal(rangeEnd).add(new BigDecimal("1")).setScale(scale, RoundingMode.FLOOR); //Adds one to the output range to correct rounding
-
-        //Calculates: (generated - inputRangeStart) / (inputRangeEnd - inputRangeStart) * (outputRangeEnd - outputRangeStart) + outputRangeStart
-        BigDecimal bd1 = new BigDecimal(new BigInteger(generated)).setScale(scale, RoundingMode.FLOOR).subtract(inputRangeStart);
-        BigDecimal bd2 = inputRangeEnd.subtract(inputRangeStart);
-        BigDecimal bd3 = bd1.divide(bd2, RoundingMode.FLOOR);
-        BigDecimal bd4 = outputRangeEnd.subtract(outputRangeStart);
-        BigDecimal bd5 = bd3.multiply(bd4);
-        BigDecimal bd6 = bd5.add(outputRangeStart);
-
-        BigInteger returnInteger = bd6.setScale(0, RoundingMode.FLOOR).toBigInteger();
-        returnInteger = (returnInteger.compareTo(rangeEnd) > 0 ? rangeEnd : returnInteger); //Converts number to the end of output range if it's over it. This is to correct rounding.
-        return returnInteger;
+        // 4 como diferencia
+        int length = random.nextInt(4);
+        // despues le sumo 6 como minimo
+        length = length + 6;
+        String number = Codes.getRandomString(length);
+        Codes codes = new Codes(codesId, number);
+        codeService.save(codes);
+        return number;
     }
 
     // CAMBIAR CONTRASEÑA SI TE SABES LA ACTUAL
-    @RequestMapping("/user/changepassword")
+    @RequestMapping(value = "/user/changepassword", method = RequestMethod.POST)
     public String changepassword(@RequestParam("password_actual") String password_actual, @RequestParam("password_change") String password_change, @RequestParam("password_change_confirm") String password_change_confirm, ModelMap model, HttpServletRequest request,HttpSession session){
         Useracount userVerify = getUser(request);
 
@@ -337,6 +329,74 @@ public class UseracountController {
                     return "formularios/user_update";
                 }
             }
+        }
+        return "redirect:/error/401";
+    }
+
+    @RequestMapping(value = "/user/delete",method = RequestMethod.POST)
+    public String deleteUser(@RequestParam("code") String code,@RequestParam("text_confirmation") String text_confirmation, ModelMap model,HttpServletRequest request,HttpSession session) {
+        Useracount userVerify = getUser(request);
+
+        if (isUserCorrect(userVerify,useracountService)) {
+            String[] confirm = text_confirmation.split("-");
+            if (confirm[0].equals("DELETE") && confirm[1].equals(userVerify.getNombre_usuario())) {
+                Optional<Codes> codes = codeService.findById(new CodesId(userVerify,typeCodeUser));
+                if (codes.isPresent()) {
+                    if (code.equals(codes.get().getCodigo())) {
+                        List<Restaurant> restaurants = restaurantService.findRestaurantByUseracount(userVerify.getId_user());
+                        if (restaurants.size() != 0) {
+                            for (Restaurant restaurant : restaurants) {
+                                Optional<Restaurant> restaurantDelete = restaurantService.findRestaurantById(restaurant.getId_restaurante());
+                                restaurantDelete.ifPresent(value -> deleteRestaurantLinked(imgService.findImgFromRestaurantId(value.getId_restaurante())));
+                            }
+                        }
+                        useracountService.deleteUseracount(userVerify.getId_user());
+                        Traductions traductions = new Traductions("Usuario eliminado correctamente", "The user delete correctly", "El usuari eliminat correctament");
+                        model.addAttribute("success", traductions.getTraduction());
+                        return "login";
+                    }
+                } else {
+                    Traductions traductions = new Traductions("El codigo no coicide", "Error code not match", "El codi no coicideix");
+                    model.addAttribute("error", traductions.getTraduction());
+                    return user(model, request);
+                }
+            }
+            Traductions traductions = new Traductions("Error en la confirmacion", "Error in the confirmation", "Error en la confirmació");
+            model.addAttribute("error", traductions.getTraduction());
+            return user(model, request);
+        }
+        return "redirect:/error/401";
+    }
+
+    public void deleteRestaurantLinked(List<Img> imgs) {
+         for (Img single : imgs) {
+             Optional<Img> imgSelected = imgService.findImgById(single.getId_img());
+             if (imgSelected.isPresent()) {
+                 imgService.deleteImg(imgSelected.get().getId_img());
+                 String uploadDir = "" + imgSelected.get().getRestaurant().getId_restaurante();
+                 FileUploadUtil.deleteImg(uploadDir, imgSelected.get().getUrl());
+             }
+         }
+    }
+
+    @RequestMapping(value = "/user/delete/generate/code",method = RequestMethod.GET)
+    public String deleteUser(ModelMap model,HttpServletRequest request) {
+        Useracount userVerify = getUser(request);
+
+        if (isUserCorrect(userVerify,useracountService)) {
+            Optional<Useracount> useracount = useracountService.findUseracountById(userVerify.getId_user());
+            if (useracount.isPresent()) {
+                CodesId codesId = new CodesId(useracount.get(),typeCodeUser);
+                if (codeService.findById(codesId).isPresent()) {
+                    codeService.delete(codesId);
+                }
+                String result = generateCode(useracount.get(),typeCodeUser);
+                emailService.sendMessageWithAttachment(useracount.get().getCorreo(), "Eliminar el usuario" + useracount.get().getNombre_usuario(), useracount.get().getCorreo(),result,"Se ha querido eliminar<br> el usuario");
+                Traductions traductions = new Traductions("Se le a enviado un correo a "+useracount.get().getCorreo(),"An email has been sent to "+useracount.get().getCorreo(),"Se li ha enviat un correu a"+useracount.get().getCorreo());
+                model.addAttribute("success", traductions.getTraduction());
+                return user(model, request);
+            }
+            return "login";
         }
         return "redirect:/error/401";
     }

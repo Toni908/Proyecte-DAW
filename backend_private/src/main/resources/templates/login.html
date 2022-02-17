@@ -8,6 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body class="background-color-general d-flex flex-column min-vh-100">
+<div th:if="${error}!=null" th:text="${error}" class="message_error"></div>
+<div th:if="${success}!=null" th:text="${success}" class="message_success"></div>
  <main>
      <section class="vh-100">
          <div class="container py-5 h-auto">
@@ -65,5 +67,7 @@
      </section>
  </main>
  <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/js/jquery-3.6.0.min.js}"></script>
+<script th:src="@{/js/hide_messages.js}"></script>
 </body>
 </html>

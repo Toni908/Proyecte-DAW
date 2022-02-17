@@ -10,8 +10,6 @@ import java.math.BigInteger;
 
 public class RestaurantDTO {
 
-    private BigInteger id_restaurante;
-
     @NotNull(message = "nombre cant be null")
     @Size(min=2, max=40, message = "Length of the name must be between 2 and 30")
     @Pattern(regexp = "^[A-Za-z][a-z]+(?:[ ]+[A-Za-z][a-z]+)*$") // UPPERCASE THE FIRST LETTER AND SPACE ANOTHER UPPERCASE
@@ -31,18 +29,14 @@ public class RestaurantDTO {
     @NotNull
     Long aforo;
 
-    @Transient
-    public String getPhotosImagePath() {
-        if (id_restaurante == null) return null;
-        return "/restaurantes-photos/"+ id_restaurante + "/";
+    Localidad localidad;
+
+    public Localidad getLocalidad() {
+        return localidad;
     }
 
-    public BigInteger getId_restaurante() {
-        return id_restaurante;
-    }
-
-    public void setId_restaurante(BigInteger id_restaurante) {
-        this.id_restaurante = id_restaurante;
+    public void setLocalidad(Localidad localidad) {
+        this.localidad = localidad;
     }
 
     public String getNombre() {
