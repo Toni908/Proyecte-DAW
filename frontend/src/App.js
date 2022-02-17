@@ -50,6 +50,7 @@ class App extends Component {
               <Route path="/" element={<Home />} />
               <Route path="/search" element={<BuscadorAvanzado />} />
               <Route path="/us" element={<AboutUs />} />
+              <Route path="/carta/{id}" element={<AboutUs />} />
             </Routes>
           </div>
           
