@@ -1,0 +1,11 @@
+.paraf_info_card {
+    font-size: 13px;
+}
+.myCarusel {
+    width: 100% !important;
+}
+@media only screen and (min-width: 1400px) {
+    .myCarusel {
+        width: 25% !important;
+    }
+}
