@@ -1,10 +1,10 @@
 import React, {Component} from "react";
 import CardRestaurant from "./CardRestaurant";
 import "./list_restaurants.css"
-import $ from 'jquery'
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import {ButtonGroup} from "./Arrows";
+import $ from 'jquery'
 
 class ListRestaurant extends Component {
     constructor(props) {
@@ -20,17 +20,19 @@ class ListRestaurant extends Component {
 
         const responsive = {
             desktop: {
-                breakpoint: { max: 3000, min: 1024 },
+                breakpoint: { max: 3000, min: 1500 },
                 items: 4,
-                slidesToSlide: 4
+                slidesToSlide: 4,
+                partialVisibilityGutter: 15
             },
             tablet: {
-                breakpoint: { max: 1024, min: 464 },
+                breakpoint: { max: 1500, min: 900 },
                 items: 2,
-                slidesToSlide: 2
+                slidesToSlide: 2,
+                partialVisibilityGutter: 15
             },
             mobile: {
-                breakpoint: { max: 464, min: 0 },
+                breakpoint: { max: 900, min: 0 },
                 items: 1,
                 slidesToSlide: 1
             }
@@ -44,6 +46,7 @@ class ListRestaurant extends Component {
                     arrows={false}
                     interval={false}
                     draggable={true}
+                    partialVisible={true}
                     renderButtonGroupOutside={true}
                     customButtonGroup={<ButtonGroup />}
                     responsive={responsive}
@@ -75,9 +78,8 @@ class ListRestaurant extends Component {
                 >
 
                     {restaurants.map(function(item, key) {
-                        console.log(item)
                         return (
-                            <CardRestaurant key={key} restaurant={item}/>
+                            <CardRestaurant key={key} restaurant={item} localidad={item.localidad}/>
                         )
                     })}
                 </Carousel>

@@ -43,11 +43,9 @@ class Main extends Component {
     render() {
         const { BestRestaurants, EconomicRestaurants, isLoading, error } = this.state;
 
-        console.log(EconomicRestaurants)
         if (error) {
             return <p>{error.message}</p>;
         }
-
         if (isLoading) {
             return <p>Loading ...</p>;
         }
@@ -57,7 +55,7 @@ class Main extends Component {
                 <div className={"d-md-block d-none"}>
                     <Buscador />
                 </div>
-                <div className={"d-flex flex-row justify-content-center w-100 background-color-general"}>
+                <div className={"d-flex flex-row justify-content-center w-100"}>
                     <div className={"d-flex flex-column main-width"}>
                         <CaruselRestaurant restaurants={BestRestaurants}/>
                         <section className={"w-100"}>

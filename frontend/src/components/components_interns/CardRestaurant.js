@@ -5,6 +5,7 @@ import './image.css'
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import HorarioRestaurant from "./HorarioRestaurant";
 import "./cardrestaurant.css";
+import PopoverRestaurant from "./PopoverRestaurant";
 
 class CardRestaurant extends Component {
     constructor() {
@@ -34,10 +35,7 @@ class CardRestaurant extends Component {
                     <div className={"position-relative"}>
                         <Card.Title className={"text-center p-2 pb-0"}>{this.props.restaurant.nombre}</Card.Title>
                         <div className={"d-flex flex-row pb-3 paraf_info_card"}>
-                            <i className="ps-1 bi bi-geo-alt-fill"/><div className={"ps-2 text-black fw-bold"}>{this.props.restaurant.direccion}</div><div className={"text-black fw-bold d-flex flex-row gap-1"}><div>/</div>{this.props.restaurant.localidad.nombre_municipio}</div>
-                        </div>
-                        <div className={"d-flex flex-row gap-2 pb-2 paraf_info_card"}>
-                            <i className="ps-1 bi bi-telephone-inbound-fill"/><div className={"text-black fw-bold"}>{this.props.restaurant.telefono_restaurante}</div>
+                            <i className="ps-1 bi bi-geo-alt-fill"/><div className={"ps-2 text-black fw-bold"}>{this.props.restaurant.direccion}</div><div className={"text-black fw-bold d-flex flex-row gap-1"}><div>/</div>{this.props.localidad.nombre_municipio}</div>
                         </div>
                     </div>
                     <HorarioRestaurant restaurant={this.props.restaurant}/>
@@ -48,8 +46,9 @@ class CardRestaurant extends Component {
                     )}
                     <div className={"mt-3"}>
                         <Button variant="outline-dark">Ver Restaurante</Button>
-                        <Button type={"button"} className={"ms-3"} variant={"outline-dark"}>Reservar</Button>
+                        <Button type={"button"} className={"ms-3"} id={"popover"+this.props.restaurant.id_restaurante} variant={"outline-dark"} >Reservar</Button>
                     </div>
+                    <PopoverRestaurant restaurant={this.props.restaurant}/>
                 </Card.Body>
             </Card>
         )
