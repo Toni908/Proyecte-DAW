@@ -44,7 +44,7 @@ class RestaurantController extends Controller
         return json_decode(json_encode($restaurant), true);
     }
 
-    public function showPrice(){
+    public function cheapest(){
         $restaurant = Restaurante::select('restaurante.*', DB::raw('Round(AVG(platos.precio),0) as price'))
         ->join('carta', 'carta.id_restaurante', '=', 'restaurante.id_restaurante')
         ->join('categoria_platos', 'categoria_platos.id_carta', '=', 'carta.id_carta')
