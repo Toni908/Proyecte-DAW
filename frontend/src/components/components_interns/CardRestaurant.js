@@ -14,26 +14,21 @@ class CardRestaurant extends Component {
             isShown: false
         };
 
-        this.cambiarVisible = this.cambiarVisible.bind(this);
+        this.visible = this.visible.bind(this);
+        this.noVisible = this.noVisible.bind(this);
     }
 
-    jQueryCode = () => {
-
+    visible(){
+        this.setState({isShown: true});
     }
 
-    componentDidMount() {
-        this.jQueryCode();
+    noVisible() {
+        this.setState({isShown: false});
     }
-
-    cambiarVisible(value){
-        this.setState({isShown: value});
-    }
-
-
 
     render() {
         return (
-            <Card className={"myCarusel rounded rounded-3 mb-xxl-0 mb-4 pt-2"}>
+            <Card className={"myCarusel rounded rounded-3 mb-xxl-0 mb-4"} onMouseEnter={this.visible} onMouseLeave={this.noVisible}>
                 <ImageRestaurant height={'image-height'} restaurante={this.props.restaurant}/>
                 <Card.Body>
                     <div className={"position-relative"}>

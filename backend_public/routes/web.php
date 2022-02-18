@@ -48,6 +48,6 @@ Route::get('/etiquetas',[EtiquetasController::class, 'showAll']);
 
 Route::get('/localidad',[MunicipioController::class, 'showAll']);
 
-Route::get('/prueba',[RestaurantController::class, 'showPrice']);
+Route::get('/economic',[RestaurantController::class, 'showPrice']);
 
 Route::get('/aforo/{id}',[RestaurantController::class,'aforo']);
