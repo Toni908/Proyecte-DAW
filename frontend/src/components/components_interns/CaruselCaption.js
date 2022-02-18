@@ -8,7 +8,7 @@ class CaruselCaption extends Component {
             return (
                 <Carousel.Caption>
                     <h2>¿No tienes claro dónde ir?</h2>
-                    <p className={"text-color-general"}>{this.props.restaurante.nombre}</p>
+                    <p>{this.props.restaurante.nombre}</p>
                     <Button className={"mb-3"} variant="outline-light">Buscar</Button>
                 </Carousel.Caption>
             )

@@ -1,8 +1,13 @@
 package cat.iesmanacor.backend_private.controller;
 
+import cat.iesmanacor.backend_private.componentes.User;
 import cat.iesmanacor.backend_private.entities.*;
+import cat.iesmanacor.backend_private.entityDTO.RestaurantDTO;
+import cat.iesmanacor.backend_private.entityDTO.RestaurantSecureDTO;
+import cat.iesmanacor.backend_private.entityDTO.SimpleUserDTO;
 import cat.iesmanacor.backend_private.files.FileUploadUtil;
 import cat.iesmanacor.backend_private.services.*;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,10 +21,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 import static cat.iesmanacor.backend_private.componentes.Etiquetas.saveEtiquetas;
 import static cat.iesmanacor.backend_private.componentes.User.getUser;
@@ -58,17 +60,25 @@ public class RestaurantController {
     @Autowired
     EmailService emailService;
 
+    @Autowired
+    CodeService codeService;
+
     // LISTAS DE RESTURANTES POR X USUARIO
+
+    public String typeCodeRestaurant = "deleteRestaurant";
+
 
     @GetMapping("/lista/restaurantes")
     public String listRestaurants(ModelMap model, HttpServletRequest request){
         Useracount useracount = getUser(request);
 
         if (isUserCorrect(useracount,useracountService)) {
+            ModelMapper modelMapper = new ModelMapper();
+            SimpleUserDTO simpleUserDTO = modelMapper.map(useracount, SimpleUserDTO.class);
             model.addAttribute("cartas", getCartasRestaurantActive(useracount));
             model.addAttribute("restaurantesUser", restaurantService.findRestaurantByUseracount(useracount.getId_user()));
             model.addAttribute("ImgImages", imagesIsEmpties(useracount));
-            model.addAttribute("user", useracount);
+            model.addAttribute("user", simpleUserDTO);
             return "lista_restaurants";
         }
         return "redirect:/error/401";
@@ -114,17 +124,16 @@ public class RestaurantController {
     //////////////         RESTAURANTES   FORMULARIOS      ////////////////////
 
     @RequestMapping(value = "/restaurant/create", method = RequestMethod.GET)
-    public String create(ModelMap model, HttpServletRequest request) {
+    public String create(ModelMap model, HttpServletRequest request, Restaurant restaurant) {
         Useracount useracount = getUser(request);
         if (useracount!=null) {
             Optional<Useracount> useracountDDBB = useracountService.findUseracountById(useracount.getId_user());
             if (useracountDDBB.isPresent()) {
                 if (useracountDDBB.get().equals(useracount)) {
-                    model.addAttribute("restaurant", new Restaurant());
+                    model.addAttribute("restaurant", restaurant);
                     model.addAttribute("etiqueta", new Etiquetas());
                     model.addAttribute("etiquetas", etiquetasService.findAllEtiquetas());
-                    String __route_formulari_create = "formularios/restaurante-create";
-                    return __route_formulari_create;
+                    return "formularios/restaurante-create";
                 }
             }
         }
@@ -139,14 +148,18 @@ public class RestaurantController {
             Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
             if (restaurant.isPresent()) {
                 if (restaurant.get().getUseracount().equals(useracount)) {
+                    ModelMapper modelMapper = new ModelMapper();
+                    RestaurantSecureDTO restaurantDTO = modelMapper.map(restaurant.get(), RestaurantSecureDTO.class);
                     model.addAttribute("imageModified", getProvisionalNameImgFromUrlByUseracount(useracount));
                     model.addAttribute("imagesRestaurant", imgService.findImgFromRestaurantId(restaurant.get().getId_restaurante()));
-                    model.addAttribute("restaurant", restaurant.get());
+                    model.addAttribute("restaurant", restaurantDTO);
                     model.addAttribute("etiqueta", new Etiquetas());
                     model.addAttribute("etiquetas", getEtiquetasFromRestaurant_Etiqueta(restaurant.get().getId_restaurante()));
                     model.addAttribute("array", localidadService.findAllLocalidad());
-                    String __route_formulari_update = "formularios/restaurante-update";
-                    return __route_formulari_update;
+                    if (codeService.findById(new CodesId(useracount,typeCodeRestaurant)).isPresent()) {
+                        model.addAttribute("codeEliminar",true);
+                    }
+                    return "formularios/restaurante-update";
                 }
             }
         }
@@ -158,7 +171,7 @@ public class RestaurantController {
 
     @RequestMapping(value = "/restaurant/save")
     @Transactional()
-    public String save(@ModelAttribute @Valid Restaurant restaurant,
+    public String save(@ModelAttribute @Valid RestaurantDTO restaurantDTO,
                        BindingResult errors,
                        ModelMap model,
                        @RequestParam("image") MultipartFile multipartFile,
@@ -173,37 +186,42 @@ public class RestaurantController {
 
         Useracount useracount = getUser(request);
         if (isUserCorrect(useracount,useracountService)) {
+            ModelMapper modelMapper = new ModelMapper();
+            Restaurant restaurant = modelMapper.map(restaurantDTO, Restaurant.class);
+
+            restaurant.setUseracount(useracount);
+
             if (restaurant.getNombre()!=null) {
                 if (!checkNameisEmpty(restaurant.getNombre())) {
                     Traductions traductions = new Traductions("El nombre del restaurante ya esta cogido!","Restaurant name already taken","El nom del restaurant ya esta en us");
                     model.addAttribute("error", traductions.getTraductionLocale(request));
-                    return create(model,request);
+                    return create(model,request,restaurant);
                 }
-            }
-            if (restaurant.getLocalidad()!=null) {
-                restaurant.setUseracount(useracount);
-                if (restaurant.getLatitud()!=null || restaurant.getLongitud()!=null) {
-                    // ELIMINAR PARA PRODUCION
-                    restaurant.setValidated(true);
+                if (restaurant.getLocalidad()!=null) {
+                    if (restaurant.getLatitud()!=null || restaurant.getLongitud()!=null) {
+                        // ELIMINAR PARA PRODUCION
+                        restaurant.setValidated(true);
 
-                    saveRestaurant(restaurant);
-                    List<Restaurant> restaurantCreated = restaurantService.findRestaurantByNombre(restaurant.getNombre());
-                    if (!restaurantCreated.isEmpty() && !etiquetas.isEmpty()) {
-                        saveEtiquetas(etiquetas, restaurantCreated.get(0), etiquetasService, restaurante_etiquetasService);
+                        saveRestaurant(restaurant);
+                        List<Restaurant> restaurantCreated = restaurantService.findRestaurantByNombre(restaurant.getNombre());
+                        if (!restaurantCreated.isEmpty() && !etiquetas.isEmpty()) {
+                            saveEtiquetas(etiquetas, restaurantCreated.get(0), etiquetasService, restaurante_etiquetasService);
+                        }
+                        saveImageRestaurantFirst(multipartFile, restaurant);
+                        return "redirect:/restaurant/update/" + restaurant.getId_restaurante();
                     }
-                    saveImageRestaurantFirst(multipartFile, restaurant);
-                    return "redirect:/restaurant/update/" + restaurant.getId_restaurante();
+                    Traductions traductions = new Traductions("Localización no selecionado","Location not selected","Localització no seleccionat");
+                    return create(model.addAttribute("error", traductions.getTraductionLocale(request)),request,restaurant);
                 }
-                Traductions traductions = new Traductions("Localización no selecionado","Location not selected","Localització no seleccionat");
-                return create(model.addAttribute("error", traductions.getTraductionLocale(request)),request);
             }
+            Traductions traductions = new Traductions("Nombre no disponible","Name dont available","Nom no disponible");
+            return create(model.addAttribute("error", traductions.getTraductionLocale(request)),request,restaurant);
         }
-
-        return "redirect:/restaurant/create";
+        return "redirect:/error/401";
     }
 
     @RequestMapping(value = "/restaurant/put")
-    public String put(@ModelAttribute @Valid Restaurant restaurant, @RequestParam("myLocalidad") String localidadName, @RequestParam("myLocalidadChanged") String myLocalidadChanged, BindingResult errors, ModelMap model, HttpServletRequest request) {
+    public String put(@ModelAttribute @Valid RestaurantDTO restaurantDTO, @RequestParam("myLocalidadChanged") String myLocalidadChanged, BindingResult errors, ModelMap model, HttpServletRequest request) {
         inicializeModelMap(model);
         Useracount useracount = getUser(request);
 
@@ -211,30 +229,22 @@ public class RestaurantController {
             if (errors.hasErrors()) {
                 return "redirect:/error/401";
             }
-
-            Localidad localidad = new Localidad();
-            localidad.setNombre_localidad(myLocalidadChanged);
+            ModelMapper modelMapper = new ModelMapper();
+            Restaurant restaurant = modelMapper.map(restaurantDTO, Restaurant.class);
 
             if (restaurant.getId_restaurante() != null) {
-                if (localidad.getNombre_localidad() != null) {
-                    List<Localidad> localidadFindInfo = localidadService.findLocalidadByNombre_localidad(localidad.getNombre_localidad());
-                    Optional<Restaurant> restaurantBefore = restaurantService.findRestaurantById(restaurant.getId_restaurante());
-                    if (!localidadFindInfo.isEmpty()) {
-                        restaurant.setLocalidad(localidadFindInfo.get(0));
-                        if (restaurantBefore.isPresent()) {
-                            // Valores que no deberian cambiarse con esta operacion
-                            model = defaultValuesRestaurant(restaurant, model, request, restaurantBefore);
-                        } else {
-                            return "redirect:/error/401";
-                        }
+                Optional<Restaurant> restaurantBefore = restaurantService.findRestaurantById(restaurant.getId_restaurante());
+                if (restaurantBefore.isPresent()) {
+                    if (!localidadService.findLocalidadByNombre_localidad(myLocalidadChanged).isEmpty()) {
+                        restaurant.setLocalidad(localidadService.findLocalidadByNombre_localidad(myLocalidadChanged).get(0));
                     } else {
-                        if (restaurantBefore.isPresent()) {
-                            restaurant.setLocalidad(restaurantBefore.get().getLocalidad());
-                            model = defaultValuesRestaurant(restaurant, model, request, restaurantBefore);
-                        }
+                        restaurant.setLocalidad(restaurantBefore.get().getLocalidad());
                     }
-                    return update(restaurant.getId_restaurante(), model, request);
+                    model = defaultValuesRestaurant(restaurant, model, request, restaurantBefore);
+                } else {
+                    return "redirect:/error/401";
                 }
+                return update(restaurant.getId_restaurante(), model, request);
             }
         }
         return "redirect:/error/401";
@@ -339,8 +349,55 @@ public class RestaurantController {
         restaurantService.saveRestaurant(restaurant);
     }
 
-    @RequestMapping(value = "/restaurant/delete/{id}", method = RequestMethod.GET)
-    public RedirectView delete(@PathVariable BigInteger id, HttpServletRequest request) {
+    @RequestMapping(value = "/restaurant/generate/code/delete/{id}", method = RequestMethod.GET)
+    public String deleteCodeGenerate(@PathVariable BigInteger id, HttpServletRequest request, ModelMap model) {
+        Useracount useracount = getUser(request);
+
+        if (isUserCorrect(useracount, useracountService)) {
+            Optional<Useracount> useracount1 = useracountService.findUseracountById(useracount.getId_user());
+            if (useracount1.isPresent()) {
+                Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
+                if (restaurant.isPresent()) {
+                    if (restaurant.get().getUseracount().equals(useracount1.get())) {
+                        if (codeService.findById(new CodesId(useracount1.get(), typeCodeRestaurant)).isEmpty()) {
+                            String generate = generateCode(useracount1.get(), typeCodeRestaurant);
+                            emailService.sendMessageWithAttachment(useracount1.get().getCorreo(), "Eliminar Restaurante " + restaurant.get().getNombre(), useracount1.get().getCorreo(), generate, "Se ha querido eliminar<br> el restaurante " + restaurant.get().getNombre());
+                            Traductions traductions = new Traductions("Se envió un correo con el código", "An email with the code was sent", "Es va enviar un correu amb el codi");
+                            model.addAttribute("success", traductions.getTraduction());
+                        } else {
+                            Traductions traductions = new Traductions("Ya se envío un correo con el código","An email with the code has already been sent.","Ja s'envio un correu amb el codi");
+                            model.addAttribute("error", traductions.getTraduction());
+                        }
+                        return update(id, model, request);
+                    }
+                }
+            }
+
+        }
+        return "redirect:/error/401";
+    }
+
+    public String generateCode(Useracount useracount, String type) {
+        CodesId codesId = new CodesId(useracount, type);
+        Random random = new Random();
+
+        if (codeService.findById(codesId).isPresent()) {
+            return null;
+        }
+
+        // 4 como diferencia
+        int length = random.nextInt(4);
+        // despues le sumo 6 como minimo
+        length = length + 6;
+        String number = Codes.getRandomString(length);
+        Codes codes = new Codes(codesId, number);
+        codeService.save(codes);
+        return number;
+    }
+
+    @Transactional
+    @RequestMapping(value = "/restaurant/delete", method = RequestMethod.POST)
+    public String delete(@RequestParam("id") BigInteger id,@RequestParam("code") String code, HttpServletRequest request, ModelMap model) {
         Useracount useracount = getUser(request);
 
         if (isUserCorrect(useracount, useracountService)) {
@@ -348,22 +405,34 @@ public class RestaurantController {
                 Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
                 if (restaurant.isPresent()) {
                     if (restaurant.get().getUseracount().equals(useracount)) {
-                        List<Img> imgs = imgService.findImgFromRestaurantId(restaurant.get().getId_restaurante());
-                        // DELETE IMG BEFORE DELETE ALL
-                        for (Img singleId : imgs) {
-                            Optional<Img> imgSelected = imgService.findImgById(singleId.getId_img());
-                            if (imgSelected.isPresent()) {
-                                imgService.deleteImg(imgSelected.get().getId_img());
-                                String uploadDir = "" + imgSelected.get().getRestaurant().getId_restaurante();
-                                FileUploadUtil.deleteImg(uploadDir, imgSelected.get().getUrl());
+                        Optional<Codes> codes1 = codeService.findById(new CodesId(useracount,typeCodeRestaurant));
+                        if (codes1.isPresent()) {
+                            if (codes1.get().getCodigo().equals(code)) {
+                                List<Img> imgs = imgService.findImgFromRestaurantId(restaurant.get().getId_restaurante());
+                                // DELETE IMG BEFORE DELETE ALL
+                                for (Img singleId : imgs) {
+                                    Optional<Img> imgSelected = imgService.findImgById(singleId.getId_img());
+                                    if (imgSelected.isPresent()) {
+                                        imgService.deleteImg(imgSelected.get().getId_img());
+                                        String uploadDir = "" + imgSelected.get().getRestaurant().getId_restaurante();
+                                        FileUploadUtil.deleteImg(uploadDir, imgSelected.get().getUrl());
+                                    }
+                                }
+                                restaurantService.deleteRestaurant(id);
+                                codeService.delete(codes1.get().getId());
+                                Traductions traductions = new Traductions("Restaurante eliminado correctamente", "The restaurant delete correctly", "El restaurant eliminat correctament");
+                                model.addAttribute("success", traductions.getTraduction());
+                            } else {
+                                Traductions traductions = new Traductions("El codigo no coicide", "Error code not match", "El codi no coicideix");
+                                model.addAttribute("error", traductions.getTraduction());
+                                return update(id, model, request);
                             }
                         }
-                        restaurantService.deleteRestaurant(id);
                     }
                 }
             }
         }
-        return new RedirectView("/lista/restaurantes");
+        return "redirect:/lista/restaurantes";
     }
 
     public void updateRestaurant(Restaurant restaurantNew) {

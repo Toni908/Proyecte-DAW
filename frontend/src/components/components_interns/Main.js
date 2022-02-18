@@ -1,11 +1,11 @@
-import './main.css';
 import React, { Component } from 'react';
 import axios from 'axios';
 import CaruselRestaurant from "./CaruselRestaurant";
-import CardRestaurant from "./CardRestaurant";
+import ListRestaurant from "./ListRestaurant";
 import './Buscador.css';
-
+import './main.css';
 import Buscador from "./Buscador";
+
 
 class Main extends Component {
     constructor() {
@@ -28,9 +28,7 @@ class Main extends Component {
                 error: error,
                 isLoading: false
             }));
-
     }
-
 
     render() {
         const { restaurants, isLoading, error } = this.state;
@@ -53,18 +51,9 @@ class Main extends Component {
                         <CaruselRestaurant restaurants={restaurants}/>
                         <section className={"w-100"}>
                             <section className={"w-100 m-0 p-0 max-w-full"}>
-                                <div className={"w-100 text-center pt-5 pb-2"}>
-                                    <h2>Mejores Restaurantes</h2>
-                                </div>
-                                <div className={"row w-100 m-0 pt-xxl-0 pt-5 mb-5 mt-5 gap-1"}>
-                                    {restaurants.map(function(item, key) {
-                                        return (
-                                            <article key={key} className={"col-xxl-3 col-xl-4 col-lg-6 col-12 h-100"}>
-                                                <CardRestaurant restaurant={item}/>
-                                            </article>
-                                        )
-                                    })}
-                                </div>
+                                <ListRestaurant title={"Los Mejores Restaurantes"} restaurants={restaurants}/>
+                                <ListRestaurant title={"Los Mas Economicos"} restaurants={restaurants}/>
+                                <ListRestaurant title={"Los Mejores Valorados"} restaurants={restaurants}/>
                             </section>
                         </section>
                     </div>

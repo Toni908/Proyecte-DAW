@@ -12,7 +12,7 @@ class RestaurantController extends Controller
 
     public function show($id)
     {
-        $data = Restaurante::with('localidad','imgs','cartas','etiquetas','periodos','user','reservas')->find($id);
+        $data = Restaurante::with('localidad','imgs','cartas','etiquetas','periodos','reservas')->find($id);
         if ($data['visible'] && $data['validated']) {
             return json_decode(json_encode($data), true);
         }
@@ -21,7 +21,7 @@ class RestaurantController extends Controller
 
     public function showRestaurantsWithMembresia()
     {
-        $restaurant = Restaurante::with('localidad','imgs','cartas','etiquetas','periodos','user','reservas')
+        $restaurant = Restaurante::with('localidad','imgs','cartas','etiquetas','periodos','reservas')
             ->get()
             ->where('validated', '=', 1)
             ->where('visible', '=', 1)

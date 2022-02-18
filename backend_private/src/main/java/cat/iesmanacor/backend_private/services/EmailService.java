@@ -5,5 +5,5 @@ import java.math.BigInteger;
 public interface EmailService {
     void sendSimpleMessage(String to, String subject, String text);
 
-    void sendMessageWithAttachment(String to, String subject, String correo, BigInteger codigo);
+    void sendMessageWithAttachment(String to, String subject, String correo, String codigo,String title);
 }
