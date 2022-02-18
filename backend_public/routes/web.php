@@ -30,8 +30,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('card/{id}', [CartaController::class, 'showCard']);
+Route::get('/card/{id}', [CartaController::class, 'showCard']);
 
+Route::get('/cheapest',[RestaurantController::class, 'cheapest']);
 Route::get('/restaurant/{id}',[RestaurantController::class, 'show']);
 Route::get('/restaurants',[RestaurantController::class, 'showRestaurantsWithMembresia']);
 
@@ -47,7 +48,5 @@ Route::get('/horario/{id}',[HorarioController::class, 'show']);
 Route::get('/etiquetas',[EtiquetasController::class, 'showAll']);
 
 Route::get('/localidad',[MunicipioController::class, 'showAll']);
-
-Route::get('/prueba',[RestaurantController::class, 'cheapest']);
 
 Route::get('/aforo/{id}',[RestaurantController::class,'aforo']);
