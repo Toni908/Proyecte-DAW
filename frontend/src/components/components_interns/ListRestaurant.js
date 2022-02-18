@@ -3,80 +3,92 @@ import CardRestaurant from "./CardRestaurant";
 import "./list_restaurants.css"
 import $ from 'jquery'
 
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
+
 class ListRestaurant extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.state = {
-            restaurants: []
+            restaurants: this.props.restaurants
         }
     }
 
     jQueryCode = () => {
         $( window ).resize(function() {
-
         });
     }
 
-    componentDidMount() {
-        this.setState({restaurants: inicializeRestaurants(getNumberSize(), this.props.restaurants)});
-        this.jQueryCode();
-    }
-
     render() {
-        return(
-            <section className={"position-relative"}>
-                <div className={"arrow-left-position"}>
-                    <i className="bi bi-arrow-left-circle-fill"/>
-                </div>
-                <h4 className={"pt-5 pb-2"}>{this.props.title}</h4>
-                <div className={"row m-0 pt-xxl-0 mb-5 px-2 px-lg-0"}>
-                    {this.state.restaurants.map(function(item, key) {
-                        return (
-                            <CardRestaurant key={key} restaurant={item}/>
-                        )
-                    })}
-                </div>
-                <div className={"arrow-right-position"}>
-                    <i className="bi bi-arrow-right-circle-fill"/>
-                </div>
-            </section>
-        )
-    }
-}
-
-let visible = [];
-
-function iniclializeVisible(restaurants) {
-    restaurants = inicializeRestaurants(getNumberSize(),restaurants);
-    for (let i = 0; i < restaurants.length; i++) {
-        visible[i] = false;
-    }
-}
-
-function inicializeRestaurants(length, restaurants) {
-    if (length===restaurants.length) {
-        return restaurants;
-    } else {
-        let visible = [];
-        for (let i = 0; i < restaurants.length; i++) {
-            if (i<length) {
-                visible[i] = restaurants[i];
+        const { restaurants } = this.state;
+        console.log(restaurants)
+        const responsive = {
+            superLargeDesktop: {
+                // the naming can be any, depends on you.
+                breakpoint: { max: 4000, min: 3000 },
+                items: 5
+            },
+            desktop: {
+                breakpoint: { max: 3000, min: 1024 },
+                items: 4
+            },
+            tablet: {
+                breakpoint: { max: 1024, min: 464 },
+                items: 2
+            },
+            mobile: {
+                breakpoint: { max: 464, min: 0 },
+                items: 1
             }
-        }
-        return visible;
-    }
-}
+        };
 
-function isSmall() {
-    return window.innerWidth <= 1400;
-}
-
-function getNumberSize() {
-    if (isSmall()) {
-        return 1;
-    } else {
-        return 4;
+        return(
+            <Carousel
+                swipeable={false}
+                responsive={responsive}
+                autoPlay={this.props.deviceType !== "mobile" ? true : false}
+                autoPlaySpeed={1000}
+                keyBoardControl={true}
+                customTransition="all .5"
+                transitionDuration={500}
+                containerClass="carousel-container"
+                deviceType={this.props.deviceType}
+                dotListClass="custom-dot-list-style"
+                itemClass="carousel-item-padding-40-px"
+            >
+                {restaurants.map(function(item, key) {
+                    return (
+                        <CardRestaurant key={key} restaurant={item}/>
+                    )
+                })}
+            </Carousel>
+            // <section className={"position-relative"}>
+            //     <h4 className={"pt-5 pb-2"}>{this.props.title}</h4>
+            //
+            //     <Carousel responsive={responsive}
+            //               swipeable={false}
+            //               draggable={false}
+            //               showDots={true}
+            //               ssr={true} // means to render carousel on server-side.
+            //               keyBoardControl={true}
+            //               customTransition="all .5"
+            //               transitionDuration={500}
+            //               containerClass="carousel-container"
+            //               removeArrowOnDeviceType={["tablet", "mobile"]}
+            //               deviceType={this.props.deviceType}
+            //               dotListClass="custom-dot-list-style"
+            //               itemClass="carousel-item-padding-40-px">
+            //         <div className={"row m-0 pt-xxl-0 mb-5 px-2 px-lg-0 d-flex flex-row justify-content-between"}>
+            //             {this.state.restaurants.map(function(item, key) {
+            //                 return (
+            //                     <CardRestaurant key={key} restaurant={item}/>
+            //                 )
+            //             })}
+            //         </div>
+            //     </Carousel>
+            // </section>
+        )
     }
 }
 

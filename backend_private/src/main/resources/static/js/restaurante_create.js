@@ -52,7 +52,7 @@ function showLocalidades() {
 
 function hideLocalidad() {
     $("#localidad").empty();
-    $("#localidad").append("<option value=\"\">"+traductions.selectM+"</option>")
+    $("#localidad").append("<option value=\"XX99\">"+traductions.selectM+"</option>")
 }
 
 function validate() {

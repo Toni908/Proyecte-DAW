@@ -29,7 +29,7 @@
                 <div class="d-flex flex-row justify-content-center">
                     <div class="d-flex flex-column justify-content-center length">
                         <div class="border border-secondary border-1 mt-5 p-4 box-container">
-                            <input type="hidden" th:field="*{id_restaurante}" hidden>
+                            <input type="text" th:field="*{id_restaurante}" hidden>
                             <h4 class="fw-normal text-start text-black QuickSand" th:text="#{restaurant.update.info.general}"></h4>
                             <p class="paraf_form text-start fw-normal" th:text="#{restaurant.update.info.general.paraf}"></p>
                             <div class="ps-3 text-lg-start text-center" th:text="#{restaurant.form.name}"></div>
@@ -75,7 +75,7 @@
                                     <div class="col-sm">
                                         <div class="ps-3 text-start" th:text="#{restaurant.form.location}"></div>
                                         <label class="w-100">
-                                            <select id="localidad" class="input-text validateLocalidadResponse">
+                                            <select id="localidad" name="localidad" class="input-text validateLocalidadResponse">
 
                                             </select>
                                         </label>

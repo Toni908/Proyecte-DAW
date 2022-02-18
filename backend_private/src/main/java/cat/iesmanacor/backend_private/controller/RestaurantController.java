@@ -2,6 +2,7 @@ package cat.iesmanacor.backend_private.controller;
 
 import cat.iesmanacor.backend_private.componentes.User;
 import cat.iesmanacor.backend_private.entities.*;
+import cat.iesmanacor.backend_private.entityDTO.RestaurantCreateDTO;
 import cat.iesmanacor.backend_private.entityDTO.RestaurantDTO;
 import cat.iesmanacor.backend_private.entityDTO.RestaurantSecureDTO;
 import cat.iesmanacor.backend_private.entityDTO.SimpleUserDTO;
@@ -124,7 +125,7 @@ public class RestaurantController {
     //////////////         RESTAURANTES   FORMULARIOS      ////////////////////
 
     @RequestMapping(value = "/restaurant/create", method = RequestMethod.GET)
-    public String create(ModelMap model, HttpServletRequest request, Restaurant restaurant) {
+    public String create(ModelMap model, HttpServletRequest request, RestaurantCreateDTO restaurant) {
         Useracount useracount = getUser(request);
         if (useracount!=null) {
             Optional<Useracount> useracountDDBB = useracountService.findUseracountById(useracount.getId_user());
@@ -171,10 +172,11 @@ public class RestaurantController {
 
     @RequestMapping(value = "/restaurant/save")
     @Transactional()
-    public String save(@ModelAttribute @Valid RestaurantDTO restaurantDTO,
+    public String save(@ModelAttribute @Valid RestaurantCreateDTO restaurantDTO,
+                       @RequestParam("localidad") BigInteger localidad,
                        BindingResult errors,
                        ModelMap model,
-                       @RequestParam("image") MultipartFile multipartFile,
+                       @RequestParam("saveMultiple") List<MultipartFile> multipartFile,
                        @RequestParam("etiquetas") List<String> etiquetas,
                        HttpServletRequest request) {
         inicializeModelMap(model);
@@ -195,29 +197,68 @@ public class RestaurantController {
                 if (!checkNameisEmpty(restaurant.getNombre())) {
                     Traductions traductions = new Traductions("El nombre del restaurante ya esta cogido!","Restaurant name already taken","El nom del restaurant ya esta en us");
                     model.addAttribute("error", traductions.getTraductionLocale(request));
-                    return create(model,request,restaurant);
+                    return create(model,request,restaurantDTO);
                 }
-                if (restaurant.getLocalidad()!=null) {
-                    if (restaurant.getLatitud()!=null || restaurant.getLongitud()!=null) {
-                        // ELIMINAR PARA PRODUCION
-                        restaurant.setValidated(true);
+                Optional<Localidad> localidadFind = localidadService.findLocalidadById(localidad);
+                if (localidadFind.isEmpty()) {
+                    model.addAttribute("error","Localidad no selecionada");
+                    return create(model,request,restaurantDTO);
+                } else {
+                    restaurant.setLocalidad(localidadFind.get());
+                }
 
-                        saveRestaurant(restaurant);
-                        List<Restaurant> restaurantCreated = restaurantService.findRestaurantByNombre(restaurant.getNombre());
-                        if (!restaurantCreated.isEmpty() && !etiquetas.isEmpty()) {
-                            saveEtiquetas(etiquetas, restaurantCreated.get(0), etiquetasService, restaurante_etiquetasService);
-                        }
-                        saveImageRestaurantFirst(multipartFile, restaurant);
-                        return "redirect:/restaurant/update/" + restaurant.getId_restaurante();
+                if (restaurant.getLatitud()!=null || restaurant.getLongitud()!=null) {
+                    Restaurant restaurantSaved = saveRestaurant(restaurant);
+                    List<Restaurant> restaurantCreated = restaurantService.findRestaurantByNombre(restaurant.getNombre());
+                    if (!restaurantCreated.isEmpty() && !etiquetas.isEmpty()) {
+                        saveEtiquetas(etiquetas, restaurantCreated.get(0), etiquetasService, restaurante_etiquetasService);
                     }
-                    Traductions traductions = new Traductions("Localización no selecionado","Location not selected","Localització no seleccionat");
-                    return create(model.addAttribute("error", traductions.getTraductionLocale(request)),request,restaurant);
+                    if (!multipartFile.isEmpty()) {
+                        for (MultipartFile url : multipartFile) {
+                            if (checkUrlisEmpty(url.getOriginalFilename())) {
+                                if (StringUtils.cleanPath(Objects.requireNonNull(url.getOriginalFilename())).matches("^[\\S]+$")) {
+                                    saveImageRestaurant(url, restaurant);
+                                } else {
+                                    Traductions traductions = new Traductions("El nombre de la imagen no debe de contener espacios","The image name must not contain spaces","El nom de la imatge no ha de contenir espais");
+                                    model.addAttribute("error", traductions.getTraductionLocale(request));
+                                }
+                            }
+                        }
+                    }
+                    return "redirect:/restaurant/update/"+restaurantSaved.getId_restaurante();
                 }
+                Traductions traductions = new Traductions("Localización no selecionado","Location not selected","Localització no seleccionat");
+                return create(model.addAttribute("error", traductions.getTraductionLocale(request)),request,restaurantDTO);
             }
             Traductions traductions = new Traductions("Nombre no disponible","Name dont available","Nom no disponible");
-            return create(model.addAttribute("error", traductions.getTraductionLocale(request)),request,restaurant);
+            return create(model.addAttribute("error", traductions.getTraductionLocale(request)),request,restaurantDTO);
         }
         return "redirect:/error/401";
+    }
+
+    public boolean checkUrlisEmpty(String url) {
+        return imgService.findImgByUrl(url).isEmpty();
+    }
+
+    public void saveImageRestaurant(MultipartFile multipartFile, Restaurant restaurant) {
+        String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
+        Img img = new Img();
+        img.setRestaurant(restaurant);
+        img.setUrl(fileName);
+        try {
+            if (checkUrlisEmpty(fileName)) {
+                Img imgSumbited = imgService.saveImg(img);
+                fileName = imgSumbited.getId_img() + fileName;
+                if (checkUrlisEmpty(fileName)) {
+                    imgSumbited.setUrl(fileName);
+                    imgService.updateImg(imgSumbited);
+                    String uploadDir = ""+img.getRestaurant().getId_restaurante();
+                    FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+                }
+            }
+        } catch (Exception e) {
+            //
+        }
     }
 
     @RequestMapping(value = "/restaurant/put")
@@ -345,8 +386,8 @@ public class RestaurantController {
 
     /* ------------------------------------------ */
 
-    public void saveRestaurant(Restaurant restaurant) {
-        restaurantService.saveRestaurant(restaurant);
+    public Restaurant saveRestaurant(Restaurant restaurant) {
+        return restaurantService.saveRestaurant(restaurant);
     }
 
     @RequestMapping(value = "/restaurant/generate/code/delete", method = RequestMethod.GET)

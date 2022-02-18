@@ -52,8 +52,8 @@ class Main extends Component {
                         <section className={"w-100"}>
                             <section className={"w-100 m-0 p-0 max-w-full"}>
                                 <ListRestaurant title={"Los Mejores Restaurantes"} restaurants={restaurants}/>
-                                <ListRestaurant title={"Los Mas Economicos"} restaurants={restaurants}/>
-                                <ListRestaurant title={"Los Mejores Valorados"} restaurants={restaurants}/>
+                                {/*<ListRestaurant title={"Los Mas Economicos"} restaurants={restaurants}/>*/}
+                                {/*<ListRestaurant title={"Los Mejores Valorados"} restaurants={restaurants}/>*/}
                             </section>
                         </section>
                     </div>

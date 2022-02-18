@@ -74,7 +74,7 @@
                         <div class="col-lg-6">
                             <div class="ps-3 paraf_form" th:text="#{restaurant.form.location}"></div>
                             <label class="w-100 field_form_section">
-                                <select id="localidad" class="input-text validateLocalidadResponse" th:field="*{localidad}" required>
+                                <select id="localidad" name="localidad" class="input-text validateLocalidadResponse" required>
 
                                 </select>
                             </label>
@@ -108,7 +108,7 @@
                     <div class="row mt-2">
                         <div class="ps-3 paraf_form" th:text="#{restaurant.form.image}"></div>
                         <label class="w-100 field_form_principal">
-                            <input class="input-text validateImagenResponse" id="image" name="image" type="file" maxlength="80" placeholder="URL" required>
+                            <input class="input-text validateImagenResponse" name="saveMultiple" multiple accept="image/jpeg, image/jpg, image/png, image/gif" type="file" maxlength="80" placeholder="URL" required>
                         </label>
                         <div id="validateImagenResponse"></div>
                     </div>
