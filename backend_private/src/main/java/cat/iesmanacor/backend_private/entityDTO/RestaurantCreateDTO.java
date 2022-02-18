@@ -1,13 +1,13 @@
 package cat.iesmanacor.backend_private.entityDTO;
 
+import cat.iesmanacor.backend_private.entities.Localidad;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.math.BigInteger;
 
-public class RestaurantDTO {
-
-    private BigInteger id_restaurante;
+public class RestaurantCreateDTO {
 
     @NotNull(message = "nombre cant be null")
     @Size(min=2, max=40, message = "Length of the name must be between 2 and 30")
@@ -27,14 +27,6 @@ public class RestaurantDTO {
 
     @NotNull
     Long aforo;
-
-    public BigInteger getId_restaurante() {
-        return id_restaurante;
-    }
-
-    public void setId_restaurante(BigInteger id_restaurante) {
-        this.id_restaurante = id_restaurante;
-    }
 
     public String getNombre() {
         return nombre;

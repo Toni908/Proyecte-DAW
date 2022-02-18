@@ -54,8 +54,8 @@ function getResultHour(horario, today) {
                     if (hasPassedTime(fixedDate(horario[i].hora_inicio), fixedDate(horario[i].hora_fin), today)) {
                         result = (<div className={"d-flex flex-column"}>
                             <div key={i} className={"d-flex flex-row gap-1"}>Horario: <div
-                                className={"text-warning"}>Abierto</div></div>
-                            <div className={"paraf_info_horario"}>Cierra
+                                className={"text-success"}>Abierto</div></div>
+                            <div className={"paraf_info_horario text-warning"}>Cierra
                                 pronto {fixedDate(horario[i].hora_fin)}</div>
                         </div>);
                         break;
