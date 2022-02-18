@@ -26,7 +26,7 @@ class App extends Component {
               <Route path="/carta/:id" element={<AboutUs />} />
               <Route path="/comentario/:id" element={<AboutUs />} />
               <Route path="/restaurante/:id" element={<AboutUs />} />
-              
+              <Route path="/reserva/:id" element={<AboutUs />} />
             </Routes>
           </div>
           
