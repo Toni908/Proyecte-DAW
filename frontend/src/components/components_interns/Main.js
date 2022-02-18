@@ -43,6 +43,7 @@ class Main extends Component {
     render() {
         const { BestRestaurants, EconomicRestaurants, isLoading, error } = this.state;
 
+        console.log(EconomicRestaurants)
         if (error) {
             return <p>{error.message}</p>;
         }
@@ -63,7 +64,7 @@ class Main extends Component {
                             <section className={"w-100 m-0 p-0 max-w-full"}>
                                 <ListRestaurant title={"Los Mejores Restaurantes"} restaurants={BestRestaurants}/>
                                 <ListRestaurant title={"Los Mas Economicos"} restaurants={EconomicRestaurants}/>
-                                <ListRestaurant title={"Los Mejores Valorados"} restaurants={BestRestaurants}/>
+                                {/*<ListRestaurant title={"Los Mejores Valorados"} restaurants={BestRestaurants}/>*/}
                             </section>
                         </section>
                     </div>

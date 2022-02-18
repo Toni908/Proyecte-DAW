@@ -73,7 +73,9 @@ class ListRestaurant extends Component {
                         }
                     }}
                 >
+
                     {restaurants.map(function(item, key) {
+                        console.log(item)
                         return (
                             <CardRestaurant key={key} restaurant={item}/>
                         )
