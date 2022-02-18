@@ -63,7 +63,7 @@
             QR de la carta Activa:
         </h2>
         <div class="d-flex justify-content-center">
-            <img th:src="@{${'/imgqr/' + restaurant.id_restaurante + '.png'}}" alt="qr carta activa restaurante" class="text-center"/>
+            <img th:src="@{'/imgqr/' + ${restaurant.id_restaurante} + '.png'}" alt="qr carta activa restaurante" class="text-center"/>
         </div>
     </section>
 

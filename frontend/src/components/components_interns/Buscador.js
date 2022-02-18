@@ -5,13 +5,15 @@ import './Buscador.css';
 
 class Buscador extends Component {
 
-    state={
-        etiquetas:[],
-        municipios:[],
-        etiqueta: null,
-        sitio: null,
-        precio: null,
-        nombre: null
+    constructor() {
+
+        super();
+
+        this.state={
+            etiquetas:[],
+            municipios:[]
+        }   
+
     }
 
     componentDidMount(){
@@ -37,32 +39,14 @@ class Buscador extends Component {
             });
     }
 
-    buscar() {
-
-    }
-
-    changeEtiqueta(e){
-        alert(e.value);
-        this.setState({etiqueta: e.target.value});
-    }
-    changeSitio(e){
-        this.setState({sitio: e.target.value});
-    }
-    changePrecio(e){
-        this.setState({precio: e.target.value});
-    }
-    changeNombre(e){
-        this.setState({nombre: e.target.value});
-    }
-
   render() {
     return (
         <div className="mb-3">
             <h1 className="text-center buscarTitulo"> Buscar Restaurante</h1>
             <div className="text-center mt-4">
                 <div className="d-flex w-50 justify-content-center mx-auto">
-                    <select name="labels" className="form-select mx-4 inputBuscador w-auto" aria-label="Default select example" onChange={ () => this.changeEtiqueta}>
-                        <option defaultValue>-- Etiquetas --</option>
+                    <select name="labels" className="form-select mx-4 inputBuscador w-auto" aria-label="Default select example" onChange={this.props.changeEtiqueta}>
+                        <option value="null" defaultValue>-- Etiquetas --</option>
                     {this.state.etiquetas.map(elemento=>( 
                             <option key={elemento.id_etiqueta} value={elemento.nombre}>{elemento.nombre}</option>
                         )
@@ -70,8 +54,8 @@ class Buscador extends Component {
                         )}
                     </select>
 
-                    <select name="municipality" className="form-select mx-4 inputBuscador w-auto" aria-label="Default select example" onChange={this.changeSitio}>
-                        <option  defaultValue>-- Lugares --</option>
+                    <select name="municipality" className="form-select mx-4 inputBuscador w-auto" aria-label="Default select example" onChange={this.props.changeSitio}>
+                        <option value="null" defaultValue>-- Lugares --</option>
                         {this.state.municipios.map(elemento=>( 
                             <option key={elemento.nombre_municipio} value={elemento.nombre_municipio}>{elemento.nombre_municipio}</option>
                         )
@@ -79,15 +63,15 @@ class Buscador extends Component {
                         )}
                     </select>
 
-                    <select name="price" className="form-select mx-4 inputBuscador w-auto" aria-label="Default select example">
-                        <option defaultValue>Precio</option>
+                    <select name="price" className="form-select mx-4 inputBuscador w-auto" aria-label="Default select example" onChange={this.props.changePrecio}>
+                        <option value="null" defaultValue>Precio</option>
                         <option value="1">$</option>
                         <option value="2">$$</option>
                         <option value="3">$$$</option>
                     </select>
 
                 </div>
-                    <button className="text-center py-1 px-3 mt-4 bg-white buscarletra" onClick={this.buscar}> Buscar </button>
+                    <button className="text-center py-1 px-3 mt-4 bg-white buscarletra" onClick={this.props.filter}> Buscar </button>
             </div>
         </div>
     );
