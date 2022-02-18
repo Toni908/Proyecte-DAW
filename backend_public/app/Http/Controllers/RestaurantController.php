@@ -53,6 +53,8 @@ class RestaurantController extends Controller
         ->where('restaurante.visible', '=', 1)
         ->where('carta.visible', '=', 1)
         ->groupBy('id_restaurante')
+        ->orderBy('price', 'asc')
+        ->take(8)
         ->get();
 
         return $restaurant->toJson();
