@@ -6,6 +6,7 @@ use App\Models\Reserva;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\Restaurante;
+use Illuminate\Http\Request;
 
 class RestaurantController extends Controller
 {
@@ -60,7 +61,7 @@ class RestaurantController extends Controller
         return $restaurant->toJson();
     }
 
-    public function buscador(){
+    public function buscador(Request $request){
         $restaurant = Restaurante::select('restaurante.*', DB::raw('Round(AVG(platos.precio),0) as price'))
         ->join('carta', 'carta.id_restaurante', '=', 'restaurante.id_restaurante')
         ->join('categoria_platos', 'categoria_platos.id_carta', '=', 'carta.id_carta')
