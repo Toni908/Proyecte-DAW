@@ -30,8 +30,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('card/{id}', [CartaController::class, 'showCard']);
+Route::get('/card/{id}', [CartaController::class, 'showCard']);
 
+Route::get('/cheapest',[RestaurantController::class, 'cheapest']);
 Route::get('/restaurant/{id}',[RestaurantController::class, 'show']);
 Route::get('/restaurants',[RestaurantController::class, 'showRestaurantsWithMembresia']);
 
