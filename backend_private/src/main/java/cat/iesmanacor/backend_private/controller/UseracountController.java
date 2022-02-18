@@ -1,5 +1,6 @@
 package cat.iesmanacor.backend_private.controller;
 
+import cat.iesmanacor.backend_private.componentes.User;
 import cat.iesmanacor.backend_private.entities.*;
 import cat.iesmanacor.backend_private.entityDTO.UseracountDTO;
 import cat.iesmanacor.backend_private.files.FileUploadUtil;
@@ -45,6 +46,7 @@ public class UseracountController {
 
     public String typeCodePassword = "recoverPassword";
     public String typeCodeUser = "deleteUser";
+    public String typeCodeRestaurant = "deleteRestaurant";
 
     @GetMapping("/user")
     public String user(ModelMap model, HttpServletRequest request){
@@ -56,6 +58,9 @@ public class UseracountController {
                 UseracountDTO useracountDTO = modelMapper.map(useracountDDBB.get(), UseracountDTO.class);
                 model.addAttribute("hascode", codeService.findById(new CodesId(useracountDDBB.get(), typeCodePassword)).isEmpty());
                 model.addAttribute("user", useracountDTO);
+                if (codeService.findById(new CodesId(useracount,typeCodeRestaurant)).isPresent()) {
+                    model.addAttribute("codeEliminar",true);
+                }
                 return "formularios/user_update";
             }
         }
@@ -79,6 +84,9 @@ public class UseracountController {
                 }
                 model.addAttribute("hascode", codeService.findById(new CodesId(useracount.get(), typeCodePassword)).isEmpty());
                 model.addAttribute("user", useracount.get());
+                if (codeService.findById(new CodesId(useracount.get(),typeCodeRestaurant)).isPresent()) {
+                    model.addAttribute("codeEliminar",true);
+                }
                 return "formularios/user_update";
             }
         }
@@ -138,6 +146,9 @@ public class UseracountController {
                                 Traductions traductions = new Traductions("No se han encontrado coincidencias","No matches found","No s'han trobat coincidències");
                                 model.addAttribute("error", traductions.getTraductionLocale(request));
                                 model.addAttribute("user", userVerify);
+                                if (codeService.findById(new CodesId(useracount.get(),typeCodeRestaurant)).isPresent()) {
+                                    model.addAttribute("codeEliminar",true);
+                                }
                                 return "formularios/user_update";
                             }
                         }
@@ -267,16 +278,14 @@ public class UseracountController {
             Optional<Useracount> useracount = useracountService.findUseracountById(userVerify.getId_user());
             if (useracount.isPresent()) {
                 String generateCode = generateCode(useracount.get(),typeCodePassword);
-                if (generateCode==null) {
-                    Traductions traductions = new Traductions("No puedes realizar esta operacion","You cant do this operation","Tu no pots realitzar aquesta operació");
-                    model.addAttribute("error", traductions.getTraduction());
-                    return "formularios/user_update";
-                }
                 emailService.sendMessageWithAttachment(useracount.get().getCorreo(), "Recuperar contraseña del usuario" + useracount.get().getNombre_usuario(), useracount.get().getCorreo(),generateCode,"Se ha querido recuperar<br> la contraseña del usuario");
                 model.addAttribute("hascode", codeService.findById(new CodesId(useracount.get(), typeCodePassword)).isEmpty());
                 Traductions traductions = new Traductions("Se le a enviado un correo a "+useracount.get().getCorreo(),"An email has been sent to "+useracount.get().getCorreo(),"Se li ha enviat un correu a"+useracount.get().getCorreo());
                 model.addAttribute("success", traductions.getTraduction());
                 model.addAttribute("user", useracount.get());
+                if (codeService.findById(new CodesId(useracount.get(),typeCodeRestaurant)).isPresent()) {
+                    model.addAttribute("codeEliminar",true);
+                }
                 return "formularios/user_update";
             }
         }
@@ -288,7 +297,7 @@ public class UseracountController {
         Random random = new Random();
 
         if (codeService.findById(codesId).isPresent()) {
-            return null;
+            codeService.delete(codesId);
         }
 
         // 4 como diferencia
@@ -299,6 +308,31 @@ public class UseracountController {
         Codes codes = new Codes(codesId, number);
         codeService.save(codes);
         return number;
+    }
+
+
+    @RequestMapping(value = "/restaurant/regenerate/code", method = RequestMethod.GET)
+    public String regenerateCodeRestaurant(HttpServletRequest request,ModelMap model) {
+        Useracount userVerify = getUser(request);
+
+        if (isUserCorrect(userVerify,useracountService)) {
+            Optional<Useracount> useracount = useracountService.findUseracountById(userVerify.getId_user());
+            if (useracount.isPresent()) {
+                if (codeService.findById(new CodesId(useracount.get(),typeCodeRestaurant)).isPresent()) {
+                    codeService.delete(new CodesId(useracount.get(),typeCodePassword));
+                    String result = generateCode(useracount.get(),typeCodeUser);
+                    emailService.sendMessageWithAttachment(useracount.get().getCorreo(), "Eliminar Restaurante", useracount.get().getCorreo(), result, "Se ha querido generar un codigo<br>para eliminar un restaurante");
+                    Traductions traductions = new Traductions("Se le a enviado un correo a "+ useracount.get().getCorreo(),"An email has been sent to "+useracount.get().getCorreo(),"Se li ha enviat un correu a"+useracount.get().getCorreo());
+                    model.addAttribute("success", traductions.getTraduction());
+                }
+                model.addAttribute("user", useracount.get());
+                if (codeService.findById(new CodesId(useracount.get(),typeCodeRestaurant)).isPresent()) {
+                    model.addAttribute("codeEliminar",true);
+                }
+                return "formularios/user_update";
+            }
+        }
+        return "redirect:/error/401";
     }
 
     // CAMBIAR CONTRASEÑA SI TE SABES LA ACTUAL
@@ -319,13 +353,19 @@ public class UseracountController {
                     } else {
                         Traductions traductions = new Traductions("No se han encontrado coincidencias","No matches found","No s'han trobat coincidències");
                         model.addAttribute("error", traductions.getTraduction());
-                        model.addAttribute("user", userVerify);
+                        model.addAttribute("user", useracount.get());
+                        if (codeService.findById(new CodesId(useracount.get(),typeCodeRestaurant)).isPresent()) {
+                            model.addAttribute("codeEliminar",true);
+                        }
                         return "formularios/user_update";
                     }
                 } else {
                     Traductions traductions = new Traductions("Las contraseñas a cambiar no coinciden","The passwords to change do not match","Les contrasenyes a canviar no coincideixen");
                     model.addAttribute("error", traductions.getTraduction());
-                    model.addAttribute("user", userVerify);
+                    model.addAttribute("user", useracount.get());
+                    if (codeService.findById(new CodesId(useracount.get(),typeCodeRestaurant)).isPresent()) {
+                        model.addAttribute("codeEliminar",true);
+                    }
                     return "formularios/user_update";
                 }
             }

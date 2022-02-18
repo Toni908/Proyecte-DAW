@@ -349,30 +349,28 @@ public class RestaurantController {
         restaurantService.saveRestaurant(restaurant);
     }
 
-    @RequestMapping(value = "/restaurant/generate/code/delete/{id}", method = RequestMethod.GET)
-    public String deleteCodeGenerate(@PathVariable BigInteger id, HttpServletRequest request, ModelMap model) {
+    @RequestMapping(value = "/restaurant/generate/code/delete", method = RequestMethod.GET)
+    public String deleteCodeGenerate(HttpServletRequest request, ModelMap model) {
         Useracount useracount = getUser(request);
 
         if (isUserCorrect(useracount, useracountService)) {
             Optional<Useracount> useracount1 = useracountService.findUseracountById(useracount.getId_user());
             if (useracount1.isPresent()) {
-                Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
-                if (restaurant.isPresent()) {
-                    if (restaurant.get().getUseracount().equals(useracount1.get())) {
-                        if (codeService.findById(new CodesId(useracount1.get(), typeCodeRestaurant)).isEmpty()) {
-                            String generate = generateCode(useracount1.get(), typeCodeRestaurant);
-                            emailService.sendMessageWithAttachment(useracount1.get().getCorreo(), "Eliminar Restaurante " + restaurant.get().getNombre(), useracount1.get().getCorreo(), generate, "Se ha querido eliminar<br> el restaurante " + restaurant.get().getNombre());
-                            Traductions traductions = new Traductions("Se envió un correo con el código", "An email with the code was sent", "Es va enviar un correu amb el codi");
-                            model.addAttribute("success", traductions.getTraduction());
-                        } else {
-                            Traductions traductions = new Traductions("Ya se envío un correo con el código","An email with the code has already been sent.","Ja s'envio un correu amb el codi");
-                            model.addAttribute("error", traductions.getTraduction());
-                        }
-                        return update(id, model, request);
-                    }
+                if (codeService.findById(new CodesId(useracount1.get(), typeCodeRestaurant)).isEmpty()) {
+                    String generate = generateCode(useracount1.get(), typeCodeRestaurant);
+                    emailService.sendMessageWithAttachment(useracount1.get().getCorreo(), "Eliminar Restaurante", useracount1.get().getCorreo(), generate, "Se ha querido generar un codigo<br>para eliminar un restaurante");
+                    Traductions traductions = new Traductions("Se envió un correo con el código", "An email with the code was sent", "Es va enviar un correu amb el codi");
+                    model.addAttribute("success", traductions.getTraduction());
+                } else {
+                    Traductions traductions = new Traductions("Ya se envío un correo con el código", "An email with the code has already been sent.", "Ja s'envio un correu amb el codi");
+                    model.addAttribute("error", traductions.getTraduction());
                 }
+                model.addAttribute("user", useracount1.get());
+                if (codeService.findById(new CodesId(useracount1.get(),typeCodeRestaurant)).isPresent()) {
+                    model.addAttribute("codeEliminar",true);
+                }
+                return "formularios/user_update";
             }
-
         }
         return "redirect:/error/401";
     }
