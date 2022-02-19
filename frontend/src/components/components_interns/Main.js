@@ -20,26 +20,18 @@ class Main extends Component {
 
     componentDidMount() {
         let ip = process.env.REACT_APP_API_URL;
-        console.log(ip)
         this.setState({ isLoading: true });
-        axios.get(ip+"/restaurants")
-            .then(result => this.setState({
-                BestRestaurants: result.data,
-                isLoading: false
-            }))
-            .catch(error => this.setState({
-                error: error,
-                isLoading: false
-            }));
-        axios.get(ip+"/economic")
-            .then(result => this.setState({
-                EconomicRestaurants: result.data,
-                isLoading: false
-            }))
-            .catch(error => this.setState({
-                error: error,
-                isLoading: false
-            }));
+
+        const request1 = axios.get(ip+"/restaurants");
+        const request2 = axios.get(ip+"/economic");
+
+        axios.all([request1, request2]).then(axios.spread((...responses) => this.setState({
+            BestRestaurants: responses[0].data,
+            EconomicRestaurants: responses[1].data,
+            isLoading: false
+        }))).catch(error => this.setState({
+            error: error,
+        }))
     }
 
     render() {

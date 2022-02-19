@@ -50,7 +50,7 @@ class ListRestaurant extends Component {
                     renderButtonGroupOutside={true}
                     customButtonGroup={<ButtonGroup />}
                     responsive={responsive}
-                    beforeChange={(nextSlide, { totalItems,slidesToShow, currentSlide, onMove }) => {
+                    beforeChange={(nextSlide, { totalItems,slidesToShow, currentSlide }) => {
                         if (currentSlide === 0) {
                             $("#left").hide();
                         } else {
@@ -62,8 +62,12 @@ class ListRestaurant extends Component {
                         } else {
                             $("#right").show();
                         }
+
+                        if (totalItems<slidesToShow) {
+                            $("#right").hide();
+                        }
                     }}
-                    afterChange={(previousSlide, { totalItems,slidesToShow,currentSlide, onMove }) => {
+                    afterChange={(previousSlide, { totalItems,slidesToShow,currentSlide }) => {
                         if (currentSlide === 0) {
                             $("#left").hide();
                         } else {
@@ -74,6 +78,11 @@ class ListRestaurant extends Component {
                         } else {
                             $("#right").show();
                         }
+
+                        if (totalItems<slidesToShow) {
+                            $("#right").hide();
+                        }
+
                     }}
                 >
 
