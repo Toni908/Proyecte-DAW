@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import axios from "axios";
 
 import Buscador from "./components/components_interns/Buscador";
+import Resultados from "./components/components_interns/Resultados";
 import './components/components_interns/Buscador.css';
 
 class BuscadorAvanzado extends Component {
@@ -55,6 +57,23 @@ class BuscadorAvanzado extends Component {
             lugar: this.state.sitio,
             precio: this.state.etiqueta
         }
+
+        var ip = process.env.REACT_APP_API_URL;
+
+        axios({
+            method: 'get',
+            url: ip + '/filtrar',
+            data: data
+        })
+        .then((response) => {
+            console.log(response);
+            this.setState({restaurantes: response.data});
+        })
+        .catch((error) => {
+            console.log(error); 
+        });
+
+
     }
     
     render() {
@@ -67,7 +86,7 @@ class BuscadorAvanzado extends Component {
                 changePrecio={this.changePrecio.bind(this)}
                 filter={this.filter.bind(this)}/>
 
-                <h1> Buscador Avanzado </h1>
+                <Resultados data={this.state.restaurantes}/>
 
             </div>
         );

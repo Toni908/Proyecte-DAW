@@ -21,7 +21,6 @@ class Buscador extends Component {
         axios
             .get( ip + "/etiquetas")
             .then((response) => {
-                console.log(window.location.href);
                 this.setState({etiquetas: response.data});
             })
             .catch((error) => {
@@ -65,9 +64,9 @@ class Buscador extends Component {
 
                     <select name="price" className="form-select mx-4 inputBuscador w-auto" aria-label="Default select example" onChange={this.props.changePrecio}>
                         <option value="null" defaultValue>Precio</option>
-                        <option value="1">$</option>
-                        <option value="2">$$</option>
-                        <option value="3">$$$</option>
+                        <option value="15">$</option>
+                        <option value="60">$$</option>
+                        <option value="9999">$$$</option>
                     </select>
 
                 </div>

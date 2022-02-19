@@ -35,6 +35,8 @@ Route::get('/card/{id}', [CartaController::class, 'showCard']);
 Route::get('/cheapest',[RestaurantController::class, 'cheapest']);
 Route::get('/restaurant/{id}',[RestaurantController::class, 'show']);
 Route::get('/restaurants',[RestaurantController::class, 'showRestaurantsWithMembresia']);
+Route::get('/aforo/{id}',[RestaurantController::class,'aforo']);
+Route::get('/filtrar',[RestaurantController::class, 'buscador']);
 
 Route::get('/user/{id}',[UseracountController::class, 'show']);
 Route::get('/users',[UseracountController::class, 'showUsers']);
@@ -49,4 +51,4 @@ Route::get('/etiquetas',[EtiquetasController::class, 'showAll']);
 
 Route::get('/localidad',[MunicipioController::class, 'showAll']);
 
-Route::get('/aforo/{id}',[RestaurantController::class,'aforo']);
+
