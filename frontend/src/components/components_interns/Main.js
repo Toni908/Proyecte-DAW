@@ -19,8 +19,10 @@ class Main extends Component {
     }
 
     componentDidMount() {
+        let ip = process.env.REACT_APP_API_URL;
+        console.log(ip)
         this.setState({ isLoading: true });
-        axios.get("http://127.0.0.1:8000/restaurants")
+        axios.get(ip+"/restaurants")
             .then(result => this.setState({
                 BestRestaurants: result.data,
                 isLoading: false
@@ -29,7 +31,7 @@ class Main extends Component {
                 error: error,
                 isLoading: false
             }));
-        axios.get("http://127.0.0.1:8000/economic")
+        axios.get(ip+"/economic")
             .then(result => this.setState({
                 EconomicRestaurants: result.data,
                 isLoading: false
