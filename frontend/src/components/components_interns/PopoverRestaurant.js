@@ -1,24 +1,37 @@
 import React, {Component} from "react";
 import {UncontrolledPopover} from "reactstrap";
 import {PopoverBody, PopoverHeader} from "react-bootstrap";
+import "./popover.css";
 
 class PopoverRestaurant extends Component {
     render() {
         return(
             <UncontrolledPopover
-                placement="bottom"
+                placement="top"
                 target={"popover"+this.props.restaurant.id_restaurante}
                 trigger="legacy"
             >
                 <PopoverHeader>
-                    Legacy Trigger
+                    {this.props.restaurant.nombre}
                 </PopoverHeader>
-                <PopoverBody>
-                    <div className={"d-flex flex-row gap-2 pb-2 paraf_info_card"}>
-                        <i className="ps-1 bi bi-telephone-inbound-fill"/><div className={"text-black fw-bold"}>{this.props.restaurant.telefono_restaurante}</div>
-                    </div>
-                    Legacy is a reactstrap special trigger value (outside of bootstrap's spec/standard). Before reactstrap correctly supported click and focus, it had a hybrid which was very useful and has been brought back as trigger="legacy". One advantage of the legacy trigger is that it allows the popover text to be selected while also closing when clicking outside the triggering element and popover itself.
-                </PopoverBody>
+                <section style={{ height: 'auto', width: '250px' }}>
+                    <PopoverBody>
+                        <div className={"d-flex flex-row gap-2 pb-2 paraf_info_card"}>
+                            <i className="ps-1 bi bi-telephone-inbound-fill"/><div className={"text-black"}>{this.props.restaurant.telefono_restaurante}</div>
+                        </div>
+                        <div className={"d-flex flex-row pb-2 paraf_info_card"}>
+                            <i className="ps-1 bi bi-geo-alt-fill"/>
+                            <div className={"d-flex flex-column"}>
+                                <div className={"ps-2 text-black"}>{this.props.restaurant.direccion}</div>
+                                <div>{this.props.localidad.nombre_municipio}</div>
+                                <div>{this.props.localidad.direccion}</div>
+                            </div>
+                        </div>
+                        <div className={"d-flex flex-row pb-3 paraf_info_card"}>
+                            <i className="ps-1 bi bi-people-fill"/><div className={"ps-2 text-black"}>Aforo max: {this.props.restaurant.aforo}</div>
+                        </div>
+                    </PopoverBody>
+                </section>
             </UncontrolledPopover>
         )
     }

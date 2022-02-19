@@ -1,4 +1,4 @@
-import {Button, Card} from "react-bootstrap";
+import {Card} from "react-bootstrap";
 import ImageRestaurant from "./ImageRestaurant";
 import React, {Component} from "react";
 import './image.css'
@@ -6,6 +6,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import HorarioRestaurant from "./HorarioRestaurant";
 import "./cardrestaurant.css";
 import PopoverRestaurant from "./PopoverRestaurant";
+import PopMapRestaurant from "./PopMapRestaurant";
 
 class CardRestaurant extends Component {
     constructor() {
@@ -44,12 +45,22 @@ class CardRestaurant extends Component {
                             <div className={"text-warning"}>Disponible las reservas desde el {getDayAnticipacion(this.props.restaurant.dies_anticipacion_reservas)}</div>
                         </div>
                     )}
-                    <div className={"mt-3"}>
-                        <Button variant="outline-dark">Ver Restaurante</Button>
-                        <Button type={"button"} className={"ms-3"} id={"popover"+this.props.restaurant.id_restaurante} variant={"outline-dark"} >Reservar</Button>
-                    </div>
-                    <PopoverRestaurant restaurant={this.props.restaurant}/>
                 </Card.Body>
+                <section className={"d-flex flex-row justify-content-between px-5 w-100 more-info-card py-3"}>
+                    <div className={"text-center"}>
+                        <i className="bi bi-geo-alt fs-4" id={"popmap"+this.props.restaurant.id_restaurante}/>
+                        <PopMapRestaurant restaurant={this.props.restaurant}/>
+                    </div>
+                    <div className={"vertical-line"}/>
+                    <div className={"text-center"}>
+                        <i className="bi bi-eye fs-4"/>
+                    </div>
+                    <div className={"vertical-line"}/>
+                    <div className={"text-center"}>
+                        <i className="bi bi-info-circle fs-4" id={"popover"+this.props.restaurant.id_restaurante}/>
+                        <PopoverRestaurant localidad={this.props.localidad} restaurant={this.props.restaurant}/>
+                    </div>
+                </section>
             </Card>
         )
     }

@@ -1,0 +1,4 @@
+.popover {
+    min-width: 70px !important;
+    max-width: available;
+}
