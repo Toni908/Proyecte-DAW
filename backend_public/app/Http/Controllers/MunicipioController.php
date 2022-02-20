@@ -12,4 +12,10 @@ class MunicipioController extends Controller
         $municipios = Municipio::all();
         return $municipios->toJson();
     }
+
+    function showMunicipios()
+    {
+        $municipios = Municipio::all()->take(15);
+        return $municipios->toJson();
+    }
 }

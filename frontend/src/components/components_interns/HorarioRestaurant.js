@@ -37,7 +37,7 @@ class HorarioRestaurant extends Component {
         }
 
         if (isLoading) {
-            return <p>Loading ...</p>;
+            return <p>Loading...</p>;
         }
 
         let header = schedule.textHeader(horario);

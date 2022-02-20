@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${restaurant.nombre}"></title>
+    <link th:href="@{/css/custom.css}" rel="stylesheet"/>
+    <link th:href="@{/css/asideLeft.css}" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<div th:insert="shared/headerVersion2 :: header(${restaurant})"></div>
+<div th:if="${error}!=null" th:text="${error}" class="message_error"></div>
+<div th:if="${success}!=null" th:text="${success}" class="message_success"></div>
+<main class="w-100 p-0 m-0">
+    <aside th:insert="shared/asideList :: aside"></aside>
+    <h1>Tus estadisticas</h1>
+</main>
+<footer th:insert="shared/footer :: footer"></footer>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/js/jquery-3.6.0.min.js}"></script>
+<script th:src="@{/js/headerv2.js}"></script>
+<script th:src="@{/js/asideVersionScroll.js}"></script>
+<script th:src="@{/js/hide_messages.js}"></script>
+</body>
+</html>

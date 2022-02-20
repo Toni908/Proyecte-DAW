@@ -53,7 +53,7 @@ class CardRestaurant extends Component {
                     </div>
                     <div className={"vertical-line"}/>
                     <div className={"text-center"}>
-                        <i className="bi bi-eye fs-4"/>
+                        <a className={"text-black"} href={"/restaurant/"+this.props.restaurant.id_restaurante}><i className="bi bi-eye fs-4"/></a>
                     </div>
                     <div className={"vertical-line"}/>
                     <div className={"text-center"}>

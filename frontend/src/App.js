@@ -8,6 +8,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 
 import './App.css';
+import Restaurant from "./components/paginas/Restaurant";
 
 class App extends Component {
 
@@ -27,6 +28,7 @@ class App extends Component {
               <Route path="/comentario/:id" element={<AboutUs />} />
               <Route path="/restaurante/:id" element={<AboutUs />} />
               <Route path="/reserva/:id" element={<AboutUs />} />
+              <Route path="/restaurant/:id" element={<Restaurant />} />
             </Routes>
           </div>
           
