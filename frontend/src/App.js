@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./Home";
 import BuscadorAvanzado from "./BuscadorAvanzado";
 import AboutUs from "./AboutUs";
+import Comment from "./Comment";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 
@@ -24,7 +25,7 @@ class App extends Component {
               <Route path="/search" element={<BuscadorAvanzado />} />
               <Route path="/us" element={<AboutUs />} />
               <Route path="/carta/:id" element={<AboutUs />} />
-              <Route path="/comentario/:id" element={<AboutUs />} />
+              <Route path="/comment/:id" element={<Comment className="bg-white"/>} />
               <Route path="/restaurante/:id" element={<AboutUs />} />
               <Route path="/reserva/:id" element={<AboutUs />} />
             </Routes>

@@ -23,12 +23,14 @@ public class FileUploadUtil {
 
     public static void saveFile(String uploadDir, String fileName, MultipartFile multipartFile) {
         Path uploadPath = Paths.get(url+"/"+uploadDir);
-
+        System.out.println(uploadPath);
         if (!Files.exists(uploadPath)) {
             try {
                 Files.createDirectories(uploadPath);
+                System.out.println("Entra");
             } catch (Exception e) {
-                //
+                System.out.println("falla");
+                System.out.println(e.getMessage());
             }
         }
 

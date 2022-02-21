@@ -35,6 +35,8 @@ Route::get('/card/{id}', [CartaController::class, 'showCard']);
 Route::get('/cheapest',[RestaurantController::class, 'cheapest']);
 Route::get('/restaurant/{id}',[RestaurantController::class, 'show']);
 Route::get('/restaurants',[RestaurantController::class, 'showRestaurantsWithMembresia']);
+Route::get('/aforo/{id}',[RestaurantController::class,'aforo']);
+Route::get('/filtrar',[RestaurantController::class, 'buscador']);
 
 Route::get('/user/{id}',[UseracountController::class, 'show']);
 Route::get('/users',[UseracountController::class, 'showUsers']);
@@ -42,6 +44,7 @@ Route::get('/adminUsers',[UseracountController::class, 'showUserWhereIsAdmin']);
 
 Route::get('/reserva/{id}',[ReservasController::class, 'show']);
 Route::post('/reserva',[ReservasController::class, 'reservasRestaurant']);
+Route::get('/comentar',[ReservasController::class, 'login']);
 
 Route::get('/horario/{id}',[HorarioController::class, 'show']);
 

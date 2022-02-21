@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Reserva;
+use Illuminate\Http\Request;
 use App\Models\Restaurante;
 
 class ReservasController extends Controller
@@ -22,5 +23,12 @@ class ReservasController extends Controller
                 $reserva->save();
             }
         }
+    }
+
+    public function login(Request $request)
+    {
+        $id = $request->input('id');
+
+        $reserva = Reserva::find($id);
     }
 }
