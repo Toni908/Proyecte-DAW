@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from "axios";
 
 import CommentMaker from "./CommentMaker";
 import LoginHotmail from "./LoginHotmail";
@@ -17,12 +18,30 @@ class Comment extends Component {
 
     }
 
-    componentDidMount(){
-        
-    }
-
     login(){
-        this.setState({login: true});
+        var data = {
+            email: "tgamil",
+            id: 1
+        }
+
+        var ip = process.env.REACT_APP_API_URL;
+
+        axios({
+            method: 'get',
+            url: ip + '/comentar',
+            data: data
+        })
+        .then((response) => {
+            console.log(response);
+            if(response){
+                this.setState({login: true});
+            }else{
+                alert("Este correo no esta relacionado con esta reserva. Intentalo otra vez.");
+            }
+        })
+        .catch((error) => {
+            console.log(error); 
+        });
     }
     
     render() {

@@ -51,7 +51,6 @@ class BuscadorAvanzado extends Component {
         }
     }
     filter(){
-        alert("dfs");
         var data = {
             etiqueta: this.state.precio,
             lugar: this.state.sitio,
