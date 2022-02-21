@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
 import CommentMaker from "./CommentMaker";
 import LoginHotmail from "./LoginHotmail";
@@ -21,7 +22,7 @@ class Comment extends Component {
     login(){
         var data = {
             email: "tgamil",
-            id: 1
+            id: useParams()
         }
 
         var ip = process.env.REACT_APP_API_URL;
