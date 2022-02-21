@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import axios from "axios";
-import { useParams } from "react-router-dom";
 
 import CommentMaker from "./CommentMaker";
 import LoginHotmail from "./LoginHotmail";
@@ -12,32 +11,45 @@ class Comment extends Component {
         super();
 
         this.state={
-            login: false
+            login: false,
+            email: null
         }   
 
         this.login = this.login.bind(this);
+        this.log = this.log.bind(this);
 
     }
 
-    login(){
-        var data = {
-            email: "tgamil",
-            id: useParams()
-        }
+    log(evt) {
+        const val = evt.target.value;
+        this.setState({
+          email: val
+        });
+    }
+
+    login(e){
+        var url = window.location.href;
+        var l = url.split('/');
+        var d = l.length-1;
+        var id = l[d];
+
+        /*var data = {
+            email: this.state.email,
+            id: id
+        }*/
 
         var ip = process.env.REACT_APP_API_URL;
 
         axios({
             method: 'get',
-            url: ip + '/comentar',
-            data: data
+            url: ip + '/comentar?id=' + id + '&email=' + this.state.email
         })
         .then((response) => {
             console.log(response);
-            if(response){
+            if(response.data === 1){
                 this.setState({login: true});
             }else{
-                alert("Este correo no esta relacionado con esta reserva. Intentalo otra vez.");
+                alert("Este correo no esta relacionado con esta reserva. Introduzca el correo correcto.");
             }
         })
         .catch((error) => {
@@ -50,7 +62,7 @@ class Comment extends Component {
         if (isLoggedIn) {
             return <CommentMaker />;
         }
-            return <LoginHotmail login={this.login.bind()} />;
+            return <LoginHotmail login={this.login.bind(this)} log={this.log.bind(this)} />;
         }
 }
 

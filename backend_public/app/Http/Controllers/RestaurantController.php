@@ -91,7 +91,7 @@ class RestaurantController extends Controller
             $restaurant->where(DB::raw('Round(AVG(platos.precio),0)'), '<=', $precio);
         }
 
-        $restaurant->groupBy('id_restaurante')
+        $restaurant->groupBy('restaurante.id_restaurante')
         ->get();
         
     return $restaurant->toJson();
