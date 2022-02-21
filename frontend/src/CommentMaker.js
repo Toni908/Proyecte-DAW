@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-
-import './components/components_interns/Comment.css';
-
 class CommentMaker extends Component {
 
     constructor() {
@@ -16,7 +13,7 @@ class CommentMaker extends Component {
 
     render() {
         return(
-            <button onChange={this.props.login}> dsfds </button>
+            <p>Funciona</p>
         )
     }
 }

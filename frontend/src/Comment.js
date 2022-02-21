@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 
 import CommentMaker from "./CommentMaker";
 import LoginHotmail from "./LoginHotmail";
-import './components/components_interns/Comment.css';
 
 class Comment extends Component {
 
@@ -31,7 +30,7 @@ class Comment extends Component {
         if (isLoggedIn) {
             return <CommentMaker />;
         }
-            return <LoginHotmail login={this.login.bind(this)} />;
+            return <LoginHotmail login={this.login.bind()} />;
         }
 }
 

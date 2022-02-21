@@ -16,6 +16,7 @@ public class MvcConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         FileUploadUtil.url = environment.getProperty("img.file.destiny.directory");
+
         registry
                 .addResourceHandler("/restaurantes-photos/**")
                 .addResourceLocations(environment.getProperty("img.file.destiny.directory.file"));
