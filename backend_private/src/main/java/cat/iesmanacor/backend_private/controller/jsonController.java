@@ -50,22 +50,6 @@ public class jsonController {
         return comentariosService.findByIdRestaurante(id);
     }
 
-    @GetMapping(value = "/comentarios/sum/servicio/restaurant/{id}",produces = { "application/json" })
-    public Integer sumServicio(@PathVariable BigInteger id){
-        return comentariosService.sumValoracion_servicioFromRestaurantId(id);
-    }
-
-    @GetMapping(value = "/comentarios/sum/comida/restaurant/{id}",produces = { "application/json" })
-    public Integer sumComida(@PathVariable BigInteger id){
-        return comentariosService.sumValoracion_comidaFromRestaurantId(id);
-    }
-
-    @GetMapping(value = "/comentarios/sum/sitio/restaurant/{id}",produces = { "application/json" })
-    public Integer sumSitio(@PathVariable BigInteger id){
-        return comentariosService.sumValoracion_sitioFromRestaurantId(id);
-    }
-
-
     @GetMapping(value = "/get/etiquetas/admin/json", produces = { "application/json" })
     public List<Etiquetas> getEtiquetas(){
         return  etiquetasService.findAllEtiquetas();
@@ -122,5 +106,23 @@ public class jsonController {
         ingredienteService.save(ingrediente);
 
         return ingredienteService.findAll();
+    }
+
+
+    // STATS RESTAURANTES
+
+    @GetMapping(value = "/comentarios/sum/servicio/{stars}/{id}",produces = { "application/json" })
+    public Integer sumServicioDayValoration(@PathVariable int stars,@PathVariable BigInteger id){
+        return comentariosService.countServicioFromRestaurantValorationAndTime(id,stars);
+    }
+
+    @GetMapping(value = "/comentarios/sum/comida/{stars}/{id}",produces = { "application/json" })
+    public Integer sumComidaDayValoration(@PathVariable int stars,@PathVariable BigInteger id){
+        return comentariosService.countComidaFromRestaurantValorationAndTime(id,stars);
+    }
+
+    @GetMapping(value = "/comentarios/sum/sitio/{stars}/{id}",produces = { "application/json" })
+    public Integer sumSitioDayValoration(@PathVariable int stars, @PathVariable BigInteger id){
+        return comentariosService.countSitioFromRestaurantValorationAndTime(id,stars);
     }
 }

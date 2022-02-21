@@ -60,17 +60,17 @@ public class ComentariosServiceImpl implements ComentariosService {
     }
 
     @Override
-    public Integer sumValoracion_sitioFromRestaurantId(BigInteger id) {
-        return comentariosRepository.sumValoracion_sitioFromRestaurantId(id);
+    public Integer countComidaFromRestaurantValorationAndTime(BigInteger id, int valoracion) {
+        return comentariosRepository.countComidaFromRestaurantValorationAndTime(id, valoracion);
     }
 
     @Override
-    public Integer sumValoracion_servicioFromRestaurantId(BigInteger id) {
-        return comentariosRepository.sumValoracion_servicioFromRestaurantId(id);
+    public Integer countServicioFromRestaurantValorationAndTime(BigInteger id, int valoracion) {
+        return comentariosRepository.countServicioFromRestaurantValorationAndTime(id, valoracion);
     }
 
     @Override
-    public Integer sumValoracion_comidaFromRestaurantId(BigInteger id) {
-        return comentariosRepository.sumValoracion_comidaFromRestaurantId(id);
+    public Integer countSitioFromRestaurantValorationAndTime(BigInteger id, int valoracion) {
+        return comentariosRepository.countSitioFromRestaurantValorationAndTime(id, valoracion);
     }
 }

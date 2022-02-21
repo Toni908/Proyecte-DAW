@@ -17,22 +17,29 @@
 <main id="restauranteFixed" class="d-flex flex-row justify-content-center">
     <section class="d-flex flex-column justify-content-center body-info">
         <div class="pt-5">
-            <h3 class="title_section-info" th:text="#{restaurant.update.title}"></h3>
+            <h3 class="title_section-info">Estadisticas</h3>
             <div class="d-flex flex-row justify-content-center pt-2">
-                <p class="paraf_form text-center fw-normal length-container" th:text="#{restaurant.update.title.paraf}"></p>
+                <p class="paraf_form text-center fw-normal length-container">
+                    Este apartado se encarga de darte un soporte para que puedas encarillar mejor tu empresa, para ello los que han reservado en tu restaurante te han dejado una valoracion y aqui tienes el resultado
+                </p>
             </div>
-            <div class="d-flex flex-row justify-content-center">
+            <div class="d-flex flex-row justify-content-center pb-5">
                 <div class="d-flex flex-column justify-content-center length">
                     <div class="border border-secondary border-1 mt-5 p-4 box-container">
-                        <h4 class="fw-normal text-start text-black QuickSand" th:text="#{restaurant.update.info.general}"></h4>
-                        <p class="paraf_form text-start fw-normal" th:text="#{restaurant.update.info.general.paraf}"></p>
-                        <div id="valoracionSitio"></div>
-                        <hr>
+                        <h4 class="fw-normal text-start text-black QuickSand">Reseñas del Sitio</h4>
                         <p class="paraf_form text-start fw-normal pt-3" th:text="#{restaurant.update.info.title}"></p>
-                        <div id="valoracionServicio"></div>
+                        <div class="d-flex flex-row justify-content-center gap-2">Reseñas de <div class="day_current">dia</div> hacia atras</div>
+                        <div id="sitio"></div>
                         <hr>
+                        <h4 class="fw-normal text-start text-black QuickSand">Reseñas del Servicio</h4>
                         <p class="paraf_form text-start fw-normal pt-3" th:text="#{restaurant.update.info.title}"></p>
-                        <div id="valoracionComida"></div>
+                        <div class="d-flex flex-row justify-content-center gap-2">Reseñas de <div class="day_current">dia</div> hacia atras</div>
+                        <div id="servicio"></div>
+                        <hr>
+                        <h4 class="fw-normal text-start text-black QuickSand">Reseñas de la Comida</h4>
+                        <p class="paraf_form text-start fw-normal pt-3" th:text="#{restaurant.update.info.title}"></p>
+                        <div class="d-flex flex-row justify-content-center gap-2">Reseñas de <div class="day_current">dia</div> hacia atras</div>
+                        <div id="comida"></div>
                     </div>
                 </div>
             </div>
@@ -44,93 +51,183 @@
 <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
 <script src="https://d3js.org/d3.v3.min.js"></script>
 <script th:inline="javascript">
-    let valoraciones = {
-        "servicio" : 0,
-        "comida" :0,
-        "sitio" :0
-    };
-    let dataFromYou = [];
+    $(".day_current").text(formateDate(new Date()))
 
-    $.getJSON("/comentarios/sum/servicio/restaurant/"+[[${restaurant.id_restaurante}]])
-        .then(function(data) {
-            valoraciones["servicio"] = parseInt(data);
-            $.getJSON("/comentarios/sum/comida/restaurant/"+[[${restaurant.id_restaurante}]])
+    function formateDate(date) {
+        return date.getDate()+"-"+(date.getMonth()+1)+"-"+date.getFullYear();
+    }
+
+    generateSVG([[${restaurant.id_restaurante}]],"servicio",[false,false,false,false,false]);
+    generateSVG([[${restaurant.id_restaurante}]],"comida",[false,false,false,false,false]);
+    generateSVG([[${restaurant.id_restaurante}]],"sitio",[false,false,false,false,false]);
+
+    sitio.on("change",function () {
+        generateSVG([[${restaurant.id_restaurante}]],"sitio",[false,false,false,false,false]);
+    })
+
+    comida.on("change",function () {
+        generateSVG([[${restaurant.id_restaurante}]],"comida",[false,false,false,false,false]);
+    })
+
+    servicio.on("change",function () {
+        generateSVG([[${restaurant.id_restaurante}]],"servicio",[false,false,false,false,false]);
+    })
+
+    function generateSVG(id_restaurant,type,hasAny) {
+        let list = [];
+        $("#"+type).empty();
+        $.when(
+            $.getJSON("/comentarios/sum/"+type+"/"+1+"/"+id_restaurant)
                 .then(function(data) {
-                    valoraciones["comida"] = parseInt(data);
-                    $.getJSON("/comentarios/sum/sitio/restaurant/"+[[${restaurant.id_restaurante}]])
-                        .then(function(data) {
-                            valoraciones["sitio"] = parseInt(data);
-                            console.log(valoraciones["servicio"])
-                            dataFromYou = [
-                                {/*  w w w .de m o2  s. com*/
-                                    "name": "Talks",
-                                    "children": [
-                                        {
-                                            "name": "Servicio",
-                                            "size": valoraciones["servicio"],
-                                        },
-                                        {
-                                            "name": "Comida",
-                                            "size": valoraciones["comida"],
-                                        },
-                                        {
-                                            "name": "Sitio",
-                                            "size": valoraciones["sitio"],
-                                        }
-                                    ]
-                                }
-                            ];
-                            var Mydata = dataFromYou[0].children;
-                            var width = 800,
-                                height = 250,
-                                radius = Math.min(width, height) / 2;
-                            var color = d3.scale.ordinal()
-                                .range(["#98abc5", "#8a89a6", "#7b6888"]);
-                            var arc = d3.svg.arc()
-                                .outerRadius(radius - 10)
-                                .innerRadius(0);
-                            var pie = d3.layout.pie()
-                                .sort(null)
-                                .value(function (d) {
-                                    return parseInt(d.size);
-                                });
-
-                            var svg = d3.select("#valoracionSitio").append("svg")
-                                .attr("width", width)
-                                .attr("height", height)
-                                .append("g")
-                                .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
-
-                            var g = svg.selectAll(".arc")
-                                .data(pie(Mydata))
-                                .enter().append("g")
-                                .attr("class", "arc");
-                            g.append("path")
-                                .attr("d", arc)
-                                .style("fill", function (d) {
-                                    return color(d.data.name);
-                                });
-                            g.append("text")
-                                .attr("transform", function (d) {
-                                    return "translate(" + arc.centroid(d) + ")";
-                                })
-                                .attr("dy", ".35em")
-                                .style("text-anchor", "middle")
-                                .text(function (d) {
-                                    return d.data.name + " (" + d.data.size + ")";
-                                })
-                        })
-                        .fail(function() {
-                            // ...didn't work, handle it
-                        });
+                    list["one"] = 1+parseInt(data);
+                    if (parseInt(data)===0) {
+                        hasAny[0] = true;
+                    }
                 })
                 .fail(function() {
                     // ...didn't work, handle it
+                }),
+            $.getJSON("/comentarios/sum/"+type+"/"+2+"/"+id_restaurant)
+                .then(function(data) {
+                    list["two"] = 1+parseInt(data)
+                    if (parseInt(data)===0) {
+                        hasAny[1] = true;
+                    }
+                })
+                .fail(function() {
+                    // ...didn't work, handle it
+                    list["two"] = 1;
+                }),
+            $.getJSON("/comentarios/sum/"+type+"/"+3+"/"+id_restaurant)
+                .then(function(data) {
+                    list["three"] = 1+parseInt(data);
+                    if (parseInt(data)===0) {
+                        hasAny[2] = true;
+                    }
+                })
+                .fail(function() {
+                    // ...didn't work, handle it
+                    list["three"] = 1;
+                }),
+            $.getJSON("/comentarios/sum/"+type+"/"+4+"/"+id_restaurant)
+                .then(function(data) {
+                    list["four"] = 1+parseInt(data);
+                    if (parseInt(data)===0) {
+                        hasAny[3] = true;
+                    }
+                })
+                .fail(function() {
+                    // ...didn't work, handle it
+                    list["four"] = 1;
+                }),
+            $.getJSON("/comentarios/sum/"+type+"/"+5+"/"+id_restaurant)
+                .then(function(data) {
+                    list["five"] = 1+parseInt(data);
+                    if (parseInt(data)===0) {
+                        hasAny[4] = true;
+                    }
+                })
+                .fail(function() {
+                    // ...didn't work, handle it
+                    list["five"] = 1;
+                }),
+        ).then(function () {
+            if (isEmptyAll(hasAny)) {
+                list = generateEmptyStars();
+            } else {
+                list = generateListStars(list);
+            }
+            var Mydata = list[0].children;
+            var width = 300,
+                height = 250,
+                radius = Math.min(width, height) / 2;
+            var color = d3.scale.ordinal()
+                .range(["#231F4A","#494199","#220B59", "#B0A2D2", "#5E55C9"]);
+            var arc = d3.svg.arc()
+                .outerRadius(radius - 10)
+                .innerRadius(0);
+            var pie = d3.layout.pie()
+                .sort(null)
+                .value(function (d) {
+                    return parseInt(d.size);
                 });
+            var svg = d3.select("#"+type).append("svg")
+                .attr("width", width)
+                .attr("height", height)
+                .append("g")
+                .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+            var g = svg.selectAll(".arc")
+                .data(pie(Mydata))
+                .enter().append("g")
+                .attr("class", "arc");
+            g.append("path")
+                .attr("d", arc)
+                .style("fill", function (d) {
+                    return color(d.data.name);
+                });
+            g.append("text")
+                .attr("transform", function (d) {
+                    return "translate(" + arc.centroid(d) + ")";
+                })
+                .attr("dy", ".35em")
+                .style("text-anchor", "middle")
+                .text(function (d) {
+                    return d.data.name + " (" + (d.data.size-1) + ")";
+                }).attr("fill","white")
         })
-        .fail(function() {
-            // ...didn't work, handle it
-        });
+    }
+    function generateEmptyStars() {
+        return [
+            {
+                "name": "Stars",
+                "children": [
+                    {
+                        "name": "Empty",
+                        "size": 1,
+                    }
+                ]
+            }
+        ]
+    }
+
+    function generateListStars(data) {
+        return [
+            {
+                "name": "Stars",
+                "children": [
+                    {
+                        "name": "1",
+                        "size": data["one"],
+                    },
+                    {
+                        "name": "2",
+                        "size": data["two"],
+                    },
+                    {
+                        "name": "3",
+                        "size": data["three"],
+                    },
+                    {
+                        "name": "4",
+                        "size": data["four"],
+                    },
+                    {
+                        "name": "5",
+                        "size": data["five"],
+                    }
+                ]
+            }
+        ]
+    }
+
+    function isEmptyAll(data) {
+        for (let i = 0; i < data.length; i++) {
+            if (data[i]===false) {
+                return false;
+            }
+        }
+        return true;
+    }
 </script>
 <script th:src="@{/js/headerv2.js}"></script>
 <script th:src="@{/js/asideVersionScroll.js}"></script>

@@ -22,7 +22,7 @@ public interface ComentariosService {
 
     List<Comentarios> findByIdRestaurante(BigInteger id);
 
-    Integer sumValoracion_sitioFromRestaurantId(BigInteger id);
-    Integer sumValoracion_servicioFromRestaurantId(BigInteger id);
-    Integer sumValoracion_comidaFromRestaurantId(BigInteger id);
+    Integer countComidaFromRestaurantValorationAndTime(BigInteger id,int valoracion);
+    Integer countServicioFromRestaurantValorationAndTime(BigInteger id,int valoracion);
+    Integer countSitioFromRestaurantValorationAndTime(BigInteger id,int valoracion);
 }
