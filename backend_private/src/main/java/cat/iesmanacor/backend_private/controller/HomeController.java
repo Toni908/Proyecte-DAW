@@ -1,6 +1,5 @@
 package cat.iesmanacor.backend_private.controller;
 
-import cat.iesmanacor.backend_private.entities.Restaurant;
 import cat.iesmanacor.backend_private.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,7 +22,7 @@ public class HomeController {
     @GetMapping("/")
     public String getHome(ModelMap model){
         model.addAttribute("restaurantes",restaurantService.findAllRestaurants());
-        return "principalPage";
+        return "redirect:/login";
     }
 
 

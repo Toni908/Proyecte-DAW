@@ -4,20 +4,134 @@
     <meta charset="UTF-8">
     <title th:text="${restaurant.nombre}"></title>
     <link th:href="@{/css/custom.css}" rel="stylesheet"/>
+    <link th:href="@{/css/form.css}" rel="stylesheet">
     <link th:href="@{/css/asideLeft.css}" rel="stylesheet">
+    <link th:href="@{/css/restaurante_update.css}" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
 <div th:insert="shared/headerVersion2 :: header(${restaurant})"></div>
 <div th:if="${error}!=null" th:text="${error}" class="message_error"></div>
 <div th:if="${success}!=null" th:text="${success}" class="message_success"></div>
-<main class="w-100 p-0 m-0">
-    <aside th:insert="shared/asideList :: aside"></aside>
-    <h1>Tus estadisticas</h1>
+<aside th:insert="shared/asideList :: aside"></aside>
+<main id="restauranteFixed" class="d-flex flex-row justify-content-center">
+    <section class="d-flex flex-column justify-content-center body-info">
+        <div class="pt-5">
+            <h3 class="title_section-info" th:text="#{restaurant.update.title}"></h3>
+            <div class="d-flex flex-row justify-content-center pt-2">
+                <p class="paraf_form text-center fw-normal length-container" th:text="#{restaurant.update.title.paraf}"></p>
+            </div>
+            <div class="d-flex flex-row justify-content-center">
+                <div class="d-flex flex-column justify-content-center length">
+                    <div class="border border-secondary border-1 mt-5 p-4 box-container">
+                        <h4 class="fw-normal text-start text-black QuickSand" th:text="#{restaurant.update.info.general}"></h4>
+                        <p class="paraf_form text-start fw-normal" th:text="#{restaurant.update.info.general.paraf}"></p>
+                        <div id="valoracionSitio"></div>
+                        <hr>
+                        <p class="paraf_form text-start fw-normal pt-3" th:text="#{restaurant.update.info.title}"></p>
+                        <div id="valoracionServicio"></div>
+                        <hr>
+                        <p class="paraf_form text-start fw-normal pt-3" th:text="#{restaurant.update.info.title}"></p>
+                        <div id="valoracionComida"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </main>
-<footer th:insert="shared/footer :: footer"></footer>
+<footer th:insert="shared/footer :: body" class="mt-auto fot"></footer>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
+<script src="https://d3js.org/d3.v3.min.js"></script>
+<script th:inline="javascript">
+    let valoraciones = {
+        "servicio" : 0,
+        "comida" :0,
+        "sitio" :0
+    };
+    let dataFromYou = [];
+
+    $.getJSON("/comentarios/sum/servicio/restaurant/"+[[${restaurant.id_restaurante}]])
+        .then(function(data) {
+            valoraciones["servicio"] = parseInt(data);
+            $.getJSON("/comentarios/sum/comida/restaurant/"+[[${restaurant.id_restaurante}]])
+                .then(function(data) {
+                    valoraciones["comida"] = parseInt(data);
+                    $.getJSON("/comentarios/sum/sitio/restaurant/"+[[${restaurant.id_restaurante}]])
+                        .then(function(data) {
+                            valoraciones["sitio"] = parseInt(data);
+                            console.log(valoraciones["servicio"])
+                            dataFromYou = [
+                                {/*  w w w .de m o2  s. com*/
+                                    "name": "Talks",
+                                    "children": [
+                                        {
+                                            "name": "Servicio",
+                                            "size": valoraciones["servicio"],
+                                        },
+                                        {
+                                            "name": "Comida",
+                                            "size": valoraciones["comida"],
+                                        },
+                                        {
+                                            "name": "Sitio",
+                                            "size": valoraciones["sitio"],
+                                        }
+                                    ]
+                                }
+                            ];
+                            var Mydata = dataFromYou[0].children;
+                            var width = 800,
+                                height = 250,
+                                radius = Math.min(width, height) / 2;
+                            var color = d3.scale.ordinal()
+                                .range(["#98abc5", "#8a89a6", "#7b6888"]);
+                            var arc = d3.svg.arc()
+                                .outerRadius(radius - 10)
+                                .innerRadius(0);
+                            var pie = d3.layout.pie()
+                                .sort(null)
+                                .value(function (d) {
+                                    return parseInt(d.size);
+                                });
+
+                            var svg = d3.select("#valoracionSitio").append("svg")
+                                .attr("width", width)
+                                .attr("height", height)
+                                .append("g")
+                                .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+                            var g = svg.selectAll(".arc")
+                                .data(pie(Mydata))
+                                .enter().append("g")
+                                .attr("class", "arc");
+                            g.append("path")
+                                .attr("d", arc)
+                                .style("fill", function (d) {
+                                    return color(d.data.name);
+                                });
+                            g.append("text")
+                                .attr("transform", function (d) {
+                                    return "translate(" + arc.centroid(d) + ")";
+                                })
+                                .attr("dy", ".35em")
+                                .style("text-anchor", "middle")
+                                .text(function (d) {
+                                    return d.data.name + " (" + d.data.size + ")";
+                                })
+                        })
+                        .fail(function() {
+                            // ...didn't work, handle it
+                        });
+                })
+                .fail(function() {
+                    // ...didn't work, handle it
+                });
+        })
+        .fail(function() {
+            // ...didn't work, handle it
+        });
+</script>
 <script th:src="@{/js/headerv2.js}"></script>
 <script th:src="@{/js/asideVersionScroll.js}"></script>
 <script th:src="@{/js/hide_messages.js}"></script>

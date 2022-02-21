@@ -37,10 +37,34 @@ public class jsonController {
     @Autowired
     ReservasService reservasService;
 
+    @Autowired
+    ComentariosService comentariosService;
+
     @GetMapping(value = "/get/restaurantes/admin/json")
     public List<Restaurant> getRestaurantes(){
         return restaurantService.findAllRestaurants();
     }
+
+    @GetMapping(value = "/get/restaurant/comentarios/json/{id}",produces = { "application/json" })
+    public List<Comentarios> getRestaurantesFromComentarios(@PathVariable BigInteger id){
+        return comentariosService.findByIdRestaurante(id);
+    }
+
+    @GetMapping(value = "/comentarios/sum/servicio/restaurant/{id}",produces = { "application/json" })
+    public Integer sumServicio(@PathVariable BigInteger id){
+        return comentariosService.sumValoracion_servicioFromRestaurantId(id);
+    }
+
+    @GetMapping(value = "/comentarios/sum/comida/restaurant/{id}",produces = { "application/json" })
+    public Integer sumComida(@PathVariable BigInteger id){
+        return comentariosService.sumValoracion_comidaFromRestaurantId(id);
+    }
+
+    @GetMapping(value = "/comentarios/sum/sitio/restaurant/{id}",produces = { "application/json" })
+    public Integer sumSitio(@PathVariable BigInteger id){
+        return comentariosService.sumValoracion_sitioFromRestaurantId(id);
+    }
+
 
     @GetMapping(value = "/get/etiquetas/admin/json", produces = { "application/json" })
     public List<Etiquetas> getEtiquetas(){

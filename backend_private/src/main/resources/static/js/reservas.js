@@ -71,6 +71,7 @@ function activeTheFirstIfExist() {
 $( function() {
     datepicker.datepicker({
         weekStart: 1,
+        firstDay: 1,
         todayBtn: "linked",
         daysOfWeekHighlighted: "0,6",
         todayHighlight: true,
@@ -86,6 +87,7 @@ $( function() {
 } );
 $(".datepicker").datepicker({
     weekStart: 1,
+    firstDay: 1,
     todayBtn: "linked",
     daysOfWeekHighlighted: "0,6",
     todayHighlight: true,
