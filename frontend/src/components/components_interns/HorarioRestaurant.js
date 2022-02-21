@@ -25,7 +25,8 @@ class HorarioRestaurant extends Component {
             .catch(error => this.setState({
                 error,
                 isLoading: false
-            }));}
+            }));
+    }
 
     render() {
         const {horario, isLoading, error } = this.state;

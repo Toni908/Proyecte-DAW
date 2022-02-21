@@ -2,81 +2,85 @@ import React, {Component} from "react";
 import CardRestaurant from "./CardRestaurant";
 import "./list_restaurants.css"
 import $ from 'jquery'
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
+import {ButtonGroup} from "./Arrows";
 
 class ListRestaurant extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.state = {
-            restaurants: []
+            restaurants: this.props.restaurants
         }
     }
 
-    jQueryCode = () => {
-        $( window ).resize(function() {
-
-        });
-    }
-
-    componentDidMount() {
-        this.setState({restaurants: inicializeRestaurants(getNumberSize(), this.props.restaurants)});
-        this.jQueryCode();
-    }
-
     render() {
+        const { restaurants } = this.state;
+
+        const responsive = {
+            desktop: {
+                breakpoint: { max: 3000, min: 1024 },
+                items: 4,
+                slidesToSlide: 4
+            },
+            tablet: {
+                breakpoint: { max: 1024, min: 464 },
+                items: 2,
+                slidesToSlide: 2
+            },
+            mobile: {
+                breakpoint: { max: 464, min: 0 },
+                items: 1,
+                slidesToSlide: 1
+            }
+        };
+
         return(
             <section className={"position-relative"}>
-                <div className={"arrow-left-position"}>
-                    <i className="bi bi-arrow-left-circle-fill"/>
-                </div>
                 <h4 className={"pt-5 pb-2"}>{this.props.title}</h4>
-                <div className={"row m-0 pt-xxl-0 mb-5 px-2 px-lg-0"}>
-                    {this.state.restaurants.map(function(item, key) {
+                <Carousel
+                    className={"sliderClass"}
+                    arrows={false}
+                    interval={false}
+                    draggable={true}
+                    renderButtonGroupOutside={true}
+                    customButtonGroup={<ButtonGroup />}
+                    responsive={responsive}
+                    beforeChange={(nextSlide, { totalItems,slidesToShow, currentSlide, onMove }) => {
+                        if (currentSlide === 0) {
+                            $("#left").hide();
+                        } else {
+                            $("#left").show();
+                        }
+
+                        if (slidesToShow*currentSlide>totalItems) {
+                            $("#right").hide();
+                        } else {
+                            $("#right").show();
+                        }
+                    }}
+                    afterChange={(previousSlide, { totalItems,slidesToShow,currentSlide, onMove }) => {
+                        if (currentSlide === 0) {
+                            $("#left").hide();
+                        } else {
+                            $("#left").show();
+                        }
+                        if (slidesToShow*currentSlide>totalItems) {
+                            $("#right").hide();
+                        } else {
+                            $("#right").show();
+                        }
+                    }}
+                >
+                    {restaurants.map(function(item, key) {
                         return (
                             <CardRestaurant key={key} restaurant={item}/>
                         )
                     })}
-                </div>
-                <div className={"arrow-right-position"}>
-                    <i className="bi bi-arrow-right-circle-fill"/>
-                </div>
+                </Carousel>
             </section>
         )
-    }
-}
-
-let visible = [];
-
-function iniclializeVisible(restaurants) {
-    restaurants = inicializeRestaurants(getNumberSize(),restaurants);
-    for (let i = 0; i < restaurants.length; i++) {
-        visible[i] = false;
-    }
-}
-
-function inicializeRestaurants(length, restaurants) {
-    if (length===restaurants.length) {
-        return restaurants;
-    } else {
-        let visible = [];
-        for (let i = 0; i < restaurants.length; i++) {
-            if (i<length) {
-                visible[i] = restaurants[i];
-            }
-        }
-        return visible;
-    }
-}
-
-function isSmall() {
-    return window.innerWidth <= 1400;
-}
-
-function getNumberSize() {
-    if (isSmall()) {
-        return 1;
-    } else {
-        return 4;
     }
 }
 

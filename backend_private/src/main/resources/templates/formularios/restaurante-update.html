@@ -29,7 +29,7 @@
                 <div class="d-flex flex-row justify-content-center">
                     <div class="d-flex flex-column justify-content-center length">
                         <div class="border border-secondary border-1 mt-5 p-4 box-container">
-                            <input type="hidden" th:field="*{id_restaurante}" hidden>
+                            <input type="text" th:field="*{id_restaurante}" hidden>
                             <h4 class="fw-normal text-start text-black QuickSand" th:text="#{restaurant.update.info.general}"></h4>
                             <p class="paraf_form text-start fw-normal" th:text="#{restaurant.update.info.general.paraf}"></p>
                             <div class="ps-3 text-lg-start text-center" th:text="#{restaurant.form.name}"></div>
@@ -75,7 +75,7 @@
                                     <div class="col-sm">
                                         <div class="ps-3 text-start" th:text="#{restaurant.form.location}"></div>
                                         <label class="w-100">
-                                            <select id="localidad" class="input-text validateLocalidadResponse">
+                                            <select id="localidad" name="localidad" class="input-text validateLocalidadResponse">
 
                                             </select>
                                         </label>
@@ -314,7 +314,7 @@
     <form th:if="${codeEliminar}!=null" class="d-flex flex-row justify-content-center mb-5" th:action="@{/restaurant/delete/}" method="POST">
         <main class="d-flex flex-column justify-content-center body-info">
             <section class="pt-5">
-                <h3 class="title_section-info" th:text="#{button.delete}"><a th:text="${restaurant.nombre}"></a>?</h3>
+                <h3 class="title_section-info" th:text="#{button.delete}+' '+#{restaurants.admin.title}"></h3>
                 <div class="d-flex flex-row justify-content-center">
                     <div class="d-flex flex-column justify-content-center length">
                         <input type="text" class="input-text p-3 border border-2 border-success" id="id" th:value="${restaurant.id_restaurante}" name="id" hidden>
@@ -326,28 +326,9 @@
                                     <input type="text" class="input-text p-3 border border-2 border-success" id="code" name="code">
                                 </label>
                             </div>
-                            <div class="d-flex flex-row justify-content-center pt-4">
+                            <div class="d-flex flex-row justify-content-center pt-4 gap-1">
                                 <button type="submit" class="btn btn-danger" th:text="#{button.delete}"></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </main>
-    </form>
-    <form th:if="${codeEliminar}==null" class="d-flex flex-row justify-content-center mb-5" th:action="@{'/restaurant/generate/code/delete/'+${restaurant.id_restaurante}}" method="GET">
-        <main class="d-flex flex-column justify-content-center body-info">
-            <section class="pt-5">
-                <div class="d-lg-flex d-block flex-row justify-content-center gap-2">
-                    <h3 class="title_section-info" th:text="#{button.generate.code}+' '+#{button.delete}"></h3>
-                    <h3 class="title_section-info" th:text="${restaurant.nombre}"></h3>
-                    <h3 class="title_section-info">?</h3>
-                </div>
-                <div class="d-flex flex-row justify-content-center">
-                    <div class="d-flex flex-column justify-content-center length">
-                        <div class="border border-secondary border-1 mt-2 p-4 box-container">
-                            <div class="d-flex flex-row justify-content-center pt-4">
-                                <button type="submit" class="btn btn-dark" th:text="#{button.generate.code}"></button>
+                                <a href="/user#deleterestaurant" class="btn btn-dark" th:text="#{button.re.generate}"></a>
                             </div>
                         </div>
                     </div>
