@@ -50,7 +50,7 @@ function getResultHour(horario, today) {
                     <div className={"paraf_info_horario"}>Abierto a las {fixedDate(horario[i].hora_inicio)}</div>
                 </div>);
             } else {
-                if (isNearClose(fixedDate(horario[i].hora_fin), today)) {
+                if (isNearClose(fixedDate(horario[i].hora_inicio),fixedDate(horario[i].hora_fin), today)) {
                     if (hasPassedTime(fixedDate(horario[i].hora_inicio), fixedDate(horario[i].hora_fin), today)) {
                         result = (<div className={"d-flex flex-column"}>
                             <div key={i} className={"d-flex flex-row gap-1"}>Horario: <div
@@ -82,8 +82,11 @@ function getResultHour(horario, today) {
 }
 
 function hasPassedTime(hora_inicio, hora_fin, today) {
-    let hora_i = parseInt(hora_inicio.split(":")[0])
-    let hora_f = parseInt(hora_fin.split(":")[0])
+    let hora_i = hora_inicio.split(":")[0];
+    let hora_f = hora_fin.split(":")[0];
+    if (hora_i>hora_f) {
+        return true;
+    }
 
     for (let i = hora_i; i < hora_f; i++) {
         if (today.getHours() === i) {
@@ -93,9 +96,15 @@ function hasPassedTime(hora_inicio, hora_fin, today) {
     return false;
 }
 
-function isNearClose(hora_fin, today) {
-    hora_fin = hora_fin.split(":");
+function isNearClose(hora_inicio,hora_fin, today) {
+    let hora_i = hora_inicio.split(":")[0];
+    let hora_f = hora_fin.split(":")[0];
+    if (hora_i>hora_f) {
+        return false;
+    }
 
+
+    hora_fin = hora_fin.split(":");
     let time = today.getHours();
     let hora = parseInt(hora_fin[0]);
 

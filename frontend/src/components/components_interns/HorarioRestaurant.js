@@ -17,7 +17,8 @@ class HorarioRestaurant extends Component {
 
     componentDidMount() {
         this.setState({ isLoading: true });
-        axios.get("http://127.0.0.1:8000/horario/"+this.props.restaurant.id_restaurante)
+        let ip = process.env.REACT_APP_API_URL;
+        axios.get(ip+"/horario/"+this.props.restaurant.id_restaurante)
             .then(result => this.setState({
                 horario: result.data,
                 isLoading: false
@@ -36,7 +37,7 @@ class HorarioRestaurant extends Component {
         }
 
         if (isLoading) {
-            return <p>Loading ...</p>;
+            return <p>Loading...</p>;
         }
 
         let header = schedule.textHeader(horario);

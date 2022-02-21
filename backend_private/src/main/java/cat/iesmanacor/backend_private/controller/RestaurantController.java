@@ -384,6 +384,22 @@ public class RestaurantController {
         return "redirect:/error/401";
     }
 
+    @RequestMapping(value = "/restaurant/stats/{id}",method = RequestMethod.GET)
+    public String stats(@PathVariable BigInteger id, ModelMap model, HttpServletRequest request) {
+        Useracount useracount = getUser(request);
+
+        if (isUserCorrect(useracount, useracountService)) {
+            Optional<Restaurant> restaurant = restaurantService.findRestaurantById(id);
+            if (restaurant.isPresent()) {
+                if (restaurant.get().getUseracount().equals(useracount)) {
+                    model.addAttribute("restaurant",restaurant.get());
+                    return "stats_restaurante";
+                }
+            }
+        }
+        return "redirect:/error/401";
+    }
+
     /* ------------------------------------------ */
 
     public Restaurant saveRestaurant(Restaurant restaurant) {

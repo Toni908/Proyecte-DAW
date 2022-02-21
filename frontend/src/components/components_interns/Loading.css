@@ -1,0 +1,41 @@
+.center-fixed{
+    position: fixed;
+    top: 40%;
+    left: 35%;
+    display: flex;
+    flex-direction: column;
+    animation-name: animationLoading;
+    animation-duration: 0.5s;
+    animation-iteration-count: 1;
+}
+.image-front{
+    z-index: 3;
+}
+.animation-dots {
+    z-index: 0;
+    position: fixed;
+    top: 38%;
+    left: 35%;
+    height: 200px;
+    animation-name: animationLoadingRotate;
+    animation-duration: 1400ms;
+    animation-iteration-count: infinite;
+}
+
+@keyframes animationLoadingRotate {
+    0%{
+        transform: rotate(0deg);
+    }
+    100%{
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes animationLoading {
+    0%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+    }
+}

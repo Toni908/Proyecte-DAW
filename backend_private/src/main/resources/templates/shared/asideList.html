@@ -18,6 +18,10 @@
       <i th:if="${restaurant.visible} == false" class="bi bi-eye-slash-fill fs-3"></i>
       <div th:text="#{aside.privacy}"></div>
     </a>
+    <a class="w-100 select-info text-decoration-none text-black ps-5" th:href="@{'/restaurant/stats/'+${restaurant.id_restaurante}}">
+      <i class="bi bi-bar-chart fs-3"></i>
+      <div th:text="#{aside.stats}"></div>
+    </a>
     <a class="w-100 select-info text-decoration-none text-black ps-5" th:href="@{'/restaurant/update/'+${restaurant.id_restaurante}+'#etiquetasFixed'}">
       <i class="bi bi-tags fs-3"></i>
       <div th:text="#{aside.tags}"></div>
