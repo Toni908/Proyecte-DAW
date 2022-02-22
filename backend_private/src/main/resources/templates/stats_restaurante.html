@@ -6,15 +6,8 @@
     <link th:href="@{/css/custom.css}" rel="stylesheet"/>
     <link th:href="@{/css/form.css}" rel="stylesheet">
     <link th:href="@{/css/asideLeft.css}" rel="stylesheet">
-    <link th:href="@{/css/restaurante_update.css}" rel="stylesheet">
+    <link th:href="@{/css/stats_restaurant.css}" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-        .box-color {
-            border: 4px solid lightgrey;
-            width: 25px;
-            height: 25px;
-        }
-    </style>
 </head>
 <body class="d-flex flex-column min-vh-100">
 <div th:insert="shared/headerVersion2 :: header(${restaurant})"></div>
@@ -24,35 +17,33 @@
 <main id="restauranteFixed" class="d-flex flex-row justify-content-center">
     <section class="d-flex flex-column justify-content-center body-info">
         <div class="pt-5">
-            <h3 class="title_section-info">Estadisticas</h3>
+            <h3 class="title_section-info" th:text="#{stats.title}"></h3>
             <div class="d-flex flex-row justify-content-center pt-2">
-                <p class="paraf_form text-center fw-normal length-container">
-                    Este apartado se encarga de darte un soporte para que puedas encarillar mejor tu empresa, para ello los que han reservado en tu restaurante te han dejado una valoracion y aqui tienes el resultado
-                </p>
+                <p class="paraf_form text-center fw-normal length-container" th:text="#{stats.paraf.title}"></p>
             </div>
             <div class="d-flex flex-row justify-content-center pb-5">
                 <div class="d-flex flex-column justify-content-center length">
                     <div class="border border-secondary border-1 mt-5 p-4 box-container">
-                        <h4 class="fw-normal text-start text-black QuickSand">Reseñas del Sitio</h4>
-                        <p class="paraf_form text-start fw-normal pt-3" th:text="#{restaurant.update.info.title}"></p>
-                        <div class="d-flex flex-row justify-content-center gap-2">Reseñas de <div class="day_current">dia</div> hacia atras</div>
+                        <h4 class="fw-normal text-start text-black QuickSand" th:text="#{stats.site.title}"></h4>
+                        <p class="paraf_form text-start fw-normal pt-3" th:text="#{stats.info.section}"></p>
+                        <div class="d-flex flex-row justify-content-center gap-2"><div th:text="#{stats.from}+' '"></div><div class="day_current"></div></div>
                         <div id="sitio"></div>
                         <hr>
-                        <h4 class="fw-normal text-start text-black QuickSand">Reseñas del Servicio</h4>
-                        <p class="paraf_form text-start fw-normal pt-3" th:text="#{restaurant.update.info.title}"></p>
-                        <div class="d-flex flex-row justify-content-center gap-2">Reseñas de <div class="day_current">dia</div> hacia atras</div>
+                        <h4 class="fw-normal text-start text-black QuickSand" th:text="#{stats.service.title}"></h4>
+                        <p class="paraf_form text-start fw-normal pt-3" th:text="#{stats.info.section}"></p>
+                        <div class="d-flex flex-row justify-content-center gap-2"><div th:text="#{stats.from}+' '"></div><div class="day_current"></div></div>
                         <div id="servicio"></div>
                         <hr>
-                        <h4 class="fw-normal text-start text-black QuickSand">Reseñas de la Comida</h4>
-                        <p class="paraf_form text-start fw-normal pt-3" th:text="#{restaurant.update.info.title}"></p>
-                        <div class="d-flex flex-row justify-content-center gap-2">Reseñas de <div class="day_current">dia</div> hacia atras</div>
+                        <h4 class="fw-normal text-start text-black QuickSand" th:text="#{stats.eat.title}"></h4>
+                        <p class="paraf_form text-start fw-normal pt-3" th:text="#{stats.info.section}"></p>
+                        <div class="d-flex flex-row justify-content-center gap-2"><div th:text="#{stats.from}+' '"></div><div class="day_current"></div></div>
                         <div id="comida"></div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <aside class="d-flex flex-column pt-5 w-20 position-fixed" style="right: 10px">
+    <aside class="d-flex flex-column pt-5 w-20 position-fixed d-xl-block d-none" style="right: 10px">
         <div class="row pb-2">
             <div class="col-2 box-color star-1"></div>
             <div class="col-10">
