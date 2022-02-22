@@ -10,17 +10,21 @@ class LoginHotmail extends Component {
         super();
 
         this.state={
-            
+            inputValue: null
         }   
+
+    }
+
+    
+
+    log(){
 
     }
 
     
     render() {
         return(
-            
-            <body className="background-color-general bg-white">
-                <section className="vh-auto m-auto background-color-general">
+                <section className="vh-auto m-auto">
                     <div className="container py-5 h-auto">
                         <div className="row d-flex justify-content-center align-items-center h-100">
                             <div className="col col-xl-10">
@@ -36,8 +40,8 @@ class LoginHotmail extends Component {
                                                     <h5 className="fw-normal mb-3 pb-3 letter-space"> Introduce el correo con el que realizaste tu reserva para poder hacer una reseña:</h5>
 
                                                     <div className="form-outline mb-4">
-                                                        <input type="email" id="form2Example17" name="correo" className="form-control form-control-lg" />
-                                                        <label className="form-label" for="form2Example17">Correo</label>
+                                                        <input type="email" id="form2Example17" name="correo" className="form-control form-control-lg" onChange={this.props.log}/>
+                                                        <label className="form-label" htmlFor="form2Example17">Correo</label>
                                                     </div>
 
                                                     <div className="pt-1 mb-4">
@@ -52,7 +56,6 @@ class LoginHotmail extends Component {
                         </div>
                     </div>
                 </section>
-            </body>
         )
     }
 }

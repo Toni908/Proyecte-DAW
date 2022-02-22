@@ -28,7 +28,14 @@ class ReservasController extends Controller
     public function login(Request $request)
     {
         $id = $request->input('id');
+        $email = $request->input('email');
 
         $reserva = Reserva::find($id);
+
+        if($reserva->correo === $email){
+            return true;
+        }else{
+            return false;
+        }
     }
 }
