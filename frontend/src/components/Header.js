@@ -26,10 +26,10 @@ class Header extends Component {
                 </form>
 
                 <div className="text-end">
-                  <a href="http://admin.trobalo.me:8080/login">
+                  <a href={"http://admin." + process.env.REACT_APP_URL + ":8080/login"}>
                     <Button className="me-2 login">Acceder</Button>
                   </a>
-                  <a href="http://admin.trobalo.me:8080/register">
+                  <a href={"http://admin." + process.env.REACT_APP_URL + ":8080/register"}>
                     <Button className="login">Registrarse</Button>
                   </a>
                 </div>

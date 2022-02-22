@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Reserva;
+use Illuminate\Http\Request;
 use App\Models\Restaurante;
 
 class ReservasController extends Controller
@@ -21,6 +22,20 @@ class ReservasController extends Controller
             if ($resultAforo>=0) {
                 $reserva->save();
             }
+        }
+    }
+
+    public function login(Request $request)
+    {
+        $id = $request->input('id');
+        $email = $request->input('email');
+
+        $reserva = Reserva::find($id);
+
+        if($reserva->correo === $email){
+            return true;
+        }else{
+            return false;
         }
     }
 }

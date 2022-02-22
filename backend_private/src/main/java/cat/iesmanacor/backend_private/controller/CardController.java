@@ -176,7 +176,7 @@ public class CardController {
         if(img != null){
             String fileName = StringUtils.cleanPath(img.getOriginalFilename());
             if (!fileName.equals("")) {
-                fileName = carta.getId_carta() + fileName;
+                fileName = "C" + carta.getId_carta() + fileName;
                 carta.setUrl_img(fileName);
                 try (InputStream inputStream = img.getInputStream()){
                     String uploadDir = ""+carta.getRestaurant().getId_restaurante();
