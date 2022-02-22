@@ -24,9 +24,7 @@ class LoginHotmail extends Component {
     
     render() {
         return(
-            
-            <div className="background-color-general bg-white">
-                <section className="vh-auto m-auto background-color-general">
+                <section className="vh-auto m-auto">
                     <div className="container py-5 h-auto">
                         <div className="row d-flex justify-content-center align-items-center h-100">
                             <div className="col col-xl-10">
@@ -58,7 +56,6 @@ class LoginHotmail extends Component {
                         </div>
                     </div>
                 </section>
-            </div>
         )
     }
 }
