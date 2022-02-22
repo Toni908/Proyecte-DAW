@@ -51,7 +51,8 @@ Route::get('/horario/{id}',[HorarioController::class, 'show']);
 Route::get('/etiquetas',[EtiquetasController::class, 'showAll']);
 
 Route::get('/localidad',[MunicipioController::class, 'showAll']);
+Route::get('/capitales',[MunicipioController::class, 'showMunicipios']);
 
-Route::get('/economic',[RestaurantController::class, 'showPrice']);
+Route::get('/economic',[RestaurantController::class, 'cheapest']);
 
 Route::get('/aforo/{id}',[RestaurantController::class,'aforo']);

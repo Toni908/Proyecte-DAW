@@ -47,8 +47,30 @@ public class ComentariosServiceImpl implements ComentariosService {
             comentariosUpdate.setId_comentario(comentarios.getId_comentario());
             comentariosUpdate.setComentario(comentarios.getComentario());
             comentariosUpdate.setReserva(comentarios.getReserva());
-            comentariosUpdate.setValoracion(comentarios.getValoracion());
+            comentariosUpdate.setValoracion_comida(comentarios.getValoracion_comida());
+            comentariosUpdate.setValoracion_servicio(comentarios.getValoracion_servicio());
+            comentariosUpdate.setValoracion_sitio(comentarios.getValoracion_sitio());
             comentariosRepository.save(comentariosUpdate);
         }
+    }
+
+    @Override
+    public List<Comentarios> findByIdRestaurante(BigInteger id) {
+        return comentariosRepository.findByIdRestaurante(id);
+    }
+
+    @Override
+    public Integer countComidaFromRestaurantValorationAndTime(BigInteger id, int valoracion) {
+        return comentariosRepository.countComidaFromRestaurantValorationAndTime(id, valoracion);
+    }
+
+    @Override
+    public Integer countServicioFromRestaurantValorationAndTime(BigInteger id, int valoracion) {
+        return comentariosRepository.countServicioFromRestaurantValorationAndTime(id, valoracion);
+    }
+
+    @Override
+    public Integer countSitioFromRestaurantValorationAndTime(BigInteger id, int valoracion) {
+        return comentariosRepository.countSitioFromRestaurantValorationAndTime(id, valoracion);
     }
 }

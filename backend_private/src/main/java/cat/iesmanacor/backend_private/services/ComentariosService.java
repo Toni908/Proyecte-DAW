@@ -17,4 +17,12 @@ public interface ComentariosService {
     public void deleteComentario(BigInteger id);
 
     public void updateComentario(Comentarios comentarios);
+
+    //QUERY
+
+    List<Comentarios> findByIdRestaurante(BigInteger id);
+
+    Integer countComidaFromRestaurantValorationAndTime(BigInteger id,int valoracion);
+    Integer countServicioFromRestaurantValorationAndTime(BigInteger id,int valoracion);
+    Integer countSitioFromRestaurantValorationAndTime(BigInteger id,int valoracion);
 }

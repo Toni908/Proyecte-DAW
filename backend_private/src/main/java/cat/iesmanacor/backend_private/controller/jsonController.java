@@ -37,9 +37,17 @@ public class jsonController {
     @Autowired
     ReservasService reservasService;
 
+    @Autowired
+    ComentariosService comentariosService;
+
     @GetMapping(value = "/get/restaurantes/admin/json")
     public List<Restaurant> getRestaurantes(){
         return restaurantService.findAllRestaurants();
+    }
+
+    @GetMapping(value = "/get/restaurant/comentarios/json/{id}",produces = { "application/json" })
+    public List<Comentarios> getRestaurantesFromComentarios(@PathVariable BigInteger id){
+        return comentariosService.findByIdRestaurante(id);
     }
 
     @GetMapping(value = "/get/etiquetas/admin/json", produces = { "application/json" })
@@ -98,5 +106,23 @@ public class jsonController {
         ingredienteService.save(ingrediente);
 
         return ingredienteService.findAll();
+    }
+
+
+    // STATS RESTAURANTES
+
+    @GetMapping(value = "/comentarios/sum/servicio/{stars}/{id}",produces = { "application/json" })
+    public Integer sumServicioDayValoration(@PathVariable int stars,@PathVariable BigInteger id){
+        return comentariosService.countServicioFromRestaurantValorationAndTime(id,stars);
+    }
+
+    @GetMapping(value = "/comentarios/sum/comida/{stars}/{id}",produces = { "application/json" })
+    public Integer sumComidaDayValoration(@PathVariable int stars,@PathVariable BigInteger id){
+        return comentariosService.countComidaFromRestaurantValorationAndTime(id,stars);
+    }
+
+    @GetMapping(value = "/comentarios/sum/sitio/{stars}/{id}",produces = { "application/json" })
+    public Integer sumSitioDayValoration(@PathVariable int stars, @PathVariable BigInteger id){
+        return comentariosService.countSitioFromRestaurantValorationAndTime(id,stars);
     }
 }

@@ -1,12 +1,12 @@
 .main-width {
-    width: 1500px;
+    width: 1300px;
 }
 
 .height-Carousel {
     height: 100%;
 }
 .height-img {
-    height: 670px;
+    height: 650px;
 }
 .object-cover {
     object-fit: cover;

@@ -1,10 +1,12 @@
-import {Button, Card} from "react-bootstrap";
+import {Card} from "react-bootstrap";
 import ImageRestaurant from "./ImageRestaurant";
 import React, {Component} from "react";
 import './image.css'
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import HorarioRestaurant from "./HorarioRestaurant";
 import "./cardrestaurant.css";
+import PopoverRestaurant from "./PopoverRestaurant";
+import PopMapRestaurant from "./PopMapRestaurant";
 
 class CardRestaurant extends Component {
     constructor() {
@@ -34,10 +36,7 @@ class CardRestaurant extends Component {
                     <div className={"position-relative"}>
                         <Card.Title className={"text-center p-2 pb-0"}>{this.props.restaurant.nombre}</Card.Title>
                         <div className={"d-flex flex-row pb-3 paraf_info_card"}>
-                            <i className="ps-1 bi bi-geo-alt-fill"/><div className={"ps-2 text-black fw-bold"}>{this.props.restaurant.direccion}</div><div className={"text-black fw-bold d-flex flex-row gap-1"}><div>/</div>{this.props.restaurant.localidad.nombre_municipio}</div>
-                        </div>
-                        <div className={"d-flex flex-row gap-2 pb-2 paraf_info_card"}>
-                            <i className="ps-1 bi bi-telephone-inbound-fill"/><div className={"text-black fw-bold"}>{this.props.restaurant.telefono_restaurante}</div>
+                            <i className="ps-1 bi bi-geo-alt-fill"/><div className={"ps-2 text-black fw-bold"}>{this.props.restaurant.direccion}</div><div className={"text-black fw-bold d-flex flex-row gap-1"}><div>/</div>{this.props.localidad.nombre_municipio}</div>
                         </div>
                     </div>
                     <HorarioRestaurant restaurant={this.props.restaurant}/>
@@ -46,11 +45,22 @@ class CardRestaurant extends Component {
                             <div className={"text-warning"}>Disponible las reservas desde el {getDayAnticipacion(this.props.restaurant.dies_anticipacion_reservas)}</div>
                         </div>
                     )}
-                    <div className={"mt-3"}>
-                        <Button variant="outline-dark">Ver Restaurante</Button>
-                        <Button type={"button"} className={"ms-3"} variant={"outline-dark"}>Reservar</Button>
-                    </div>
                 </Card.Body>
+                <section className={"d-flex flex-row justify-content-between px-5 w-100 more-info-card py-3"}>
+                    <div className={"text-center"}>
+                        <i className="bi bi-geo-alt fs-4" id={"popmap"+this.props.restaurant.id_restaurante}/>
+                        <PopMapRestaurant restaurant={this.props.restaurant}/>
+                    </div>
+                    <div className={"vertical-line"}/>
+                    <div className={"text-center"}>
+                        <a className={"text-black"} href={"/restaurant/"+this.props.restaurant.id_restaurante}><i className="bi bi-eye fs-4"/></a>
+                    </div>
+                    <div className={"vertical-line"}/>
+                    <div className={"text-center"}>
+                        <i className="bi bi-info-circle fs-4" id={"popover"+this.props.restaurant.id_restaurante}/>
+                        <PopoverRestaurant localidad={this.props.localidad} restaurant={this.props.restaurant}/>
+                    </div>
+                </section>
             </Card>
         )
     }
