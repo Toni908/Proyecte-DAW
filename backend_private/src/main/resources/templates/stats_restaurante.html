@@ -117,18 +117,6 @@
     generateSVG([[${restaurant.id_restaurante}]],"comida",[false,false,false,false,false]);
     generateSVG([[${restaurant.id_restaurante}]],"sitio",[false,false,false,false,false]);
 
-    sitio.on("change",function () {
-        generateSVG([[${restaurant.id_restaurante}]],"sitio",[false,false,false,false,false]);
-    })
-
-    comida.on("change",function () {
-        generateSVG([[${restaurant.id_restaurante}]],"comida",[false,false,false,false,false]);
-    })
-
-    servicio.on("change",function () {
-        generateSVG([[${restaurant.id_restaurante}]],"servicio",[false,false,false,false,false]);
-    })
-
     function generateSVG(id_restaurant,type,hasAny) {
         let list = [];
         $("#"+type).empty();

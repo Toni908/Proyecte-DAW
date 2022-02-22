@@ -93,7 +93,7 @@ class RestaurantController extends Controller
 
         $restaurant->groupBy('restaurante.id_restaurante')
         ->get();
-        
+
     return $restaurant->toJson();
 
     }

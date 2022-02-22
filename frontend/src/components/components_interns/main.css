@@ -1,7 +1,6 @@
 .main-width {
     width: 1300px;
 }
-
 .height-Carousel {
     height: 100%;
 }
@@ -18,6 +17,28 @@
 .max-w-full {
     max-width: 100%;
 }
+
+.background-color-TYPE-1 {
+    background: #022840;
+}
+.background-color-TYPE-2 {
+    background: #D8E6F2;
+}
+
+.border-color-TYPE-1 {
+    border: #D8E6F2 2px solid;
+}
+.border-color-TYPE-2 {
+    border: #1D4259 2px solid;
+}
+
+.text-color-TYPE-1 {
+    color: #51718C;
+}
+.text-color-TYPE-2 {
+    color: #D8E6F2;
+}
+
 .background-color-general {
-    background: linear-gradient(180deg, rgba(2,0,36,1) 0%, rgba(255,255,255,1) 0%, #585AE0 100%);
+    background: linear-gradient(0deg, rgba(29,66,89,1) 0%, rgba(81,113,140,1) 16%, rgba(173,197,217,1) 51%, rgba(216,230,242,1) 85%, rgba(255,255,255,1) 100%);
 }

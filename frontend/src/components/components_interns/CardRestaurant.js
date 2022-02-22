@@ -40,6 +40,15 @@ class CardRestaurant extends Component {
                         </div>
                     </div>
                     <HorarioRestaurant restaurant={this.props.restaurant}/>
+                    {/*<div className={"row m-0 pt-2 p-0"}>*/}
+                    {/*    {this.props.restaurant.etiquetas.map(function(item, key) {*/}
+                    {/*        return (*/}
+                    {/*            <div className={"col-4 border-color-2 fw-bold text-center"} key={key}>*/}
+                    {/*                {item.nombre}*/}
+                    {/*            </div>*/}
+                    {/*        )*/}
+                    {/*    })}*/}
+                    {/*</div>*/}
                     {this.state.isShown && (
                         <div className={"d-flex flex-row gap-2 pt-2 paraf_info_card"}>
                             <div className={"text-warning"}>Disponible las reservas desde el {getDayAnticipacion(this.props.restaurant.dies_anticipacion_reservas)}</div>
