@@ -1,6 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oxygen&display=swap');
+
 .main-width {
-    width: 1300px;
+    width: 80% !important;
 }
+
+@media only screen and (min-width: 1400px) {
+    .main-width {
+        width: 1300px;
+    }
+}
+
 .height-Carousel {
     height: 100%;
 }
@@ -18,11 +28,11 @@
     max-width: 100%;
 }
 
-.background-color-TYPE-1 {
-    background: #022840;
+.background-TYPE-1 {
+    background: #022840 !important;
 }
-.background-color-TYPE-2 {
-    background: #D8E6F2;
+.background-TYPE-2 {
+    background: #D8E6F2 !important;
 }
 
 .border-color-TYPE-1 {
@@ -41,4 +51,10 @@
 
 .background-color-general {
     background: linear-gradient(0deg, rgba(29,66,89,1) 0%, rgba(81,113,140,1) 16%, rgba(173,197,217,1) 51%, rgba(216,230,242,1) 85%, rgba(255,255,255,1) 100%);
+}
+.HindFont {
+    font-family: 'Hind Siliguri', sans-serif;
+}
+.OxigenFont {
+    font-family: 'Oxygen', sans-serif;
 }

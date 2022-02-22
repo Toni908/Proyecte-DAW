@@ -40,7 +40,7 @@ class ListMunicipios extends Component {
 
         return(
             <section className={"position-relative"}>
-                <h4 className={"pt-5 pb-2"}>{this.props.title}</h4>
+                <h4 className={"pt-5 pb-0 m-0 text-color-TYPE-1 HindFont"}>{this.props.title}</h4>
                 <Carousel
                     className={"sliderClass"}
                     arrows={false}

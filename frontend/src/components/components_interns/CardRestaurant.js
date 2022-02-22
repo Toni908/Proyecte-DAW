@@ -30,7 +30,7 @@ class CardRestaurant extends Component {
 
     render() {
         return (
-            <Card className={"myCarusel rounded rounded-3 mb-xxl-0 mb-4"} onMouseEnter={this.visible} onMouseLeave={this.noVisible}>
+            <Card className={"myCarusel rounded rounded-3 mb-xxl-0 mb-4 OxigenFont"} onMouseEnter={this.visible} onMouseLeave={this.noVisible}>
                 <ImageRestaurant height={'image-height'} restaurante={this.props.restaurant}/>
                 <Card.Body>
                     <div className={"position-relative"}>
@@ -40,15 +40,17 @@ class CardRestaurant extends Component {
                         </div>
                     </div>
                     <HorarioRestaurant restaurant={this.props.restaurant}/>
-                    {/*<div className={"row m-0 pt-2 p-0"}>*/}
-                    {/*    {this.props.restaurant.etiquetas.map(function(item, key) {*/}
-                    {/*        return (*/}
-                    {/*            <div className={"col-4 border-color-2 fw-bold text-center"} key={key}>*/}
-                    {/*                {item.nombre}*/}
-                    {/*            </div>*/}
-                    {/*        )*/}
-                    {/*    })}*/}
-                    {/*</div>*/}
+                    {this.props.restaurant.etiquetas.length>0 &&
+                        <div className={"row m-0 pt-2 p-0"}>
+                            {this.props.restaurant.etiquetas.map(function(item, key) {
+                                return (
+                                    <div className={"col-4 border-color-2 fw-bold text-center border rounded-pill"} key={key}>
+                                        <a className={"text-black text-decoration-none"} href={"/search?etiqueta="+item.nombre}>{item.nombre}</a>
+                                    </div>
+                                )
+                            })}
+                        </div>
+                    }
                     {this.state.isShown && (
                         <div className={"d-flex flex-row gap-2 pt-2 paraf_info_card"}>
                             <div className={"text-warning"}>Disponible las reservas desde el {getDayAnticipacion(this.props.restaurant.dies_anticipacion_reservas)}</div>
