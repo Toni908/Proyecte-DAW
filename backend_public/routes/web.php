@@ -11,6 +11,7 @@ use App\Http\Controllers\ReservasController;
 use App\Http\Controllers\UseracountController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartaController;
+use App\Http\Controllers\ComentarioController;
 use App\Http\Controllers\RestaurantController;
 use App\Http\Controllers\EtiquetasController;
 use App\Http\Controllers\MunicipioController;
@@ -52,6 +53,8 @@ Route::get('/adminUsers',[UseracountController::class, 'showUserWhereIsAdmin']);
 Route::get('/reserva/{id}',[ReservasController::class, 'show']);
 Route::post('/reserva',[ReservasController::class, 'reservasRestaurant']);
 Route::get('/comentar',[ReservasController::class, 'login']);
+
+Route::post('/createcomment',[ComentarioController::class, 'create']);
 
 Route::get('/horario/{id}',[HorarioController::class, 'show']);
 
