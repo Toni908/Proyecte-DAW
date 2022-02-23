@@ -237,7 +237,7 @@
             </section>
         </main>
     </form>
-    <form id="imagenesFixed" class="d-flex flex-row justify-content-center" th:style="${imagesRestaurant.size()} == 0 ? 'margin-bottom: 50px' : ''" th:action="@{/imagen/saveMultiple}" enctype="multipart/form-data" method="POST">
+    <form id="imagenesFixed" onsubmit="return validateImage()" class="d-flex flex-row justify-content-center" th:style="${imagesRestaurant.size()} == 0 ? 'margin-bottom: 50px' : ''" th:action="@{/imagen/saveMultiple}" enctype="multipart/form-data" method="POST">
         <main class="d-flex flex-column justify-content-center body-info">
             <section class="pt-5">
                 <h3 class="title_section-info" th:text="#{restaurant.update.images}"></h3>
@@ -251,7 +251,10 @@
                 <div class="d-flex flex-row justify-content-center">
                     <div class="d-flex flex-column justify-content-center length">
                         <div class="border border-secondary border-1 mt-2 p-4 box-container">
-                            <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                            <div id="imagesCarusel" class="carousel slide" data-bs-ride="carousel">
+                                <div class="carousel-indicators">
+                                    <button th:each="image, iteration : ${imagesRestaurant}" type="button" data-bs-target="#imagesCarusel" th:data-bs-slide-to="${iteration.index}" th:class="${iteration.index} == 0 ? 'active' : ''"></button>
+                                </div>
                                 <div class="carousel-inner">
                                     <div th:each="image, iteration : ${imagesRestaurant}" th:class="${iteration.index} == 0 ? 'carousel-item active' : 'carousel-item'">
                                         <img class="d-block w-100 image-contain-length" th:src="@{${restaurant.getPhotosImagePath()}+${image.url}}"  alt=""/>
@@ -260,19 +263,11 @@
                                         <img class="d-block w-100 image-contain-length" th:src="@{/img/no-photo-available.jpg}" alt="">
                                     </div>
                                 </div>
-                                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden" th:text="#{restaurant.update.images.previous}"></span>
-                                </button>
-                                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden" th:text="#{restaurant.update.images.next}"></span>
-                                </button>
                             </div>
                             <div class="mb-3 p-0 mt-3">
                                 <div class="ps-3 paraf_form" th:text="#{restaurant.update.images.insert}"></div>
                                 <label class="w-100 field_form_principal">
-                                    <input class="input-text validateImagenResponse" name="saveMultiple" multiple accept="image/jpeg, image/jpg, image/png, image/gif" type="file" maxlength="80" placeholder="URL" required>
+                                    <input id="saveMultiple" class="input-text validateImagenResponse" name="saveMultiple" multiple accept="image/jpeg, image/jpg, image/png, image/gif" type="file" maxlength="80" placeholder="URL" required>
                                 </label>
                                 <div id="validateImagenResponse"></div>
                             </div>

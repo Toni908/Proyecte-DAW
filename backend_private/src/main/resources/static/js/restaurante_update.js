@@ -168,6 +168,19 @@ function validateEtiquetas() {
     return etiquetasAdded !== null;
 }
 
+function validateImage() {
+    let files = $("#saveMultiple").prop("files");
+
+    for (let i = 0; i < files.length; i++) {
+        console.log(files[i])
+        if (files[i].size>10485760) {
+            $("#validateImagenResponse").append("<p class='text-danger fw-bold pt-2'>MAX 10MB!!</p>");
+            return false;
+        }
+    }
+    return true;
+}
+
 function validateImages() {
     const matches = $("#inputSubmitImages").find('input[type="checkbox"]:not(:checked)');
     for (let i = 0; i < matches.length; i++) {

@@ -2,16 +2,14 @@ package cat.iesmanacor.backend_private.files;
 
 import cat.iesmanacor.backend_private.controller.ImgController;
 import com.luciad.imageio.webp.WebPWriteParam;
+import org.imgscalr.Scalr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
-import javax.imageio.ImageWriteParam;
-import javax.imageio.ImageWriter;
-import javax.imageio.stream.FileImageOutputStream;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -47,15 +45,23 @@ public class FileUploadUtil {
 
         try {
             BufferedImage image = ImageIO.read(new File(String.valueOf(uploadPath.resolve(fileName))));
+            image = Scalr.resize(image, 800);
+//            image = resizeImage(image, 1000, 700);
             ImageIO.write(image, "webp", new File(uploadPath + "/" + reFormateFormatImage(fileName)));
             deleteImg(uploadDir,fileName);
-//            ImageIO.write(image, "webp", new File(uploadPath + "/" + "image.webp"));
             return true;
         } catch (IOException e) {
             deleteImg(uploadDir,fileName);
             System.out.println(e.getMessage());
             return false;
         }
+    }
+
+    public static BufferedImage resizeImage(BufferedImage originalImage, int targetWidth, int targetHeight) {
+        Image resultingImage = originalImage.getScaledInstance(targetWidth, targetHeight, Image.SCALE_FAST);
+        BufferedImage outputImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.SCALE_FAST);
+        outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
+        return outputImage;
     }
 
     public static void deleteImg(String uploadDir, String filename) {
