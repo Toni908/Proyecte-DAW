@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { FaStar } from 'react-icons/fa';
 import axios from "axios";
 
-// import Valoracion from './components/components_interns/Valoracion';
+import Valoracion from './components/components_interns/Valoracion';
 import './CommentMaker.css';
 class CommentMaker extends Component {
 
@@ -142,7 +142,7 @@ class CommentMaker extends Component {
         var l = url.split('/');
         var d = l.length-1;
         var id = l[d];
-        axios.create('/createcomment', {
+        axios.post('/createcomment', {
             comentario: this.state.comentario,
             puntuacioComida: this.state.puntuacioComida,
             puntuacioServicio: this.state.puntuacioServicio,
@@ -193,13 +193,7 @@ class CommentMaker extends Component {
 
                                                     <h6 className="letter-space"> Que valoracion le das a la Comida?</h6>
 
-                                                    <div className="form-outline mb-4">
-                                                        <FaStar onClick={() => this.starClickC(1)} color={this.state.c1 === true ? 'orange' : 'black'} size='30'/>
-                                                        <FaStar onClick={() => this.starClickC(2)} color={this.state.c2 === true ? 'orange' : 'black'} size='30'/>
-                                                        <FaStar onClick={() => this.starClickC(3)} color={this.state.c3 === true ? 'orange' : 'black'} size='30'/>
-                                                        <FaStar onClick={() => this.starClickC(4)} color={this.state.c4 === true ? 'orange' : 'black'} size='30'/>
-                                                        <FaStar onClick={() => this.starClickC(5)} color={this.state.c5 === true ? 'orange' : 'black'} size='30'/>
-                                                    </div>
+                                                        <Valoracion />
 
                                                     <h6 className="letter-space"> Que valoracion le das al Servicio?</h6>
 
