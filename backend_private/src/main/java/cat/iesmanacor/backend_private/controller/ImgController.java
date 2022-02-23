@@ -86,10 +86,13 @@ public class ImgController {
             if (imgService.findImgFromRestaurantId(restaurant.get().getId_restaurante()).size()+ multipartFile.size() <= num_images) {
                 if (!multipartFile.isEmpty()) {
                     for (MultipartFile url : multipartFile) {
-                        if (checkUrlisEmpty(url.getOriginalFilename())) {
+                        if (checkUrlisEmpty(url.getOriginalFilename(),imgService)) {
                             if (id != null) {
                                 if (StringUtils.cleanPath(Objects.requireNonNull(url.getOriginalFilename())).matches("^[\\S]+$")) {
-                                    restaurant.ifPresent(value -> saveImageRestaurant(url, value));
+                                    boolean hasPassed = saveImageRestaurant(url,restaurant.get(),imgService);
+                                    if (!hasPassed) {
+                                        model.addAttribute("error","Error on save image, contact with our admins");
+                                    }
                                 } else {
                                     Traductions traductions = new Traductions("El nombre de la imagen no debe de contener espacios","The image name must not contain spaces","El nom de la imatge no ha de contenir espais");
                                     model.addFlashAttribute("error", traductions.getTraductionLocale(request));
@@ -173,28 +176,37 @@ public class ImgController {
         return null;
     }
 
-    public boolean checkUrlisEmpty(String url) {
+    public static boolean checkUrlisEmpty(String url,ImgService imgService) {
         return imgService.findImgByUrl(url).isEmpty();
     }
 
-    public void saveImageRestaurant(MultipartFile multipartFile, Restaurant restaurant) {
+    public static boolean saveImageRestaurant(MultipartFile multipartFile, Restaurant restaurant, ImgService imgService) {
         String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
-        Img img = new Img();
-        img.setRestaurant(restaurant);
-        img.setUrl(fileName);
+        String realFilename = FileUploadUtil.reFormateFormatImage(fileName);
+
         try {
-            if (checkUrlisEmpty(fileName)) {
-                Img imgSumbited = imgService.saveImg(img);
-                fileName = imgSumbited.getId_img() + fileName;
-                if (checkUrlisEmpty(fileName)) {
-                    imgSumbited.setUrl(fileName);
+            Img img = new Img();
+            img.setRestaurant(restaurant);
+            img.setUrl(realFilename);
+            Img imgSumbited = imgService.saveImg(img);
+            if (!checkUrlisEmpty(realFilename,imgService)) {
+                imgSumbited.setRestaurant(restaurant);
+                fileName = imgSumbited.getId_img()+fileName;
+                realFilename = imgSumbited.getId_img() + realFilename;
+                if (checkUrlisEmpty(realFilename,imgService)) {
+                    imgSumbited.setUrl(realFilename);
                     imgService.updateImg(imgSumbited);
-                    String uploadDir = ""+img.getRestaurant().getId_restaurante();
-                    FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+                    String uploadDir = ""+restaurant.getId_restaurante();
+                    boolean hasPassed = FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+                    if (!hasPassed) {
+                        imgService.deleteImg(imgSumbited.getId_img());
+                    }
+                    return true;
                 }
             }
         } catch (Exception e) {
-            //
+            return false;
         }
+        return false;
     }
 }

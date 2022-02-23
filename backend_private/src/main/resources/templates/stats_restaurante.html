@@ -103,11 +103,19 @@
 <script th:inline="javascript">
     $(".day_current").text(formateDate(new Date()))
 
-    $(".star-1").css("background-color","#231F4A");
-    $(".star-2").css("background-color","#494199");
-    $(".star-3").css("background-color","#220B59");
-    $(".star-4").css("background-color","#B0A2D2");
-    $(".star-5").css("background-color","#5E55C9");
+    let arrayColors = {
+        color5: "#2c902f",
+        color4: "#12d218",
+        color3: "#e4e335",
+        color2: "#eeb628",
+        color1: "#d32102"
+    }
+
+    $(".star-1").css("background-color",arrayColors.color1);
+    $(".star-2").css("background-color",arrayColors.color2);
+    $(".star-3").css("background-color",arrayColors.color3);
+    $(".star-4").css("background-color",arrayColors.color4);
+    $(".star-5").css("background-color",arrayColors.color5);
 
     function formateDate(date) {
         return date.getDate()+"-"+(date.getMonth()+1)+"-"+date.getFullYear();
@@ -135,7 +143,7 @@
         $.when(
             $.getJSON("/comentarios/sum/"+type+"/"+1+"/"+id_restaurant)
                 .then(function(data) {
-                    list["one"] = 1+parseInt(data);
+                    list["one"] = parseInt(data);
                     if (parseInt(data)===0) {
                         hasAny[0] = true;
                     }
@@ -145,7 +153,7 @@
                 }),
             $.getJSON("/comentarios/sum/"+type+"/"+2+"/"+id_restaurant)
                 .then(function(data) {
-                    list["two"] = 1+parseInt(data)
+                    list["two"] = parseInt(data)
                     if (parseInt(data)===0) {
                         hasAny[1] = true;
                     }
@@ -156,7 +164,7 @@
                 }),
             $.getJSON("/comentarios/sum/"+type+"/"+3+"/"+id_restaurant)
                 .then(function(data) {
-                    list["three"] = 1+parseInt(data);
+                    list["three"] = parseInt(data);
                     if (parseInt(data)===0) {
                         hasAny[2] = true;
                     }
@@ -167,7 +175,7 @@
                 }),
             $.getJSON("/comentarios/sum/"+type+"/"+4+"/"+id_restaurant)
                 .then(function(data) {
-                    list["four"] = 1+parseInt(data);
+                    list["four"] = parseInt(data);
                     if (parseInt(data)===0) {
                         hasAny[3] = true;
                     }
@@ -178,7 +186,7 @@
                 }),
             $.getJSON("/comentarios/sum/"+type+"/"+5+"/"+id_restaurant)
                 .then(function(data) {
-                    list["five"] = 1+parseInt(data);
+                    list["five"] = parseInt(data);
                     if (parseInt(data)===0) {
                         hasAny[4] = true;
                     }
@@ -198,7 +206,7 @@
                 height = 250,
                 radius = Math.min(width, height) / 2;
             var color = d3.scale.ordinal()
-                .range(["#231F4A","#494199","#220B59", "#B0A2D2", "#5E55C9"]);
+                .range([arrayColors.color1,arrayColors.color2,arrayColors.color3,arrayColors.color4,arrayColors.color5]);
             var arc = d3.svg.arc()
                 .outerRadius(radius - 10)
                 .innerRadius(0);
@@ -228,8 +236,10 @@
                 .attr("dy", ".35em")
                 .style("text-anchor", "middle")
                 .text(function (d) {
-                    return d.data.name + " (" + (d.data.size-1) + ")";
-                }).attr("fill","white")
+                    if (d.data.size!==0) {
+                        return d.data.name;
+                    }
+                }).attr("fill","black").attr("font-size","20px")
         })
     }
     function generateEmptyStars() {

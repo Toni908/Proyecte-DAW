@@ -1,17 +1,25 @@
 package cat.iesmanacor.backend_private.files;
 
+import cat.iesmanacor.backend_private.controller.ImgController;
+import com.luciad.imageio.webp.WebPWriteParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.IIOImage;
+import javax.imageio.ImageIO;
+import javax.imageio.ImageWriteParam;
+import javax.imageio.ImageWriter;
+import javax.imageio.stream.FileImageOutputStream;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.Objects;
 
 @Configuration
 public class FileUploadUtil {
@@ -21,25 +29,32 @@ public class FileUploadUtil {
 
     public static String url;
 
-    public static void saveFile(String uploadDir, String fileName, MultipartFile multipartFile) {
+    public static boolean saveFile(String uploadDir, String fileName, MultipartFile multipartFile) {
         Path uploadPath = Paths.get(url+"/"+uploadDir);
-        System.out.println(uploadPath);
         if (!Files.exists(uploadPath)) {
             try {
                 Files.createDirectories(uploadPath);
-                System.out.println("Entra");
             } catch (Exception e) {
-                System.out.println("falla");
                 System.out.println(e.getMessage());
             }
         }
-
-
         try (InputStream inputStream = multipartFile.getInputStream()) {
             Path filePath = uploadPath.resolve(fileName);
             Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException ioe) {
-            //
+            System.out.println(ioe.getMessage());
+        }
+
+        try {
+            BufferedImage image = ImageIO.read(new File(String.valueOf(uploadPath.resolve(fileName))));
+            ImageIO.write(image, "webp", new File(uploadPath + "/" + reFormateFormatImage(fileName)));
+            deleteImg(uploadDir,fileName);
+//            ImageIO.write(image, "webp", new File(uploadPath + "/" + "image.webp"));
+            return true;
+        } catch (IOException e) {
+            deleteImg(uploadDir,fileName);
+            System.out.println(e.getMessage());
+            return false;
         }
     }
 
@@ -52,7 +67,12 @@ public class FileUploadUtil {
             }
         } catch (Exception e) {
             // ERROR
-            System.out.println("Error on deleteImg FILEUPLOADUTIL");
+            System.out.println("Error on deleteImg");
         }
+    }
+
+    public static String reFormateFormatImage(String image) {
+        String[] name = image.split("\\.");
+        return name[0]+".webp";
     }
 }

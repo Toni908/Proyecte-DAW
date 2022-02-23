@@ -1,6 +1,5 @@
 package cat.iesmanacor.backend_private.controller;
 
-import cat.iesmanacor.backend_private.componentes.User;
 import cat.iesmanacor.backend_private.entities.*;
 import cat.iesmanacor.backend_private.entityDTO.RestaurantCreateDTO;
 import cat.iesmanacor.backend_private.entityDTO.RestaurantDTO;
@@ -17,7 +16,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -64,10 +62,7 @@ public class RestaurantController {
     @Autowired
     CodeService codeService;
 
-    // LISTAS DE RESTURANTES POR X USUARIO
-
     public String typeCodeRestaurant = "deleteRestaurant";
-
 
     @GetMapping("/lista/restaurantes")
     public String listRestaurants(ModelMap model, HttpServletRequest request){
@@ -215,9 +210,12 @@ public class RestaurantController {
                     }
                     if (!multipartFile.isEmpty()) {
                         for (MultipartFile url : multipartFile) {
-                            if (checkUrlisEmpty(url.getOriginalFilename())) {
+                            if (ImgController.checkUrlisEmpty(url.getOriginalFilename(),imgService)) {
                                 if (StringUtils.cleanPath(Objects.requireNonNull(url.getOriginalFilename())).matches("^[\\S]+$")) {
-                                    saveImageRestaurant(url, restaurant);
+                                    boolean hasPassed = ImgController.saveImageRestaurant(url, restaurant,imgService);
+                                    if (!hasPassed) {
+                                        model.addAttribute("error","Error on save image, contact with our admins");
+                                    }
                                 } else {
                                     Traductions traductions = new Traductions("El nombre de la imagen no debe de contener espacios","The image name must not contain spaces","El nom de la imatge no ha de contenir espais");
                                     model.addAttribute("error", traductions.getTraductionLocale(request));
@@ -234,31 +232,6 @@ public class RestaurantController {
             return create(model.addAttribute("error", traductions.getTraductionLocale(request)),request,restaurantDTO);
         }
         return "redirect:/error/401";
-    }
-
-    public boolean checkUrlisEmpty(String url) {
-        return imgService.findImgByUrl(url).isEmpty();
-    }
-
-    public void saveImageRestaurant(MultipartFile multipartFile, Restaurant restaurant) {
-        String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
-        Img img = new Img();
-        img.setRestaurant(restaurant);
-        img.setUrl(fileName);
-        try {
-            if (checkUrlisEmpty(fileName)) {
-                Img imgSumbited = imgService.saveImg(img);
-                fileName = imgSumbited.getId_img() + fileName;
-                if (checkUrlisEmpty(fileName)) {
-                    imgSumbited.setUrl(fileName);
-                    imgService.updateImg(imgSumbited);
-                    String uploadDir = ""+img.getRestaurant().getId_restaurante();
-                    FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
-                }
-            }
-        } catch (Exception e) {
-            //
-        }
     }
 
     @RequestMapping(value = "/restaurant/put")
@@ -465,14 +438,7 @@ public class RestaurantController {
                             if (codes1.get().getCodigo().equals(code)) {
                                 List<Img> imgs = imgService.findImgFromRestaurantId(restaurant.get().getId_restaurante());
                                 // DELETE IMG BEFORE DELETE ALL
-                                for (Img singleId : imgs) {
-                                    Optional<Img> imgSelected = imgService.findImgById(singleId.getId_img());
-                                    if (imgSelected.isPresent()) {
-                                        imgService.deleteImg(imgSelected.get().getId_img());
-                                        String uploadDir = "" + imgSelected.get().getRestaurant().getId_restaurante();
-                                        FileUploadUtil.deleteImg(uploadDir, imgSelected.get().getUrl());
-                                    }
-                                }
+                                UseracountController.deleteRestaurantLinked(imgs,imgService);
                                 restaurantService.deleteRestaurant(id);
                                 codeService.delete(codes1.get().getId());
                                 Traductions traductions = new Traductions("Restaurante eliminado correctamente", "The restaurant delete correctly", "El restaurant eliminat correctament");
@@ -545,26 +511,6 @@ public class RestaurantController {
             etiqueta.ifPresent(etiquetas::add);
         }
         return etiquetas;
-    }
-
-    // IMG
-
-    public void saveImageRestaurantFirst(MultipartFile multipartFile, Restaurant restaurant) {
-        String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
-        Img img = new Img();
-        img.setRestaurant(restaurant);
-        img.setUrl(fileName);
-        try {
-            Img imgSumbited = imgService.saveImg(img);
-            fileName = imgSumbited.getId_img()+fileName;
-            imgSumbited.setUrl(fileName);
-            imgService.updateImg(imgSumbited);
-            String uploadDir = "restaurantes-photos/"+img.getRestaurant().getId_restaurante();
-            FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
-
-        } catch (Exception e) {
-            //
-        }
     }
 
     public List<ArrayList<String>> getProvisionalNameImgFromUrlByUseracount(Useracount useracount) {
