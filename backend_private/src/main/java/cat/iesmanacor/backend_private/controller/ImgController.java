@@ -44,6 +44,7 @@ public class ImgController {
     UseracountService useracountService;
 
     private static int num_images = 5;
+
     //////////////         ROUTES        ////////////////////
 
 
