@@ -21,13 +21,12 @@ public class User {
     }
 
     public static boolean isUserCorrect(Useracount useracount, UseracountService useracountService) {
+        // USUARIO NO PUEDE SER NULL TAMPOCO LA CONTRASEÑA Y TIENE QUE ESTAR PRESENTE EL USUARIO
         if (useracount!=null) {
             if (useracount.getId_user() != null) {
                 Optional<Useracount> useracountDDBB = useracountService.findUseracountById(useracount.getId_user());
                 if (useracountDDBB.isPresent()) {
-                    if (useracountDDBB.get().equals(useracount)) {
-                        return true;
-                    }
+                    return useracountDDBB.get().equals(useracount);
                 }
             }
         }

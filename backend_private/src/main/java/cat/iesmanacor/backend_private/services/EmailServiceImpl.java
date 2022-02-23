@@ -7,7 +7,6 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
 import javax.mail.internet.MimeMessage;
-import java.math.BigInteger;
 
 @Component
 public class EmailServiceImpl implements EmailService {
@@ -37,7 +36,7 @@ public class EmailServiceImpl implements EmailService {
 
             emailSender.send(message);
         } catch (Exception e) {
-            //
+            System.out.println("ERROR EN ENVIAR EMAIL "+e.getMessage());
         }
     }
 
