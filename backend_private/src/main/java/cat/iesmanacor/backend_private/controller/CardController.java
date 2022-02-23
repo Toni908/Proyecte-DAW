@@ -55,10 +55,10 @@ public class CardController {
         }
 
         String qr = "https://www.trobalo.me/carta/" + id;
-        String path = "./src/main/resources/static/imgqr/"+id+".png";
+        // String path = "./src/main/resources/static/imgqr/"+id+".png";
 
         try {
-            QRCodeGenerator.generateQRCodeImage(qr,250,250,path);
+            QRCodeGenerator.generateQRCodeImage(qr,250,250,id);
         } catch (WriterException | IOException e) {
             e.printStackTrace();
         }
