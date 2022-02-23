@@ -1,12 +1,50 @@
 .main-width-restaurant {
     width: 100%;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.border-item1 {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+.border-right-top {
+    border-top-right-radius: 0;
+}
+.border-right-bottom {
+    border-bottom-right-radius: 0;
+}
+
+.width-image1 {
+    width: 100%;
     padding-left: 10px;
     padding-right: 10px;
+}
+.width-image2 {
+    height: 250px;
+    width: 50%;
 }
 
 @media only screen and (min-width: 1400px) {
     .main-width-restaurant {
-        width: 1000px;
+        width: 1150px;
         padding: 0;
+    }
+    .width-image1 {
+        width: 575px;
+    }
+    .width-image2 {
+        height: 250px;
+        width: 287px;
+    }
+    .border-item1 {
+        border-top-left-radius: 20px;
+        border-bottom-left-radius: 20px;
+    }
+    .border-right-top {
+        border-top-right-radius: 20px;
+    }
+    .border-right-bottom {
+        border-bottom-right-radius: 20px;
     }
 }
