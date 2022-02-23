@@ -25,6 +25,8 @@ class CommentMaker extends Component {
 
     }
 
+    
+
     puntuacion(e, num){
         console.log(e);
     }
@@ -35,11 +37,12 @@ class CommentMaker extends Component {
         }else if(this.state.puntuacioComida === 0 || this.state.puntuacioServicio === 0 || this.state.puntuacioSitio === 0){
             alert("Recuerda rellenar la valoracion!");
         }else{
+        var ip = process.env.REACT_APP_API_URL;
         var url = window.location.href;
         var l = url.split('/');
         var d = l.length-1;
         var id = l[d];
-        axios.post('/createcomment', {
+        axios.post( ip + '/createcomment', {
             comentario: this.state.comentario,
             puntuacioComida: this.state.puntuacioComida,
             puntuacioServicio: this.state.puntuacioServicio,

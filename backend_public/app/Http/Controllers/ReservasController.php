@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Reserva;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Models\Restaurante;
 
 class ReservasController extends Controller
@@ -37,5 +38,17 @@ class ReservasController extends Controller
         }else{
             return false;
         }
+    }
+
+    public function comprobate(Request $request)
+    {
+        $id = $request->input('id');
+
+        $reserva = Reserva::select(DB::raw('Count(id_comentario) as coment'))
+        ->join('comentarios', 'comentarios.id_reserva', '=', 'reserva.id_reserva')
+        ->where('comentarios.id_reserva', '=', $id)
+        ->get();
+
+        return $reserva;
     }
 }
