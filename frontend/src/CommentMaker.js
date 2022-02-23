@@ -49,7 +49,7 @@ class CommentMaker extends Component {
             puntuacioSitio: this.state.puntuacioSitio,
             id: id
         }).then((result) => {
-            if(result === 1){
+            if(result.data === 1){
                 this.setState({enviado:true});
             }else{
                 alert("Algo a ido mal y tu comentario no a podido guardarse! Intentelo de nuevo mas tarde por favor.");
