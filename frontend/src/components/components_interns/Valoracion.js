@@ -17,7 +17,6 @@ class Valoracion extends Component {
         }   
 
         this.starClick = this.starClick.bind(this);
-
     }
 
     starClick(num){
@@ -46,7 +45,8 @@ class Valoracion extends Component {
                 }
             }
         }
-        this.setState({puntuacion: num});
+
+        this.props.ifClicked(num);
     }
 
     render(props) {

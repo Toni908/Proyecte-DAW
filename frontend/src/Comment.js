@@ -12,6 +12,7 @@ class Comment extends Component {
 
         this.state={
             login: false,
+            commented: false,
             email: null
         }   
 
@@ -59,11 +60,15 @@ class Comment extends Component {
     
     render() {
         const isLoggedIn = this.state.login;
+        const isCommented = this.state.commented;
         if (isLoggedIn) {
             return <CommentMaker />;
-        }
+        }else if(isCommented){
+            
+        }else{
             return <LoginHotmail login={this.login.bind(this)} log={this.log.bind(this)} />;
         }
+    }
 }
 
 export default Comment;
