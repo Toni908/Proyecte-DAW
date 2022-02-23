@@ -1,0 +1,12 @@
+.main-width-restaurant {
+    width: 100%;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+@media only screen and (min-width: 1400px) {
+    .main-width-restaurant {
+        width: 1000px;
+        padding: 0;
+    }
+}

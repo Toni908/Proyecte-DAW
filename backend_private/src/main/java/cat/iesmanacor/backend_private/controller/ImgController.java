@@ -43,7 +43,7 @@ public class ImgController {
     @Autowired
     UseracountService useracountService;
 
-    private static int num_images = 4;
+    private static int num_images = 5;
     //////////////         ROUTES        ////////////////////
 
 

@@ -5,10 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Carta;
 use App\Models\Reserva;
 use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\Controller;
 use App\Models\Restaurante;
 use Illuminate\Http\Request;
-use Illuminate\Support\Optional;
 
 class RestaurantController extends Controller
 {
@@ -24,7 +22,7 @@ class RestaurantController extends Controller
 
     public function showRestaurantsWithMembresia()
     {
-        $restaurant = Restaurante::with('localidad','imgs','etiquetas','periodos','reservas')
+        $restaurant = Restaurante::with('imgs','etiquetas','periodos','reservas')
             ->get()
             ->where('validated', '=', 1)
             ->where('visible', '=', 1)
@@ -63,25 +61,25 @@ class RestaurantController extends Controller
         return $restaurant->toJson();
     }
 
-    public function AVGRestaurannt($id){
-        $restaurant = Restaurante::select(DB::raw('Round(AVG(platos.precio),0) as price'))
-            ->join('carta', 'carta.id_restaurante', '=', 'restaurante.id_restaurante')
-            ->join('categoria_platos', 'categoria_platos.id_carta', '=', 'carta.id_carta')
-            ->join('platos', 'platos.id_categoria', '=', 'categoria_platos.id_categoria')
-            ->where('restaurante.validated', '=', 1)
-            ->where('restaurante.visible', '=', 1)
-            ->where('carta.visible', '=', 1)
+    public function AVGCommentsRestaurant($id){
+        $restaurant = Restaurante::select("restaurante.id_restaurante",DB::raw('Round(AVG(comentarios.valoracion_sitio),2) as valoracion_sitio'),DB::raw('Round(AVG(comentarios.valoracion_servicio),2) as valoracion_servicio'),DB::raw('Round(AVG(comentarios.valoracion_comida),2) as valoracion_comida'),DB::raw('Count(comentarios.id_reserva) as count'))
+            ->join("reserva","restaurante.id_restaurante","=","reserva.id_restaurante")
+            ->join('comentarios', 'reserva.id_reserva', '=', 'comentarios.id_reserva')
+            ->groupBy("restaurante.id_restaurante")
             ->find($id);
-
-        return $restaurant->toJson();
+        $info = [];
+        $info["info"] = $restaurant;
+        return $info;
     }
 
     public function cartRestaurantActive($id){
-        $card = Carta::with("restaurante")
-            ->where("id_restaurante","=",$id)
-            ->where("visible","=",1);
+        $restaurant = Carta::with("categorias")
+            ->join('restaurante', 'carta.id_restaurante', '=', 'restaurante.id_restaurante')
+            ->where("carta.visible","=",1)
+            ->where("restaurante.id_restaurante","=",$id)
+            ->get();
 
-        return $card->toJson();
+        return $restaurant;
     }
 
     public function buscador(Request $request)

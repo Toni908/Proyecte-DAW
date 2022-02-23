@@ -1,19 +1,17 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { Component } from 'react';
 import axios from "axios";
+import "./restaurant.css";
 import Loading from "../components_interns/Loading";
-import Buscador from "../components_interns/Buscador";
-import CaruselRestaurant from "../components_interns/CaruselRestaurant";
-import ListRestaurant from "../components_interns/ListRestaurant";
-import ListMunicipios from "../components_interns/ListMunicipios";
 
 class Restaurant extends Component {
     constructor() {
         super();
 
         this.state = {
-            restaurant: [],
-            price: 0,
+            restaurant: {},
+            comments: [],
+            carta: [],
             isLoading: false,
             error: null,
         };
@@ -28,13 +26,13 @@ class Restaurant extends Component {
         let id = l[d];
 
         const request1 = axios.get(ip+"/restaurant/"+id);
-        const request2 = axios.get(ip+"/avg/restaurant/"+id);
-        const request3 = axios.get(ip+"/capitales");
+        const request2 = axios.get(ip+"/comments/restaurant/"+id);
+        const request3 = axios.get(ip+"/carta/restaurant/"+id);
 
         axios.all([request1, request2,request3]).then(axios.spread((...responses) => this.setState({
             restaurant: responses[0].data,
-            price: responses[1].data,
-            CapitalesRestaurants: responses[2].data,
+            comments: responses[1].data["info"],
+            carta: responses[2].data,
             isLoading: false
         }))).catch(error => this.setState({
             error: error,
@@ -42,7 +40,7 @@ class Restaurant extends Component {
     }
 
     render() {
-        const {restaurant, isLoading, error } = this.state;
+        const {restaurant,comments,carta,isLoading, error } = this.state;
 
         if (error) {
             return <p>{error.message}</p>;
@@ -54,11 +52,15 @@ class Restaurant extends Component {
         return(
             <section>
                 <div className={"d-flex flex-row justify-content-center w-100"}>
-                    <div className={"d-flex flex-column main-width"}>
+                    <div className={"d-flex flex-column main-width-restaurant"}>
                         <section className={"d-flex flex-column"}>
                             <h3 className={"w-100"}><i className="bi bi-building pe-3"/>{restaurant.nombre}</h3>
                             <div className={"d-flex flex-row"}>
-                                {}
+                                <i className="bi bi-star-fill text-color-TYPE-1 pe-2"/>
+                                <div className={"pe-1"}>{valoraciones(comments)}</div>
+                                de
+                                <div className={"ps-1 pe-1"}>{comments["count"]}  valoraciones</div>
+                                ·
                             </div>
                         </section>
 
@@ -70,6 +72,13 @@ class Restaurant extends Component {
             </section>
         );
     }
+}
+
+function valoraciones(comments) {
+    let sitio = parseFloat(comments["valoracion_sitio"]);
+    let servicio = parseFloat(comments["valoracion_servicio"]);
+    let comida = parseFloat(comments["valoracion_comida"]);
+    return ((sitio+servicio+comida)/3).toPrecision(3);
 }
 
 export default Restaurant
