@@ -59,8 +59,8 @@ class Main extends Component {
                         <CaruselRestaurant restaurants={BestRestaurants}/>
                         <section className={"w-100"}>
                             <section className={"w-100 m-0 p-0 max-w-full"}>
-                                <ListRestaurant title={"Los Mejores Restaurantes"} restaurants={BestRestaurants}/>
-                                <ListRestaurant title={"Los Mas Economicos"} restaurants={EconomicRestaurants}/>
+                                <ListRestaurant idList={"1"} title={"Los Mejores Restaurantes"} restaurants={BestRestaurants}/>
+                                <ListRestaurant idList={"2"} title={"Los Mas Economicos"} restaurants={EconomicRestaurants}/>
                                 <ListMunicipios title={"Municipios mas buscados"} municipios={CapitalesRestaurants}/>
                             </section>
                         </section>

@@ -1,6 +1,5 @@
 package cat.iesmanacor.backend_private.controller;
 
-import cat.iesmanacor.backend_private.componentes.User;
 import cat.iesmanacor.backend_private.entities.*;
 import cat.iesmanacor.backend_private.entityDTO.UseracountDTO;
 import cat.iesmanacor.backend_private.files.FileUploadUtil;
@@ -18,7 +17,6 @@ import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
-import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -103,7 +101,6 @@ public class UseracountController {
         }
 
         if (isUserCorrect(userVerify,useracountService)) {
-            // ID Y CONTRASEÑA TIENEN QUE SER IGUALES
             Optional<Useracount> useracountDDBB = useracountService.findUseracountById(userVerify.getId_user());
             if (useracountDDBB.isPresent()) {
                 ModelMapper modelMapper = new ModelMapper();
@@ -387,7 +384,7 @@ public class UseracountController {
                         if (restaurants.size() != 0) {
                             for (Restaurant restaurant : restaurants) {
                                 Optional<Restaurant> restaurantDelete = restaurantService.findRestaurantById(restaurant.getId_restaurante());
-                                restaurantDelete.ifPresent(value -> deleteRestaurantLinked(imgService.findImgFromRestaurantId(value.getId_restaurante())));
+                                restaurantDelete.ifPresent(value -> deleteRestaurantLinked(imgService.findImgFromRestaurantId(value.getId_restaurante()),imgService));
                             }
                         }
                         useracountService.deleteUseracount(userVerify.getId_user());
@@ -408,7 +405,7 @@ public class UseracountController {
         return "redirect:/error/401";
     }
 
-    public void deleteRestaurantLinked(List<Img> imgs) {
+    public static void deleteRestaurantLinked(List<Img> imgs, ImgService imgService) {
          for (Img single : imgs) {
              Optional<Img> imgSelected = imgService.findImgById(single.getId_img());
              if (imgSelected.isPresent()) {

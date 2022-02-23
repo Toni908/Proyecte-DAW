@@ -27,7 +27,6 @@ class App extends Component {
               <Route path="/us" element={<AboutUs />} />
               <Route path="/carta/:id" element={<AboutUs />} />
               <Route path="/comment/:id" element={<Comment className="bg-white"/>} />
-              <Route path="/restaurante/:id" element={<AboutUs />} />
               <Route path="/reserva/:id" element={<AboutUs />} />
               <Route path="/restaurant/:id" element={<Restaurant />} />
             </Routes>

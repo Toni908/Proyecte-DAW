@@ -14,7 +14,7 @@ class Footer extends Component {
             
               <div className="text-center p-1 mb-0">
                 © 2022 Copyright: 
-                <div><a className="text-black" href={"https://www." + process.env.REACT_APP_URL}>trobalo.me</a><a href={"https://www." + process.env.REACT_APP_URL} className="text-decoration-none text-white"> </a></div>
+                <div><a className="text-black" href={"https://www." + process.env.REACT_APP_URL}>{process.env.REACT_APP_URL}</a></div>
               </div>
             </div>
           </footer>
