@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Carta;
 use App\Models\Reserva;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -14,7 +15,7 @@ class RestaurantController extends Controller
 
     public function show($id)
     {
-        $data = Restaurante::with('localidad','imgs','cartas','etiquetas','periodos','reservas')->find($id);
+        $data = Restaurante::with('localidad','imgs','etiquetas','periodos','reservas')->find($id);
         if ($data['visible'] && $data['validated']) {
             return json_decode(json_encode($data), true);
         }
@@ -23,7 +24,7 @@ class RestaurantController extends Controller
 
     public function showRestaurantsWithMembresia()
     {
-        $restaurant = Restaurante::with('localidad','imgs','cartas','etiquetas','periodos','reservas')
+        $restaurant = Restaurante::with('localidad','imgs','etiquetas','periodos','reservas')
             ->get()
             ->where('validated', '=', 1)
             ->where('visible', '=', 1)
@@ -37,7 +38,7 @@ class RestaurantController extends Controller
 
     public function showRestaurants()
     {
-        $restaurant = Restaurante::with('localidad','imgs','cartas','etiquetas','periodos','user','reservas')
+        $restaurant = Restaurante::with('localidad','imgs','etiquetas','periodos','user','reservas')
             ->orderBy('id_restaurante', 'asc')
             ->where('validated', '=', 1)
             ->where('visible', '=', 1)
@@ -60,6 +61,27 @@ class RestaurantController extends Controller
         ->get();
 
         return $restaurant->toJson();
+    }
+
+    public function AVGRestaurannt($id){
+        $restaurant = Restaurante::select(DB::raw('Round(AVG(platos.precio),0) as price'))
+            ->join('carta', 'carta.id_restaurante', '=', 'restaurante.id_restaurante')
+            ->join('categoria_platos', 'categoria_platos.id_carta', '=', 'carta.id_carta')
+            ->join('platos', 'platos.id_categoria', '=', 'categoria_platos.id_categoria')
+            ->where('restaurante.validated', '=', 1)
+            ->where('restaurante.visible', '=', 1)
+            ->where('carta.visible', '=', 1)
+            ->find($id);
+
+        return $restaurant->toJson();
+    }
+
+    public function cartRestaurantActive($id){
+        $card = Carta::with("restaurante")
+            ->where("id_restaurante","=",$id)
+            ->where("visible","=",1);
+
+        return $card->toJson();
     }
 
     public function buscador(Request $request)
