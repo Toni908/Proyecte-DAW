@@ -53,18 +53,22 @@ class Restaurant extends Component {
             return <Loading />;
         }
 
+        console.log(restaurant.localidad)
         return(
             <section>
                 <div className={"d-flex flex-row justify-content-center w-100"}>
-                    <div className={"d-flex flex-column main-width-restaurant m-0"}>
-                        <section className={"d-flex flex-column"}>
+                    <div className={"d-flex flex-column main-width-restaurant ps-lg-0 m-0"}>
+                        <section className={"d-flex flex-column text-lg-start text-center pb-3"}>
                             <h3 className={"w-100"}><i className="bi bi-building pe-3"/>{restaurant.nombre}</h3>
-                            <div className={"d-flex flex-row"}>
+                            <div className={"d-flex flex-row justify-content-lg-start justify-content-center"}>
                                 <i className="bi bi-star-fill text-color-TYPE-1 pe-2"/>
                                 <div className={"pe-1"}>{valoraciones(comments)}</div>
-                                de
-                                <div className={"ps-1 pe-1"}>{comments["count"]}  valoraciones</div>
                                 ·
+                                <a className={"px-1 text-black"} href={"#comentarios"}>{comments["count"]}  valoraciones</a>
+                                ·
+                                {restaurant.localidad !== undefined && <div className={"px-1"}>{restaurant.localidad.nombre_localidad}</div>}
+                                ·
+                                {restaurant.localidad !== undefined && <div className={"ps-1"}>{restaurant.localidad.nombre_municipio}</div>}
                             </div>
                         </section>
                         <section className={"d-flex flex-column pt-2"}>
