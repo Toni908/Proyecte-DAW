@@ -11,10 +11,20 @@ class ListRestaurant extends Component {
         super(props);
 
         this.state = {
-            restaurants: this.props.restaurants
+            restaurants: this.props.restaurants,
+            quantity: 4,
+            idList: this.props.idList
+        }
+
+        this.isResponsive = this.isResponsive.bind(this);
+    }
+    isResponsive() {
+        if (window.innerWidth<1500) {
+            this.setState({quantity:1})
+        } else {
+            this.setState({quantity:4})
         }
     }
-
 
     render() {
         const { restaurants } = this.state;
@@ -38,53 +48,27 @@ class ListRestaurant extends Component {
             }
         };
 
-        if (this.props.restaurants.length<responsive.desktop.items) {
-            desappearRightArrow(this.props.restaurants.length);
+        if (this.props.restaurants.length<this.state.quantity) {
+            desappearRightArrow(this.state.idList);
         }
 
         return(
-            <section className={"position-relative"}>
-                <h4 className={"pt-5 pb-2"}>{this.props.title}</h4>
-                {this.props.restaurants.length>responsive.desktop.items &&
+            <section className={"position-relative"} onMouseLeave={this.isResponsive}>
+                <h4 className={"pt-5 pb-0 m-0 HindFont text-color-TYPE-1"}>{this.props.title}</h4>
+                {this.props.restaurants.length>this.state.quantity &&
                 <Carousel
                     className={"sliderClass"}
                     arrows={false}
                     interval={false}
                     partialVisible={true}
                     renderButtonGroupOutside={true}
-                    customButtonGroup={<ButtonGroupSimple yourId={this.props.restaurants.length}/>}
+                    customButtonGroup={<ButtonGroupSimple yourId={this.state.idList}/>}
                     responsive={responsive}
                     beforeChange={(nextSlide, { totalItems,slidesToShow, currentSlide }) => {
-                        let left = "#left"+this.props.restaurants.length;
-                        let right = "#right"+this.props.restaurants.length;
-
-                        if (currentSlide === 0) {
-                            $(left).hide();
-                        } else {
-                            $(+left).show();
-                        }
-
-                        if (slidesToShow*currentSlide>totalItems) {
-                            $(right).hide();
-                        } else {
-                            $(right).show();
-                        }
+                        changeArrowState(currentSlide,slidesToShow,totalItems,this.state.idList)
                     }}
                     afterChange={(previousSlide, { totalItems,slidesToShow,currentSlide }) => {
-                        let left = "#left"+this.props.restaurants.length;
-                        let right = "#right"+this.props.restaurants.length;
-
-                        if (currentSlide === 0) {
-                            $(left).hide();
-                        } else {
-                            $(left).show();
-                        }
-
-                        if (slidesToShow*currentSlide>totalItems) {
-                            $(right).hide();
-                        } else {
-                            $(right).show();
-                        }
+                        changeArrowState(currentSlide,slidesToShow,totalItems,this.state.idList)
                     }}>
 
                     {restaurants.map(function(item, key) {
@@ -93,7 +77,7 @@ class ListRestaurant extends Component {
                         )
                     })}
                 </Carousel>}
-                {this.props.restaurants.length<=responsive.desktop.items &&
+                {this.props.restaurants.length<=this.state.quantity &&
                 <Carousel
                     className={"sliderClass"}
                     arrows={false}
@@ -101,10 +85,10 @@ class ListRestaurant extends Component {
                     renderButtonGroupOutside={true}
                     responsive={responsive}
                     beforeChange={(nextSlide, { totalItems,slidesToShow, currentSlide }) => {
-                        changeArrowState(currentSlide,slidesToShow,totalItems,this.props.restaurants.length)
+                        changeArrowState(currentSlide,slidesToShow,totalItems,this.state.idList)
                     }}
                     afterChange={(previousSlide, { totalItems,slidesToShow,currentSlide }) => {
-                        changeArrowState(currentSlide,slidesToShow,totalItems,this.props.restaurants.length)
+                        changeArrowState(currentSlide,slidesToShow,totalItems,this.state.idList)
                     }}>
 
                     {restaurants.map(function(item, key) {

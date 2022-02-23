@@ -5,7 +5,7 @@ header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
 header("Allow: GET, POST, OPTIONS, PUT, DELETE");
 
 use App\Http\Controllers\HorarioController;
-use App\Http\Controllers\PeriodosController;
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ReservasController;
 use App\Http\Controllers\UseracountController;
 use Illuminate\Support\Facades\Route;
@@ -13,7 +13,6 @@ use App\Http\Controllers\CartaController;
 use App\Http\Controllers\RestaurantController;
 use App\Http\Controllers\EtiquetasController;
 use App\Http\Controllers\MunicipioController;
-use App\Models\Carta;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,6 +36,8 @@ Route::get('/restaurant/{id}',[RestaurantController::class, 'show']);
 Route::get('/restaurants',[RestaurantController::class, 'showRestaurantsWithMembresia']);
 Route::get('/aforo/{id}',[RestaurantController::class,'aforo']);
 Route::get('/filtrar',[RestaurantController::class, 'buscador']);
+
+Route::get('/image/{id_restaurant}/{name}',[ImageController::class,'show']);
 
 Route::get('/user/{id}',[UseracountController::class, 'show']);
 Route::get('/users',[UseracountController::class, 'showUsers']);
