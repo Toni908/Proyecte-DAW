@@ -53,6 +53,7 @@ Route::get('/adminUsers',[UseracountController::class, 'showUserWhereIsAdmin']);
 Route::get('/reserva/{id}',[ReservasController::class, 'show']);
 Route::post('/reserva',[ReservasController::class, 'reservasRestaurant']);
 Route::get('/comentar',[ReservasController::class, 'login']);
+Route::get('/comprobar',[ReservasController::class, 'comprobate']);
 
 Route::post('/createcomment',[ComentarioController::class, 'create']);
 
