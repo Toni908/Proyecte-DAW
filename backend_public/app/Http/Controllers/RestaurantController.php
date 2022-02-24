@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Carta;
+use App\Models\Categoria;
+use App\Models\Plato;
 use App\Models\Reserva;
 use Illuminate\Support\Facades\DB;
 use App\Models\Restaurante;
@@ -73,13 +75,46 @@ class RestaurantController extends Controller
     }
 
     public function cartRestaurantActive($id){
-        $restaurant = Carta::with("categorias")
+        $carta = Carta::select("carta.*")
+            ->join("categoria_platos","carta.id_carta","=","categoria_platos.id_categoria")
             ->join('restaurante', 'carta.id_restaurante', '=', 'restaurante.id_restaurante')
             ->where("carta.visible","=",1)
             ->where("restaurante.id_restaurante","=",$id)
-            ->get();
+            ->groupBy("carta.id_carta")
+            ->get()->toArray();
 
-        return $restaurant;
+        $platos = $this->platoWithCategory($id);
+        $categories = $this->categoryCartaActive($id);
+
+        $array = [];
+        $array["carta"] = $carta;
+        $array["categorias"] = $categories;
+        $array["platos"] = $platos;
+
+        return $array;
+    }
+
+    public function categoryCartaActive($id) {
+        $categories = Categoria::select("categoria_platos.id_categoria","categoria_platos.nombre")
+            ->join("carta","carta.id_carta","=","categoria_platos.id_carta")
+            ->join("restaurante","restaurante.id_restaurante","=","carta.id_restaurante")
+            ->where("carta.visible","=",1)
+            ->where("restaurante.id_restaurante","=",$id)
+            ->groupBy("categoria_platos.id_categoria")
+            ->get()->toArray();
+        return $categories;
+    }
+
+    public function platoWithCategory($id) {
+        $platos = Plato::with("ingredientes","alergeno")->select("platos.*")
+            ->join("categoria_platos","categoria_platos.id_categoria","=","platos.id_categoria")
+            ->join("carta","carta.id_carta","=","categoria_platos.id_carta")
+            ->join("restaurante","restaurante.id_restaurante","=","carta.id_restaurante")
+            ->where("carta.visible","=",1)
+            ->where("restaurante.id_restaurante","=",$id)
+            ->groupBy("platos.id_plato")
+            ->get()->toArray();
+        return $platos;
     }
 
     public function buscador(Request $request)
@@ -97,7 +132,7 @@ class RestaurantController extends Controller
         ->join('etiquetas', 'etiquetas.id_etiqueta', '=', 'restaurante_etiquetas.id_etiqueta')
         ->join('localidad', 'localidad.id_localidad', '=', 'restaurante.id_localidad')
         ->join('municipio', 'municipio.nombre_municipio', '=', 'localidad.nombre_municipio')
-        
+
         ->where('restaurante.validated', '=', 1)
         ->where('restaurante.visible', '=', 1)
         ->where('carta.visible', '=', 1);
@@ -113,7 +148,7 @@ class RestaurantController extends Controller
         }
 
         $restaurant->groupBy('restaurante.id_restaurante');
-        
+
 
     return $restaurant->get();
 

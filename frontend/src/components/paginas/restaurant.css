@@ -27,7 +27,9 @@
 .image-cover {
     object-fit: cover;
 }
-
+.font-restaurant {
+    font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
+}
 @media only screen and (min-width: 1400px) {
     .main-width-restaurant {
         width: 1150px;
