@@ -85,6 +85,10 @@ $( function() {
         }
     });
 } );
+
+console.log(traducciones.idioma)
+$('.datepicker').datepicker( $.datepicker.regional[ traducciones.idioma ] );
+
 $(".datepicker").datepicker({
     weekStart: 1,
     firstDay: 1,
@@ -141,10 +145,11 @@ function createDataTable(data) {
         buttons: [
             {
                 extend: 'print',
+                title: title.text()+" "+traducciones.delDia+" "+titleTime.text(),
                 customize: function ( win ) {
                     $(win.document.body)
                         .prepend(
-                            '<p style="position:absolute; top:0; left:0; font-size: 50px; opacity: 0.05" >'+title.text()+" "+traducciones.delDia+" "+titleTime.text()+'</p>'
+                            '<p style="position:absolute; top:0; left:0; font-size: 50px; opacity: 0.05" >'+title.text()+'</p>'
                         );
 
                     $(win.document.body).find( 'table' )

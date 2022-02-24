@@ -17,6 +17,10 @@
 <main class="w-100 p-0 m-0">
     <aside th:if="${user}!=0" class="float-info">
         <div class="container-info">
+            <a class="w-100 select-info text-decoration-none text-black ps-5" th:href="@{/lista/restaurantes}">
+                <i class="bi bi-shop fs-3"></i>
+                <div th:text="#{aside.list.restaurants}"></div>
+            </a>
             <a class="w-100 select-info text-decoration-none text-black ps-5" th:href="@{/user}">
                 <i class="bi bi-person-square fs-3"></i>
                 <div th:text="#{user.aside.person}"></div>
@@ -29,13 +33,13 @@
                 <i class="bi bi-safe fs-3"></i>
                 <div th:text="#{user.aside.password}"></div>
             </a>
-            <a class="w-100 select-info text-decoration-none text-black ps-5" href="#deleteacount">
-                <i class="bi bi-trash-fill text-danger fs-3"></i>
-                <div th:text="#{user.aside.delete}"></div>
-            </a>
             <a class="w-100 select-info text-decoration-none text-black ps-5" href="#deleterestaurant">
                 <i class="bi bi-trash-fill fs-3"></i>
                 <div th:text="#{user.aside.restaurant}"></div>
+            </a>
+            <a class="w-100 select-info text-decoration-none text-black ps-5" href="#deleteacount">
+                <i class="bi bi-trash-fill text-danger fs-3"></i>
+                <div th:text="#{user.aside.delete}"></div>
             </a>
         </div>
     </aside>
@@ -274,7 +278,7 @@
         <main class="d-flex flex-column justify-content-center body-info">
             <section class="pt-5">
                 <div class="d-lg-flex d-block flex-row justify-content-center gap-2">
-                    <h3 class="title_section-info" th:text="#{button.generate.code}+' '+#{button.delete}+' '+#{restaurants.admin.title}"></h3>
+                    <h3 class="title_section-info" th:text="#{button.delete}+' '+#{restaurants.admin.title}"></h3>
                     <h3 class="title_section-info">?</h3>
                 </div>
                 <div class="d-flex flex-row justify-content-center">
@@ -294,7 +298,7 @@
     <form id="deleterestaurant" th:if="${codeEliminar}!=null" class="d-flex flex-row justify-content-center mb-5" th:action="@{/restaurant/regenerate/code}" method="GET">
         <main class="d-flex flex-column justify-content-center body-info">
             <section class="pt-5">
-                <h3 class="title_section-info" th:text="#{button.generate.code}+' '+#{button.delete}+' '+#{restaurants.admin.title}"></h3>
+                <h3 class="title_section-info" th:text="#{button.delete}+''+#{restaurants.admin.title}"></h3>
                 <div class="d-flex flex-row justify-content-center">
                     <div class="d-flex flex-column justify-content-center length">
                         <div class="border border-secondary border-1 mt-2 p-4 box-container">
@@ -322,10 +326,14 @@
                                 <div class="row">
                                     <div class="col-sm p-0">
                                         <div class="ps-3 paraf_form" th:text="#{user.update.password.code.verify}"></div>
-                                        <label class="w-100 pe-2 ps-3">
-                                            <input type="text" class="text-center input-text" id="code" name="code" required>
-                                        </label>
-                                        <div class="code"></div>
+                                        <div class="d-flex flex-lg-row flex-column">
+                                            <div class="w-25"></div>
+                                            <label class="width-form pe-2 ps-3">
+                                                <input type="text" class="text-center input-text" id="code" name="code" required>
+                                            </label>
+                                            <div class="code"></div>
+                                            <a href="/user/delete/generate/code" class="btn btn-dark mt-2 mt-lg-0 align-self-center" th:text="#{button.generate.code}"></a>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -353,7 +361,6 @@
 
                                 <div class="d-flex flex-row justify-content-center pt-4 gap-2">
                                     <button type="submit" class="btn btn-danger" th:text="#{button.submit}"></button>
-                                    <a href="/user/delete/generate/code" class="btn btn-dark" th:text="#{button.generate.code}"></a>
                                 </div>
                             </section>
                         </div>

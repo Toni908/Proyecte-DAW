@@ -13,18 +13,25 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.templatemode.TemplateMode;
+import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigInteger;
 import java.util.*;
 
 import static cat.iesmanacor.backend_private.componentes.User.getUser;
+import static cat.iesmanacor.backend_private.componentes.User.isUserCorrect;
 
 @Controller
 @RequestMapping("/")
@@ -42,7 +49,8 @@ public class CardController {
     private PlatoService platoService;
     @Autowired
     private RestaurantService restaurantService;
-
+    @Autowired
+    private UseracountService useracountService;
     //card Controllers
 
     @GetMapping("/restaurant/admin/{id}/cards")
@@ -422,5 +430,40 @@ public class CardController {
         categoriaService.save(categoria.get());
 
             return "redirect:/restaurant/admin/category/" + id + "/dishes";
+    }
+
+    // PDF
+
+    @GetMapping("/pdf/card/{id}")
+    private String parseThymeleafTemplate(@PathVariable BigInteger id, HttpServletRequest request) {
+        Useracount useracount = getUser(request);
+
+        if (isUserCorrect(useracount,useracountService)) {
+
+            Carta carta = cartaService.cartaVisibleFromRestaurant(id);
+
+            if (carta.equals(new Carta())) {
+                return "/login";
+            }
+
+            ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
+            templateResolver.setSuffix(".html");
+            templateResolver.setPrefix("templates/");
+            templateResolver.setTemplateMode(TemplateMode.HTML);
+
+            TemplateEngine templateEngine = new TemplateEngine();
+            templateEngine.setTemplateResolver(templateResolver);
+
+            Context context = new Context();
+            context.setVariable("carta", carta);
+
+            boolean hasCreated = FileUploadUtil.generatePdfFromHtml(templateEngine.process("pdf_card", context),String.valueOf(id));
+
+            if (!hasCreated) {
+                return "/login";
+            }
+        }
+
+        return "pdf_card";
     }
 }

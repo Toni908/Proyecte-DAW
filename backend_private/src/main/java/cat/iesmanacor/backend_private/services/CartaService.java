@@ -4,6 +4,7 @@ import cat.iesmanacor.backend_private.entities.Carta;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,4 +20,8 @@ public interface CartaService {
     public Carta save(Carta carta);
 
     public void deleteById(Long id);
+
+    //QUERY
+
+    Carta cartaVisibleFromRestaurant(BigInteger id);
 }

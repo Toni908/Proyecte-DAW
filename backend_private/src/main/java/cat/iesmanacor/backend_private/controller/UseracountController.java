@@ -11,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -68,7 +70,6 @@ public class UseracountController {
     @RequestMapping(value = "/user/verified",method = RequestMethod.POST)
     public String verified(@RequestParam("verified") String verified, ModelMap model, HttpServletRequest request){
         Useracount userVerify = getUser(request);
-
         if (isUserCorrect(userVerify,useracountService)) {
             Optional<Useracount> useracount = useracountService.findUseracountById(userVerify.getId_user());
             if (useracount.isPresent()) {
@@ -119,7 +120,7 @@ public class UseracountController {
 
     // PUEDE ENTRAR EN EL USUARIO
     @RequestMapping(value = "/user/recuperar",method = RequestMethod.POST)
-    public String recuperar(@RequestParam("codigo_email") String code,@RequestParam("password_change_recuperar") String password_change_recuperar, @RequestParam("password_change_confirm_recuperar") String password_change_confirm_recuperar, ModelMap model, HttpServletRequest request,HttpSession session) {
+    public RedirectView recuperar(@RequestParam("codigo_email") String code,@RequestParam("password_change_recuperar") String password_change_recuperar, @RequestParam("password_change_confirm_recuperar") String password_change_confirm_recuperar, RedirectAttributes model, HttpServletRequest request,HttpSession session) {
         Useracount userVerify = getUser(request);
         CodesId result;
 
@@ -138,15 +139,15 @@ public class UseracountController {
                                 useracountService.updateUseracount(useracountDDBB.get());
                                 codeService.delete(result);
                                 session.invalidate();
-                                return "redirect:/login";
+                                return new RedirectView("/login");
                             } else {
                                 Traductions traductions = new Traductions("No se han encontrado coincidencias","No matches found","No s'han trobat coincidències");
-                                model.addAttribute("error", traductions.getTraductionLocale(request));
-                                model.addAttribute("user", userVerify);
+                                model.addFlashAttribute("error", traductions.getTraductionLocale(request));
+                                model.addFlashAttribute("user", userVerify);
                                 if (codeService.findById(new CodesId(useracount.get(),typeCodeRestaurant)).isPresent()) {
-                                    model.addAttribute("codeEliminar",true);
+                                    model.addFlashAttribute("codeEliminar",true);
                                 }
-                                return "formularios/user_update";
+                                return new RedirectView("/user#recuperar");
                             }
                         }
                         break;
@@ -155,7 +156,7 @@ public class UseracountController {
 
             }
         }
-        return "redirect:/error/401";
+        return new RedirectView("/error/401");
     }
 
     // NO PUEDE ENTRAR EN EL USUARIO
@@ -224,7 +225,7 @@ public class UseracountController {
     }
 
     @Transactional
-    @RequestMapping(value = "/regererar/code",method = RequestMethod.POST)
+    @RequestMapping(value = "/regenerar/code",method = RequestMethod.POST)
     public String regenerarCode(@RequestParam("email") String email, ModelMap model) {
         List<Useracount> useracount = useracountService.findUseracountsByEmail(email);
         if (!useracount.isEmpty()) {
@@ -239,7 +240,7 @@ public class UseracountController {
 
     @Transactional
     @GetMapping(value = "/delete/code/password")
-    public String deleteCode(HttpServletRequest request, HttpSession session) {
+    public RedirectView deleteCode(HttpServletRequest request, HttpSession session) {
         Useracount userVerify = getUser(request);
         if (isUserCorrect(userVerify,useracountService)) {
             Optional<Useracount> useracount = useracountService.findUseracountById(userVerify.getId_user());
@@ -248,11 +249,11 @@ public class UseracountController {
                 if (codes.isPresent()) {
                     codeService.delete(codes.get().getId());
                     session.invalidate();
-                    return "/login";
+                    return new RedirectView("/login");
                 }
             }
         }
-        return "redirect:/error/401";
+        return new RedirectView("/error/401");
     }
 
 
@@ -269,24 +270,24 @@ public class UseracountController {
 
     // ENVIO DE CORREO PARA RECUPERAR - MODIFICAR CONTRASEÑA
     @RequestMapping("/user/password")
-    public String password(ModelMap model, HttpServletRequest request){
+    public RedirectView password(RedirectAttributes model, HttpServletRequest request){
         Useracount userVerify = getUser(request);
         if (isUserCorrect(userVerify,useracountService)) {
             Optional<Useracount> useracount = useracountService.findUseracountById(userVerify.getId_user());
             if (useracount.isPresent()) {
                 String generateCode = generateCode(useracount.get(),typeCodePassword);
                 emailService.sendMessageWithAttachment(useracount.get().getCorreo(), "Recuperar contraseña del usuario" + useracount.get().getNombre_usuario(), useracount.get().getCorreo(),generateCode,"Se ha querido recuperar<br> la contraseña del usuario");
-                model.addAttribute("hascode", codeService.findById(new CodesId(useracount.get(), typeCodePassword)).isEmpty());
+                model.addFlashAttribute("hascode", codeService.findById(new CodesId(useracount.get(), typeCodePassword)).isEmpty());
                 Traductions traductions = new Traductions("Se le a enviado un correo a "+useracount.get().getCorreo(),"An email has been sent to "+useracount.get().getCorreo(),"Se li ha enviat un correu a"+useracount.get().getCorreo());
-                model.addAttribute("success", traductions.getTraduction());
-                model.addAttribute("user", useracount.get());
+                model.addFlashAttribute("success", traductions.getTraduction());
+                model.addFlashAttribute("user", useracount.get());
                 if (codeService.findById(new CodesId(useracount.get(),typeCodeRestaurant)).isPresent()) {
-                    model.addAttribute("codeEliminar",true);
+                    model.addFlashAttribute("codeEliminar",true);
                 }
-                return "formularios/user_update";
+                return new RedirectView("/user#recuperar");
             }
         }
-        return "redirect:/error/401";
+        return new RedirectView("/error/401");
     }
 
     public String generateCode(Useracount useracount, String type) {
@@ -309,7 +310,7 @@ public class UseracountController {
 
 
     @RequestMapping(value = "/restaurant/regenerate/code", method = RequestMethod.GET)
-    public String regenerateCodeRestaurant(HttpServletRequest request,ModelMap model) {
+    public RedirectView regenerateCodeRestaurant(HttpServletRequest request,RedirectAttributes model) {
         Useracount userVerify = getUser(request);
 
         if (isUserCorrect(userVerify,useracountService)) {
@@ -320,21 +321,22 @@ public class UseracountController {
                     String result = generateCode(useracount.get(),typeCodeUser);
                     emailService.sendMessageWithAttachment(useracount.get().getCorreo(), "Eliminar Restaurante", useracount.get().getCorreo(), result, "Se ha querido generar un codigo<br>para eliminar un restaurante");
                     Traductions traductions = new Traductions("Se le a enviado un correo a "+ useracount.get().getCorreo(),"An email has been sent to "+useracount.get().getCorreo(),"Se li ha enviat un correu a"+useracount.get().getCorreo());
-                    model.addAttribute("success", traductions.getTraduction());
+                    model.addFlashAttribute("success", traductions.getTraduction());
                 }
-                model.addAttribute("user", useracount.get());
+                model.addFlashAttribute("user", useracount.get());
                 if (codeService.findById(new CodesId(useracount.get(),typeCodeRestaurant)).isPresent()) {
-                    model.addAttribute("codeEliminar",true);
+                    model.addFlashAttribute("codeEliminar",true);
                 }
-                return "formularios/user_update";
+
+                return new RedirectView("/user#deleterestaurant");
             }
         }
-        return "redirect:/error/401";
+        return new RedirectView("/error/401");
     }
 
     // CAMBIAR CONTRASEÑA SI TE SABES LA ACTUAL
     @RequestMapping(value = "/user/changepassword", method = RequestMethod.POST)
-    public String changepassword(@RequestParam("password_actual") String password_actual, @RequestParam("password_change") String password_change, @RequestParam("password_change_confirm") String password_change_confirm, ModelMap model, HttpServletRequest request,HttpSession session){
+    public RedirectView changepassword(@RequestParam("password_actual") String password_actual, @RequestParam("password_change") String password_change, @RequestParam("password_change_confirm") String password_change_confirm, RedirectAttributes model, HttpServletRequest request,HttpSession session){
         Useracount userVerify = getUser(request);
 
         if (isUserCorrect(userVerify,useracountService)) {
@@ -346,32 +348,32 @@ public class UseracountController {
                         useracount.get().setPassword(encrypted);
                         useracountService.updateUseracount(useracount.get());
                         session.invalidate();
-                        return "redirect:/login";
+                        return new RedirectView("/login");
                     } else {
                         Traductions traductions = new Traductions("No se han encontrado coincidencias","No matches found","No s'han trobat coincidències");
-                        model.addAttribute("error", traductions.getTraduction());
-                        model.addAttribute("user", useracount.get());
+                        model.addFlashAttribute("error", traductions.getTraduction());
+                        model.addFlashAttribute("user", useracount.get());
                         if (codeService.findById(new CodesId(useracount.get(),typeCodeRestaurant)).isPresent()) {
-                            model.addAttribute("codeEliminar",true);
+                            model.addFlashAttribute("codeEliminar",true);
                         }
-                        return "formularios/user_update";
+                        return new RedirectView("/user#changepassword");
                     }
                 } else {
                     Traductions traductions = new Traductions("Las contraseñas a cambiar no coinciden","The passwords to change do not match","Les contrasenyes a canviar no coincideixen");
-                    model.addAttribute("error", traductions.getTraduction());
-                    model.addAttribute("user", useracount.get());
+                    model.addFlashAttribute("error", traductions.getTraduction());
+                    model.addFlashAttribute("user", useracount.get());
                     if (codeService.findById(new CodesId(useracount.get(),typeCodeRestaurant)).isPresent()) {
-                        model.addAttribute("codeEliminar",true);
+                        model.addFlashAttribute("codeEliminar",true);
                     }
-                    return "formularios/user_update";
+                    return new RedirectView("/user#changepassword");
                 }
             }
         }
-        return "redirect:/error/401";
+        return new RedirectView("/error/401");
     }
 
     @RequestMapping(value = "/user/delete",method = RequestMethod.POST)
-    public String deleteUser(@RequestParam("code") String code,@RequestParam("text_confirmation") String text_confirmation, ModelMap model,HttpServletRequest request,HttpSession session) {
+    public String deleteUser(@RequestParam("code") String code,@RequestParam("text_confirmation") String text_confirmation, ModelMap model,HttpServletRequest request) {
         Useracount userVerify = getUser(request);
 
         if (isUserCorrect(userVerify,useracountService)) {
@@ -417,7 +419,7 @@ public class UseracountController {
     }
 
     @RequestMapping(value = "/user/delete/generate/code",method = RequestMethod.GET)
-    public String deleteUser(ModelMap model,HttpServletRequest request) {
+    public RedirectView deleteUser(RedirectAttributes model,HttpServletRequest request) {
         Useracount userVerify = getUser(request);
 
         if (isUserCorrect(userVerify,useracountService)) {
@@ -430,11 +432,37 @@ public class UseracountController {
                 String result = generateCode(useracount.get(),typeCodeUser);
                 emailService.sendMessageWithAttachment(useracount.get().getCorreo(), "Eliminar el usuario" + useracount.get().getNombre_usuario(), useracount.get().getCorreo(),result,"Se ha querido eliminar<br> el usuario");
                 Traductions traductions = new Traductions("Se le a enviado un correo a "+useracount.get().getCorreo(),"An email has been sent to "+useracount.get().getCorreo(),"Se li ha enviat un correu a"+useracount.get().getCorreo());
-                model.addAttribute("success", traductions.getTraduction());
-                return user(model, request);
+                model.addFlashAttribute("success", traductions.getTraduction());
+                return new RedirectView("/user#deleteacount");
             }
-            return "login";
+            return new RedirectView("login");
         }
-        return "redirect:/error/401";
+        return new RedirectView("/error/401");
+    }
+
+    @RequestMapping(value = "/restaurant/generate/code/delete", method = RequestMethod.GET)
+    public RedirectView deleteCodeGenerate(HttpServletRequest request, RedirectAttributes model) {
+        Useracount useracount = getUser(request);
+
+        if (isUserCorrect(useracount, useracountService)) {
+            Optional<Useracount> useracount1 = useracountService.findUseracountById(useracount.getId_user());
+            if (useracount1.isPresent()) {
+                if (codeService.findById(new CodesId(useracount1.get(), typeCodeRestaurant)).isEmpty()) {
+                    String generate = generateCode(useracount1.get(), typeCodeRestaurant);
+                    emailService.sendMessageWithAttachment(useracount1.get().getCorreo(), "Eliminar Restaurante", useracount1.get().getCorreo(), generate, "Se ha querido generar un codigo<br>para eliminar un restaurante");
+                    Traductions traductions = new Traductions("Se envió un correo con el código", "An email with the code was sent", "Es va enviar un correu amb el codi");
+                    model.addFlashAttribute("success", traductions.getTraduction());
+                } else {
+                    Traductions traductions = new Traductions("Ya se envío un correo con el código", "An email with the code has already been sent.", "Ja s'envio un correu amb el codi");
+                    model.addFlashAttribute("error", traductions.getTraduction());
+                }
+                model.addFlashAttribute("user", useracount1.get());
+                if (codeService.findById(new CodesId(useracount1.get(),typeCodeRestaurant)).isPresent()) {
+                    model.addFlashAttribute("codeEliminar",true);
+                }
+                return new RedirectView("/user#deleterestaurant");
+            }
+        }
+        return new RedirectView("/error/401");
     }
 }

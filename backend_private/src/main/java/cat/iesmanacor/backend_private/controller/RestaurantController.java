@@ -379,50 +379,6 @@ public class RestaurantController {
         return restaurantService.saveRestaurant(restaurant);
     }
 
-    @RequestMapping(value = "/restaurant/generate/code/delete", method = RequestMethod.GET)
-    public String deleteCodeGenerate(HttpServletRequest request, ModelMap model) {
-        Useracount useracount = getUser(request);
-
-        if (isUserCorrect(useracount, useracountService)) {
-            Optional<Useracount> useracount1 = useracountService.findUseracountById(useracount.getId_user());
-            if (useracount1.isPresent()) {
-                if (codeService.findById(new CodesId(useracount1.get(), typeCodeRestaurant)).isEmpty()) {
-                    String generate = generateCode(useracount1.get(), typeCodeRestaurant);
-                    emailService.sendMessageWithAttachment(useracount1.get().getCorreo(), "Eliminar Restaurante", useracount1.get().getCorreo(), generate, "Se ha querido generar un codigo<br>para eliminar un restaurante");
-                    Traductions traductions = new Traductions("Se envió un correo con el código", "An email with the code was sent", "Es va enviar un correu amb el codi");
-                    model.addAttribute("success", traductions.getTraduction());
-                } else {
-                    Traductions traductions = new Traductions("Ya se envío un correo con el código", "An email with the code has already been sent.", "Ja s'envio un correu amb el codi");
-                    model.addAttribute("error", traductions.getTraduction());
-                }
-                model.addAttribute("user", useracount1.get());
-                if (codeService.findById(new CodesId(useracount1.get(),typeCodeRestaurant)).isPresent()) {
-                    model.addAttribute("codeEliminar",true);
-                }
-                return "formularios/user_update";
-            }
-        }
-        return "redirect:/error/401";
-    }
-
-    public String generateCode(Useracount useracount, String type) {
-        CodesId codesId = new CodesId(useracount, type);
-        Random random = new Random();
-
-        if (codeService.findById(codesId).isPresent()) {
-            return null;
-        }
-
-        // 4 como diferencia
-        int length = random.nextInt(4);
-        // despues le sumo 6 como minimo
-        length = length + 6;
-        String number = Codes.getRandomString(length);
-        Codes codes = new Codes(codesId, number);
-        codeService.save(codes);
-        return number;
-    }
-
     @Transactional
     @RequestMapping(value = "/restaurant/delete", method = RequestMethod.POST)
     public String delete(@RequestParam("id") BigInteger id,@RequestParam("code") String code, HttpServletRequest request, ModelMap model) {

@@ -6,6 +6,7 @@ header("Allow: GET, POST, OPTIONS, PUT, DELETE");
 
 use App\Http\Controllers\HorarioController;
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\LocalidadController;
 use App\Http\Controllers\ReservasController;
 use App\Http\Controllers\UseracountController;
 use Illuminate\Support\Facades\Route;
@@ -38,8 +39,10 @@ Route::get('/restaurants',[RestaurantController::class, 'showRestaurantsWithMemb
 Route::get('/aforo/{id}',[RestaurantController::class,'aforo']);
 Route::get('/filtrar',[RestaurantController::class, 'buscador']);
 
-Route::get('/avg/restaurant/{id}',[RestaurantController::class,'AVGRestaurannt']);
-Route::get('/carta/restaurant/{id}',[RestaurantController::class,'AVGRestaurannt']);
+Route::get('/localidad/{id}',[LocalidadController::class,'show']);
+
+Route::get('/comments/restaurant/{id}',[RestaurantController::class,'AVGCommentsRestaurant']);
+Route::get('/carta/restaurant/{id}',[RestaurantController::class,'cartRestaurantActive']);
 
 Route::get('/image/{id_restaurant}/{name}',[ImageController::class,'show']);
 
