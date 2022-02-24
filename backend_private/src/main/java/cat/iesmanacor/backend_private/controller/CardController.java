@@ -31,6 +31,7 @@ import java.math.BigInteger;
 import java.util.*;
 
 import static cat.iesmanacor.backend_private.componentes.User.getUser;
+import static cat.iesmanacor.backend_private.componentes.User.isUserCorrect;
 
 @Controller
 @RequestMapping("/")
@@ -48,7 +49,8 @@ public class CardController {
     private PlatoService platoService;
     @Autowired
     private RestaurantService restaurantService;
-
+    @Autowired
+    private UseracountService useracountService;
     //card Controllers
 
     @GetMapping("/restaurant/admin/{id}/cards")
@@ -432,20 +434,35 @@ public class CardController {
 
     // PDF
 
-    @GetMapping("/pdf/card")
-    private String parseThymeleafTemplate() {
-        ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
-        templateResolver.setSuffix(".html");
-        templateResolver.setPrefix("templates/");
-        templateResolver.setTemplateMode(TemplateMode.HTML);
+    @GetMapping("/pdf/card/{id}")
+    private String parseThymeleafTemplate(@PathVariable BigInteger id, HttpServletRequest request) {
+        Useracount useracount = getUser(request);
 
-        TemplateEngine templateEngine = new TemplateEngine();
-        templateEngine.setTemplateResolver(templateResolver);
+        if (isUserCorrect(useracount,useracountService)) {
 
-        Context context = new Context();
-        context.setVariable("hola", "Andresito_PDF");
+            Carta carta = cartaService.cartaVisibleFromRestaurant(id);
 
-        FileUploadUtil.generatePdfFromHtml(templateEngine.process("pdf_card", context));
+            if (carta.equals(new Carta())) {
+                return "/login";
+            }
+
+            ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
+            templateResolver.setSuffix(".html");
+            templateResolver.setPrefix("templates/");
+            templateResolver.setTemplateMode(TemplateMode.HTML);
+
+            TemplateEngine templateEngine = new TemplateEngine();
+            templateEngine.setTemplateResolver(templateResolver);
+
+            Context context = new Context();
+            context.setVariable("carta", carta);
+
+            boolean hasCreated = FileUploadUtil.generatePdfFromHtml(templateEngine.process("pdf_card", context),String.valueOf(id));
+
+            if (!hasCreated) {
+                return "/login";
+            }
+        }
 
         return "pdf_card";
     }

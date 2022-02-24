@@ -59,6 +59,10 @@
                 <i class="bi bi-eye fs-3"></i>
                 <div th:text="#{aside.show.restaurant}"></div>
             </a>
+            <a class="w-100 select-info text-decoration-none text-black ps-5" th:href="@{/lista/restaurantes}">
+                <i class="bi bi-shop fs-3"></i>
+                <div th:text="#{aside.list.restaurants}"></div>
+            </a>
         </div>
     </div>
 </div>
@@ -70,6 +74,10 @@
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body p-0">
+            <a class="w-100 select-info text-decoration-none text-black ps-5" th:href="@{/lista/restaurantes}">
+                <i class="bi bi-shop fs-3"></i>
+                <div th:text="#{aside.list.restaurants}"></div>
+            </a>
             <a class="w-100 select-info text-decoration-none text-black ps-5" th:href="@{/user}">
                 <i class="bi bi-person-square fs-3"></i>
                 <div th:text="#{user.aside.person}"></div>
@@ -82,13 +90,13 @@
                 <i class="bi bi-safe fs-3"></i>
                 <div th:text="#{user.aside.password}"></div>
             </a>
-            <a class="w-100 select-info text-decoration-none text-black ps-5" href="#deleteacount">
-                <i class="bi bi-trash-fill text-danger fs-3"></i>
-                <div th:text="#{user.aside.delete}"></div>
-            </a>
             <a class="w-100 select-info text-decoration-none text-black ps-5" href="#deleterestaurant">
                 <i class="bi bi-trash-fill fs-3"></i>
                 <div th:text="#{user.aside.restaurant}"></div>
+            </a>
+            <a class="w-100 select-info text-decoration-none text-black ps-5" href="#deleteacount">
+                <i class="bi bi-trash-fill text-danger fs-3"></i>
+                <div th:text="#{user.aside.delete}"></div>
             </a>
         </div>
     </div>

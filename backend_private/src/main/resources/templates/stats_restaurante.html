@@ -225,7 +225,7 @@
                 .style("text-anchor", "middle")
                 .text(function (d) {
                     if (d.data.size!==0) {
-                        return d.data.name;
+                        return porcentajeEstrellas(list, d);
                     }
                 }).attr("fill","black").attr("font-size","20px")
         })
@@ -281,6 +281,23 @@
             }
         }
         return true;
+    }
+
+    function porcentajeEstrellas(lista, d) {
+        let suma = 0;
+        let division = 0;
+        for (let i = 0; i < lista[0].children.length; i++) {
+            suma += lista[0].children[i].size;
+            if (lista[0].children[i].size!==0) {
+                division = division+1;
+            }
+        }
+        if (division===1) {
+            return "100%[Empty]";
+        } else {
+            let number = (d.data.size/suma)*100;
+            return number.toPrecision(2)+"%";
+        }
     }
 </script>
 <script th:src="@{/js/headerv2.js}"></script>

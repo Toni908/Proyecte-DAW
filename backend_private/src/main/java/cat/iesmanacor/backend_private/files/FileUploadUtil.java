@@ -89,8 +89,8 @@ public class FileUploadUtil {
 
     // PDF
 
-    public static void generatePdfFromHtml(String html) {
-        String outputFolder = "thymeleaf.pdf";
+    public static boolean generatePdfFromHtml(String html, String id) {
+        String outputFolder = url+"/"+id+"/"+id+".pdf";
         try {
             OutputStream outputStream = new FileOutputStream(outputFolder);
 
@@ -100,8 +100,10 @@ public class FileUploadUtil {
             renderer.createPDF(outputStream);
 
             outputStream.close();
+            return true;
         } catch (IOException | DocumentException e) {
             //
+            return false;
         }
     }
 }
