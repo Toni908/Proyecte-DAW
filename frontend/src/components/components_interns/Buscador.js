@@ -18,24 +18,15 @@ class Buscador extends Component {
 
     componentDidMount(){
         var ip = process.env.REACT_APP_API_URL;
-        axios
-            .get( ip + "/etiquetas")
-            .then((response) => {
-                this.setState({etiquetas: response.data});
-            })
-            .catch((error) => {
-                console.log(error); 
-            });
-        
-        axios
-            .get( ip + "/localidad")
-            .then((response) => {
-                //console.log(response);
-                this.setState({municipios: response.data});
-            })
-            .catch((error) => {
-                console.log(error); 
-            });
+        const request1 = axios.get( ip + "/etiquetas");
+        const request2 = axios.get( ip + "/localidad");
+
+        axios.all([request1, request2]).then(axios.spread((...responses) => this.setState({
+            etiquetas: responses[0].data,
+            municipios: responses[1].data,
+        }))).catch((error) => {
+            console.log(error); 
+        });
     }
 
   render() {
