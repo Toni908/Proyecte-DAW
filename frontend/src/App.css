@@ -1,9 +1,9 @@
 .login{
-    background-color: rgb(168,169,236);
-    border-color: rgb(168,169,236);
+    background-color: #ADC5d9;
+    border-color: #ADC5d9;
 }
 
 .login:hover{
-    background-color: rgb(250,180,185);
-    border-color: rgb(250,180,185);
+    background-color: #8C7654;
+    border-color: #8C7654;
 }

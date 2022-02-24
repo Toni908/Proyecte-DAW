@@ -9,6 +9,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 
 import './App.css';
+import './components/components_interns/main.css'
 import Restaurant from "./components/paginas/Restaurant";
 
 class App extends Component {
