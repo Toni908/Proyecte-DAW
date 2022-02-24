@@ -24,6 +24,9 @@
     height: 250px;
     width: 50%;
 }
+.image-cover {
+    object-fit: cover;
+}
 
 @media only screen and (min-width: 1400px) {
     .main-width-restaurant {
