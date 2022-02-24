@@ -28,11 +28,10 @@ public class Plato implements Serializable {
         @Size(min=2, max=50, message = "debe tener entre 2 y 50 caracteres")
         private String nombre;
         @Column(nullable = false)
-        @NotNull(message = "nombre cant be null")
-        @Size(min=2, max=100, message = "debe tener entre 2 y 100 caracteres")
+        @Size(min=0, max=255, message = "debe tener menos de 255 caracteres")
         private String descripcion;
         @Column(nullable = false)
-        @NotNull(message = "nombre cant be null")
+        @NotNull(message = "precio cant be null")
         private float precio;
 
         @ManyToOne(fetch = FetchType.LAZY)

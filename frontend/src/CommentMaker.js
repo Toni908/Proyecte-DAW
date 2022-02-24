@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { FaStar } from 'react-icons/fa';
 import axios from "axios";
 
 import Valoracion from './components/components_interns/Valoracion';

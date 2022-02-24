@@ -61,7 +61,7 @@ class Buscador extends Component {
                     </select>
 
                 </div>
-                    <button className="text-center py-1 px-3 mt-4 bg-white buscarletra" onClick={this.props.filter}> Buscar </button>
+                    <button className="text-center py-1 px-3 mt-4 buscarletra" onClick={this.props.filter}> Buscar </button>
             </div>
         </div>
     );
