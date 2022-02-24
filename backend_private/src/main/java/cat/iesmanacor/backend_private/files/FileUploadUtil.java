@@ -1,18 +1,10 @@
 package cat.iesmanacor.backend_private.files;
 
-import cat.iesmanacor.backend_private.controller.ImgController;
-import com.lowagie.text.DocumentException;
-import com.luciad.imageio.webp.WebPWriteParam;
 import org.imgscalr.Scalr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.web.multipart.MultipartFile;
-import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.Context;
-import org.thymeleaf.templatemode.TemplateMode;
-import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
-import org.xhtmlrenderer.pdf.ITextRenderer;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -84,26 +76,5 @@ public class FileUploadUtil {
     public static String reFormateFormatImage(String image) {
         String[] name = image.split("\\.");
         return name[0]+".webp";
-    }
-
-
-    // PDF
-
-    public static boolean generatePdfFromHtml(String html, String id) {
-        String outputFolder = url+"/"+id+"/"+id+".pdf";
-        try {
-            OutputStream outputStream = new FileOutputStream(outputFolder);
-
-            ITextRenderer renderer = new ITextRenderer();
-            renderer.setDocumentFromString(html);
-            renderer.layout();
-            renderer.createPDF(outputStream);
-
-            outputStream.close();
-            return true;
-        } catch (IOException | DocumentException e) {
-            //
-            return false;
-        }
     }
 }

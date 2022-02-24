@@ -1,0 +1,32 @@
+.button-share {
+    color: black;
+    padding: 4px 8px;
+}
+
+.button-share:hover {
+    color: black;
+    padding: 4px 8px;
+    background-color: #F0F0F0;
+    border-radius: 7px;
+}
+.modal-80w {
+    min-width: 35%;
+}
+.modal-content {
+    border-radius: 20px;
+    padding-bottom: 30px;
+}
+.modal-class-custom {
+    border-radius: 50px;
+}
+
+
+.box-copied {
+    border-radius: 15px;
+    border: #F0F0F0 2px solid;
+}
+.box_icon {
+    padding: 20px;
+    border: #F0F0F0 2px solid;
+    border-radius: 20px;
+}
