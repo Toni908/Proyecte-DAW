@@ -212,7 +212,7 @@ public class RestaurantController {
                         for (MultipartFile url : multipartFile) {
                             if (ImgController.checkUrlisEmpty(url.getOriginalFilename(),imgService)) {
                                 if (StringUtils.cleanPath(Objects.requireNonNull(url.getOriginalFilename())).matches("^[\\S]+$")) {
-                                    if (StringUtils.cleanPath(Objects.requireNonNull(url.getOriginalFilename())).matches("([^\\\\s]+(\\\\.(?i)(jpe?g|png|gif))$)")) {
+                                    if (StringUtils.cleanPath(Objects.requireNonNull(url.getOriginalFilename())).matches("\\.(jpg|png|gif)$")) {
                                         boolean hasPassed = ImgController.saveImageRestaurant(url, restaurant, imgService);
                                         if (!hasPassed) {
                                             model.addFlashAttribute("error", "Error on save image, contact with our admins");

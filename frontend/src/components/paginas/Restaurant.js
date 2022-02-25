@@ -109,7 +109,7 @@ class Restaurant extends Component {
                             <div className={"col-lg-9 col-12"}>
                                 <h2 className={"text-center pb-2"}>{carta["carta"].nombre}</h2>
                                 {!carta["carta"].usa_img && <Menu carta={carta}/>}
-                                {carta["carta"].usa_img && <img className={"w-100 h-auto"} src={process.env.REACT_APP_API_URL+"/image/"+restaurant.id_restaurante+"/"+carta["carta"].url_img} alt={carta["carta"].nombre}/>}
+                                {carta["carta"].usa_img && <img className={"w-100 h-auto p-2"} src={process.env.REACT_APP_API_URL+"/image/"+restaurant.id_restaurante+"/"+carta["carta"].url_img} alt={carta["carta"].nombre}/>}
                             </div>}
                             <div className={"col-lg-3 col-12 px-lg-0 px-3"}>
                                 <HorarioRestaurant isSimple={true} onlyHeader={false} restaurant={restaurant}/>
