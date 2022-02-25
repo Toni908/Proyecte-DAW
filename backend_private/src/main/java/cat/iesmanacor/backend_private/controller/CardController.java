@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -133,7 +134,10 @@ public class CardController {
         } else {
             return new RedirectView("/error/401");
         }
-
+        if (!StringUtils.cleanPath(Objects.requireNonNull(img.getOriginalFilename())).matches("([^\\\\s]+(\\\\.(?i)(jpe?g|png|gif))$)")) {
+            url = "/restaurant/admin/"+ id +"/cards";
+            return new RedirectView(url);
+        }
         String name = request.getParameter("name");
         String useimg = request.getParameter("useimg");
         String visible = request.getParameter("visible");
@@ -179,10 +183,10 @@ public class CardController {
                 fileName = "C" + carta.getId_carta() + fileName;
                 carta.setUrl_img(fileName);
                 try (InputStream inputStream = img.getInputStream()){
-                    String uploadDir = ""+carta.getRestaurant().getId_restaurante();
-                    FileUploadUtil.saveFile(uploadDir, fileName, img);
-                    carta.setUrl_img(FileUploadUtil.reFormateFormatImage(fileName));
-                    cartaService.save(carta);
+                        String uploadDir = "" + carta.getRestaurant().getId_restaurante();
+                        FileUploadUtil.saveFile(uploadDir, fileName, img);
+                        carta.setUrl_img(FileUploadUtil.reFormateFormatImage(fileName));
+                        cartaService.save(carta);
                 }catch(IOException e){
                     //
                 }

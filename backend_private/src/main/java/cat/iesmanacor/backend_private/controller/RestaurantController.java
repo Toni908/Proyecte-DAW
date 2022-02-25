@@ -5,7 +5,6 @@ import cat.iesmanacor.backend_private.entityDTO.RestaurantCreateDTO;
 import cat.iesmanacor.backend_private.entityDTO.RestaurantDTO;
 import cat.iesmanacor.backend_private.entityDTO.RestaurantSecureDTO;
 import cat.iesmanacor.backend_private.entityDTO.SimpleUserDTO;
-import cat.iesmanacor.backend_private.files.FileUploadUtil;
 import cat.iesmanacor.backend_private.services.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +15,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -167,18 +168,17 @@ public class RestaurantController {
 
     @RequestMapping(value = "/restaurant/save")
     @Transactional()
-    public String save(@ModelAttribute @Valid RestaurantCreateDTO restaurantDTO,
-                       @RequestParam("localidad") BigInteger localidad,
-                       BindingResult errors,
-                       ModelMap model,
-                       @RequestParam("saveMultiple") List<MultipartFile> multipartFile,
-                       @RequestParam("etiquetas") List<String> etiquetas,
-                       HttpServletRequest request) {
-        inicializeModelMap(model);
+    public RedirectView save(@ModelAttribute @Valid RestaurantCreateDTO restaurantDTO,
+                             @RequestParam("localidad") BigInteger localidad,
+                             BindingResult errors,
+                             RedirectAttributes model,
+                             @RequestParam("saveMultiple") List<MultipartFile> multipartFile,
+                             @RequestParam("etiquetas") List<String> etiquetas,
+                             HttpServletRequest request) {
 
         //Errores redirect
         if (errors.hasErrors()) {
-            return "redirect:/error/401";
+            return new RedirectView("/error/401");
         }
 
         Useracount useracount = getUser(request);
@@ -191,13 +191,13 @@ public class RestaurantController {
             if (restaurant.getNombre()!=null) {
                 if (!checkNameisEmpty(restaurant.getNombre())) {
                     Traductions traductions = new Traductions("El nombre del restaurante ya esta cogido!","Restaurant name already taken","El nom del restaurant ya esta en us");
-                    model.addAttribute("error", traductions.getTraductionLocale(request));
-                    return create(model,request,restaurantDTO);
+                    model.addFlashAttribute("error", traductions.getTraductionLocale(request));
+                    return new RedirectView("/restaurant/create");
                 }
                 Optional<Localidad> localidadFind = localidadService.findLocalidadById(localidad);
                 if (localidadFind.isEmpty()) {
-                    model.addAttribute("error","Localidad no selecionada");
-                    return create(model,request,restaurantDTO);
+                    model.addFlashAttribute("error","Localidad no selecionada");
+                    return new RedirectView("/restaurant/create");
                 } else {
                     restaurant.setLocalidad(localidadFind.get());
                 }
@@ -212,26 +212,33 @@ public class RestaurantController {
                         for (MultipartFile url : multipartFile) {
                             if (ImgController.checkUrlisEmpty(url.getOriginalFilename(),imgService)) {
                                 if (StringUtils.cleanPath(Objects.requireNonNull(url.getOriginalFilename())).matches("^[\\S]+$")) {
-                                    boolean hasPassed = ImgController.saveImageRestaurant(url, restaurant,imgService);
-                                    if (!hasPassed) {
-                                        model.addAttribute("error","Error on save image, contact with our admins");
+                                    if (StringUtils.cleanPath(Objects.requireNonNull(url.getOriginalFilename())).matches("([^\\\\s]+(\\\\.(?i)(jpe?g|png|gif))$)")) {
+                                        boolean hasPassed = ImgController.saveImageRestaurant(url, restaurant, imgService);
+                                        if (!hasPassed) {
+                                            model.addFlashAttribute("error", "Error on save image, contact with our admins");
+                                        }
+                                    } else {
+                                        Traductions traductions = new Traductions("El formato de la imagen no es correcto","The format of the image is incorrect","La extensio de la imatge no es correcte");
+                                        model.addFlashAttribute("error", traductions.getTraductionLocale(request));
                                     }
                                 } else {
                                     Traductions traductions = new Traductions("El nombre de la imagen no debe de contener espacios","The image name must not contain spaces","El nom de la imatge no ha de contenir espais");
-                                    model.addAttribute("error", traductions.getTraductionLocale(request));
+                                    model.addFlashAttribute("error", traductions.getTraductionLocale(request));
                                 }
                             }
                         }
                     }
-                    return "redirect:/restaurant/update/"+restaurantSaved.getId_restaurante();
+                    return new RedirectView("/restaurant/update/"+restaurantSaved.getId_restaurante());
                 }
                 Traductions traductions = new Traductions("Localización no selecionado","Location not selected","Localització no seleccionat");
-                return create(model.addAttribute("error", traductions.getTraductionLocale(request)),request,restaurantDTO);
+                model.addFlashAttribute("error", traductions.getTraductionLocale(request));
+                return new RedirectView("/restaurant/create");
             }
             Traductions traductions = new Traductions("Nombre no disponible","Name dont available","Nom no disponible");
-            return create(model.addAttribute("error", traductions.getTraductionLocale(request)),request,restaurantDTO);
+            model.addFlashAttribute("error", traductions.getTraductionLocale(request));
+            return new RedirectView("/restaurant/create");
         }
-        return "redirect:/error/401";
+        return new RedirectView("/error/401");
     }
 
     @RequestMapping(value = "/restaurant/put")
