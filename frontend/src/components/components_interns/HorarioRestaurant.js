@@ -52,12 +52,14 @@ class HorarioRestaurant extends Component {
         let body = schedule.isTodayOpen(horario);
 
         if (this.props.isSimple) {
-            if (this.props.withHeader) {
+            if (this.props.onlyHeader) {
                 return (
-                    <section>
-                        {body.map(function (item, key) {
-                            return (<div key={key}>{item}</div>)
-                        })}
+                    <section className={"px-3"}>
+                        <div className={"d-flex flex-column gap-2"}>
+                            <div className={"d-flex flex-row justify-content-center"}>
+                                {header}
+                            </div>
+                        </div>
                     </section>
                 )
             } else {

@@ -24,7 +24,8 @@ class Restaurant extends Component {
             comments: [],
             carta: [],
             isLoading: false,
-            error: null
+            error: null,
+            header: false
         };
     }
 
@@ -53,14 +54,24 @@ class Restaurant extends Component {
             .catch(error => this.setState({
                 error: error,
             }))
+        window.addEventListener("scroll", this.onScroll);
     }
 
     componentWillUnmount() {
         this._isMounted = false;
+        window.removeEventListener("scroll", this.onScroll);
     }
 
+    onScroll = () => {
+        if (window.scrollY>600) {
+            this.setState({ header: true });
+        } else {
+            this.setState({ header: false });
+        }
+    };
+
     render() {
-        const {restaurant,comments,carta,isLoading, error} = this.state;
+        const {restaurant,comments,carta,isLoading, error,header} = this.state;
 
         if (error) {
             return <p>{error.message}</p>;
@@ -71,7 +82,7 @@ class Restaurant extends Component {
 
         return(
             <section className={"font-restaurant"} >
-                <HeaderRestaurant  />
+                {header && <HeaderRestaurant restaurant={restaurant} />}
                 <div className={"d-flex flex-row justify-content-center w-100"}>
                     <div className={"d-flex flex-column main-width-restaurant ps-lg-0 m-0"}>
                         <section className={"d-flex flex-column text-lg-start text-center pb-3"}>
@@ -99,7 +110,7 @@ class Restaurant extends Component {
                                 <Menu carta={carta}/>
                             </div>
                             <div className={"col-lg-4 col-12 px-lg-0 px-3"}>
-                                <HorarioRestaurant isSimple={true} withHeader={false} restaurant={restaurant}/>
+                                <HorarioRestaurant isSimple={true} onlyHeader={false} restaurant={restaurant}/>
                             </div>
                         </section>
                     </div>
