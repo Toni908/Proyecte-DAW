@@ -105,13 +105,25 @@ class Restaurant extends Component {
                         </section>
                         <GalleryRestaurant restaurant={restaurant} imgs={restaurant.imgs}/>
                         <section id={"menu"} className={"w-100 p-0 m-0 row py-5 px-lg-0 px-5"}>
-                            <div className={"col-lg-8 col-12"}>
+                            <div className={"col-lg-9 col-12"}>
                                 {carta["carta"]!==undefined && <h2 className={"text-center pb-2"}>{carta["carta"].nombre}</h2>}
                                 <Menu carta={carta}/>
                             </div>
-                            <div className={"col-lg-4 col-12 px-lg-0 px-3"}>
+                            <div className={"col-lg-3 col-12 px-lg-0 px-3"}>
                                 <HorarioRestaurant isSimple={true} onlyHeader={false} restaurant={restaurant}/>
                             </div>
+                        </section>
+                        <section>
+                            INFORMACION DEL RESTAURANTE
+                        </section>
+                        <section>
+                           REALIZAR RESERVA
+                        </section>
+                        <section id={"location"}>
+                            GOOGLE MAP
+                        </section>
+                        <section id={"comments"}>
+                            COMENTARIOS RESTAURANTE
                         </section>
                     </div>
                 </div>

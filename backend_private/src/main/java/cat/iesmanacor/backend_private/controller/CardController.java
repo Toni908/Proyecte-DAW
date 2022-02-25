@@ -126,8 +126,12 @@ public class CardController {
 
         Useracount user = getUser(requesthttp);
 
-        if(user == null || !restaurant.get().getUseracount().equals(user)){
-            return new RedirectView("/error/401") ;
+        if (restaurant.isPresent()) {
+            if (user == null || !restaurant.get().getUseracount().equals(user)) {
+                return new RedirectView("/error/401");
+            }
+        } else {
+            return new RedirectView("/error/401");
         }
 
         String name = request.getParameter("name");
@@ -138,7 +142,9 @@ public class CardController {
         if(idcs != null){
             Long idl = Long.parseLong(idcs);
             Optional<Carta> cartas = cartaService.findById(idl);
-            carta = cartas.get();
+            if (cartas.isPresent()) {
+                carta = cartas.get();
+            }
             url = "/restaurant/admin/card/"+idl+"/categories";
         }else{
             url = "/restaurant/admin/"+ id +"/cards";
@@ -146,17 +152,12 @@ public class CardController {
 
         carta.setNombre(name);
 
-        if(useimg != null) {
-            carta.setUsa_img(true);
-        } else {
-            carta.setUsa_img(false);
-        }
+        carta.setUsa_img(useimg != null);
 
         if(visible != null) {
             if (visible.equals("1") && !carta.isVisible()) {
                 List<Carta> cartas = carta.getRestaurant().getCartas();
-                for (int i = 0; i < cartas.size(); i++) {
-                    Carta c = cartas.get(i);
+                for (Carta c : cartas) {
                     if (c.isVisible()) {
                         c.setVisible(false);
                         break;
@@ -173,16 +174,17 @@ public class CardController {
         cartaService.save(carta);
 
         if(img != null){
-            String fileName = StringUtils.cleanPath(img.getOriginalFilename());
+            String fileName = StringUtils.cleanPath(Objects.requireNonNull(img.getOriginalFilename()));
             if (!fileName.equals("")) {
                 fileName = "C" + carta.getId_carta() + fileName;
                 carta.setUrl_img(fileName);
                 try (InputStream inputStream = img.getInputStream()){
                     String uploadDir = ""+carta.getRestaurant().getId_restaurante();
                     FileUploadUtil.saveFile(uploadDir, fileName, img);
+                    carta.setUrl_img(FileUploadUtil.reFormateFormatImage(fileName));
                     cartaService.save(carta);
                 }catch(IOException e){
-
+                    //
                 }
             }
         }
