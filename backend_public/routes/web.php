@@ -45,6 +45,7 @@ Route::get('/comments/restaurant/{id}',[RestaurantController::class,'AVGComments
 Route::get('/carta/restaurant/{id}',[RestaurantController::class,'cartRestaurantActive']);
 
 Route::get('/image/{id_restaurant}/{name}',[ImageController::class,'show']);
+Route::get('/alergenos/{id_alergeno}',[ImageController::class,'showAlergeno']);
 
 Route::get('/user/{id}',[UseracountController::class, 'show']);
 Route::get('/users',[UseracountController::class, 'showUsers']);

@@ -39,7 +39,7 @@ class CardRestaurant extends Component {
                             <i className="ps-1 bi bi-geo-alt-fill"/><div className={"ps-2 text-black fw-bold"}>{this.props.restaurant.direccion}</div><div className={"text-black fw-bold d-flex flex-row gap-1"}><div>/</div>{this.props.localidad.nombre_municipio}</div>
                         </div>
                     </div>
-                    <HorarioRestaurant restaurant={this.props.restaurant}/>
+                    <HorarioRestaurant isSimple={false} restaurant={this.props.restaurant}/>
                     {this.props.restaurant.etiquetas.length>0 &&
                         <div className={"row m-0 pt-2 p-0"}>
                             {this.props.restaurant.etiquetas.map(function(item, key) {

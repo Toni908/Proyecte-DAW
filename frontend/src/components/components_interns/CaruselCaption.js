@@ -9,7 +9,7 @@ class CaruselCaption extends Component {
                 <Carousel.Caption>
                     <h2>¿No tienes claro dónde ir?</h2>
                     <p>{this.props.restaurante.nombre}</p>
-                    <Button className={"mb-3"} variant="outline-light">Buscar</Button>
+                    <Button className={"mb-3 login shadow-node"} href={"/restaurant/"+this.props.restaurante.id_restaurante}>Visitar</Button>
                 </Carousel.Caption>
             )
         } else {

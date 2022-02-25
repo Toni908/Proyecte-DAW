@@ -1,15 +1,21 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
 import React, {Component} from 'react';
 import axios from "axios";
+import ModalShare from "../components_interns/ModalShare";
+import GalleryRestaurant from "../components_interns/GalleryRestaurant";
+import HorarioRestaurant from "../components_interns/HorarioRestaurant";
 import Loading from "../components_interns/Loading";
+import Menu from "./Menu";
+
+import 'bootstrap/dist/css/bootstrap.min.css';
 import "photoswipe/dist/photoswipe.css";
 import "photoswipe/dist/default-skin/default-skin.css";
-import { Gallery } from "react-photoswipe-gallery";
 import "./restaurant.css";
-import GalleryItem from "../components_interns/GalleryItem";
-import ModalShare from "../components_interns/ModalShare";
+import "./menu.css";
+import HeaderRestaurant from "./HeaderRestaurant";
 
 class Restaurant extends Component {
+    _isMounted = false;
+
     constructor() {
         super();
 
@@ -17,14 +23,14 @@ class Restaurant extends Component {
             restaurant: {},
             comments: [],
             carta: [],
-            id: 0,
             isLoading: false,
-            error: null,
-            show: false
+            error: null
         };
     }
 
     componentDidMount() {
+        this._isMounted = true;
+
         let ip = process.env.REACT_APP_API_URL;
         this.setState({ isLoading: true });
         let url = window.location.href;
@@ -36,19 +42,25 @@ class Restaurant extends Component {
         const request2 = axios.get(ip+"/comments/restaurant/"+id);
         const request3 = axios.get(ip+"/carta/restaurant/"+id);
 
-        axios.all([request1, request2,request3]).then(axios.spread((...responses) => this.setState({
-            restaurant: responses[0].data,
-            comments: responses[1].data["info"],
-            carta: responses[2].data,
-            id: responses[0].data.id_restaunrate,
-            isLoading: false
-        }))).catch(error => this.setState({
-            error: error,
-        }))
+        axios.all([request1, request2,request3])
+            .then(axios.spread((...responses) =>
+                {if (this._isMounted) {this.setState({
+                    restaurant: responses[0].data,
+                    comments: responses[1].data["info"],
+                    carta: responses[2].data,
+                    isLoading: false
+                })}}))
+            .catch(error => this.setState({
+                error: error,
+            }))
+    }
+
+    componentWillUnmount() {
+        this._isMounted = false;
     }
 
     render() {
-        const {restaurant,comments,carta,isLoading, error } = this.state;
+        const {restaurant,comments,carta,isLoading, error} = this.state;
 
         if (error) {
             return <p>{error.message}</p>;
@@ -58,7 +70,8 @@ class Restaurant extends Component {
         }
 
         return(
-            <section className={"font-restaurant"}>
+            <section className={"font-restaurant"} >
+                <HeaderRestaurant  />
                 <div className={"d-flex flex-row justify-content-center w-100"}>
                     <div className={"d-flex flex-column main-width-restaurant ps-lg-0 m-0"}>
                         <section className={"d-flex flex-column text-lg-start text-center pb-3"}>
@@ -79,70 +92,15 @@ class Restaurant extends Component {
                                 </div>
                             </div>
                         </section>
-                        {restaurant.imgs!==undefined &&
-                        <section className={"d-flex flex-column pt-2"}>
-                            {restaurant.id_restaurante!==undefined &&
-                            <div className={"w-100"}>
-                                {restaurant.imgs[0]!==undefined &&
-                                <section className={"row p-0 m-0"}>
-                                    <div className={"col-lg-6 col-12 p-0 m-0"}>
-                                        <Gallery>
-                                            <GalleryItem id_restaurante={restaurant.id_restaurante} img={restaurant.imgs[0]} classes={"border-item1 p-0 px-2 px-lg-0 width-image1 image-cover"}/>
-                                        </Gallery>
-                                    </div>
-                                    <div className={"col-lg-6 col-12 row p-0 m-0"}>
-                                        <Gallery>
-                                            <div className={"p-0"}>
-                                                {restaurant.imgs.map(function(img, key) {
-                                                    if (img.id_img===restaurant.imgs[0].id_img) {
-                                                        return (
-                                                            <div key={key} hidden>
-                                                                <GalleryItem key={key} id_restaurante={restaurant.id_restaurante} img={img} classes={"pb-lg-1 px-lg-2 p-2 p-lg-0 image-cover width-image2"}/>
-                                                            </div>
-                                                        )
-                                                    } else {
-                                                        if (key===1) {
-                                                            return (
-                                                                <span key={key}>
-                                                                    <GalleryItem key={key} id_restaurante={restaurant.id_restaurante} img={img} classes={"pb-lg-1 px-lg-2 p-2 p-lg-0 image-cover width-image2"}/>
-                                                                </span>
-                                                            )
-                                                        } else if (key===2) {
-                                                            return (
-                                                                <span key={key}>
-                                                                    <GalleryItem key={key} id_restaurante={restaurant.id_restaurante} img={img} classes={"pb-lg-1 p-2 border-right-top image-cover p-lg-0 px-lg-1 width-image2"}/>
-                                                                </span>
-                                                            )
-                                                        } else if (key===3) {
-                                                            return (
-                                                                <span key={key}>
-                                                                    <GalleryItem key={key} id_restaurante={restaurant.id_restaurante} img={img} classes={"pt-lg-1 p-2 px-lg-2 p-lg-0 image-cover width-image2"}/>
-                                                                </span>
-                                                            )
-                                                        } else if (key===4) {
-                                                            return (
-                                                                <span key={key}>
-                                                                    <GalleryItem unique_key={key} id_restaurante={restaurant.id_restaurante} img={img} classes={"border-right-bottom p-lg-0 image-cover pt-lg-1 p-2 px-lg-1 width-image2"}/>
-                                                                </span>
-                                                            )
-                                                        } else {
-                                                            return (
-                                                                <span key={key}>
-                                                                    <GalleryItem key={key} id_restaurante={restaurant.id_restaurante} img={img} classes={"px-lg-1 pt-lg-1 p-lg-0 image-cover p-2 width-image2"}/>
-                                                                </span>
-                                                            )
-                                                        }
-
-                                                    }
-                                                })}
-                                            </div>
-                                        </Gallery>
-                                    </div>
-                                </section>}
-                            </div>}
-                        </section>}
-                        <section>
-                            // CARTAS
+                        <GalleryRestaurant restaurant={restaurant} imgs={restaurant.imgs}/>
+                        <section id={"menu"} className={"w-100 p-0 m-0 row py-5 px-lg-0 px-5"}>
+                            <div className={"col-lg-8 col-12"}>
+                                {carta["carta"]!==undefined && <h2 className={"text-center pb-2"}>{carta["carta"].nombre}</h2>}
+                                <Menu carta={carta}/>
+                            </div>
+                            <div className={"col-lg-4 col-12 px-lg-0 px-3"}>
+                                <HorarioRestaurant isSimple={true} withHeader={false} restaurant={restaurant}/>
+                            </div>
                         </section>
                     </div>
                 </div>

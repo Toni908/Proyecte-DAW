@@ -64,34 +64,40 @@ class RestaurantController extends Controller
     }
 
     public function AVGCommentsRestaurant($id){
-        $restaurant = Restaurante::select("restaurante.id_restaurante",DB::raw('Round(AVG(comentarios.valoracion_sitio),2) as valoracion_sitio'),DB::raw('Round(AVG(comentarios.valoracion_servicio),2) as valoracion_servicio'),DB::raw('Round(AVG(comentarios.valoracion_comida),2) as valoracion_comida'),DB::raw('Count(comentarios.id_reserva) as count'))
+        $restaurant["info"] = Restaurante::select("restaurante.id_restaurante",DB::raw('Round(AVG(comentarios.valoracion_sitio),2) as valoracion_sitio'),DB::raw('Round(AVG(comentarios.valoracion_servicio),2) as valoracion_servicio'),DB::raw('Round(AVG(comentarios.valoracion_comida),2) as valoracion_comida'),DB::raw('Count(comentarios.id_reserva) as count'))
             ->join("reserva","restaurante.id_restaurante","=","reserva.id_restaurante")
             ->join('comentarios', 'reserva.id_reserva', '=', 'comentarios.id_reserva')
             ->groupBy("restaurante.id_restaurante")
             ->find($id);
-        $info = [];
-        $info["info"] = $restaurant;
-        return $info;
+        return $restaurant;
     }
 
     public function cartRestaurantActive($id){
-        $carta = Carta::select("carta.*")
-            ->join("categoria_platos","carta.id_carta","=","categoria_platos.id_categoria")
+        $carta = Carta::first()->select("carta.*")
             ->join('restaurante', 'carta.id_restaurante', '=', 'restaurante.id_restaurante')
             ->where("carta.visible","=",1)
             ->where("restaurante.id_restaurante","=",$id)
             ->groupBy("carta.id_carta")
             ->get()->toArray();
-
         $platos = $this->platoWithCategory($id);
         $categories = $this->categoryCartaActive($id);
 
-        $array = [];
-        $array["carta"] = $carta;
-        $array["categorias"] = $categories;
-        $array["platos"] = $platos;
+        // INSTANCIAR CADA CATEGORIA CON UNA LISTA DE PLATOS
+        for ($c = 0; $c < count($categories); $c++) {
+            $categories[$c]["platos"] = [];
+        }
 
-        return $array;
+        for ($p = 0; $p < count($platos); $p++) {
+            for ($c = 0; $c < count($categories); $c++) {
+                if ($platos[$p]["id_categoria"]===$categories[$c]["id_categoria"]) {
+                    array_push($categories[$c]["platos"],$platos[$p]);
+                }
+            }
+        }
+
+        $fullCarta["carta"] = head($carta);
+        $fullCarta["carta"]["categorias"] = $categories;
+        return $fullCarta;
     }
 
     public function categoryCartaActive($id) {

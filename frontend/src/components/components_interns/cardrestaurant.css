@@ -9,15 +9,12 @@
         width: 95% !important;
     }
 }
-
-.more-info-card {
-    background-color: #FAFAFA;
-    color: black;
+.shadow-text-black {
+    text-shadow: 1px 0 0 #000000, -1px 0 0 #000000, 0 1px 0 #000000, 0 -1px 0 #000000, 1px 1px #000000, -1px -1px 0 #000000, 1px -1px 0 #000000, -1px 1px 0 #000000;
 }
-.vertical-line {
-    border-left: 1px solid #E8E8E8;
+.shadow-node {
+    text-shadow: none;
 }
-
 .position-name-municipio {
     position: absolute;
     left: 110px;
