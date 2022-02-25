@@ -1,6 +1,5 @@
 package cat.iesmanacor.backend_private.entities;
 
-import cat.iesmanacor.backend_private.files.FileUploadUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.ToString;

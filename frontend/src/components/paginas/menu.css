@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@1,300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300&display=swap');
+
+.menu {
+    font-family: 'Lato', sans-serif;
+}
+
+.menu-item-name {
+    margin-right: 1.5em;
+}
+
+.menu-item-description {
+    line-height: 1.6;
+}
+
+@media screen and (min-width: 992px) {
+    .menu-group {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+
+.ingredientes {
+    color: grey;
+    padding-right: 10px;
+}
+.alorgeno-img {
+    object-fit: cover;
+    width: 20px;
+    height: 20px;
+}

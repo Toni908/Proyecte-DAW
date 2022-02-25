@@ -129,12 +129,10 @@ function isClosed(hora, today) {
 
 function textMake(week, horario, array, days) {
     while (hasFalse(week)) {
-        horario.map(function (hora, key) {
+        horario.forEach(function (hora, key) {
             days.push(hora.day);
-            array.push(<div key={key}
-                            className={"text-dark"}>{hora.day}: {fixedDate(hora.hora_inicio)}-{fixedDate(hora.hora_fin)}</div>);
+            array.push(<div key={key} className={"hora_day"}>{hora.day}: {fixedDate(hora.hora_inicio)}-{fixedDate(hora.hora_fin)}</div>);
             changeWeekStatus(hora.day, week);
-            return ("")
         })
         pushOnTextDay(week, array, days);
     }
@@ -199,37 +197,37 @@ function changeWeekStatus(number, week) {
 function pushOnTextDay(week, text, days) {
     if (week[0] === false) {
         days.push("Lunes");
-        text.push(<div className={"text-danger"}>Lunes cerrado</div>);
+        text.push(<div className={"text-danger text-center"}>Lunes cerrado</div>);
         week[0] = true;
     }
     if (week[1] === false) {
         days.push("Martes");
-        text.push(<div className={"text-danger"}>Martes cerrado</div>);
+        text.push(<div className={"text-danger text-center"}>Martes cerrado</div>);
         week[1] = true;
     }
     if (week[2] === false) {
         days.push("Miercoles");
-        text.push(<div className={"text-danger"}>Miercoles cerrado</div>);
+        text.push(<div className={"text-danger text-center"}>Miercoles cerrado</div>);
         week[2] = true;
     }
     if (week[3] === false) {
         days.push("Jueves");
-        text.push(<div className={"text-danger"}>Jueves cerrado</div>);
+        text.push(<div className={"text-danger text-center"}>Jueves cerrado</div>);
         week[3] = true;
     }
     if (week[4] === false) {
         days.push("Viernes");
-        text.push(<div className={"text-danger"}>Viernes cerrado</div>);
+        text.push(<div className={"text-danger text-center"}>Viernes cerrado</div>);
         week[4] = true;
     }
     if (week[5] === false) {
         days.push("Sabado");
-        text.push(<div className={"text-danger"}>Sabado cerrado</div>);
+        text.push(<div className={"text-danger text-center"}>Sabado cerrado</div>);
         week[5] = true;
     }
     if (week[6] === false) {
         days.push("Domingo");
-        text.push(<div className={"text-danger"}>Domingo cerrado</div>);
+        text.push(<div className={"text-danger text-center"}>Domingo cerrado</div>);
         week[6] = true;
     }
 }

@@ -11,10 +11,10 @@ class PopMapRestaurant extends Component {
                 target={"popmap"+this.props.restaurant.id_restaurante}
                 trigger="legacy"
             >
-                <PopoverHeader>
+                <PopoverHeader className={"text-center"}>
                     {this.props.restaurant.nombre}
                 </PopoverHeader>
-                <PopoverBody>
+                <PopoverBody className={"p-0 rounded-3"}>
                     <SimpleMap />
                 </PopoverBody>
             </UncontrolledPopover>
