@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -63,7 +64,7 @@ public class ReservasServiceImpl implements ReservasService {
     }
 
     @Override
-    public List<Reservas> findReservasByFechaAndRestaurante(BigInteger id, String fecha_inicio, String fecha_fin) {
+    public List<Reservas> findReservasByFechaAndRestaurante(BigInteger id, Date fecha_inicio, Date fecha_fin) {
         return reservasRepository.findReservasByFechaAndRestaurante(id,fecha_inicio,fecha_fin);
     }
 }

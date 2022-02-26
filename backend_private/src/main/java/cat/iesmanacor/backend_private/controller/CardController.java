@@ -177,6 +177,12 @@ public class CardController {
             carta.setVisible(false);
         }
 
+        // SI NO HAY CARTA VISIBLE PONER INVISIBLE
+        Carta finalCarta = cartaService.cartaVisibleFromRestaurant(restaurant.get().getId_restaurante());
+        if (Objects.equals(finalCarta, new Carta())) {
+            restaurant.get().setVisible(false);
+        }
+
         carta.setRestaurant(restaurant.get());
 
         cartaService.save(carta);

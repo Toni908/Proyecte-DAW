@@ -298,10 +298,17 @@ public class RestaurantController {
                     if (visibilidad) {
                         List<Img> imgs = imgService.findImgFromRestaurantId(restaurant.get().getId_restaurante());
                         if (!imgs.isEmpty()) {
-                            restaurant.get().setVisible(true);
-                            updateRestaurant(restaurant.get());
-                            Traductions traductions = new Traductions("El restaurante " + restaurant.get().getNombre() + " es visible","Restaurant "+restaurant.get().getNombre()+" is visible","El Restaurant "+restaurant.get().getNombre()+" es visible");
-                            model.addAttribute("success", traductions.getTraductionLocale(request));
+                            Carta cartaActiva = cartaService.cartaVisibleFromRestaurant(restaurant.get().getId_restaurante());
+                            if (!Objects.equals(cartaActiva, new Carta())) {
+                                restaurant.get().setVisible(true);
+                                updateRestaurant(restaurant.get());
+                                Traductions traductions = new Traductions("El restaurante " + restaurant.get().getNombre() + " es visible", "Restaurant " + restaurant.get().getNombre() + " is visible", "El Restaurant " + restaurant.get().getNombre() + " es visible");
+                                model.addAttribute("success", traductions.getTraductionLocale(request));
+                            } else {
+                                restaurant.get().setVisible(false);
+                                Traductions traductions = new Traductions("El restaurante no tiene carta activa, no se puede hacer visible","The restaurant has no menu active, it cannot be made visible","El restaurant no té una carta activa, no es pot fer visible");
+                                model.addAttribute("error", traductions.getTraductionLocale(request));
+                            }
                         } else {
                             Traductions traductions = new Traductions("El restaurante no tiene imagen, no se puede hacer visible","The restaurant has no image, it cannot be made visible","El restaurant no té imatge, no es pot fer visible");
                             model.addAttribute("error", traductions.getTraductionLocale(request));
