@@ -116,16 +116,20 @@ class Restaurant extends Component {
                                 <HorarioRestaurant isSimple={true} onlyHeader={false} restaurant={restaurant}/>
                             </div>
                         </section>}
-                        <section>
+                        <hr className={"mx-3 mx-lg-0"}/>
+                        <section className={"w-100 m-0 p-0 row pb-5 pt-2 px-lg-0 px-5"}>
                             INFORMACION DEL RESTAURANTE
                         </section>
-                        <section>
+                        <hr className={"mx-3 mx-lg-0"}/>
+                        <section className={"w-100 m-0 p-0 row pb-5 pt-2 px-lg-0 px-5"}>
                            REALIZAR RESERVA
                         </section>
-                        <section id={"location"}>
+                        <hr className={"mx-3 mx-lg-0"}/>
+                        <section id={"location"} className={"w-100 m-0 p-0 row pb-5 pt-2 px-lg-0 px-5"}>
                             GOOGLE MAP
                         </section>
-                        <section id={"comments"}>
+                        <hr className={"mx-3 mx-lg-0"}/>
+                        <section id={"comments"} className={"w-100 m-0 p-0 row pb-5 pt-2 px-lg-0 px-5"}>
                             COMENTARIOS RESTAURANTE
                         </section>
                     </div>
