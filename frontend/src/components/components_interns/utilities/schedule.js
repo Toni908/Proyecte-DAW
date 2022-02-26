@@ -1,5 +1,3 @@
-import React from "react";
-
 class schedule {
     static isTodayOpen(horario) {
         return isTodayOpen(horario);

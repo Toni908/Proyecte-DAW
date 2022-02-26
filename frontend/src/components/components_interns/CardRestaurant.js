@@ -7,6 +7,7 @@ import HorarioRestaurant from "./HorarioRestaurant";
 import "./cardrestaurant.css";
 import PopoverRestaurant from "./PopoverRestaurant";
 import PopMapRestaurant from "./PopMapRestaurant";
+import reservas_anticipacion from "./utilities/reservas_anticipacion";
 
 class CardRestaurant extends Component {
     constructor() {
@@ -29,9 +30,12 @@ class CardRestaurant extends Component {
     }
 
     render() {
+        let reservas = reservas_anticipacion.getDayAnticipacion(this.props.restaurant.dies_anticipacion_reservas);
+
         return (
             <Card className={"myCarusel rounded rounded-3 mb-xxl-0 mb-4 OxigenFont"} onMouseEnter={this.visible} onMouseLeave={this.noVisible}>
                 <ImageRestaurant height={'image-height'} restaurante={this.props.restaurant}/>
+                {this.props.restaurant.etiquetas!==undefined &&
                 <Card.Body>
                     <div className={"position-relative"}>
                         <Card.Title className={"text-center p-2 pb-0  fw-bold"}>{this.props.restaurant.nombre}</Card.Title>
@@ -53,10 +57,10 @@ class CardRestaurant extends Component {
                     }
                     {this.state.isShown && (
                         <div className={"d-flex flex-row gap-2 pt-2 paraf_info_card"}>
-                            <div className={"text-warning"}>Disponible las reservas desde el {getDayAnticipacion(this.props.restaurant.dies_anticipacion_reservas)}</div>
+                            <div className={"text-warning"}>Disponible las reservas desde el {reservas}</div>
                         </div>
                     )}
-                </Card.Body>
+                </Card.Body>}
                 <section className={"d-flex flex-row justify-content-between px-5 w-100 more-info-card py-3"}>
                     <div className={"text-center"}>
                         <i className="bi bi-geo-alt fs-4" id={"popmap"+this.props.restaurant.id_restaurante}/>
@@ -75,12 +79,6 @@ class CardRestaurant extends Component {
             </Card>
         )
     }
-}
-
-function getDayAnticipacion(day) {
-    var date = new Date();
-    date.setDate(date.getDate() + day);
-    return date.getDate()+"-"+(date.getMonth()+1)+"-"+date.getFullYear()
 }
 
 export default CardRestaurant

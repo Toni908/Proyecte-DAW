@@ -1,5 +1,6 @@
 package cat.iesmanacor.backend_private.controller;
 
+import cat.iesmanacor.backend_private.configuration.MvnConfiguration;
 import cat.iesmanacor.backend_private.entities.*;
 import cat.iesmanacor.backend_private.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +8,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
 import java.math.BigInteger;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -76,22 +79,48 @@ public class jsonController {
         return restaurant.map(Restaurant::getMembresia).orElse(null);
     }
 
-    @GetMapping(value = "/get/reservas/json/{id}/{date}", produces = { "application/json" })
-    public List<Reservas> getReservasForRestaurant(@PathVariable BigInteger id,@PathVariable Date date){
-        return reservasService.findReservasByFechaAndRestaurante(id,getDateFormat(date),getNextDate(date));
+    @GetMapping(value = "/get/reservas/{id}/{section1}/{section2}/{section3}", produces = { "application/json" })
+    public List<Reservas> getReservasForRestaurant(@PathVariable BigInteger id,@PathVariable String section1, @PathVariable String section2, @PathVariable String section3){
+        MvnConfiguration mvnConfiguration = new MvnConfiguration();
+        String lang = String.valueOf(mvnConfiguration.localeResolver());
+        String sDate1= section1+"/"+section2+"/"+section3;
+
+        if (lang.equals("ca")) {
+            try {
+                Date date = new SimpleDateFormat("dd/MM/yyyy").parse(sDate1);
+                return reservasService.findReservasByFechaAndRestaurante(id, date, getNextDate(date));
+            } catch (ParseException e) {
+                //
+                return null;
+            }
+        } else if (lang.equals("en")) {
+            try {
+                Date date = new SimpleDateFormat("MM/dd/yyyy").parse(sDate1);
+                return reservasService.findReservasByFechaAndRestaurante(id, date, getNextDate(date));
+            } catch (ParseException e) {
+                //
+                return null;
+            }
+        } else {
+            try {
+                Date date = new SimpleDateFormat("dd/MM/yyyy").parse(sDate1);
+                return reservasService.findReservasByFechaAndRestaurante(id, date, getNextDate(date));
+            } catch (ParseException e) {
+                //
+                return null;
+            }
+        }
     }
 
-    public String getDateFormat(Date date) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        return format.format(date);
+    public static String reFormatDate(Date date) {
+        return date.getDay()+"/"+(date.getMonth()+1)+"/"+date.getYear();
     }
 
-    public static String getNextDate(Date date) {
-        final SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+    public static Date getNextDate(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         calendar.add(Calendar.DAY_OF_YEAR, 1);
-        return format.format(calendar.getTime());
+        return calendar.getTime();
     }
 
     @GetMapping("/api/ingredients/")

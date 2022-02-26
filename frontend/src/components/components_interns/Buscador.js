@@ -3,8 +3,10 @@ import axios from "axios";
 import Translate from "../../locales/Translate";
 
 import './Buscador.css';
+import Loading from "./Loading";
 
 class Buscador extends Component {
+    _isMounted = false;
 
     constructor() {
 
@@ -12,7 +14,9 @@ class Buscador extends Component {
 
         this.state={
             etiquetas:[],
-            municipios:[]
+            municipios:[],
+            isLoading: false,
+            error: null
         }   
 
     }
@@ -22,18 +26,27 @@ class Buscador extends Component {
     }
 
     componentDidMount(){
+        this._isMounted = true;
         var ip = process.env.REACT_APP_API_URL;
         const request1 = axios.get( ip + "/etiquetas");
         const request2 = axios.get( ip + "/localidad");
 
-        axios.all([request1, request2]).then(axios.spread((...responses) => this.setState({
-            etiquetas: responses[0].data,
-            municipios: responses[1].data,
-        }))).catch((error) => {
-            console.log(error); 
-        });
+        axios.all([request1, request2])
+            .then(axios.spread((...responses) =>
+            {if (this._isMounted) {this.setState({
+                etiquetas: responses[0].data,
+                municipios: responses[1].data,
+                isLoading: false
+            })}}))
+            .catch(error => this.setState({
+                error: error,
+            }))
 
         this.recharge();
+    }
+
+    componentWillUnmount() {
+        this._isMounted = false;
     }
 
     recharge(){
@@ -47,7 +60,16 @@ class Buscador extends Component {
     }
 
   render() {
-    return (
+      const {etiquetas,municipios,isLoading,error} = this.state;
+
+      if (error) {
+          return <p>{error.message}</p>;
+      }
+      if (isLoading) {
+          return <Loading />;
+      }
+
+      return (
         <div className="mb-3">
             <div className='d-none'>
                 <span id="et"><Translate string={'etiquetas'}/></span>
@@ -59,7 +81,7 @@ class Buscador extends Component {
                 <div className="d-flex w-50 justify-content-center mx-auto">
                     <select name="labels" className="form-select mx-4 inputBuscador w-auto" aria-label="Default select example" onChange={this.props.changeEtiqueta}>
                         <option id="oet" value="null" defaultValue></option>
-                    {this.state.etiquetas.map(elemento=>( 
+                    {etiquetas.map(elemento=>(
                             <option key={elemento.id_etiqueta} value={elemento.nombre}>{elemento.nombre}</option>
                         )
 
@@ -68,7 +90,7 @@ class Buscador extends Component {
 
                     <select name="municipality" className="form-select mx-4 inputBuscador w-auto" aria-label="Default select example" onChange={this.props.changeSitio}>
                         <option id="olu" value="null" defaultValue></option>
-                        {this.state.municipios.map(elemento=>( 
+                        {municipios.map(elemento=>(
                             <option key={elemento.nombre_municipio} value={elemento.nombre_municipio}>{elemento.nombre_municipio}</option>
                         )
 

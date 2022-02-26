@@ -6,3 +6,11 @@
 .z-index-10 {
     z-index: 7;
 }
+
+.header-select {
+    color: black;
+}
+.header-select:hover {
+    color: black;
+    border-bottom: black 2px solid;
+}
