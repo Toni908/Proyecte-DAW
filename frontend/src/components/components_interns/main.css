@@ -1,8 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@500&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Oxygen&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Shippori+Antique+B1&display=swap');
+.font-main{
+    font-family: 'Shippori Antique B1', sans-serif;
+}
+.title-principal {
+    font-stretch: extra-condensed;
+}
 .main-width {
-    width: 70% !important;
+    width: 80% !important;
 }
 
 @media only screen and (min-width: 1400px) {
@@ -17,6 +23,9 @@
 .height-img {
     height: 650px;
 }
+.card-section-municipio {
+    height: 225px;
+}
 .object-cover {
     object-fit: cover;
 }
@@ -29,24 +38,30 @@
 }
 
 .background-TYPE-1 {
-    background: #022840 !important;
+    background: #2D0E7D !important;
 }
 .background-TYPE-2 {
-    background: #D8E6F2 !important;
+    background: #373DB0 !important;
+}
+.background-TYPE-3 {
+    background:  #536CC9 !important;
+}
+.background-TYPE-4 {
+    background: #749EE3 !important;
 }
 
-.border-color-TYPE-1 {
-    border: #D8E6F2 2px solid;
-}
-.border-color-TYPE-2 {
-    border: #1D4259 2px solid;
-}
 
-.text-color-TYPE-1 {
-    color: #51718C;
+.color-TYPE-1 {
+    color: #2D0E7D !important;
 }
-.text-color-TYPE-2 {
-    color: #D8E6F2;
+.color-TYPE-2 {
+    color: #373DB0 !important;
+}
+.color-TYPE-3 {
+    color:  #536CC9 !important;
+}
+.color-TYPE-4 {
+    color: #749EE3 !important;
 }
 
 .background-color-general {
@@ -57,4 +72,13 @@
 }
 .OxigenFont {
     font-family: 'Oxygen', sans-serif;
+}
+.round-card {
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.round-card-top {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
 }
