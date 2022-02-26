@@ -1,33 +1,11 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import "./HeaderRestaurant.css"
 import { HashLink } from 'react-router-hash-link';
 import { Nav } from 'react-bootstrap';
 import HorarioRestaurant from "../components_interns/HorarioRestaurant";
 
 function HeaderRestaurant(props) {
-    const [isVisible, setIsVisible] = useState(true);
-    const [height, setHeight] = useState(0)
-
-    useEffect(() => {
-        window.addEventListener("scroll", listenToScroll);
-        return () =>
-            window.removeEventListener("scroll", listenToScroll);
-    })
-
-    const listenToScroll = () => {
-        let heightToHideFrom = 1000;
-        const winScroll = document.body.scrollTop ||
-            document.documentElement.scrollTop;
-        setHeight(winScroll);
-        height.valueOf();
-        if (winScroll > heightToHideFrom) {
-            isVisible && setIsVisible(false);
-        } else {
-            setIsVisible(true);
-        }
-    };
-
     return(
             <Nav className="mb-3 border-bottom bg-white font-family-header-restaurant w-100 position-fixed top-0 z-index-10">
                 <div className={"d-flex flex-row justify-content-center w-100"}>
@@ -39,11 +17,7 @@ function HeaderRestaurant(props) {
                             <li><HashLink to="#comments" className="nav-link p-3 header-select">Valoraciones</HashLink></li>
                         </ul>
                         <div className={"col-lg-2 col-12 py-2"}>
-                            {!isVisible &&
-                            <div>
-                                <HorarioRestaurant isSimple={true} onlyHeader={true} restaurant={props.restaurant}/>
-                            </div>
-                            }
+                            <HorarioRestaurant isSimple={true} onlyHeader={true} restaurant={props.restaurant}/>
                         </div>
                     </div>
                 </div>

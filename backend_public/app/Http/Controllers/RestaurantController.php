@@ -6,9 +6,11 @@ use App\Models\Carta;
 use App\Models\Categoria;
 use App\Models\Plato;
 use App\Models\Reserva;
+use Carbon\Traits\Date;
 use Illuminate\Support\Facades\DB;
 use App\Models\Restaurante;
 use Illuminate\Http\Request;
+use Nette\Utils\DateTime;
 
 class RestaurantController extends Controller
 {
@@ -167,7 +169,13 @@ class RestaurantController extends Controller
     }*/
 
     public function aforo($id) {
-        $aforos = Reserva::all('id_restaurante','personas')->where('id_restaurante','==',$id);
+        $date_start = DateTime::createFromFormat('Y-m-d', date("Y-m-d"))->setTime(0, 0);
+        $date_end = DateTime::createFromFormat('Y-m-d', date("Y-m-d"))->setTime(24, 0);
+
+        $aforos = Reserva::all()
+            ->where("fecha",">=",$date_start)
+            ->where("fecha","<=",$date_end)
+            ->where('id_restaurante','==',$id);
 
         $sum = 0;
         if (count($aforos) != 0) {

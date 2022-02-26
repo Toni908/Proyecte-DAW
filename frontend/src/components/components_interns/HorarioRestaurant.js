@@ -44,17 +44,38 @@ class HorarioRestaurant extends Component {
             return <p>{error.message}</p>;
         }
 
-        if (isLoading) {
-            return <p>Loading...</p>;
-        }
-
         let header = schedule.textHeader(horario);
         let body = schedule.isTodayOpen(horario);
+
+        if (isLoading) {
+            if (this.props.isSimple) {
+                if (!this.props.onlyHeader) {
+                    return (
+                        <section className={"shadow-box p-4 bg-white"}>
+                            <div className={"d-flex flex-column gap-2"}>
+                                <div className={"d-flex flex-row justify-content-center"}>
+                                   <div className={"py-1"}>Loading...<br/></div>
+                                </div>
+                            </div>
+                            <hr/>
+                            <div className={"d-flex flex-row justify-content-center bg-white"}>
+                                <div className={"d-flex flex-column"}>
+                                    {body.map(function (item, key) {
+                                        return (<div className={"py-1"} key={key}><br/></div>)
+                                    })}
+                                </div>
+                            </div>
+                        </section>
+                    )
+                }
+            }
+            return (<p>Loading...</p>)
+        }
 
         if (this.props.isSimple) {
             if (this.props.onlyHeader) {
                 return (
-                    <section className={"px-3"}>
+                    <section className={"px-3 bg-white"}>
                         <div className={"d-flex flex-column gap-2"}>
                             <div className={"d-flex flex-row justify-content-center"}>
                                 {header}
@@ -64,14 +85,14 @@ class HorarioRestaurant extends Component {
                 )
             } else {
                 return (
-                    <section className={"shadow-box p-4"}>
+                    <section className={"shadow-box p-4 bg-white"}>
                         <div className={"d-flex flex-column gap-2"}>
                             <div className={"d-flex flex-row justify-content-center"}>
                                 {header}
                             </div>
                         </div>
                         <hr/>
-                        <div className={"d-flex flex-row justify-content-center"}>
+                        <div className={"d-flex flex-row justify-content-center bg-white"}>
                             <div className={"d-flex flex-column"}>
                                 {body.map(function (item, key) {
                                     return (<div key={key}>{item}</div>)
@@ -83,7 +104,7 @@ class HorarioRestaurant extends Component {
             }
         } else {
             return (
-                <Accordion>
+                <Accordion className={"bg-white"}>
                     <Accordion.Item eventKey="0">
                         <Accordion.Header>{header}</Accordion.Header>
                         <Accordion.Body>
