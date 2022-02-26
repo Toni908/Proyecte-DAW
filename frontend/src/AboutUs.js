@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Translate from "./locales/Translate";
 
 import { Button } from 'react-bootstrap';
 
@@ -13,16 +14,16 @@ class AboutUs extends Component {
                 <div className="container mx-auto">
                 <div className="w-100 row">
                 <article className="text-center col-12">
-                    <h1 className="aboutTittle text-center mb-4"> Sobre Nosotros </h1>
+                    <h1 className="aboutTittle text-center mb-4"><Translate string={'sobre_nosotros'}/></h1>
                     <div className="subtext mx-auto text-center">
-                        <span>A life's work of embracing both the creative and the quantitative, developing thriving online businesses and enviable brands.</span>
+                        <span><Translate string={'explicacion'}/></span>
                     </div>
 
                     <div className="mt-4 mb-3 separador"></div>
 
                     <div className="w-100 mb-4">
                         <div className="cen">
-                            <Button variant="primary" className="py-2 px-4 color">Contactanos</Button>
+                            <Button variant="primary" className="py-2 px-4 color"><Translate string={'contactanos'}/></Button>
                         </div>
                     </div>
                     
