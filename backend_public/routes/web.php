@@ -37,6 +37,7 @@ Route::get('/restaurant/{id}',[RestaurantController::class, 'show']);
 Route::get('/restaurants',[RestaurantController::class, 'showRestaurantsWithMembresia']);
 Route::get('/aforo/{id}',[RestaurantController::class,'aforo']);
 Route::get('/filtrar',[RestaurantController::class, 'buscador']);
+Route::post('/filtrar',[RestaurantController::class, 'buscador']);
 
 Route::get('/avg/restaurant/{id}',[RestaurantController::class,'AVGRestaurannt']);
 Route::get('/carta/restaurant/{id}',[RestaurantController::class,'AVGRestaurannt']);
