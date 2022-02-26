@@ -7,3 +7,25 @@
     background-color: #8C7654;
     border-color: #8C7654;
 }
+
+.dropdown-custom-components:hover{
+    background-color: white;
+    border: none;
+}
+
+.dropdown-custom-components{
+    width: 50px;
+}
+
+.dropdown-custom-components {
+    border-radius: 0;
+    width: 12.313rem;
+    padding: 1rem 0.8rem;
+    color:#000!important;
+    transition: none!important;
+    
+}
+.dropdown-custom-components:hover {
+    background-color:#fff!important;
+    color:#000!important;
+}

@@ -2,8 +2,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { Component } from 'react';
 
 import { Link } from "react-router-dom";
+import { FaGlobe } from 'react-icons/fa';
 
-import { Button, Nav } from 'react-bootstrap';
+import { Button, Nav, Dropdown } from 'react-bootstrap';
 
 class Header extends Component {
 
@@ -21,11 +22,20 @@ class Header extends Component {
                   <li><Link to="/us" className="nav-link px-3 text-black">Sobre Nosotros</Link></li>
                 </ul>
 
-                <form className="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" method="GET" action="/search">
-                  <input type="search" className="form-control" name="name" placeholder="Search Restaurant..." aria-label="Search"/>
-                </form>
+                <Dropdown>
+                  <Dropdown.Toggle className='bg-white border-0' id="dropdown-custom-components">
+                    <FaGlobe size='28' className='me-3' color='#ADC5d9'/>
+                  </Dropdown.Toggle>
+
+                  <Dropdown.Menu>
+                    <Dropdown.Item href="#">es</Dropdown.Item>
+                    <Dropdown.Item href="#">ca</Dropdown.Item>
+                    <Dropdown.Item href="#">en</Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
 
                 <div className="text-end">
+                
                   <a href={"http://admin." + process.env.REACT_APP_URL + ":8080/login"}>
                     <Button className="me-2 login">Acceder</Button>
                   </a>
