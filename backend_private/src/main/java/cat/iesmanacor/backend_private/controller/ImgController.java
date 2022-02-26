@@ -1,5 +1,6 @@
 package cat.iesmanacor.backend_private.controller;
 
+import cat.iesmanacor.backend_private.componentes.User;
 import cat.iesmanacor.backend_private.entities.Img;
 import cat.iesmanacor.backend_private.entities.Restaurant;
 import cat.iesmanacor.backend_private.entities.Traductions;
@@ -143,27 +144,32 @@ public class ImgController {
 
     @RequestMapping(value = "/imagen/delete", method = RequestMethod.POST)
     @Transactional
-    public RedirectView deleteMultiple(@RequestParam("idRestaurante") BigInteger idRestaurante, @RequestParam(value="images") List<BigInteger> ids) {
+    public RedirectView deleteMultiple(@RequestParam("idRestaurante") BigInteger idRestaurante, @RequestParam(value="images") List<BigInteger> ids, HttpServletRequest request) {
         RedirectView redirectView = new RedirectView("/restaurant/update/"+idRestaurante,true);
+        Useracount useracount = getUser(request);
 
-        if (ids!=null) {
-            for (BigInteger singleId : ids) {
-                Optional<Img> imgSelected = imgService.findImgById(singleId);
-                if (imgSelected.isPresent()) {
-                    Optional<Restaurant> restaurant  = restaurantService.findRestaurantById(imgSelected.get().getRestaurant().getId_restaurante());
-                    if (restaurant.isPresent()) {
-                        imgService.deleteImg(imgSelected.get().getId_img());
-                        String uploadDir = ""+imgSelected.get().getRestaurant().getId_restaurante();
-                        FileUploadUtil.deleteImg(uploadDir, imgSelected.get().getUrl());
-                        List<Img> Listimg = imgService.findImgFromRestaurantId(imgSelected.get().getRestaurant().getId_restaurante());
-                        if (Listimg.isEmpty()) {
-                            restaurant.get().setVisible(false);
-                            restaurantService.updateRestaurant(restaurant.get());
+        if (useracount!=null) {
+            if (ids != null && ids.size() != 0) {
+                for (BigInteger singleId : ids) {
+                    Optional<Img> imgSelected = imgService.findImgById(singleId);
+                    if (imgSelected.isPresent()) {
+                        Optional<Restaurant> restaurant = restaurantService.findRestaurantById(imgSelected.get().getRestaurant().getId_restaurante());
+                        if (restaurant.isPresent()) {
+                            imgService.deleteImg(imgSelected.get().getId_img());
+                            String uploadDir = "" + imgSelected.get().getRestaurant().getId_restaurante();
+                            FileUploadUtil.deleteImg(uploadDir, imgSelected.get().getUrl());
+                            List<Img> Listimg = imgService.findImgFromRestaurantId(imgSelected.get().getRestaurant().getId_restaurante());
+                            if (Listimg.isEmpty()) {
+                                restaurant.get().setVisible(false);
+                                restaurantService.updateRestaurant(restaurant.get());
+                            }
                         }
                     }
                 }
+                return redirectView;
             }
-            return redirectView;
+        } else {
+            return new RedirectView("/error/401");
         }
 
         return new RedirectView("/");

@@ -172,7 +172,6 @@ function validateImage() {
     let files = $("#saveMultiple").prop("files");
 
     for (let i = 0; i < files.length; i++) {
-        console.log(files[i])
         if (files[i].size>10485760) {
             $("#validateImagenResponse").append("<p class='text-danger fw-bold pt-2'>MAX 10MB!!</p>");
             return false;
@@ -183,6 +182,13 @@ function validateImage() {
 
 function validateImages() {
     const matches = $("#inputSubmitImages").find('input[type="checkbox"]:not(:checked)');
+    const files = $("#inputSubmitImages").find('input[type="checkbox"]');
+
+    // QUE MINIMO SELECIONE UNO PARA ELIMINAR
+    if (files.length===matches.length) {
+        return false;
+    }
+
     for (let i = 0; i < matches.length; i++) {
         matches.get(i).disable = "disabled";
     }

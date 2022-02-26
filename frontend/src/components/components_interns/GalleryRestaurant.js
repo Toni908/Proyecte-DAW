@@ -19,7 +19,20 @@ class GalleryRestaurant extends Component {
                         </div>}
                     </section>
                 )
-                } else {
+            } else if (imgs.length===2) {
+                return (
+                    <section id={"photos"} className={"row m-0 pt-2"}>
+                        {restaurant.id_restaurante!==undefined &&
+                        <div className={"col-12"}>
+                            {imgs[0]!==undefined &&
+                            <Gallery>
+                                <GalleryItem id_restaurante={restaurant.id_restaurante} img={imgs[0]} classes={"border-item1 w-50 p-0 px-2 px-lg-0 image-cover"}/>
+                                <GalleryItem id_restaurante={restaurant.id_restaurante} img={imgs[1]} classes={"w-50 p-0 px-2 px-lg-0 image-cover border-right-top border-right-bottom"}/>
+                            </Gallery>}
+                        </div>}
+                    </section>
+                )
+            } else  {
                 return (
                     <section id={"photos"} className={"d-flex flex-column pt-2"}>
                         {restaurant.id_restaurante!==undefined &&
