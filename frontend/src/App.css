@@ -7,3 +7,13 @@
     background-color: #8C7654;
     border-color: #8C7654;
 }
+
+#dropdown-custom-components:hover{
+    background-color: white;
+    border: none;
+}
+
+#dropdown-custom-components{
+    width: 50px;
+    margin-right: 20px;
+}

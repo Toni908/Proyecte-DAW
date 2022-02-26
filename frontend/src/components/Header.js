@@ -2,12 +2,15 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { Component } from 'react';
 
 import { Link } from "react-router-dom";
+import { FaGlobe } from 'react-icons/fa';
 
-import { Button, Nav } from 'react-bootstrap';
+import { Button, Nav, Dropdown } from 'react-bootstrap';
+import Translate from "../locales/Translate";
 
 class Header extends Component {
 
     render() {
+        const {changeLanguage} = this.props;
         return(
             <Nav className="p-3 mb-3 border-bottom">
             <div className="container">
@@ -16,21 +19,30 @@ class Header extends Component {
                 </a>
 
                 <ul className="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                <li><Link to="/" className="nav-link px-3 text-black">Home</Link></li>
-                  <li><Link to="/search" className="nav-link px-3 text-black">Buscador</Link></li>
-                  <li><Link to="/us" className="nav-link px-3 text-black">Sobre Nosotros</Link></li>
+                <li><Link to="/" className="nav-link px-3 text-black"><Translate string={'inicio'}/></Link></li>
+                  <li><Link to="/search" className="nav-link px-3 text-black"><Translate string={'buscador'}/></Link></li>
+                  <li><Link to="/us" className="nav-link px-3 text-black"><Translate string={'sobre_nosotros'}/></Link></li>
                 </ul>
 
-                <form className="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" method="GET" action="/search">
-                  <input type="search" className="form-control" name="name" placeholder="Search Restaurant..." aria-label="Search"/>
-                </form>
+                <Dropdown>
+                  <Dropdown.Toggle className='bg-white border-0' id="dropdown-custom-components">
+                    <FaGlobe size='28' className='me-3' color='#ADC5d9'/>
+                  </Dropdown.Toggle>
+
+                  <Dropdown.Menu>
+                    <Dropdown.Item onClick={changeLanguage} id="es"><Translate string={'es'}/></Dropdown.Item>
+                    <Dropdown.Item onClick={changeLanguage} id="ca"><Translate string={'ca'}/></Dropdown.Item>
+                    <Dropdown.Item onClick={changeLanguage} id="en"><Translate string={'en'}/></Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
 
                 <div className="text-end">
+                
                   <a href={"http://admin." + process.env.REACT_APP_URL + ":8080/login"}>
-                    <Button className="me-2 login">Acceder</Button>
+                    <Button className="me-2 login"><Translate string={'aceder'}/></Button>
                   </a>
                   <a href={"http://admin." + process.env.REACT_APP_URL + ":8080/register"}>
-                    <Button className="login">Registrarse</Button>
+                    <Button className="login"><Translate string={'registrar'}/></Button>
                   </a>
                 </div>
               </div>

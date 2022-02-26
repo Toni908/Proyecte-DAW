@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from "axios";
+import Translate from "./locales/Translate";
 
 import CommentMaker from "./CommentMaker";
 import LoginHotmail from "./LoginHotmail";
@@ -92,10 +93,10 @@ class Comment extends Component {
                                                 <div className="card-body p-4 p-lg-5 text-black w-100">
                                                     <div className="w-100">
                                                         <div className="d-flex align-items-center mb-3 pb-1">
-                                                            <span className="h1 fw-bold mb-0">No puedes comentar</span>
+                                                            <span className="h1 fw-bold mb-0"><Translate string={'noLo'}/></span>
                                                         </div>
     
-                                                        <h5 className="fw-normal mb-3 pb-3 letter-space">Esta reserva ya a publicado un comentario! Por favor, asegurese de que esta es la reserva que queria comentar!</h5>
+                                                        <h5 className="fw-normal mb-3 pb-3 letter-space"><Translate string={'noDes'}/></h5>
                                                     </div>
                                                 </div>
                                             </div>

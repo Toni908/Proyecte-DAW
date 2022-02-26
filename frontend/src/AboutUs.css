@@ -1,6 +1,6 @@
 
 .aboutTittle{
-    color: rgb(168,169,236);
+    color: #ADC5d9;
 }
 
 .subtext{
@@ -16,13 +16,13 @@
 }
 
 .color{
-    background-color: rgb(168,169,236);
+    background-color: #ADC5d9;
     border: none;
     font-size: 24px;
 }
 
 .color:hover{
-    background-color: rgb(250,180,185);
+    background-color: #8C7654;
     border: none;
 }
 

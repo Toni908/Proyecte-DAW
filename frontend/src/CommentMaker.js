@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from "axios";
+import Translate from "./locales/Translate";
 
 import Valoracion from './components/components_interns/Valoracion';
 import './CommentMaker.css';
@@ -93,27 +94,27 @@ class CommentMaker extends Component {
                                                         <span className="h1 fw-bold mb-0">Trobalo</span>
                                                     </div>
 
-                                                    <h5 className="fw-normal mb-3 pb-3 letter-space"> Que es lo que opinas del restaurante?</h5>
+                                                    <h5 className="fw-normal mb-3 pb-3 letter-space"><Translate string={'opinas'}/></h5>
 
                                                     <div className="form-outline mb-4">
                                                         <textarea name="correo" className="form-control form-control-lg" rows="10" onChange={this.comment}/>
-                                                        <label className="form-label" htmlFor="form2Example17">Comentario</label>
+                                                        <label className="form-label" htmlFor="form2Example17"><Translate string={'comentario'}/></label>
                                                     </div>
 
-                                                    <h6 className="letter-space"> Que valoracion le das a la Comida?</h6>
+                                                    <h6 className="letter-space"><Translate string={'co'}/></h6>
 
                                                         <Valoracion ifClicked={this.changeC}/>
 
-                                                    <h6 className="letter-space"> Que valoracion le das al Servicio?</h6>
+                                                    <h6 className="letter-space"><Translate string={'se'}/></h6>
 
                                                         <Valoracion ifClicked={this.changeS}/>
 
-                                                    <h6 className="letter-space"> Que valoracion le das al Sitio?</h6>
+                                                    <h6 className="letter-space"><Translate string={'si'}/></h6>
 
                                                         <Valoracion ifClicked={this.changeSi}/>
 
                                                     <div className="pt-1 mb-4">
-                                                        <button className="btn btn-dark btn-lg btn-block" type="button" onClick={() => this.enviar()}>Enviar Reseña</button>
+                                                        <button className="btn btn-dark btn-lg btn-block" type="button" onClick={() => this.enviar()}><Translate string={'enre'}/></button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -137,10 +138,10 @@ class CommentMaker extends Component {
                                             <div className="card-body p-4 p-lg-5 text-black w-100">
                                                 <div className="w-100">
                                                     <div className="d-flex align-items-center mb-3 pb-1">
-                                                        <span className="h1 fw-bold mb-0">Gracias por tu comentario</span>
+                                                        <span className="h1 fw-bold mb-0"><Translate string={'grax'}/></span>
                                                     </div>
 
-                                                    <h5 className="fw-normal mb-3 pb-3 letter-space"> Tu comentario a sido aplicado. Esperamos que haya sido una experiencia inolvidable!</h5>
+                                                    <h5 className="fw-normal mb-3 pb-3 letter-space"> <Translate string={'grax2'}/></h5>
                                                 </div>
                                             </div>
                                         </div>
