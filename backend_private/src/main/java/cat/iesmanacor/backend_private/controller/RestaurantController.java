@@ -250,6 +250,12 @@ public class RestaurantController {
             if (errors.hasErrors()) {
                 return "redirect:/error/401";
             }
+
+            if (restaurantDTO.getAforo()==null) {
+                Traductions traductions = new Traductions("Aforo no puede estar vacio","Capacity cannot be empty","Aforament no pot estar buit");
+                model.addAttribute("error",traductions.getTraductionLocale(request));
+                return update(restaurantDTO.getId_restaurante(), model, request);
+            }
             ModelMapper modelMapper = new ModelMapper();
             Restaurant restaurant = modelMapper.map(restaurantDTO, Restaurant.class);
 
@@ -279,11 +285,9 @@ public class RestaurantController {
             restaurant.setVisible(restaurantBefore.get().isVisible());
             restaurant.setValidated(restaurantBefore.get().isValidated());
             model = checkToUpdate(restaurant, restaurantBefore.get(), model, request);
-            Traductions traductions = new Traductions("Cambios realizados correctamente", "Changes made successfully", "Canvis realitzats correctament");
-            model.addAttribute("success", traductions.getTraductionLocale(request));
         } else{
             Traductions traductions = new Traductions("No se pudo realizar el cambio", "Changes cant be done", "No es pot fer els cambis");
-            model.addAttribute("success", traductions.getTraductionLocale(request));
+            model.addAttribute("error", traductions.getTraductionLocale(request));
         }
         return model;
     }
