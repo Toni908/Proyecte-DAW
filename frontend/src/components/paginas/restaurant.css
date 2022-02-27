@@ -51,6 +51,23 @@
 .min-height-info {
     min-height: 450px;
 }
+.map-height {
+    min-height: 550px;
+}
+
+.marker-map {
+    width: 50px;
+    height: 50px;
+}
+.icon{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: black solid 2px;
+}
+.slider-selection {
+    background: #BABABA;
+}
 
 @media only screen and (min-width: 1500px) {
     .postion-horario-restaurant {

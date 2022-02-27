@@ -1,20 +1,27 @@
 import React, {Component} from 'react';
 import axios from "axios";
+import {HashLink} from "react-router-hash-link";
+
+import Slider from "../components_interns/Slider";
 import ModalShare from "../components_interns/ModalShare";
+import ModalEtiquetas from "../components_interns/ModalEtiqutas";
+
 import GalleryRestaurant from "../components_interns/GalleryRestaurant";
 import HorarioRestaurant from "../components_interns/HorarioRestaurant";
 import Loading from "../components_interns/Loading";
 import Menu from "./Menu";
+import HeaderRestaurant from "./HeaderRestaurant";
+import reservas_anticipacion from "../components_interns/utilities/reservas_anticipacion";
+import FullCalendarReservas from "../components_interns/FullCalendarReservas";
+import SimpleMap from "../components_interns/SimpleMap";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "photoswipe/dist/photoswipe.css";
 import "photoswipe/dist/default-skin/default-skin.css";
 import "./restaurant.css";
 import "./menu.css";
-import HeaderRestaurant from "./HeaderRestaurant";
-import reservas_anticipacion from "../components_interns/utilities/reservas_anticipacion";
-import ModalEtiquetas from "../components_interns/ModalEtiqutas";
-import FullCalendarReservas from "../components_interns/FullCalendarReservas";
+
+import icon_person from "../../img/icon_person.png";
 
 class Restaurant extends Component {
     _isMounted = false;
@@ -24,14 +31,16 @@ class Restaurant extends Component {
 
         this.state = {
             restaurant: {},
+            infoAVG: [],
             comments: [],
+            reservas: [],
             carta: [],
             isLoading: false,
             error: null,
             header: false,
             hideTop: true
         };
-        this.handleLoad = this.handleLoad.bind(this);
+        // this.handleLoad = this.handleLoad.bind(this);
         this.handleResize = this.handleResize.bind(this);
     }
 
@@ -46,28 +55,33 @@ class Restaurant extends Component {
         let id = l[d];
 
         const request1 = axios.get(ip+"/restaurant/"+id);
-        const request2 = axios.get(ip+"/comments/restaurant/"+id);
+        const request2 = axios.get(ip+"/reservas/avg/"+id);
         const request3 = axios.get(ip+"/carta/restaurant/"+id);
+        const request4 = axios.get(ip+"/comments/restaurant/"+id);
+        const request5 = axios.get(ip+"/reservas/restaurant/"+id);
 
-        axios.all([request1, request2,request3])
+        axios.all([request1, request2,request3,request4,request5])
             .then(axios.spread((...responses) =>
                 {if (this._isMounted) {this.setState({
                     restaurant: responses[0].data,
-                    comments: responses[1].data["info"],
+                    infoAVG: responses[1].data["info"],
                     carta: responses[2].data,
+                    comments: responses[3].data,
+                    reservas: responses[4].data,
                     isLoading: false
                 })}}))
             .catch(error => this.setState({
                 error: error,
             }))
-        window.addEventListener('load', this.handleLoad);
+        // window.addEventListener('load', this.handleLoad);
+        // window.addEventListener("scroll", this.onScroll);
         window.addEventListener('resize', this.handleResize);
     }
 
     componentWillUnmount() {
         this._isMounted = false;
-        window.removeEventListener('load', this.handleLoad)
-        window.removeEventListener("scroll", this.onScroll);
+        // window.removeEventListener('load', this.handleLoad)
+        // window.removeEventListener("scroll", this.onScroll);
         window.removeEventListener('resize', this.handleResize);
     }
 
@@ -112,7 +126,7 @@ class Restaurant extends Component {
     };
 
     render() {
-        const {restaurant,comments,carta,isLoading, error,header,hideTop} = this.state;
+        const {restaurant,infoAVG,comments,reservas,carta,isLoading, error,header,hideTop} = this.state;
         let reservas_dias = reservas_anticipacion.getDayAnticipacion(restaurant.dies_anticipacion_reservas);
 
         if (error) {
@@ -132,9 +146,9 @@ class Restaurant extends Component {
                             <div className={"d-flex flex-lg-row flex-column justify-content-lg-between justify-content-center"}>
                                 <div className={"d-flex flex-row justify-content-lg-start justify-content-center"}>
                                     <i className="bi bi-star-fill text-color-TYPE-1 pe-2"/>
-                                    <div className={"pe-1"}>{valoraciones(comments)}</div>
+                                    <div className={"pe-1"}>{valoraciones(infoAVG)}</div>
                                     ·
-                                    <a className={"px-1 text-black"} href={"#comentarios"}>{comments["count"]}  valoraciones</a>
+                                    <HashLink to="#comments" className="px-1 text-black">{infoAVG["count"]} valoraciones</HashLink>
                                     ·
                                     {restaurant.localidad !== undefined && <div className={"px-1"}>{restaurant.localidad.nombre_localidad}</div>}
                                     ·
@@ -180,7 +194,7 @@ class Restaurant extends Component {
                             </div>
                         </section>}
                         <hr className={"mx-3 mx-lg-0"}/>
-                        <section className={"w-100 m-0 p-0 row pb-5 pt-2 px-lg-0 px-5"}>
+                        <section className={"w-100 m-0 p-0 pb-5 pt-2 px-lg-0 px-5"}>
                             <h3 className={"text-center py-4"}>¿Quieres realizar una reserva?</h3>
                             <p className={"text-center"}>Haz click el dia en el que quieres hacer la reserva y rellena el formulario!</p>
                             <p className={"text-center"}>Ten encuenta que el restaurante solo acepta reservas desde el dia {reservas_dias}</p>
@@ -188,16 +202,96 @@ class Restaurant extends Component {
                         </section>
                         <hr className={"mx-3 mx-lg-0"}/>
                         <section id={"location"} className={"w-100 m-0 p-0 row pb-5 pt-2 px-lg-0 px-5"}>
-                            GOOGLE MAP
+                            <h4 className={"py-4"}>¿Donde se encuentra el restaurante?</h4>
+                            {<SimpleMap class={"w-100 map-height"} lat={restaurant.latitud} lng={restaurant.longitud} zoom={11}/>}
                         </section>
                         <hr className={"mx-3 mx-lg-0"}/>
-                        <section id={"comments"} className={"w-100 m-0 p-0 row pb-5 pt-2 px-lg-0 px-5"}>
-                            COMENTARIOS RESTAURANTE
+                        <section id={"comments"} className={"w-100 m-0 p-0 pb-5 pt-2 px-lg-0 px-5"}>
+                            <div className={"d-flex flex-row justify-content-lg-start justify-content-center align-self-center"}>
+                                <i className="bi bi-star-fill fs-4 text-color-TYPE-1 pe-2"/>
+                                <div className={"pe-1 fs-4"}>{valoraciones(infoAVG)}</div>
+                                <div className={"fs-4 h-100 align-self-center"}>·</div>
+                                <HashLink to="#comments" className="px-1 text-black fs-4">{infoAVG["count"]} valoraciones</HashLink>
+                            </div>
+                            <div className={"row fs-5 pt-3"}>
+                                <div className={"col-lg-6 col-12"}>
+                                    <div className={"d-flex flex-row justify-content-between px-2"}>
+                                        Comida
+                                        <Slider min={0} max={5} value={infoAVG["valoracion_comida"]}/>
+                                    </div>
+                                </div>
+                                <div className={"col-lg-6 col-12"}>
+                                    <div className={"d-flex flex-row justify-content-between px-2"}>
+                                        Servicio
+                                        <Slider min={0} max={5} value={infoAVG["valoracion_servicio"]}/>
+                                    </div>
+                                </div>
+                                <div className={"col-lg-6 col-12"}>
+                                    <div className={"d-flex flex-row justify-content-between px-2"}>
+                                        Sitio
+                                        <Slider min={0} max={5} value={infoAVG["valoracion_sitio"]}/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className={"row pt-5"}>
+                                {comments.map(function (comment, key) {
+                                    return(
+                                        <div key={key} className={"col-lg-6 col-12"}>
+                                            <div className={"d-flex flex-row px-2"}>
+                                                <img className={"icon"} src={icon_person} alt={"Comment"}/>
+                                                <div className={"ps-3 pt-2 d-flex flex-column"}>
+                                                    <div className={"fw-bold"}>{comment.nombre}</div>
+                                                    <div className={"text-secondary"} style={{fontSize: "13px"}}>{formatDate(comment.fecha)}</div>
+                                                </div>
+                                            </div>
+                                            <div className={"pt-2 pb-4 ps-2"}>
+                                                {comment.comentario}
+                                            </div>
+                                        </div>
+                                    )
+                                })}
+                            </div>
                         </section>
                     </div>
                 </div>
             </section>
         );
+    }
+}
+
+function formatDate(fecha) {
+    let date = new Date(fecha);
+    return getMonthString(date.getMonth())+" del "+date.getFullYear();
+}
+
+function getMonthString(month) {
+    switch (month) {
+        case 0:
+            return 'enero';
+        case 1:
+            return 'febrero';
+        case 2:
+            return 'marzo';
+        case 3:
+            return 'abril';
+        case 4:
+            return 'mayo';
+        case 5:
+            return 'junio';
+        case 6:
+            return 'julio';
+        case 7:
+            return 'agosto';
+        case 8:
+            return 'septiembre';
+        case 9:
+            return 'octubre';
+        case 10:
+            return 'noviembre';
+        case 11:
+            return 'diciembre';
+        default:
+            return null;
     }
 }
 

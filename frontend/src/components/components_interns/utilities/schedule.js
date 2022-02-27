@@ -65,13 +65,20 @@ function getResultHour(horario, today) {
                         </div>);
                     }
                 } else {
-                    result = (<div className={"d-flex flex-column"}>
-                        <div key={i} className={"d-flex flex-row gap-1"}>Horario:
-                            <div className={"text-success"}>Abierto</div>
-                        </div>
-                        <div className={"paraf_info_horario"}>Cierra a las {fixedDate(horario[i].hora_fin)}</div>
-                    </div>);
-                    break;
+                    if (hasPassedTime(fixedDate(horario[i].hora_inicio), fixedDate(horario[i].hora_fin), today)) {
+                        result = (<div className={"d-flex flex-column"}>
+                            <div key={i} className={"d-flex flex-row gap-1"}>Horario:
+                                <div className={"text-success"}>Abierto</div>
+                            </div>
+                            <div className={"paraf_info_horario"}>Cierra a las {fixedDate(horario[i].hora_fin)}</div>
+                        </div>);
+                    } else {
+                        result = (<div className={"d-flex flex-column"}>
+                            <div key={i} className={"d-flex flex-row gap-1"}>Horario: <div
+                                className={"text-danger"}>Cerrado</div></div>
+                            <div className={"paraf_info_horario"}>Ya a Cerrado</div>
+                        </div>);
+                    }
                 }
             }
         }

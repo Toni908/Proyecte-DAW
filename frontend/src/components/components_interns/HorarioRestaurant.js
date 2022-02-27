@@ -75,9 +75,9 @@ class HorarioRestaurant extends Component {
         if (this.props.isSimple) {
             if (this.props.onlyHeader) {
                 return (
-                    <section className={"px-3 bg-white"}>
+                    <section className={"bg-white"}>
                         <div className={"d-flex flex-column gap-2"}>
-                            <div className={"d-flex flex-row justify-content-center"}>
+                            <div className={"text-dark fw-bold d-flex flex-row justify-content-center"}>
                                 {header}
                             </div>
                         </div>

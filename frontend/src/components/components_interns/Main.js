@@ -12,6 +12,7 @@ import city4 from "../../img/city4.jpg"
 
 import './Buscador.css';
 import './main.css';
+import {Link} from "react-router-dom";
 
 class Main extends Component {
     constructor() {
@@ -63,42 +64,42 @@ class Main extends Component {
                         <section className={"w-100 pt-4"}>
                             <section className={"w-100 m-0 p-0 max-w-full"}>
                                 <div className={"d-flex flex-row"}>
-                                    <Card className={"w-25 mx-2 border-0"}>
-                                        <a href={"/search?name=Manacor"}>
+                                    <Link to={"/search?name=Manacor"} style={{ textDecoration: 'none', width: "25%"}}>
+                                        <Card className={"mx-2 border-0"}>
                                             <img className={'card-section-municipio w-100 round-card-top object-cover'} src={city1} alt={"Municipio"}/>
                                             <section className={"round-card card-section-municipio background-TYPE-2 w-100 ps-4 pt-4"}>
                                                 <h3 className={"text-white"}>Manacor</h3>
                                                 <p className={"text-white"}>Busca tu restaurante en Manacor</p>
                                             </section>
-                                        </a>
-                                    </Card>
-                                    <Card className={"w-25 mx-2 border-0"}>
-                                        <a href={"/search?name=Palma"}>
+                                        </Card>
+                                    </Link>
+                                    <Link to={"/search?name=Palma"} style={{ textDecoration: 'none', width: "25%"}}>
+                                        <Card className={"mx-2 border-0"}>
                                             <img className={'card-section-municipio w-100 round-card-top object-cover'} src={city2} alt={"Municipio"}/>
                                             <section className={"round-card card-section-municipio background-TYPE-4 w-100 ps-4 pt-4"}>
                                                 <h3 className={"text-white"}>Palma</h3>
                                                 <p className={"text-white"}>Busca tu restaurante en Palma</p>
                                             </section>
-                                        </a>
-                                    </Card>
-                                    <Card className={"w-25 mx-2 border-0"}>
-                                        <a href={"/search?name=Inca"}>
+                                        </Card>
+                                    </Link>
+                                    <Link to={"/search?name=Inca"} style={{ textDecoration: 'none', width: "25%"}}>
+                                        <Card className={"mx-2 border-0"}>
                                             <img className={'card-section-municipio w-100 round-card-top object-cover'} src={city3} alt={"Municipio"}/>
                                             <section className={"round-card card-section-municipio background-TYPE-1 w-100 ps-4 pt-4"}>
                                                 <h3 className={"text-white"}>Inca</h3>
                                                 <p className={"text-white"}>Busca tu restaurante en Inca</p>
                                             </section>
-                                        </a>
-                                    </Card>
-                                    <Card className={"w-25 mx-2 border-0"}>
-                                        <a href={"/search?name=Arta"}>
+                                        </Card>
+                                    </Link>
+                                    <Link to={"/search?name=Arta"} style={{ textDecoration: 'none', width: "25%"}}>
+                                        <Card className={"mx-2 border-0"}>
                                             <img className={'card-section-municipio w-100 round-card-top object-cover'} src={city4} alt={"Municipio"}/>
                                             <section className={"round-card card-section-municipio background-TYPE-3 w-100 ps-4 pt-4"}>
                                                 <h3 className={"text-white"}>Arta</h3>
                                                 <p className={"text-white"}>Busca tu restaurante en Arta</p>
                                             </section>
-                                        </a>
-                                    </Card>
+                                        </Card>
+                                    </Link>
                                 </div>
                                 <h2 className={"pt-5 mt-5 ps-1 title-principal fw-bold text-center w-100"}>Descubre Restaurantes</h2>
                                 <ListRestaurant idList={"1"} title={"Los Mejores Restaurantes"} restaurants={BestRestaurants}/>
