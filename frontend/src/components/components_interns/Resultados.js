@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import CardRestaurant from "./CardRestaurant";
 import "./list_restaurants.css"
-import $ from 'jquery'
 
 class Resultados extends Component {
     constructor(props) {
@@ -9,12 +8,22 @@ class Resultados extends Component {
 
       this.state = {
         restaurants: this.props.restaurants,
+        quantity: null
       }
 
-    this.isResponsive = this.isResponsive.bind(this);
+      this.isResponsive = this.isResponsive.bind(this);
     }
+
+    isResponsive() {
+        if (window.innerWidth<1500) {
+            this.setState({quantity:1})
+        } else {
+            this.setState({quantity:4})
+        }
+    }
+
     componentDidMount(){
-      let ip = process.env.REACT_APP_API_URL;
+    /*  let ip = process.env.REACT_APP_API_URL;
       this.setState({ isLoading: true });
 
       const request1 = axios.get(ip+"/restaurants");
@@ -28,17 +37,45 @@ class Resultados extends Component {
           isLoading: false
       }))).catch(error => this.setState({
           error: error,
-      }))
+      }))*/
     }
 
   render() {
-    return (
-        {restaurants.map(function(item, key) {
-          return (
-            <CardRestaurant key={key} restaurant={item} localidad={item.localidad}/>
-          )
-        })}
-    );
+    const { restaurants } = this.state;
+        const responsive = {
+            desktop: {
+                breakpoint: { max: 3000, min: 1500 },
+                items: 4,
+                slidesToSlide: 4,
+                partialVisibilityGutter: 15
+            },
+            tablet: {
+                breakpoint: { max: 1500, min: 900 },
+                items: 2,
+                slidesToSlide: 2,
+                partialVisibilityGutter: 15
+            },
+            mobile: {
+                breakpoint: { max: 900, min: 0 },
+                items: 1,
+                slidesToSlide: 1
+            }
+        };
+    if(this.restaurants === null){
+      return (
+        <h1>No restaurants</h1>
+      )
+    }else{
+      return (
+        <section>
+          {restaurants.map(function(item, key) {
+            return (
+              <CardRestaurant key={key} restaurant={item} localidad={item.localidad}/>
+            )
+          })}
+        </section>
+      );
+    }
   }
 }
 

@@ -127,10 +127,9 @@ class RestaurantController extends Controller
         $etiqueta = $request->input('etiqueta');
         $lugar = $request->input('lugar');
         $precio = (int)$request->input('precio');
-        $restaurant = Restaurante::with('localidad','imgs','etiquetas','periodos')->select('restaurante.*', DB::raw('Round(AVG(platos.precio),2) as valMed'))
+
+        $restaurant = Restaurante::with('localidad','imgs','etiquetas','periodos')->select('restaurante.*')
         ->join('carta', 'carta.id_restaurante', '=', 'restaurante.id_restaurante')
-        ->join('categoria_platos', 'categoria_platos.id_carta', '=', 'carta.id_carta')
-        ->join('platos', 'platos.id_categoria', '=', 'categoria_platos.id_categoria')
         ->join('restaurante_etiquetas', 'restaurante_etiquetas.id_restaurante', '=', 'restaurante.id_restaurante')
         ->join('etiquetas', 'etiquetas.id_etiqueta', '=', 'restaurante_etiquetas.id_etiqueta')
         ->join('localidad', 'localidad.id_localidad', '=', 'restaurante.id_localidad')
@@ -165,10 +164,13 @@ class RestaurantController extends Controller
 
     
 
-    // HELPER FUNCTIONS
+    // HELPER FUNCTIONS 
 
     /*public function cartas($array): ?array
     {
+        ->join('categoria_platos', 'categoria_platos.id_carta', '=', 'carta.id_carta')
+        ->join('platos', 'platos.id_categoria', '=', 'categoria_platos.id_categoria')
+        , DB::raw('Round(AVG(platos.precio),2) as valMed')
     }*/
 
     public function aforo($id) {
