@@ -20,7 +20,16 @@
     border-radius: 50px;
 }
 
-
+.show-more{
+    border-radius: 10px;
+    padding: 15px 25px;
+    border: grey solid 2px;
+}
+.show-more:hover {
+    border-radius: 10px;
+    padding: 15px 25px;
+    border: grey solid 2px;
+}
 .box-copied {
     border-radius: 15px;
     border: #F0F0F0 2px solid;

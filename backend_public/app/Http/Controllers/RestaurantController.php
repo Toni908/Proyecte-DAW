@@ -17,7 +17,10 @@ class RestaurantController extends Controller
 
     public function show($id)
     {
-        $data = Restaurante::with('localidad','imgs','etiquetas','periodos','reservas')->find($id);
+        $data = Restaurante::with("imgs","etiquetas")->select("user_acount.nombre as username","user_acount.correo as usercorreo","user_acount.telefono as userphone","restaurante.*", "localidad.*")
+            ->join("user_acount","user_acount.id_user","=","restaurante.id_user")
+            ->join("localidad","localidad.id_localidad","=","restaurante.id_localidad")
+            ->find($id);
         if ($data['visible'] && $data['validated']) {
             return json_decode(json_encode($data), true);
         }
@@ -65,7 +68,7 @@ class RestaurantController extends Controller
         return $restaurant->toJson();
     }
 
-    public function AVGCommentsRestaurant($id){
+    public function AVGReservasRestaurant($id){
         $restaurant["info"] = Restaurante::select("restaurante.id_restaurante",DB::raw('Round(AVG(comentarios.valoracion_sitio),2) as valoracion_sitio'),DB::raw('Round(AVG(comentarios.valoracion_servicio),2) as valoracion_servicio'),DB::raw('Round(AVG(comentarios.valoracion_comida),2) as valoracion_comida'),DB::raw('Count(comentarios.id_reserva) as count'))
             ->join("reserva","restaurante.id_restaurante","=","reserva.id_restaurante")
             ->join('comentarios', 'reserva.id_reserva', '=', 'comentarios.id_reserva')

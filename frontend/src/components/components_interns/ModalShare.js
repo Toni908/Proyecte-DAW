@@ -16,7 +16,7 @@ function ModalShare(props) {
 
     return (
         <div className={"modal-80w"}>
-            <a href="/#" className={"button-share"} onClick={() => {setShow(true); setCopy(false)}}>
+            <a href="#" className={"button-share"} onClick={() => {setShow(true); setCopy(false)}}>
                 <i className="bi bi-box-arrow-up pe-2 text-black"/>Compartir
             </a>
 
@@ -113,7 +113,7 @@ function ModalShare(props) {
 }
 
 function copyOnClipBoard() {
-    var dummy = document.createElement('input'), text = window.location.href;
+    let dummy = document.createElement('input'), text = window.location.href;
     document.body.appendChild(dummy);
     dummy.value = text;
     dummy.select();

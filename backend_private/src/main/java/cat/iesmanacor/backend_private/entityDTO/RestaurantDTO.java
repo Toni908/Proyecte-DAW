@@ -7,6 +7,7 @@ import java.math.BigInteger;
 
 public class RestaurantDTO {
 
+    @NotNull
     private BigInteger id_restaurante;
 
     @NotNull(message = "nombre cant be null")
@@ -22,10 +23,8 @@ public class RestaurantDTO {
 
     Double latitud;
 
-    @NotNull
     String direccion;
 
-    @NotNull
     Long aforo;
 
     public BigInteger getId_restaurante() {

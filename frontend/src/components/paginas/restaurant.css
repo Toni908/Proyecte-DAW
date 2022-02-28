@@ -31,28 +31,49 @@
     font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
 }
 .postion-horario-restaurant {
-    position: fixed;
+    position: sticky;
     width: 20%;
-    left: 70%;
-    top: 15%;
+}
+
+.postion-restaurant-bottom {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
 }
 
 .information-grid {
     display: grid;
     grid-template-columns: 50% 50%;
     grid-template-rows: auto;
+    font-size: 18px;
 }
 
 .min-height-info {
-    min-height: 425px;
+    min-height: 450px;
+}
+.map-height {
+    min-height: 550px;
+}
+
+.marker-map {
+    width: 50px;
+    height: 50px;
+}
+.icon{
+    width: 60px;
+    height: 60px;
+    border: black solid 3px;
+}
+
+.slider-selection {
+    background: #BABABA;
 }
 
 @media only screen and (min-width: 1500px) {
     .postion-horario-restaurant {
         position: fixed;
-        width: 20%;
         left: 61%;
-        top: 15%;
+        top: 10%;
     }
 }
 @media only screen and (min-width: 1400px) {

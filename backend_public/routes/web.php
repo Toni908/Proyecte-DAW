@@ -41,7 +41,9 @@ Route::get('/filtrar',[RestaurantController::class, 'buscador']);
 
 Route::get('/localidad/{id}',[LocalidadController::class,'show']);
 
-Route::get('/comments/restaurant/{id}',[RestaurantController::class,'AVGCommentsRestaurant']);
+Route::get('/comments/restaurant/{id}',[ComentarioController::class,'showWithRestaurant']);
+Route::get('/reservas/restaurant/{id}',[ReservasController::class,'showWithRestaurant']);
+Route::get('/reservas/avg/{id}',[RestaurantController::class,'AVGReservasRestaurant']);
 Route::get('/carta/restaurant/{id}',[RestaurantController::class,'cartRestaurantActive']);
 
 Route::get('/image/{id_restaurant}/{name}',[ImageController::class,'show']);

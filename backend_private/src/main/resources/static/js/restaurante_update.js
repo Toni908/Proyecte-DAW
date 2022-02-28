@@ -115,6 +115,7 @@ function checkNamePattern(){
 
 function vaciarValidateGeneral() {
     $("#validateNameResponse").empty();
+    $("#validateAforo").empty();
     $("#validateTelefonoResponse").empty();
     $("#validateDiasAnticipacionResponse").empty();
     $("#validateLocalidadResponse").empty();
@@ -123,6 +124,7 @@ function vaciarValidateGeneral() {
 
 function validateGeneral() {
     let errors = 0;
+
     vaciarValidateGeneral();
     if ($("#nombre").val()==null) {
         errors++;
@@ -149,6 +151,14 @@ function validateGeneral() {
         $("#validateTelefonoResponse").append("<p class='text-danger fw-bold pt-2'>"+traductions.formPhone+"</p>");
     } else {
         $(".validateTelefonoResponse").addClass("border border-success border-2")
+    }
+
+    if ($("#aforo").val()=="" || $("#aforo").val()==null) {
+        errors++;
+        $(".validateAforo").addClass("border border-danger border-2")
+        $("#validateAforo").append("<p class='text-danger fw-bold pt-2'>"+traductions.formAforo+"</p>");
+    } else {
+        $(".validateAforo").addClass("border border-success border-2")
     }
 
     if( $("#checkMiembro").is(':checked') ){

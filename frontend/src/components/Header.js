@@ -26,7 +26,7 @@ class Header extends Component {
 
                 <Dropdown>
                   <Dropdown.Toggle className='bg-white border-0' id="dropdown-custom-components">
-                    <FaGlobe size='28' className='me-3' color='#ADC5d9'/>
+                    <FaGlobe size='28' className='me-3' color='#536CC9'/>
                   </Dropdown.Toggle>
 
                   <Dropdown.Menu>
