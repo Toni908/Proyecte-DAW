@@ -1,0 +1,102 @@
+.main-width-restaurant {
+    width: 100%;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.border-item1 {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+.border-right-top {
+    border-top-right-radius: 0;
+}
+.border-right-bottom {
+    border-bottom-right-radius: 0;
+}
+
+.width-image1 {
+    width: 100%;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.width-image2 {
+    height: 250px;
+    width: 50%;
+}
+.image-cover {
+    object-fit: cover;
+}
+.font-restaurant {
+    font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
+}
+.postion-horario-restaurant {
+    position: sticky;
+    width: 20%;
+}
+
+.postion-restaurant-bottom {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+}
+
+.information-grid {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: auto;
+    font-size: 18px;
+}
+
+.min-height-info {
+    min-height: 450px;
+}
+.map-height {
+    min-height: 550px;
+}
+
+.marker-map {
+    width: 50px;
+    height: 50px;
+}
+.icon{
+    width: 60px;
+    height: 60px;
+    border: black solid 3px;
+}
+
+.slider-selection {
+    background: #BABABA;
+}
+
+@media only screen and (min-width: 1500px) {
+    .postion-horario-restaurant {
+        position: fixed;
+        left: 61%;
+        top: 10%;
+    }
+}
+@media only screen and (min-width: 1400px) {
+    .main-width-restaurant {
+        width: 1150px;
+        padding: 0;
+    }
+
+    .width-image1 {
+        width: 575px;
+    }
+    .width-image2 {
+        height: 250px;
+        width: 287px;
+    }
+    .border-item1 {
+        border-top-left-radius: 20px;
+        border-bottom-left-radius: 20px;
+    }
+    .border-right-top {
+        border-top-right-radius: 20px;
+    }
+    .border-right-bottom {
+        border-bottom-right-radius: 20px;
+    }
+}

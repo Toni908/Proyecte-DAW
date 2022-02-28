@@ -1,5 +1,3 @@
-import React from "react";
-
 class schedule {
     static isTodayOpen(horario) {
         return isTodayOpen(horario);
@@ -39,39 +37,53 @@ function getResultHour(horario, today) {
         <div className={"d-flex flex-row gap-1"}>Horario: <div className={"text-danger"}>Cerrado</div></div>
         <div className={"paraf_info_horario"}>Hoy no esta abierto</div>
     </div>);
+
     for (let i = 0; i < horario.length; i++) {
         //SI ES HOY
         if (getDayNumber(horario[i].day) === today.getDay()) {
+            // LA HORA ES MENOR QUE EL HORARIO (NO = HAY HORAS ADELANTE) (SI = SEGUIR BUSCANDO)
             if (isClosed(fixedDate(horario[i].hora_inicio), today)) {
+
                 result = (<div className={"d-flex flex-column"}>
                     <div key={i} className={"d-flex flex-row gap-1"}>Horario:
                         <div className={"text-warning"}>Cerrado</div>
                     </div>
                     <div className={"paraf_info_horario"}>Abierto a las {fixedDate(horario[i].hora_inicio)}</div>
                 </div>);
-            } else {
-                if (isNearClose(fixedDate(horario[i].hora_inicio),fixedDate(horario[i].hora_fin), today)) {
-                    if (hasPassedTime(fixedDate(horario[i].hora_inicio), fixedDate(horario[i].hora_fin), today)) {
-                        result = (<div className={"d-flex flex-column"}>
-                            <div key={i} className={"d-flex flex-row gap-1"}>Horario: <div
-                                className={"text-success"}>Abierto</div></div>
-                            <div className={"paraf_info_horario text-warning"}>Cierra
-                                pronto {fixedDate(horario[i].hora_fin)}</div>
-                        </div>);
-                        break;
-                    } else {
-                        result = (<div className={"d-flex flex-column"}>
-                            <div key={i} className={"d-flex flex-row gap-1"}>Horario: <div
-                                className={"text-danger"}>Cerrado</div></div>
-                            <div className={"paraf_info_horario"}>Ya a Cerrado</div>
-                        </div>);
-                    }
+            }
+
+            // LA HORA +2 ES MAYOR QUE EL HORARIO (SI = APUNTO DE CERRAR) (NO = SEGUIR BUSCANDO)
+            if (isNearClose(fixedDate(horario[i].hora_inicio),fixedDate(horario[i].hora_fin), today)) {
+                // ES TODO CORRECTO ?
+                if (hasPassedTime(fixedDate(horario[i].hora_inicio), fixedDate(horario[i].hora_fin), today)) {
+                    result = (<div className={"d-flex flex-column"}>
+                        <div key={i} className={"d-flex flex-row gap-1"}>Horario: <div
+                            className={"text-success"}>Abierto</div></div>
+                        <div className={"paraf_info_horario text-warning"}>Cierra
+                            pronto {fixedDate(horario[i].hora_fin)}</div>
+                    </div>);
+                    break;
                 } else {
                     result = (<div className={"d-flex flex-column"}>
+                        <div key={i} className={"d-flex flex-row gap-1"}>Horario: <div
+                            className={"text-danger"}>Cerrado</div></div>
+                        <div className={"paraf_info_horario text-secondary"}>Ya a cerrado</div>
+                    </div>);
+                }
+            } else {
+                if (isClosed(fixedDate(horario[i].hora_inicio), today)) {
+                    result = (<div className={"d-flex flex-column"}>
                         <div key={i} className={"d-flex flex-row gap-1"}>Horario:
-                            <div className={"text-success"}>Abierto</div>
+                            <div className={"text-warning"}>Cerrado</div>
                         </div>
-                        <div className={"paraf_info_horario"}>Cierra a las {fixedDate(horario[i].hora_fin)}</div>
+                        <div className={"paraf_info_horario"}>Abierto a las {fixedDate(horario[i].hora_inicio)}</div>
+                    </div>);
+                } else {
+                    result = (<div className={"d-flex flex-column"}>
+                        <div key={i} className={"d-flex flex-row gap-1"}>Horario: <div
+                            className={"text-success"}>Abierto</div></div>
+                        <div className={"paraf_info_horario text-secondary"}>Cierra
+                            a las {fixedDate(horario[i].hora_fin)}</div>
                     </div>);
                     break;
                 }
@@ -129,12 +141,10 @@ function isClosed(hora, today) {
 
 function textMake(week, horario, array, days) {
     while (hasFalse(week)) {
-        horario.map(function (hora, key) {
+        horario.forEach(function (hora, key) {
             days.push(hora.day);
-            array.push(<div key={key}
-                            className={"text-dark"}>{hora.day}: {fixedDate(hora.hora_inicio)}-{fixedDate(hora.hora_fin)}</div>);
+            array.push(<div key={key} className={"hora_day"}>{hora.day}: {fixedDate(hora.hora_inicio)}-{fixedDate(hora.hora_fin)}</div>);
             changeWeekStatus(hora.day, week);
-            return ("")
         })
         pushOnTextDay(week, array, days);
     }
@@ -199,37 +209,37 @@ function changeWeekStatus(number, week) {
 function pushOnTextDay(week, text, days) {
     if (week[0] === false) {
         days.push("Lunes");
-        text.push(<div className={"text-danger"}>Lunes cerrado</div>);
+        text.push(<div className={"text-danger text-center"}>Lunes cerrado</div>);
         week[0] = true;
     }
     if (week[1] === false) {
         days.push("Martes");
-        text.push(<div className={"text-danger"}>Martes cerrado</div>);
+        text.push(<div className={"text-danger text-center"}>Martes cerrado</div>);
         week[1] = true;
     }
     if (week[2] === false) {
         days.push("Miercoles");
-        text.push(<div className={"text-danger"}>Miercoles cerrado</div>);
+        text.push(<div className={"text-danger text-center"}>Miercoles cerrado</div>);
         week[2] = true;
     }
     if (week[3] === false) {
         days.push("Jueves");
-        text.push(<div className={"text-danger"}>Jueves cerrado</div>);
+        text.push(<div className={"text-danger text-center"}>Jueves cerrado</div>);
         week[3] = true;
     }
     if (week[4] === false) {
         days.push("Viernes");
-        text.push(<div className={"text-danger"}>Viernes cerrado</div>);
+        text.push(<div className={"text-danger text-center"}>Viernes cerrado</div>);
         week[4] = true;
     }
     if (week[5] === false) {
         days.push("Sabado");
-        text.push(<div className={"text-danger"}>Sabado cerrado</div>);
+        text.push(<div className={"text-danger text-center"}>Sabado cerrado</div>);
         week[5] = true;
     }
     if (week[6] === false) {
         days.push("Domingo");
-        text.push(<div className={"text-danger"}>Domingo cerrado</div>);
+        text.push(<div className={"text-danger text-center"}>Domingo cerrado</div>);
         week[6] = true;
     }
 }

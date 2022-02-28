@@ -11,8 +11,16 @@ class ReservasController extends Controller
 {
     public function show($id)
     {
-        $restaurant = Reserva::find($id);
-        return $restaurant->toJson(JSON_PRETTY_PRINT);
+        $reserva = Reserva::find($id);
+        return $reserva->toJson(JSON_PRETTY_PRINT);
+    }
+
+    public function showWithRestaurant($id) {
+        $reservas = Reserva::select("reserva.*")
+            ->join("restaurante","restaurante.id_restaurante","=","reserva.id_restaurante")
+            ->where("restaurante.id_restaurante","=",$id)
+            ->get()->toArray();
+        return $reservas;
     }
 
     public function create(Reserva $reserva)

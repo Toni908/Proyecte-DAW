@@ -55,8 +55,14 @@
   z-index: 0;
   height: 300px;
 }
+.width-form {
+  width: 50%;
+}
 @media only screen and (max-width: 800px) {
   .length {
     width: 90%;
+  }
+  .width-form {
+    width: 100%;
   }
 }

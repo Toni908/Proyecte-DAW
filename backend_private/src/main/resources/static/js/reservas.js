@@ -57,10 +57,10 @@ activeTheFirstIfExist();
 
 function activeTheFirstIfExist() {
     if (restaurantActive !== undefined) {
-        var date = new Date(currentTime);
-        titleTime.text(reFormatDateLeftToRight(currentTime));
+        var date = new Date();
+        titleTime.text(reFormatDateTitle(date));
         table.DataTable().destroy();
-        $.getJSON("/get/reservas/json/"+restaurantActive+"/"+date, function (data) {
+        $.getJSON("/get/reservas/"+restaurantActive+"/"+reFormatDate(date), function (data) {
             createDataTable(data);
         });
     } else {
@@ -68,46 +68,94 @@ function activeTheFirstIfExist() {
     }
 }
 
-$( function() {
-    datepicker.datepicker({
+function reFormatDateTitle(date) {
+    if (traducciones.idioma==="en") {
+        return (date.getMonth()+1)+"/"+date.getDate()+"/"+date.getFullYear();
+    } else {
+        return  date.getDate()+"/"+(date.getMonth()+1)+"/"+date.getFullYear();
+    }
+}
+
+if (traducciones.idioma==="en") {
+    $(function () {
+        datepicker.datepicker({
+            weekStart: 1,
+            firstDay: 1,
+            todayBtn: "linked",
+            daysOfWeekHighlighted: "0,6",
+            todayHighlight: true,
+            onSelect: function (dateText, inst) {
+                var date = new Date(getYearFromString(dateText), getMonthFromString(dateText) - 1, getDayFromString(dateText), '0', '0', '0');
+                table.DataTable().destroy();
+                titleTime.text(reFormatDateTitle(date));
+                $.getJSON("/get/reservas/" + restaurantActive + "/" + reFormatDate(date), function (data) {
+                    createDataTable(data);
+                });
+            }
+        });
+    });
+} else {
+    $(function () {
+        datepicker.datepicker({
+            weekStart: 1,
+            todayBtn: "linked",
+            daysOfWeekHighlighted: "0,6",
+            todayHighlight: true,
+            onSelect: function (dateText, inst) {
+                var date = new Date(getYearFromString(dateText), getMonthFromString(dateText) - 1, getDayFromString(dateText), '0', '0', '0');
+                table.DataTable().destroy();
+                titleTime.text(reFormatDateTitle(date));
+                $.getJSON("/get/reservas/" + restaurantActive + "/" + reFormatDate(date), function (data) {
+                    createDataTable(data);
+                });
+            }
+        });
+    });
+}
+
+$.datepicker.setDefaults($.datepicker.regional[ traducciones.idioma ]);
+if (traducciones.idioma==="en") {
+    $(".datepicker").datepicker({
+        weekStart: 1,
+        todayBtn: "linked",
+        daysOfWeekHighlighted: "0,6",
+        todayHighlight: true,
+        onSelect: function(dateText, inst) {
+            var date = new Date(getYearFromString(dateText), getMonthFromString(dateText) - 1, getDayFromString(dateText), '0', '0', '0');
+            table.DataTable().destroy();
+            titleTime.text(reFormatDateTitle(date));
+            $.getJSON("/get/reservas/" + restaurantActive+"/"+reFormatDate(date), function (data) {
+                createDataTable(data);
+            });
+        }
+    });
+} else {
+    $(".datepicker").datepicker({
         weekStart: 1,
         firstDay: 1,
         todayBtn: "linked",
         daysOfWeekHighlighted: "0,6",
         todayHighlight: true,
         onSelect: function(dateText, inst) {
-            var date = new Date(reFormatDate(dateText));
+            var date = new Date(getYearFromString(dateText), getMonthFromString(dateText) - 1, getDayFromString(dateText), '0', '0', '0');
             table.DataTable().destroy();
-            titleTime.text(reFormatDateLeftToRight(dateText));
-            $.getJSON("/get/reservas/json/" + restaurantActive+"/"+date, function (data) {
+            titleTime.text(reFormatDateTitle(date));
+            $.getJSON("/get/reservas/" + restaurantActive+"/"+reFormatDate(date), function (data) {
                 createDataTable(data);
             });
         }
     });
-} );
-$(".datepicker").datepicker({
-    weekStart: 1,
-    firstDay: 1,
-    todayBtn: "linked",
-    daysOfWeekHighlighted: "0,6",
-    todayHighlight: true,
-    onSelect: function(dateText, inst) {
-        var date = new Date(reFormatDate(dateText));
-        table.DataTable().destroy();
-        titleTime.text(reFormatDateLeftToRight(dateText));
-        $.getJSON("/get/reservas/json/" + restaurantActive+"/"+date, function (data) {
-            createDataTable(data);
-        });
-    }
-});
+}
+
 
 restaurants.on('click', function () {
-    var date = new Date(currentTime);
+    var date = new Date();
     table.DataTable().destroy();
-    titleTime.text(reFormatDateLeftToRight(currentTime));
-    $.getJSON( "/get/reservas/json/"+$(this).attr('name')+"/"+date, function( data ) {
+    titleTime.text(reFormatDateTitle(date));
+    $.getJSON( "/get/reservas/"+$(this).attr('name')+"/"+reFormatDate(date), function( data ) {
         createDataTable(data);
     });
+    $(".datepicker").datepicker('setDate', null);
     datepicker.datepicker('setDate', null);
     restaurantActive = $(this).attr('name');
     removeRestaurantCSS(restaurant);
@@ -117,13 +165,29 @@ restaurants.on('click', function () {
 });
 
 function reFormatDate(date) {
-    let current = date.split("/");
-    return current[2]+"-"+current[0]+"-"+current[1];
+    return date.getDate()+"/"+(date.getMonth()+1)+"/"+date.getFullYear();
 }
-
-function reFormatDateLeftToRight(date) {
-    let current = date.split("/");
-    return current[1]+"-"+current[0]+"-"+current[2];
+function getDayFromString(day) {
+    if (traducciones.idioma==="en") {
+        let current = day.split("/");
+        return current[1];
+    } else {
+        let current = day.split("/");
+        return current[0];
+    }
+}
+function getMonthFromString(day) {
+    if (traducciones.idioma==="en") {
+        let current = day.split("/");
+        return current[0];
+    } else {
+        let current = day.split("/");
+        return current[1];
+    }
+}
+function getYearFromString(day) {
+    let current = day.split("/");
+    return current[2];
 }
 
 function createDataTable(data) {
@@ -141,10 +205,11 @@ function createDataTable(data) {
         buttons: [
             {
                 extend: 'print',
+                title: title.text()+" "+traducciones.delDia+" "+titleTime.text(),
                 customize: function ( win ) {
                     $(win.document.body)
                         .prepend(
-                            '<p style="position:absolute; top:0; left:0; font-size: 50px; opacity: 0.05" >'+title.text()+" "+traducciones.delDia+" "+titleTime.text()+'</p>'
+                            '<p style="position:absolute; top:0; left:0; font-size: 50px; opacity: 0.05" >'+title.text()+'</p>'
                         );
 
                     $(win.document.body).find( 'table' )

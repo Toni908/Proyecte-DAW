@@ -8,17 +8,14 @@ class CaruselRestaurant extends Component {
 
     render() {
         return (
-            <Carousel className={"text-color-general height-Carousel w-100 mt-4 ps-lg-0 pe-lg-0 ps-2 pe-2"}>
+            <Carousel className={"height-Carousel shadow-text-black w-100 mt-4 ps-lg-0 pe-lg-0 ps-2 pe-2"}>
                 {this.props.restaurants.map(function(item, key) {
-                    if (key<6) {
-                        return (
-                            <Carousel.Item key = {key}>
-                                <ImageRestaurant height={"height-img"} restaurante={item}/>
-                                <CaruselCaption restaurante={item}/>
-                            </Carousel.Item>
-                        )
-                    }
-                    return("")
+                    return (
+                        <Carousel.Item key = {key}>
+                            <ImageRestaurant class={"border-image d-block w-100 object-cover height-img"} restaurante={item}/>
+                            <CaruselCaption restaurante={item}/>
+                        </Carousel.Item>
+                    )
                 })}
             </Carousel>
         );

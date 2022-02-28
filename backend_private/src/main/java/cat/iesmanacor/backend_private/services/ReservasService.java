@@ -4,6 +4,7 @@ package cat.iesmanacor.backend_private.services;
 import cat.iesmanacor.backend_private.entities.Reservas;
 
 import java.math.BigInteger;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,5 +23,5 @@ public interface ReservasService {
 
     List<Reservas> findReservasByIdRestaurante(BigInteger id);
 
-    List<Reservas> findReservasByFechaAndRestaurante(BigInteger id, String fecha_inicio, String fecha_fin);
+    List<Reservas> findReservasByFechaAndRestaurante(BigInteger id, Date fecha_inicio, Date fecha_fin);
 }

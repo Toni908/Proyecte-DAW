@@ -6,6 +6,7 @@ header("Allow: GET, POST, OPTIONS, PUT, DELETE");
 
 use App\Http\Controllers\HorarioController;
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\LocalidadController;
 use App\Http\Controllers\ReservasController;
 use App\Http\Controllers\UseracountController;
 use Illuminate\Support\Facades\Route;
@@ -39,10 +40,15 @@ Route::get('/aforo/{id}',[RestaurantController::class,'aforo']);
 Route::get('/filtrar',[RestaurantController::class, 'buscador']);
 Route::post('/filtrar',[RestaurantController::class, 'buscador']);
 
-Route::get('/avg/restaurant/{id}',[RestaurantController::class,'AVGRestaurannt']);
-Route::get('/carta/restaurant/{id}',[RestaurantController::class,'AVGRestaurannt']);
+Route::get('/localidad/{id}',[LocalidadController::class,'show']);
+
+Route::get('/comments/restaurant/{id}',[ComentarioController::class,'showWithRestaurant']);
+Route::get('/reservas/restaurant/{id}',[ReservasController::class,'showWithRestaurant']);
+Route::get('/reservas/avg/{id}',[RestaurantController::class,'AVGReservasRestaurant']);
+Route::get('/carta/restaurant/{id}',[RestaurantController::class,'cartRestaurantActive']);
 
 Route::get('/image/{id_restaurant}/{name}',[ImageController::class,'show']);
+Route::get('/alergenos/{id_alergeno}',[ImageController::class,'showAlergeno']);
 
 Route::get('/user/{id}',[UseracountController::class, 'show']);
 Route::get('/users',[UseracountController::class, 'showUsers']);

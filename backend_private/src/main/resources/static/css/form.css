@@ -29,20 +29,22 @@
 .field_form_principal {
     width: 70%;
     border-radius: 10px;
-    background-color: lightgrey;
+    border: lightgray solid 2px;
+    background-color: white;
 }
 .field_form_section {
     width: 30%;
     border-radius: 10px;
-    background-color: lightgrey;
+    border: lightgray solid 2px;
+    background-color: white;
 }
 
 .input-text {
     border-radius: 10px;
     width: 100%;
     padding: 15px 10px 15px 25px;
-    border: 0;
-    background-color: lightgrey;
+    border: lightgray solid 2px;
+    background-color: white;
 }
 .form_section {
     background-color: #F3F3F3;

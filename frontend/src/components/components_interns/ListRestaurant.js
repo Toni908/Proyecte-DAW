@@ -53,8 +53,8 @@ class ListRestaurant extends Component {
         }
 
         return(
-            <section className={"position-relative"} onMouseLeave={this.isResponsive}>
-                <h4 className={"pt-5 pb-0 m-0 HindFont text-color-TYPE-1"}>{this.props.title}</h4>
+            <section className={"position-relative"} onLoad={this.isResponsive}>
+                <h3 className={"pt-3 mt-5 ps-1 title-principal"}>{this.props.title}</h3>
                 {this.props.restaurants.length>this.state.quantity &&
                 <Carousel
                     className={"sliderClass"}

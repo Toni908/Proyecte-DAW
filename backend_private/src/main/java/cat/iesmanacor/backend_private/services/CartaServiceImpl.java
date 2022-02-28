@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,5 +44,14 @@ public class CartaServiceImpl implements CartaService {
     @Transactional
     public void deleteById(Long id) {
         cartaDAO.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    public Carta cartaVisibleFromRestaurant(BigInteger id) {
+        if (cartaDAO.cartaVisibleFromRestaurant(id).isPresent()) {
+            return cartaDAO.cartaVisibleFromRestaurant(id).get();
+        }
+        return new Carta();
     }
 }
