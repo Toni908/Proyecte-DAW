@@ -119,6 +119,30 @@
                     <input class="w-20 pt-2 pb-2 paraf_form rounded" type="submit" th:value="#{button.submit}" />
                 </div>
 
+                <div id="calendar" class="d-none">
+                    <span class="d-hide" id="Su" th:text="#{calendar.sunday}"></span>
+                    <span class="d-hide" id="Mo" th:text="#{calendar.monday}"></span>
+                    <span class="d-hide" id="Tu" th:text="#{calendar.tuesday}"></span>
+                    <span class="d-hide" id="We" th:text="#{calendar.wednesday}"></span>
+                    <span class="d-hide" id="Th" th:text="#{calendar.thursday}"></span>
+                    <span class="d-hide" id="Fr" th:text="#{calendar.friday}"></span>
+                    <span class="d-hide" id="Sa" th:text="#{calendar.saturday}"></span>
+                    <span class="d-hide" id="apply" th:text="#{calendar.apply}"></span>
+                    <span class="d-hide" id="cancel" th:text="#{calendar.cancel}"></span>
+                    <span class="d-hide" id="enero" th:text="#{calendar.enero}"></span>
+                    <span class="d-hide" id="febrero" th:text="#{calendar.febrero}"></span>
+                    <span class="d-hide" id="marzo" th:text="#{calendar.marzo}"></span>
+                    <span class="d-hide" id="abril" th:text="#{calendar.abril}"></span>
+                    <span class="d-hide" id="mayo" th:text="#{calendar.mayo}"></span>
+                    <span class="d-hide" id="junio" th:text="#{calendar.junio}"></span>
+                    <span class="d-hide" id="julio" th:text="#{calendar.julio}"></span>
+                    <span class="d-hide" id="agosto" th:text="#{calendar.agosto}"></span>
+                    <span class="d-hide" id="septiembre" th:text="#{calendar.septiembre}"></span>
+                    <span class="d-hide" id="octubre" th:text="#{calendar.octubre}"></span>
+                    <span class="d-hide" id="noviembre" th:text="#{calendar.noviembre}"></span>
+                    <span class="d-hide" id="diciembre" th:text="#{calendar.diciembre}"></span>
+                </div>
+
             </div>
 
         </form>
@@ -141,7 +165,37 @@
         var date = (today.getMonth()+1)+'/'+today.getDate()+'/'+today.getFullYear();
         $('input[name="daterange"]').daterangepicker({
             opens: 'left',
-            minDate: date
+            minDate: date,
+            "locale": {
+                "format": 'YYYY-MM-DD',
+                "firstDay": 1,
+                "applyLabel": $("#apply").text(),
+                "cancelLabel": $("#cancel").text(),
+                "daysOfWeek": [
+                    $("#Su").text(),
+                    $("#Mo").text(),
+                    $("#Tu").text(),
+                    $("#We").text(),
+                    $("#Th").text(),
+                    $("#Fr").text(),
+                    $("#Sa").text()
+                ],
+                "monthNames": [
+                    $("#enero").text(),
+                    $("#febrero").text(),
+                    $("#marzo").text(),
+                    $("#abril").text(),
+                    $("#mayo").text(),
+                    $("#junio").text(),
+                    $("#julio").text(),
+                    $("#agosto").text(),
+                    $("#septiembre").text(),
+                    $("#octubre").text(),
+                    $("#noviembre").text(),
+                    $("#diciembre").text()
+
+                ]
+            }
         }, function(start, end, label) {
         });
     });

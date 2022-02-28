@@ -39,7 +39,7 @@ class AboutUs extends Component {
                                 </span>
                                     <br></br><br></br>
                                 <span>
-                                    Image from <a href="https://nicepage.com/html-templates/preview/web-designer-biography-954038" className="gray text-decoration-none">Freepik</a>
+                                <Translate string={'image'}/><a href="https://nicepage.com/html-templates/preview/web-designer-biography-954038" className="gray text-decoration-none">Freepik</a>
                                 </span>
                             </div>
                             <div className="col-5 derecha">

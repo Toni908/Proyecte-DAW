@@ -143,21 +143,21 @@ public class HorarioController {
 
         String[] splited = dateRange.split("\\s+");
 
-        String[] dateStarts = splited[0].split("/");
-        String[] dateEnds = splited[2].split("/");
+        String dateStarts = splited[0];
+        String dateEnds = splited[2];
 
         boolean used = false;
 
         try {
-            java.util.Date dateStartd = new SimpleDateFormat("yyyy/MM/dd").parse(dateStarts[2] + "/" + dateStarts[0] + "/" + dateStarts[1]);
+            java.util.Date dateStartd = new SimpleDateFormat("yyyy-MM-dd").parse(dateStarts);
             Date dateStart = new java.sql.Date(dateStartd.getTime());
-            java.util.Date dateEndd = new SimpleDateFormat("yyyy/MM/dd").parse(dateEnds[2] + "/" + dateEnds[0] + "/" + dateEnds[1]);
+            java.util.Date dateEndd = new SimpleDateFormat("yyyy-MM-dd").parse(dateEnds);
             Date dateEnd = new java.sql.Date(dateEndd.getTime());
 
             for(Periodo per : periodos){
                 if (per.getId_periodo() != periodo.getId_periodo()) {
-                    String s = dateStarts[2] + "-" + dateStarts[0] + "-" + dateStarts[1];
-                    String e = dateEnds[2] + "-" + dateEnds[0] + "-" + dateEnds[1];
+                    String s = dateStarts;
+                    String e = dateEnds;
 
                     LocalDate start = LocalDate.parse(s);
                     LocalDate end = LocalDate.parse(e);
@@ -229,14 +229,10 @@ public class HorarioController {
         String dateStartS = dateStart.toString();
         String dateEndS = dateEnd.toString();
 
-        String[] dateStarts = dateStartS.split("-");
-        String[] dateEnds = dateEndS.split("-");
-
-        String start = dateStarts[1] + "/" + dateStarts[2] + "/" + dateStarts[0];
-        String dateValue = start + " - " + dateEnds[1] + "/" + dateEnds[2] + "/" + dateEnds[0];
+        String dateValue = dateStartS + " - " + dateEndS;
 
         model.addAttribute("dateValue", dateValue);
-        model.addAttribute("start", start);
+        model.addAttribute("start", dateStartS);
         model.addAttribute("restaurant", periodo.get().getRestaurant());
         model.addAttribute("periodo", periodo.get());
         model.addAttribute("horarios", list);

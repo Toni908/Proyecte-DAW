@@ -52,15 +52,15 @@ class BuscadorAvanzado extends Component {
     }
     filter(){
         var data = {
-            etiqueta: this.state.precio,
+            etiqueta: this.state.etiqueta,
             lugar: this.state.sitio,
-            precio: this.state.etiqueta
+            precio: this.state.precio
         }
 
         var ip = process.env.REACT_APP_API_URL;
 
         axios({
-            method: 'get',
+            method: 'post',
             url: ip + '/filtrar',
             data: data
         })
@@ -85,7 +85,7 @@ class BuscadorAvanzado extends Component {
                 changePrecio={this.changePrecio.bind(this)}
                 filter={this.filter.bind(this)}/>
 
-                <Resultados data={this.state.restaurantes}/>
+                <Resultados restaurants={this.state.restaurantes}/>
 
             </div>
         );
