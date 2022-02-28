@@ -30,7 +30,7 @@ class CardRestaurant extends Component {
 
     render() {
         return (
-            <Card className={"myCarusel rounded rounded-3 mb-xxl-0 mb-4 OxigenFont"} onMouseEnter={this.visible} onMouseLeave={this.noVisible}>
+            <Card className={"w-25 myCarusel rounded rounded-3 mb-xxl-0 mb-4 OxigenFont"} onMouseEnter={this.visible} onMouseLeave={this.noVisible}>
                 <ImageRestaurant height={'image-height'} restaurante={this.props.restaurant}/>
                 <Card.Body>
                     <div className={"position-relative"}>

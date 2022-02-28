@@ -44,9 +44,9 @@ class Resultados extends Component {
       return (
         <section>
           <div className="container">
-          <div className='row w-auto'>
+          <div className='row'>
             {restaurants!==undefined && 
-            <div className="col-3">
+            <div className="d-flex flex-row flex-wrap">
               {restaurants.map(function(item, key) {
                         return (
                             <CardRestaurant key={key} restaurant={item} localidad={item.localidad}/>
