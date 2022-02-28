@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import CardRestaurant from "./CardRestaurant";
+import ListRestaurant from "./ListRestaurant";
 import "./list_restaurants.css"
 
 class Resultados extends Component {
@@ -7,19 +8,10 @@ class Resultados extends Component {
       super(props);
 
       this.state = {
-        restaurants: this.props.restaurants,
+        restaurants: [],
         quantity: null
       }
 
-      this.isResponsive = this.isResponsive.bind(this);
-    }
-
-    isResponsive() {
-        if (window.innerWidth<1500) {
-            this.setState({quantity:1})
-        } else {
-            this.setState({quantity:4})
-        }
     }
 
     componentDidMount(){
@@ -38,44 +30,35 @@ class Resultados extends Component {
       }))).catch(error => this.setState({
           error: error,
       }))*/
+
+      this.setState({
+        restaurants: this.props.restaurants
+      });
     }
 
+
   render() {
-    const { restaurants } = this.state;
-        const responsive = {
-            desktop: {
-                breakpoint: { max: 3000, min: 1500 },
-                items: 4,
-                slidesToSlide: 4,
-                partialVisibilityGutter: 15
-            },
-            tablet: {
-                breakpoint: { max: 1500, min: 900 },
-                items: 2,
-                slidesToSlide: 2,
-                partialVisibilityGutter: 15
-            },
-            mobile: {
-                breakpoint: { max: 900, min: 0 },
-                items: 1,
-                slidesToSlide: 1
-            }
-        };
-    if(this.restaurants === null){
-      return (
-        <h1>No restaurants</h1>
-      )
-    }else{
+    const { restaurants } = this.props;
+        
+        console.log(restaurants);
       return (
         <section>
-          {restaurants.map(function(item, key) {
-            return (
-              <CardRestaurant key={key} restaurant={item} localidad={item.localidad}/>
-            )
-          })}
+          <div className="container">
+          <div className='row w-auto'>
+            {restaurants!==undefined && 
+            <div className="col-3">
+              {restaurants.map(function(item, key) {
+                        return (
+                            <CardRestaurant key={key} restaurant={item} localidad={item.localidad}/>
+                        )
+                    })}
+            </div>}
+          </div>
+          </div>
+          
         </section>
       );
-    }
+    
   }
 }
 

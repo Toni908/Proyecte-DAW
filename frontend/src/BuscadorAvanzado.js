@@ -85,7 +85,7 @@ class BuscadorAvanzado extends Component {
                 changePrecio={this.changePrecio.bind(this)}
                 filter={this.filter.bind(this)}/>
 
-                <Resultados data={this.state.restaurantes}/>
+                <Resultados restaurants={this.state.restaurantes}/>
 
             </div>
         );
