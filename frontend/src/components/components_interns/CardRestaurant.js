@@ -5,13 +5,12 @@ import './image.css'
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import HorarioRestaurant from "./HorarioRestaurant";
 import "./cardrestaurant.css";
-import PopoverRestaurant from "./PopoverRestaurant";
 import {Link} from "react-router-dom";
 
 class CardRestaurant extends Component {
     render() {
         return (
-                <Card hoverable className={"myCarusel border-0 mb-xxl-0 mb-4 OxigenFont"} onMouseEnter={this.visible} onMouseLeave={this.noVisible}>
+                <Card hoverable className={"myCarusel border-0 mb-xxl-0 mb-4 OxigenFont"}>
                     <Link to={"/restaurant/"+this.props.restaurant.id_restaurante} style={{ textDecoration: 'none' }}>
                         <ImageRestaurant class={'border-image d-block w-100 object-cover image-height'} restaurante={this.props.restaurant}/>
                         {this.props.restaurant.etiquetas!==undefined &&

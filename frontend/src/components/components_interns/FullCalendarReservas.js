@@ -13,6 +13,9 @@ class FullCalendarReservas extends Component {
     }
 
     render() {
+        const {reservas, dia_minimo} = this.props;
+        let ArrayReservas = getArrayReservas(reservas);
+
         if (LocaleContext._currentValue==="es") {
             return (
                 <FullCalendar
@@ -46,13 +49,17 @@ class FullCalendarReservas extends Component {
                     initialView="dayGridMonth"
                     dateClick={this.handleDateClick}
                     events={[
-                        {title: 'event 1', date: '2022-02-27'},
+                        {title: 'event 1', date: '2022-02-27', durationEditable: "02:00"},
                         {title: 'event 2', date: '2022-02-27'}
                     ]}
                 />
             )
         }
     }
+}
+
+function getArrayReservas(reservas) {
+    let array = [];
 }
 
 export default FullCalendarReservas;

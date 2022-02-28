@@ -113,7 +113,7 @@ function ModalShare(props) {
 }
 
 function copyOnClipBoard() {
-    var dummy = document.createElement('input'), text = window.location.href;
+    let dummy = document.createElement('input'), text = window.location.href;
     document.body.appendChild(dummy);
     dummy.value = text;
     dummy.select();

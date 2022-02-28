@@ -5,15 +5,17 @@ import {HashLink} from "react-router-hash-link";
 import Slider from "../components_interns/Slider";
 import ModalShare from "../components_interns/ModalShare";
 import ModalEtiquetas from "../components_interns/ModalEtiqutas";
+import ModalUser from "../components_interns/ModalUser";
 
 import GalleryRestaurant from "../components_interns/GalleryRestaurant";
-import HorarioRestaurant from "../components_interns/HorarioRestaurant";
 import Loading from "../components_interns/Loading";
 import Menu from "./Menu";
 import HeaderRestaurant from "./HeaderRestaurant";
 import reservas_anticipacion from "../components_interns/utilities/reservas_anticipacion";
 import FullCalendarReservas from "../components_interns/FullCalendarReservas";
 import SimpleMap from "../components_interns/SimpleMap";
+import ImageRestaurant from "../components_interns/ImageRestaurant";
+import HorarioScroll from "../components_interns/HorarioScroll";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "photoswipe/dist/photoswipe.css";
@@ -22,6 +24,7 @@ import "./restaurant.css";
 import "./menu.css";
 
 import icon_person from "../../img/icon_person.png";
+
 
 class Restaurant extends Component {
     _isMounted = false;
@@ -37,11 +40,7 @@ class Restaurant extends Component {
             carta: [],
             isLoading: false,
             error: null,
-            header: false,
-            hideTop: true
         };
-        // this.handleLoad = this.handleLoad.bind(this);
-        this.handleResize = this.handleResize.bind(this);
     }
 
     componentDidMount() {
@@ -73,60 +72,15 @@ class Restaurant extends Component {
             .catch(error => this.setState({
                 error: error,
             }))
-        // window.addEventListener('load', this.handleLoad);
-        // window.addEventListener("scroll", this.onScroll);
-        window.addEventListener('resize', this.handleResize);
     }
 
     componentWillUnmount() {
         this._isMounted = false;
-        // window.removeEventListener('load', this.handleLoad)
-        // window.removeEventListener("scroll", this.onScroll);
-        window.removeEventListener('resize', this.handleResize);
     }
 
-    handleLoad() {
-        window.addEventListener("scroll", this.onScroll);
-    }
-
-    handleResize() {
-        if (window.innerWidth<1250) {
-            this.setState({ hideBottom: false });
-        } else {
-            this.setState({ hideBottom: true });
-        }
-    }
-
-    onScroll = () => {
-        // HEIGHT DEL MENU DONDE TIENE QUE PARAR DE VERSE EL HORARIO
-        var MenuHeight = document.getElementById('menu').offsetHeight;
-        var InfoHeight = document.getElementById('info').offsetHeight;
-        var startHeight = document.getElementById('start').offsetHeight;
-        var galleryHeight = document.getElementById('photos').offsetHeight;
-
-        // 600 ES HEIGHT DE LA IMAGEN Y EL HEADER JUNTOS
-        if (window.scrollY>600) {
-            this.setState({ header: true });
-        } else {
-            this.setState({ header: false });
-        }
-
-        let menu = MenuHeight-InfoHeight;
-
-        // HORARIO TOP
-        if (window.scrollY<(menu+galleryHeight+startHeight-100)) {
-            if (window.innerWidth<1300){
-                this.setState({ hideTop: false });
-            } else {
-                this.setState({hideTop: true});
-            }
-        } else {
-            this.setState({ hideTop: false });
-        }
-    };
 
     render() {
-        const {restaurant,infoAVG,comments,reservas,carta,isLoading, error,header,hideTop} = this.state;
+        const {restaurant,infoAVG,comments,reservas,carta,isLoading, error} = this.state;
         let reservas_dias = reservas_anticipacion.getDayAnticipacion(restaurant.dies_anticipacion_reservas);
 
         if (error) {
@@ -138,7 +92,7 @@ class Restaurant extends Component {
 
         return(
             <section className={"font-restaurant"} >
-                {header && <HeaderRestaurant heightCarta={document.getElementById('menu').offsetHeight} restaurant={restaurant} />}
+                <HeaderRestaurant restaurant={restaurant} />
                 <div className={"d-flex flex-row justify-content-center w-100"}>
                     <div className={"d-flex flex-column main-width-restaurant ps-lg-0 m-0"}>
                         <section id={"start"} className={"d-flex flex-column text-lg-start text-center pb-3"}>
@@ -150,9 +104,9 @@ class Restaurant extends Component {
                                     ·
                                     <HashLink to="#comments" className="px-1 text-black">{infoAVG["count"]} valoraciones</HashLink>
                                     ·
-                                    {restaurant.localidad !== undefined && <div className={"px-1"}>{restaurant.localidad.nombre_localidad}</div>}
+                                    <div className={"px-1"}>{restaurant.nombre_localidad}</div>
                                     ·
-                                    {restaurant.localidad !== undefined && <div className={"ps-1"}>{restaurant.localidad.nombre_municipio}</div>}
+                                    <div className={"ps-1"}>{restaurant.nombre_municipio}</div>
                                 </div>
                                 <div className={"pe-lg-5 p-lg-0 pt-2"}>
                                     <ModalShare restaurant={restaurant}/>
@@ -171,49 +125,46 @@ class Restaurant extends Component {
                                 {restaurant.etiquetas!==undefined &&
                                 <div id={"info"} className={"py-2"}>
                                     <h3>Que necesitas saber de {restaurant.nombre}</h3>
-                                    {restaurant.localidad !== undefined &&
-                                    <div className={"information-grid p-4"}>
-                                        {restaurant.direccion!=="" && <div className={"py-2 w-100 align-self-center"}><i className="bi bi-signpost pe-3"/>Direccion: {restaurant.direccion}</div>}
-                                        <div className={"py-2 w-100"}><i className="bi bi-house-door pe-3"/>Localidad: {restaurant.localidad.nombre_localidad}</div>
-                                        <div className={"py-2 w-100"}><i className="bi bi-building pe-3"/>Municipio: {restaurant.localidad.nombre_municipio}</div>
-                                        <div className={"py-2 w-100"}><i className="bi bi-mailbox pe-3"/>Codigo Postal: {restaurant.localidad.codigo_postal}</div>
-                                        <div className={"py-2 w-100"}><i className="bi bi-telephone-fill pe-3"/>Telefono: {restaurant.telefono_restaurante}</div>
-                                        <div className={"py-2 w-100"}><i className="bi bi-people-fill pe-3"/>Aforo max:{restaurant.aforo}</div>
-                                    </div>}
+                                    <div className={"row w-100 p-4"}>
+                                        {restaurant.direccion!=="" && <div className={"py-2 col-lg-6 col-12 align-self-center"}><i className="bi bi-signpost pe-3"/>Direccion: {restaurant.direccion}</div>}
+                                        <div className={"py-2 col-lg-6 col-12"}><i className="bi bi-house-door pe-3"/>Localidad: {restaurant.nombre_localidad}</div>
+                                        <div className={"py-2 col-lg-6 col-12"}><i className="bi bi-building pe-3"/>Municipio: {restaurant.nombre_municipio}</div>
+                                        <div className={"py-2 col-lg-6 col-12"}><i className="bi bi-mailbox pe-3"/>Codigo Postal: {restaurant.codigo_postal}</div>
+                                        <div className={"py-2 col-lg-6 col-12"}><i className="bi bi-telephone-fill pe-3"/>Telefono: {restaurant.telefono_restaurante}</div>
+                                        <div className={"py-2 col-lg-6 col-12"}><i className="bi bi-people-fill pe-3"/>Aforo max:{restaurant.aforo}</div>
+                                    </div>
                                     <div className={"py-4"}>
                                         <ModalEtiquetas etiquetas={restaurant.etiquetas}/>
                                     </div>
                                 </div>}
                             </div>}
-                            <div className={header ? "col-lg-4 col-12 px-lg-0 px-3 w-20 position-relative" : "col-lg-4 col-12 px-lg-0 px-3 w-20"}>
-                                <div className={hideTop ? "z-index-10" : "postion-restaurant-bottom"}>
-                                    <div className={hideTop && header ? "postion-horario-restaurant":""}>
-                                        <HorarioRestaurant isSimple={true} onlyHeader={false} restaurant={restaurant}/>
-                                    </div>
-                                </div>
-                            </div>
+                            <HorarioScroll restaurant={restaurant} />
                         </section>}
                         <hr className={"mx-3 mx-lg-0"}/>
                         <section className={"w-100 m-0 p-0 pb-5 pt-2 px-lg-0 px-5"}>
                             <h3 className={"text-center py-4"}>¿Quieres realizar una reserva?</h3>
-                            <p className={"text-center"}>Haz click el dia en el que quieres hacer la reserva y rellena el formulario!</p>
-                            <p className={"text-center"}>Ten encuenta que el restaurante solo acepta reservas desde el dia {reservas_dias}</p>
-                            <FullCalendarReservas restaurant={restaurant} dia_minimo={reservas_dias}/>
+                            <div className={"text-center"}>Haz click el dia en el que quieres hacer la reserva y rellena el formulario!<br/> Ten encuenta que el restaurante <div className={"text-warning"}>solo acepta reservas desde el dia {reservas_dias}</div></div>
+                            <FullCalendarReservas reservas={reservas} dia_minimo={reservas_dias}/>
                         </section>
                         <hr className={"mx-3 mx-lg-0"}/>
                         <section id={"location"} className={"w-100 m-0 p-0 row pb-5 pt-2 px-lg-0 px-5"}>
-                            <h4 className={"py-4"}>¿Donde se encuentra el restaurante?</h4>
+                            <h4 className={"pt-4"}>¿Donde se encuentra el restaurante?</h4>
+                            <div className={"d-flex flex-row justify-content-lg-start justify-content-center pb-4"}>
+                                <div className={"px-1"}>{restaurant.nombre_localidad}</div>
+                                ·
+                                <div className={"ps-1"}>{restaurant.nombre_municipio}</div>
+                            </div>
                             {<SimpleMap class={"w-100 map-height"} lat={restaurant.latitud} lng={restaurant.longitud} zoom={11}/>}
                         </section>
                         <hr className={"mx-3 mx-lg-0"}/>
-                        <section id={"comments"} className={"w-100 m-0 p-0 pb-5 pt-2 px-lg-0 px-5"}>
+                        <section id={"comments"} className={"w-100 m-0 px-lg-4 px-4 pb-5 pt-2"}>
                             <div className={"d-flex flex-row justify-content-lg-start justify-content-center align-self-center"}>
                                 <i className="bi bi-star-fill fs-4 text-color-TYPE-1 pe-2"/>
                                 <div className={"pe-1 fs-4"}>{valoraciones(infoAVG)}</div>
                                 <div className={"fs-4 h-100 align-self-center"}>·</div>
                                 <HashLink to="#comments" className="px-1 text-black fs-4">{infoAVG["count"]} valoraciones</HashLink>
                             </div>
-                            <div className={"row fs-5 pt-3"}>
+                            <div className={"row w-100 px-3 fs-5 pt-3"}>
                                 <div className={"col-lg-6 col-12"}>
                                     <div className={"d-flex flex-row justify-content-between px-2"}>
                                         Comida
@@ -233,12 +184,12 @@ class Restaurant extends Component {
                                     </div>
                                 </div>
                             </div>
-                            <div className={"row pt-5"}>
+                            <div className={"row w-100 pt-5"}>
                                 {comments.map(function (comment, key) {
                                     return(
                                         <div key={key} className={"col-lg-6 col-12"}>
                                             <div className={"d-flex flex-row px-2"}>
-                                                <img className={"icon"} src={icon_person} alt={"Comment"}/>
+                                                <img className={"icon rounded-circle"} src={icon_person} alt={"Comment"}/>
                                                 <div className={"ps-3 pt-2 d-flex flex-column"}>
                                                     <div className={"fw-bold"}>{comment.nombre}</div>
                                                     <div className={"text-secondary"} style={{fontSize: "13px"}}>{formatDate(comment.fecha)}</div>
@@ -250,6 +201,19 @@ class Restaurant extends Component {
                                         </div>
                                     )
                                 })}
+                            </div>
+                        </section>
+                        <hr className={"mx-3 mx-lg-0"}/>
+                        <section id={"user"} className={"w-100 m-0 p-0 pb-5 pt-2 px-lg-0 px-5"}>
+                            <div className={"d-flex flex-row fs-5 pb-4"}>
+                                <ImageRestaurant class={"icon rounded-circle"} restaurante={restaurant}/>
+                                <div className={"d-flex flex-column ps-3 align-self-center h-100"}>
+                                    <div className={"fw-bold text-start"}>Gerente: {restaurant.username}</div>
+                                    <div className={"text-secondary text-start"}>Telefono: {restaurant.userphone}</div>
+                                </div>
+                            </div>
+                            <div className={"py-4"}>
+                                <ModalUser user={restaurant.username} restaurant={restaurant.nombre} email={restaurant.usercorreo}/>
                             </div>
                         </section>
                     </div>

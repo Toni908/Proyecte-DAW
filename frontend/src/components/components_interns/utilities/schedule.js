@@ -37,48 +37,55 @@ function getResultHour(horario, today) {
         <div className={"d-flex flex-row gap-1"}>Horario: <div className={"text-danger"}>Cerrado</div></div>
         <div className={"paraf_info_horario"}>Hoy no esta abierto</div>
     </div>);
+
     for (let i = 0; i < horario.length; i++) {
         //SI ES HOY
         if (getDayNumber(horario[i].day) === today.getDay()) {
+            // LA HORA ES MENOR QUE EL HORARIO (NO = HAY HORAS ADELANTE) (SI = SEGUIR BUSCANDO)
             if (isClosed(fixedDate(horario[i].hora_inicio), today)) {
+
                 result = (<div className={"d-flex flex-column"}>
                     <div key={i} className={"d-flex flex-row gap-1"}>Horario:
                         <div className={"text-warning"}>Cerrado</div>
                     </div>
                     <div className={"paraf_info_horario"}>Abierto a las {fixedDate(horario[i].hora_inicio)}</div>
                 </div>);
-            } else {
-                if (isNearClose(fixedDate(horario[i].hora_inicio),fixedDate(horario[i].hora_fin), today)) {
-                    if (hasPassedTime(fixedDate(horario[i].hora_inicio), fixedDate(horario[i].hora_fin), today)) {
-                        result = (<div className={"d-flex flex-column"}>
-                            <div key={i} className={"d-flex flex-row gap-1"}>Horario: <div
-                                className={"text-success"}>Abierto</div></div>
-                            <div className={"paraf_info_horario text-warning"}>Cierra
-                                pronto {fixedDate(horario[i].hora_fin)}</div>
-                        </div>);
-                        break;
-                    } else {
-                        result = (<div className={"d-flex flex-column"}>
-                            <div key={i} className={"d-flex flex-row gap-1"}>Horario: <div
-                                className={"text-danger"}>Cerrado</div></div>
-                            <div className={"paraf_info_horario"}>Ya a Cerrado</div>
-                        </div>);
-                    }
+            }
+
+            // LA HORA +2 ES MAYOR QUE EL HORARIO (SI = APUNTO DE CERRAR) (NO = SEGUIR BUSCANDO)
+            if (isNearClose(fixedDate(horario[i].hora_inicio),fixedDate(horario[i].hora_fin), today)) {
+                // ES TODO CORRECTO ?
+                if (hasPassedTime(fixedDate(horario[i].hora_inicio), fixedDate(horario[i].hora_fin), today)) {
+                    result = (<div className={"d-flex flex-column"}>
+                        <div key={i} className={"d-flex flex-row gap-1"}>Horario: <div
+                            className={"text-success"}>Abierto</div></div>
+                        <div className={"paraf_info_horario text-warning"}>Cierra
+                            pronto {fixedDate(horario[i].hora_fin)}</div>
+                    </div>);
+                    break;
                 } else {
-                    if (hasPassedTime(fixedDate(horario[i].hora_inicio), fixedDate(horario[i].hora_fin), today)) {
-                        result = (<div className={"d-flex flex-column"}>
-                            <div key={i} className={"d-flex flex-row gap-1"}>Horario:
-                                <div className={"text-success"}>Abierto</div>
-                            </div>
-                            <div className={"paraf_info_horario"}>Cierra a las {fixedDate(horario[i].hora_fin)}</div>
-                        </div>);
-                    } else {
-                        result = (<div className={"d-flex flex-column"}>
-                            <div key={i} className={"d-flex flex-row gap-1"}>Horario: <div
-                                className={"text-danger"}>Cerrado</div></div>
-                            <div className={"paraf_info_horario"}>Ya a Cerrado</div>
-                        </div>);
-                    }
+                    result = (<div className={"d-flex flex-column"}>
+                        <div key={i} className={"d-flex flex-row gap-1"}>Horario: <div
+                            className={"text-danger"}>Cerrado</div></div>
+                        <div className={"paraf_info_horario text-secondary"}>Ya a cerrado</div>
+                    </div>);
+                }
+            } else {
+                if (isClosed(fixedDate(horario[i].hora_inicio), today)) {
+                    result = (<div className={"d-flex flex-column"}>
+                        <div key={i} className={"d-flex flex-row gap-1"}>Horario:
+                            <div className={"text-warning"}>Cerrado</div>
+                        </div>
+                        <div className={"paraf_info_horario"}>Abierto a las {fixedDate(horario[i].hora_inicio)}</div>
+                    </div>);
+                } else {
+                    result = (<div className={"d-flex flex-column"}>
+                        <div key={i} className={"d-flex flex-row gap-1"}>Horario: <div
+                            className={"text-success"}>Abierto</div></div>
+                        <div className={"paraf_info_horario text-secondary"}>Cierra
+                            a las {fixedDate(horario[i].hora_fin)}</div>
+                    </div>);
+                    break;
                 }
             }
         }
