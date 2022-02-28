@@ -73,7 +73,7 @@ class ListRestaurant extends Component {
 
                     {restaurants.map(function(item, key) {
                         return (
-                            <CardRestaurant key={key} restaurant={item} localidad={item.localidad}/>
+                            <CardRestaurant className={"myCarusel border-0 mb-xxl-0 mb-4 OxigenFont"} key={key} restaurant={item} localidad={item.localidad}/>
                         )
                     })}
                 </Carousel>}
@@ -93,7 +93,7 @@ class ListRestaurant extends Component {
 
                     {restaurants.map(function(item, key) {
                         return (
-                            <CardRestaurant key={key} restaurant={item} localidad={item.localidad}/>
+                            <CardRestaurant className={"myCarusel border-0 mb-xxl-0 mb-4 OxigenFont"} key={key} restaurant={item} localidad={item.localidad}/>
                         )
                     })}
                 </Carousel>}
