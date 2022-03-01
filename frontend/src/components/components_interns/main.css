@@ -8,12 +8,12 @@
     font-stretch: extra-condensed;
 }
 .main-width {
-    width: 80% !important;
+    width: 1400px !important;
 }
 
-@media only screen and (min-width: 1400px) {
+@media only screen and (max-width: 1000px) {
     .main-width {
-        width: 1500px;
+        width: 90% !important;
     }
 }
 

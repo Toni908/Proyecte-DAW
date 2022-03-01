@@ -10,7 +10,7 @@ import {Link} from "react-router-dom";
 class CardRestaurant extends Component {
     render() {
         return (
-                <Card hoverable={true} className={this.props.className}>
+                <Card className={this.props.className}>
                     <Link to={"/restaurant/"+this.props.restaurant.id_restaurante} style={{ textDecoration: 'none' }}>
                         <ImageRestaurant class={'border-image d-block w-100 object-cover image-height'} restaurante={this.props.restaurant}/>
                         {this.props.restaurant.etiquetas!==undefined &&

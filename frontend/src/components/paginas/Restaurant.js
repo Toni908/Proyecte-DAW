@@ -55,9 +55,9 @@ class Restaurant extends Component {
 
         const request1 = axios.get(ip+"/restaurant/"+id);
         const request2 = axios.get(ip+"/reservas/avg/"+id);
-        const request3 = axios.get(ip+"/carta/restaurant/"+id);
-        const request4 = axios.get(ip+"/comments/restaurant/"+id);
-        const request5 = axios.get(ip+"/reservas/restaurant/"+id);
+        const request3 = axios.get(ip+"/carta/"+id);
+        const request4 = axios.get(ip+"/comments/"+id);
+        const request5 = axios.get(ip+"/reservas/"+id);
 
         axios.all([request1, request2,request3,request4,request5])
             .then(axios.spread((...responses) =>
@@ -143,8 +143,8 @@ class Restaurant extends Component {
                         <hr className={"mx-3 mx-lg-0"}/>
                         <section className={"w-100 m-0 p-0 pb-5 pt-2 px-lg-0 px-5"}>
                             <h3 className={"text-center py-4"}>¿Quieres realizar una reserva?</h3>
-                            <div className={"text-center"}>Haz click el dia en el que quieres hacer la reserva y rellena el formulario!<br/> Ten encuenta que el restaurante <div className={"text-warning"}>solo acepta reservas desde el dia {reservas_dias}</div></div>
-                            <FullCalendarReservas reservas={reservas} dia_minimo={reservas_dias}/>
+                            <div className={"text-center pb-3"}>Haz click el dia en el que quieres hacer la reserva y rellena el formulario!<br/> Ten encuenta que el restaurante <div className={"text-warning"}>solo acepta reservas desde el dia {reservas_dias}</div></div>
+                            {restaurant.dies_anticipacion_reservas !==undefined && restaurant.aforo !==undefined && restaurant.id_restaurante !==undefined && <FullCalendarReservas reservas={reservas} dia_minimo={restaurant.dies_anticipacion_reservas} aforo={restaurant.aforo} id_restaurante={restaurant.id_restaurante}/>}
                         </section>
                         <hr className={"mx-3 mx-lg-0"}/>
                         <section id={"location"} className={"w-100 m-0 p-0 row pb-5 pt-2 px-lg-0 px-5"}>

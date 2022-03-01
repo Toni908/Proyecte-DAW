@@ -16,7 +16,7 @@ function ModalShare(props) {
 
     return (
         <div className={"modal-80w"}>
-            <a href="#" className={"button-share"} onClick={() => {setShow(true); setCopy(false)}}>
+            <a href="#home" className={"button-share"} onClick={() => {setShow(true); setCopy(false)}}>
                 <i className="bi bi-box-arrow-up pe-2 text-black"/>Compartir
             </a>
 
@@ -35,7 +35,7 @@ function ModalShare(props) {
                     <div className={"d-flex flex-row py-3 ps-3"}>
                         {props.restaurant.nombre!==undefined && <div className={"pe-2"}>{props.restaurant.nombre}</div>}
                         ·
-                        {props.restaurant.localidad!==undefined && <div className={"ps-2"}>{props.restaurant.localidad.nombre_localidad}</div>}
+                        {<div className={"ps-2"}>{props.restaurant.nombre_localidad}</div>}
                     </div>
                     {<section className={"row px-3"}>
                         {props.restaurant.id_restaurante !== undefined &&
@@ -75,11 +75,10 @@ function ModalShare(props) {
                                 <div className={"ps-4 fw-bold align-self-center"}>Facebook</div>
                             </div>
                         </FacebookShareButton>}
-                        {props.restaurant.localidad !== undefined &&
-                        <TwitterShareButton
+                        {<TwitterShareButton
                             title={props.restaurant.nombre}
-                            url={"https://www.mallorcarestaurant.me/restaurant/"+props.restaurant.id_restaurante}
-                            hashtags={[QuitarSpaceHashTags(props.restaurant.nombre), QuitarSpaceHashTags(props.restaurant.localidad.nombre_localidad)]}
+                            url={"https://www.mallorcarestaurant.me/restaurant/" + props.restaurant.id_restaurante}
+                            hashtags={[QuitarSpaceHashTags(props.restaurant.nombre), QuitarSpaceHashTags(props.restaurant.nombre_localidad)]}
                             className={"col-lg-6 col-12 px-2 pb-2"}>
                             <div className={"box_icon text-center d-flex flex-row"}>
                                 <TwitterIcon size={40} round={false} borderRadius={10}/>
