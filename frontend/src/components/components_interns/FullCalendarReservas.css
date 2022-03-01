@@ -1,0 +1,35 @@
+.form-input {
+    border: lightgray solid 2px;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.message-success {
+    position: fixed;
+    top: 40%;
+    left: 40%;
+    font-size: 30px;
+    text-transform: uppercase;
+    font-weight: bold;
+    background-color: white;
+    z-index: 10;
+    padding: 50px;
+    border-radius: 10px;
+    border: lightgray solid 2px;
+    color: green;
+}
+
+.message-error {
+    position: fixed;
+    top: 40%;
+    left: 30%;
+    font-size: 30px;
+    text-transform: uppercase;
+    font-weight: bold;
+    background-color: white;
+    z-index: 10;
+    padding: 50px;
+    border-radius: 10px;
+    border: lightgray solid 2px;
+    color: red;
+}
