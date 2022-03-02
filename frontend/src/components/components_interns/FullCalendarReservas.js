@@ -20,6 +20,7 @@ function FullCalendarReservas(props) {
     const [show, setShow] = useState(false);
     const [date, setDate] = useState(false);
     const [time, setTime] = useState(false);
+    const [reload, setReload] = useState(false);
 
     const {reservas, dia_minimo, aforo, id_restaurante} = props;
 
@@ -29,7 +30,6 @@ function FullCalendarReservas(props) {
     let lessResult = reservas_anticipacion.getDateLessAnticipacion(result)
 
     let ip = process.env.REACT_APP_API_URL;
-
     const onSubmit = data => axios.post( ip + '/reserva', {
         personas: data.personas,
         correo: data.email,
@@ -68,6 +68,7 @@ function FullCalendarReservas(props) {
                         center: 'dayGridMonth,timeGridWeek,timeGridDay',
                     }}
                     dateClick={(e) => {setShow(true); setDate(new Date(e.date)); setTime(getHoursDate(new Date(e.date)));}}
+                    eventClick={(arg) => {setShow(true); setDate(arg.event.start);}}
                     events={ArrayReservas}
                 />
                 <div id={"success"} className={"message-success"} hidden={true}>Se a creado correctamente</div>
@@ -86,17 +87,18 @@ function FullCalendarReservas(props) {
                     <Modal.Body>
                         {new Date(date) > lessResult &&
                             <>
+                                <div className={"align-self-center text-center"}>
+                                    La reserva se realizara el {formatDateESExtraSimple(date)} -
+                                    <TimeField className={"ms-2 w-25 form-input"} onChange={(event, time) => {setTime(time); setReload(true); setDate(changeHoursDate(date, time))}} value={time} colon=":" showSeconds={true}/>
+                                </div>
                                 {filterArrayFromDate(reservas, date) >= aforo &&
                                     <>
-                                        <div>Ya no permite mas aforo el restaurante</div>
+                                        <div>Ya no permite mas aforo el restaurante en la fecha {formatDateESExtraSimple(date)} {getHoursDate(date)}</div>
                                     </>
                                 }
                                 {filterArrayFromDate(reservas, date) < aforo &&
                                     <>
-                                        <div className={"align-self-center text-center"}>
-                                            La reserva se realizara el {formatDateESSimple(date)} -
-                                            <TimeField className={"ms-2 w-25 form-input"} onChange={(event, time) => setTime(time)} value={time} colon=":" showSeconds={true}/>
-                                        </div>
+                                        Aforo restante a las {new Date(date).getHours()}h es {aforo-filterArrayFromDate(reservas, date)}
                                         <form onSubmit={handleSubmit(onSubmit)}>
                                             <div className={"row"}>
                                                 <div className={"col-lg-6 col-12 py-2"}>
@@ -138,7 +140,6 @@ function FullCalendarReservas(props) {
                                             <input hidden value={id_restaurante} {...register("id_restaurante", { required: true })} readOnly={true}/>
                                             <input type="submit"/>
                                         </form>
-                                        }
                                     </>}
                             </>}
                         {new Date(date) < lessResult &&
@@ -232,6 +233,7 @@ function filterArrayFromDate(array, date) {
     for (let i = 0; i < result.length; i++) {
         personasTotal += result[i].personas;
     }
+
     return personasTotal;
 }
 
@@ -247,10 +249,27 @@ function formatDateEN(date, time) {
     let resultTime = time.split(":");
     return result.getFullYear()+"-"+(result.getMonth()+1)+"-"+result.getDate()+" "+resultTime[0]+":"+resultTime[1]+":"+resultTime[2];
 }
-
-function formatDateESSimple(date) {
+function formatDateESExtraSimple(date) {
     let result = new Date(date);
     return result.getDate()+"-"+(result.getMonth()+1)+"-"+result.getFullYear();
+}
+function formatDateESSimple(date) {
+    let result = new Date(date);
+    return result.getDate()+"-"+(result.getMonth()+1)+"-"+result.getFullYear()+" "+result.getHours();
+}
+
+function changeHoursDate(date, time) {
+    let newDate = new Date(date);
+    let resultTime = time.split(":");
+    let realDate = (newDate.getMonth()+1)+"-"+newDate.getDate()+"-"+newDate.getFullYear()+" "+resultTime[0]+":"+resultTime[1]+":"+resultTime[2];
+    return new Date(realDate);
+}
+
+function changeHoursDateEN(date, time) {
+    let newDate = new Date(date);
+    let resultTime = time.split(":");
+    let realDate = newDate.getFullYear()+"-"+(newDate.getMonth()+1)+"-"+newDate.getDate()+" "+resultTime[0]+":"+resultTime[1]+":"+resultTime[2];
+    return new Date(realDate);
 }
 
 function getArrayReservas(reservas) {
@@ -259,7 +278,7 @@ function getArrayReservas(reservas) {
     // PUSH RESERVAS
     for (let i = 0; i < reservas.length; i++) {
         array.push({
-            title: reservas[i].nombre,
+            title: "Reservado",
             start: reservas[i].fecha,
             end: reservas_anticipacion.getNextHourDate(reservas[i].fecha),
             color: "blue",
