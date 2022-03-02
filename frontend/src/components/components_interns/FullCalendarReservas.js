@@ -14,6 +14,7 @@ import reservas_anticipacion from "./utilities/reservas_anticipacion";
 import {Button, Modal} from "react-bootstrap";
 import axios from "axios";
 import "./FullCalendarReservas.css";
+import schedule from "./utilities/schedule";
 
 function FullCalendarReservas(props) {
     const { register, handleSubmit, formState: { errors } } = useForm();
@@ -21,7 +22,8 @@ function FullCalendarReservas(props) {
     const [date, setDate] = useState(false);
     const [time, setTime] = useState(false);
 
-    const {reservas, dia_minimo, aforo, restaurant, horario} = props;
+    const {reservas, dia_minimo, aforo, restaurant, horario, periodo} = props;
+    let periodos = Object.values(periodo);
 
     let result = reservas_anticipacion.getDateAnticipacion(dia_minimo);
     let lessResult = reservas_anticipacion.getDateLessAnticipacion(result)
@@ -71,8 +73,18 @@ function FullCalendarReservas(props) {
                                 arg.el.style.border = "#db5858 solid 1px";
                                 arg.el.style.backgroundColor = "#ff8f8f";
                             } else {
-                                arg.el.style.backgroundColor = "#D0F0C0";
-                                arg.el.style.border = "#7ed463 solid 1px";
+                                if (isClosed(arg.date, horario)) {
+                                    arg.el.style.border = "#db5858 solid 1px";
+                                    arg.el.style.backgroundColor = "#ff8f8f";
+                                } else {
+                                    if (new Date(periodos[0].fecha_fin)<arg.date) {
+                                        arg.el.style.border = "#db5858 solid 1px";
+                                        arg.el.style.backgroundColor = "#ff8f8f";
+                                    } else {
+                                        arg.el.style.backgroundColor = "#D0F0C0";
+                                        arg.el.style.border = "#7ed463 solid 1px";
+                                    }
+                                }
                             }
                         } else {
                             arg.el.style.border = "#db5858 solid 1px";
@@ -109,55 +121,71 @@ function FullCalendarReservas(props) {
                                 }
                                 {filterArrayFromDate(reservas, date) < aforo &&
                                     <>
-                                        Aforo restante a las {new Date(date).getHours()}h es {aforo-filterArrayFromDate(reservas, date)}
-                                        <form onSubmit={handleSubmit(onSubmit)}>
-                                            <div className={"row"}>
-                                                <div className={"col-lg-6 col-12 py-2"}>
-                                                    <div className={""}>Personas:</div>
-                                                    <label className={"w-100"}>
-                                                        <input className={"w-100 form-input"} type="number" {...register("personas", { min: 1, max: aforo-filterArrayFromDate(reservas, date), required: true})} />
-                                                    </label>
-                                                    {errors.personas && <span className={"text-danger"}>El minimo es 1 y maximo es {aforo-filterArrayFromDate(reservas, date)}</span>}
-                                                </div>
-                                                <div className={"col-lg-6 col-12 py-2"}>
-                                                    <div className={""}>Email:</div>
-                                                    <label className={"w-100"}>
-                                                        <input className={"w-100 form-input"} {...register("email", { pattern: "/^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$/" , max:40, required: true })} />
-                                                    </label>
-                                                    {errors.email && <span className={"text-danger"}>Debe ser un correo electronico</span>}
-                                                </div>
-                                                <div className={"col-lg-6 col-12 py-2"}>
-                                                    <div className={""}>Telefono:</div>
-                                                    <label className={"w-100"}>
-                                                        <input className={"w-100 form-input"} type={"number"} {...register("telefono", { minLength: 7, required: true })} />
-                                                    </label>
-                                                    {errors.telefono && <span className={"text-danger"}>Longitud minima es 7</span>}
-                                                </div>
-                                                <div className={"col-lg-6 col-12 py-2"}>
-                                                    <div className={""}>Nombre:</div>
-                                                    <label className={"w-100"}>
-                                                        <input className={"w-100 form-input"} {...register("nombre", { max: 40, required: true })} />
-                                                    </label>
-                                                    {errors.nombre && <span className={"text-danger"}>Longitud maxima es 40</span>}
-                                                </div>
-                                                <div className={"col-lg-6 col-12 py-2"}>
-                                                    <div className={""}>Lenguaje:</div>
-                                                    <label className={"w-100"}>
-                                                        <input className={"w-100 form-input"} {...register("lenguaje", { max: 2, min: 2, required: true })} />
-                                                    </label>
-                                                    {errors.lenguaje && <span className={"text-danger"}>This field is required</span>}
-                                                </div>
-                                            </div>
-                                            <input hidden value={restaurant.id_restaurante} {...register("id_restaurante", { required: true })} readOnly={true}/>
-                                            <input type="submit"/>
-                                        </form>
+                                        {new Date(periodos[0].fecha_fin)>date &&
+                                            <>
+                                                {isClosed(date, horario) &&
+                                                <>
+                                                    Esta cerrado este dia
+                                                </>}
+                                                {!isClosed(date, horario) &&
+                                                <>
+                                                    Aforo restante a las {new Date(date).getHours()}h es {aforo-filterArrayFromDate(reservas, date)}
+                                                    <form onSubmit={handleSubmit(onSubmit)}>
+                                                        <div className={"row"}>
+                                                            <div className={"col-lg-6 col-12 py-2"}>
+                                                                <div className={""}>Personas:</div>
+                                                                <label className={"w-100"}>
+                                                                    <input className={"w-100 form-input"} type="number" {...register("personas", { min: 1, max: aforo-filterArrayFromDate(reservas, date), required: true})} />
+                                                                </label>
+                                                                {errors.personas && <span className={"text-danger"}>El minimo es 1 y maximo es {aforo-filterArrayFromDate(reservas, date)}</span>}
+                                                            </div>
+                                                            <div className={"col-lg-6 col-12 py-2"}>
+                                                                <div className={""}>Email:</div>
+                                                                <label className={"w-100"}>
+                                                                    <input className={"w-100 form-input"} {...register("email", { pattern: "/^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$/" , max:40, required: true })} />
+                                                                </label>
+                                                                {errors.email && <span className={"text-danger"}>Debe ser un correo electronico</span>}
+                                                            </div>
+                                                            <div className={"col-lg-6 col-12 py-2"}>
+                                                                <div className={""}>Telefono:</div>
+                                                                <label className={"w-100"}>
+                                                                    <input className={"w-100 form-input"} type={"number"} {...register("telefono", { minLength: 7, required: true })} />
+                                                                </label>
+                                                                {errors.telefono && <span className={"text-danger"}>Longitud minima es 7</span>}
+                                                            </div>
+                                                            <div className={"col-lg-6 col-12 py-2"}>
+                                                                <div className={""}>Nombre:</div>
+                                                                <label className={"w-100"}>
+                                                                    <input className={"w-100 form-input"} {...register("nombre", { max: 40, required: true })} />
+                                                                </label>
+                                                                {errors.nombre && <span className={"text-danger"}>Longitud maxima es 40</span>}
+                                                            </div>
+                                                            <div className={"col-lg-6 col-12 py-2"}>
+                                                                <div className={""}>Lenguaje:</div>
+                                                                <label className={"w-100"}>
+                                                                    <input className={"w-100 form-input"} {...register("lenguaje", { max: 2, min: 2, required: true })} />
+                                                                </label>
+                                                                {errors.lenguaje && <span className={"text-danger"}>This field is required</span>}
+                                                            </div>
+                                                        </div>
+                                                        <input hidden value={restaurant.id_restaurante} {...register("id_restaurante", { required: true })} readOnly={true}/>
+                                                        <input type="submit"/>
+                                                    </form>
+                                                </>}
+                                            </>
+                                        }
+                                        {new Date(periodos[0].fecha_fin) < date &&
+                                            <>
+                                                La temporada a cerrado no es posible reservar
+                                            </>
+                                        }
                                     </>}
                             </>}
                         {new Date(date) < lessResult &&
                         <div>
-                            No es posible realizar la reserva el dia {formatDateESSimple(date)}
+                            No es posible realizar la reserva el dia {formatDateES(date)}
                             <br/>
-                            Ten encuenta que el restaurante solo acepta reservas desde el dia {formatDateESSimple(result)}
+                            Ten encuenta que el restaurante solo acepta reservas desde el dia {formatDateES(result)}
                         </div>}
                     </Modal.Body>
                 </Modal>
@@ -286,7 +314,6 @@ function changeHoursDateEN(date, time) {
     return new Date(realDate);
 }
 
-
 function canClientReservar(date, reservas,aforoMax) {
     var startDate = new Date(date);
     var endDate = new Date(date);
@@ -301,6 +328,19 @@ function canClientReservar(date, reservas,aforoMax) {
         personasTotal += resultProductData[i].personas;
     }
     return personasTotal < (aforoMax * 24);
+}
+
+function isClosed(date, horario) {
+    if (!Array.isArray(horario)) {
+        horario = Object.values(horario)
+    }
+    for (let i = 0; i < horario.length; i++) {
+        let number = schedule.getDayNumber(horario[i].day);
+        if (number===date.getDay()) {
+            return false;
+        }
+    }
+    return true;
 }
 
 export default FullCalendarReservas;
