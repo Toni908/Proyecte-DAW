@@ -25,8 +25,8 @@ class Header extends Component {
                 </ul>
 
                 <Dropdown>
-                  <Dropdown.Toggle className='bg-white border-0' id="dropdown-custom-components">
-                    <FaGlobe size='28' className='me-3' color='#536CC9'/>
+                  <Dropdown.Toggle className='bg-white border-0' id="dropdown-custom-components" >
+                    <FaGlobe size='28' className='me-3' color='#536CC9'></FaGlobe>
                   </Dropdown.Toggle>
 
                   <Dropdown.Menu>
@@ -35,6 +35,8 @@ class Header extends Component {
                     <Dropdown.Item onClick={changeLanguage} id="en"><Translate string={'en'}/></Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
+
+                <button aria-label='traduccions'>dsg</button>
 
                 <div className="text-end">
                 
