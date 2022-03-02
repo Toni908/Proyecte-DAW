@@ -47,7 +47,9 @@
     grid-template-rows: auto;
     font-size: 18px;
 }
-
+.font-avg {
+    font-size: 12px;
+}
 .min-height-info {
     min-height: 450px;
 }

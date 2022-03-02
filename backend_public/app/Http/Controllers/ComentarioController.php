@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class ComentarioController extends Controller
 {
 
-    function showWithRestaurant($id) {
+    function showAll($id) {
         $comments = Comentario::select("comentarios.*","reserva.nombre","reserva.fecha")
             ->join("reserva","comentarios.id_reserva","=","reserva.id_reserva")
             ->where("reserva.id_restaurante","=",$id)

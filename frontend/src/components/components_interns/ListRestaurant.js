@@ -16,13 +16,31 @@ class ListRestaurant extends Component {
             idList: this.props.idList
         }
 
-        this.isResponsive = this.isResponsive.bind(this);
+        this.handleResize = this.handleResize.bind(this);
     }
-    isResponsive() {
-        if (window.innerWidth<1500) {
-            this.setState({quantity:1})
-        } else {
-            this.setState({quantity:4})
+
+    componentDidMount() {
+        window.addEventListener("scroll", this.handleResize);
+        window.addEventListener('resize', this.handleResize);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener("scroll", this.handleResize);
+        window.removeEventListener('resize', this.handleResize);
+    }
+
+    handleResize() {
+        if (window.innerWidth<3000 && window.innerWidth>1500) {
+            this.setState({quantity: 4})
+        }
+        if (window.innerWidth<1500 && window.innerWidth>900) {
+            this.setState({quantity: 2})
+        }
+        if (window.innerWidth<900 && window.innerWidth>0) {
+            this.setState({quantity: 1})
+        }
+        if (this.props.restaurants.length<this.state.quantity) {
+            desappearRightArrow(this.state.idList);
         }
     }
 
@@ -48,12 +66,8 @@ class ListRestaurant extends Component {
             }
         };
 
-        if (this.props.restaurants.length<this.state.quantity) {
-            desappearRightArrow(this.state.idList);
-        }
-
         return(
-            <section className={"position-relative"} onLoad={this.isResponsive}>
+            <section className={"position-relative"}>
                 <h3 className={"pt-3 mt-5 ps-1 title-principal"}>{this.props.title}</h3>
                 {this.props.restaurants.length>this.state.quantity &&
                 <Carousel

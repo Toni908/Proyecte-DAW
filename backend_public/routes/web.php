@@ -42,20 +42,27 @@ Route::post('/filtrar',[RestaurantController::class, 'buscador']);
 
 Route::get('/localidad/{id}',[LocalidadController::class,'show']);
 
-Route::get('/comments/restaurant/{id}',[ComentarioController::class,'showWithRestaurant']);
-Route::get('/reservas/restaurant/{id}',[ReservasController::class,'showWithRestaurant']);
+Route::get('/comments/{id}',[ComentarioController::class,'showAll']);
+Route::get('/reservas/{id}',[ReservasController::class,'showAll']);
 Route::get('/reservas/avg/{id}',[RestaurantController::class,'AVGReservasRestaurant']);
-Route::get('/carta/restaurant/{id}',[RestaurantController::class,'cartRestaurantActive']);
+Route::get('/carta/{id}',[CartaController::class,'show']);
 
+Route::post('/reserva',[ReservasController::class, 'create']);
+Route::get('/sui/{id}/{day}/{month}/{year}/{hour}',[ReservasController::class, 'showDate']);
+
+// PRUEBA
+
+Route::get('/sui/{id}/{day}/{month}/{year}',[ReservasController::class, 'showDate']);
+
+// IMAGES
 Route::get('/image/{id_restaurant}/{name}',[ImageController::class,'show']);
 Route::get('/alergenos/{id_alergeno}',[ImageController::class,'showAlergeno']);
+
 
 Route::get('/user/{id}',[UseracountController::class, 'show']);
 Route::get('/users',[UseracountController::class, 'showUsers']);
 Route::get('/adminUsers',[UseracountController::class, 'showUserWhereIsAdmin']);
 
-Route::get('/reserva/{id}',[ReservasController::class, 'show']);
-Route::post('/reserva',[ReservasController::class, 'reservasRestaurant']);
 Route::get('/comentar',[ReservasController::class, 'login']);
 Route::get('/comprobar',[ReservasController::class, 'comprobate']);
 
