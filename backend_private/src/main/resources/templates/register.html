@@ -27,7 +27,8 @@
                                         <h5 class="fw-normal mb-3 pb-3 letter-space" th:text="#{user.create.title}"></h5>
 
                                         <div class="form-outline mb-4">
-                                            <input type="email" id="form2Example17" name="correo" class="form-control form-control-lg" />
+                                            <input  th:if="${user.correo == null}" type="email" id="form2Example17" name="correo" class="form-control form-control-lg" />
+                                            <input  th:if="${user.correo != null}" type="email" id="form2Example17" name="correo" th:value="${user.correo}" class="form-control form-control-lg" />
                                             <label class="form-label" for="form2Example17" required th:text="#{user.update.correo}"></label>
                                             <div th:if="${error != null && error.containsKey('correo')}" th:text="${error.correo}" class="error-validation"></div>
                                         </div>
