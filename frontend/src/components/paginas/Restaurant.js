@@ -168,19 +168,28 @@ class Restaurant extends Component {
                                 <div className={"col-lg-6 col-12"}>
                                     <div className={"d-flex flex-row justify-content-between px-2"}>
                                         Comida
-                                        <Slider min={0} max={5} value={infoAVG["valoracion_comida"]}/>
+                                        <div className={"w-100 d-flex flex-row justify-content-end align-self-center h-100"}>
+                                            <Slider min={0} max={5} value={infoAVG["valoracion_comida"]}/>
+                                            <div className={"ps-2 align-self-center text-secondary fw-bold font-avg"}>{infoAVG["valoracion_comida"]}</div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div className={"col-lg-6 col-12"}>
                                     <div className={"d-flex flex-row justify-content-between px-2"}>
                                         Servicio
-                                        <Slider min={0} max={5} value={infoAVG["valoracion_servicio"]}/>
+                                        <div className={"w-100 d-flex flex-row justify-content-end align-self-center h-100"}>
+                                            <Slider min={0} max={5} value={infoAVG["valoracion_servicio"]}/>
+                                            <div className={"ps-2 align-self-center text-secondary fw-bold font-avg"}>{infoAVG["valoracion_servicio"]}</div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div className={"col-lg-6 col-12"}>
-                                    <div className={"d-flex flex-row justify-content-between px-2"}>
+                                    <div className={"d-flex flex-row justify-content-between px-2 align-self-center h-100"}>
                                         Sitio
-                                        <Slider min={0} max={5} value={infoAVG["valoracion_sitio"]}/>
+                                        <div className={"w-100 d-flex flex-row justify-content-end"}>
+                                            <Slider min={0} max={5} value={infoAVG["valoracion_sitio"]}/>
+                                            <div className={"ps-2 align-self-center text-secondary fw-bold font-avg"}>{infoAVG["valoracion_sitio"]}</div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

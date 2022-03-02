@@ -48,6 +48,7 @@ Route::get('/reservas/avg/{id}',[RestaurantController::class,'AVGReservasRestaur
 Route::get('/carta/{id}',[CartaController::class,'show']);
 
 Route::post('/reserva',[ReservasController::class, 'create']);
+Route::get('/sui/{id}/{day}/{month}/{year}/{hour}',[ReservasController::class, 'showDate']);
 
 // PRUEBA
 
