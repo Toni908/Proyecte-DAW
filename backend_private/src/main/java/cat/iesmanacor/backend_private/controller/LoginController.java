@@ -25,7 +25,9 @@ public class LoginController {
     private UseracountService useracountService;
 
     @GetMapping("/login")
-    public String login(){
+    public String login(Model model){
+        Useracount useracount = new Useracount();
+        model.addAttribute("user", useracount);
         return "login";
     }
 
@@ -36,7 +38,9 @@ public class LoginController {
     }
 
     @GetMapping("/register")
-    public String register(){
+    public String register(Model model){
+        Useracount useracount = new Useracount();
+        model.addAttribute("user", useracount);
         return "register";
     }
 
@@ -83,15 +87,16 @@ public class LoginController {
             if (BCrypt.checkpw(useracount.getPassword(), user.get(0).getPassword())) {
                 HttpSession session = request.getSession(true);
                 session.setAttribute("user", user.get(0));
-                //Useracount user = (Useracount) session.getAttribute("user");
 
                 return "redirect:/lista/restaurantes";
             } else {
                 model.addAttribute("errorp", "Contraseña incorrecta");
+                model.addAttribute("user", useracount);
                 return "login";
             }
         }else{
             model.addAttribute("errorc", "Correo no registrado");
+            model.addAttribute("user", useracount);
             return "login";
         }
 
