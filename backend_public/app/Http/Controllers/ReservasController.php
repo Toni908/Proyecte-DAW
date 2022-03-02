@@ -38,13 +38,13 @@ class ReservasController extends Controller
         $reserva->id_restaurante = $request->input('id_restaurante');
 
 
-        $fecha = \date("Y-m-d H:i:s",strtotime($request->input('fecha')));
+        $fecha = \date("Y-m-d H",strtotime($request->input('fecha')));
 
         $restaurant = Restaurante::find($reserva->id_restaurante);
         if ($restaurant!=null) {
             $resultAforo = ($restaurant->aforo)-($reserva->personas);
             if ($resultAforo>=0) {
-                $reservas = $this->showDate($reserva->id_restaurante,$fecha->format("Y"),$fecha->format("m"),$fecha->format("d"),$fecha->format('H'));
+                $reservas = $this->showDate($reserva->id_restaurante,$fecha);
                 $realAforo = $reservas[0]["aforo"]+$reserva->personas;
                 if ($realAforo>$restaurant->aforo) {
                     return $reservas;
@@ -57,8 +57,8 @@ class ReservasController extends Controller
         return "AFORO ERROR";
     }
 
-    public function showDate($id, $day,$month,$year,$hour) {
-        $date_start = date("Y-m-d H:i:s",strtotime($year."-".$month."-".$day." ".$hour.":"."00:00"));
+    public function showDate($id, $date) {
+        $date_start = date("Y-m-d H:i:s",strtotime($date.":"."00:00"));
         $date_end = date("Y-m-d H:i:s",strtotime($date_start. ' + 1 hour'));
 
         $reservas = Reserva::select(DB::raw('sum(reserva.personas) as aforo'))

@@ -20,7 +20,6 @@ function FullCalendarReservas(props) {
     const [show, setShow] = useState(false);
     const [date, setDate] = useState(false);
     const [time, setTime] = useState(false);
-    const [reload, setReload] = useState(false);
 
     const {reservas, dia_minimo, aforo, id_restaurante} = props;
 
@@ -68,7 +67,7 @@ function FullCalendarReservas(props) {
                         center: 'dayGridMonth,timeGridWeek,timeGridDay',
                     }}
                     dateClick={(e) => {setShow(true); setDate(new Date(e.date)); setTime(getHoursDate(new Date(e.date)));}}
-                    eventClick={(arg) => {setShow(true); setDate(arg.event.start);}}
+                    eventClick={(arg) => {setShow(true); setDate(arg.event.start); setTime(getHoursDate(new Date(arg.event.start)))}}
                     events={ArrayReservas}
                 />
                 <div id={"success"} className={"message-success"} hidden={true}>Se a creado correctamente</div>
@@ -89,7 +88,7 @@ function FullCalendarReservas(props) {
                             <>
                                 <div className={"align-self-center text-center"}>
                                     La reserva se realizara el {formatDateESExtraSimple(date)} -
-                                    <TimeField className={"ms-2 w-25 form-input"} onChange={(event, time) => {setTime(time); setReload(true); setDate(changeHoursDate(date, time))}} value={time} colon=":" showSeconds={true}/>
+                                    <TimeField className={"ms-2 w-25 form-input"} onChange={(event, time) => {setTime(time); setDate(changeHoursDate(date, time))}} value={time} colon=":" showSeconds={true}/>
                                 </div>
                                 {filterArrayFromDate(reservas, date) >= aforo &&
                                     <>
@@ -104,9 +103,9 @@ function FullCalendarReservas(props) {
                                                 <div className={"col-lg-6 col-12 py-2"}>
                                                     <div className={""}>Personas:</div>
                                                     <label className={"w-100"}>
-                                                        <input className={"w-100 form-input"} type="number" {...register("personas", { min: 1, max: aforo, required: true})} />
+                                                        <input className={"w-100 form-input"} type="number" {...register("personas", { min: 1, max: aforo-filterArrayFromDate(reservas, date), required: true})} />
                                                     </label>
-                                                    {errors.personas && <span className={"text-danger"}>El minimo es 1 y maximo es {aforo}</span>}
+                                                    {errors.personas && <span className={"text-danger"}>El minimo es 1 y maximo es {aforo-filterArrayFromDate(reservas, date)}</span>}
                                                 </div>
                                                 <div className={"col-lg-6 col-12 py-2"}>
                                                     <div className={""}>Email:</div>
@@ -233,7 +232,6 @@ function filterArrayFromDate(array, date) {
     for (let i = 0; i < result.length; i++) {
         personasTotal += result[i].personas;
     }
-
     return personasTotal;
 }
 
