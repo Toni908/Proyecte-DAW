@@ -22,7 +22,7 @@ function ModalUser(props) {
                     aria-labelledby="modalUser"
                 >
                     <Modal.Header closeButton>
-                        <Modal.Title id="modalUser">
+                        <Modal.Title id="modalUser" className={"w-100 text-center pt-3"}>
                             <div className={"fw-bold pb-2 text-capitalize"}>¿Como contactar con el Gerente?</div>
                         </Modal.Title>
                     </Modal.Header>

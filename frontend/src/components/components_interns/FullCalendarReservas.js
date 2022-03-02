@@ -276,15 +276,13 @@ function getArrayReservas(reservas) {
     // PUSH RESERVAS
     for (let i = 0; i < reservas.length; i++) {
         array.push({
-            title: "Reservado",
+            title: "Disponibles",
             start: reservas[i].fecha,
             end: reservas_anticipacion.getNextHourDate(reservas[i].fecha),
             color: "blue",
             allDay: false
         })
     }
-
-    //PUSH DIAS ABIERTOS / DIAS CERRADOS
     return array;
 }
 
