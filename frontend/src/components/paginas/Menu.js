@@ -2,26 +2,15 @@ import "./menu.css";
 import {Component} from "react";
 
 class Menu extends Component {
-    constructor() {
-        super();
-
-        this.state = {
-            carta: []
-        }
-    }
-
-    componentDidMount() {
-        this.setState({carta:  this.props.carta["carta"]})
-    }
 
     render() {
-        const {carta} = this.state;
-
+        const {carta} = this.props;
+        
         return(
             <div className="container">
-                {carta["categorias"]!==undefined &&
+                {carta.categorias!==undefined &&
                 <div className="menu">
-                    {carta["categorias"].map(function (categoria, key) {
+                    {carta.categorias.map(function (categoria, key) {
                         return(
                             <section key={key} className={"pb-5"}>
                                 <h2 className="pb-3 m-0">

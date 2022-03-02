@@ -8,6 +8,7 @@ import AboutUs from "./AboutUs";
 import Comment from "./Comment";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import CartaRepresentar from "./CartaRepresentar";
 
 import './App.css';
 import './components/components_interns/main.css'
@@ -43,7 +44,7 @@ class App extends Component {
                 <Route path="/" element={<Home />} />
                 <Route path="/search" element={<BuscadorAvanzado />} />
                 <Route path="/us" element={<AboutUs />} />
-                <Route path="/carta/:id" element={<AboutUs />} />
+                <Route path="/carta/:id" element={<CartaRepresentar />} />
                 <Route path="/comment/:id" element={<Comment className="bg-white"/>} />
                 <Route path="/reserva/:id" element={<AboutUs />} />
                 <Route path="/restaurant/:id" element={<Restaurant />} />
