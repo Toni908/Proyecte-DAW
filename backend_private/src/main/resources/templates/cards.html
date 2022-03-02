@@ -21,7 +21,7 @@
     </nav>
     <div id="Cards">
     <h3 th:text="${restaurant.nombre}"> </h3>
-    <table id="card_table" class="display" style="width:100%">
+    <table id="card_table" class="display responsive nowrap" style="width:100%">
         <thead class="thead-dark">
             <th scope="row" class="d-none" th:text="#{card.table.id}"></th>
             <th scope="row" th:text="#{card.table.name}"></th>
@@ -71,7 +71,7 @@
 
 </main>
 
-<footer th:insert="shared/footer :: body" class="mt-auto fot"></footer>
+<!--footer th:insert="shared/footer :: body" class="mt-auto fot"></--footer-->
 
     <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
     <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
@@ -79,6 +79,9 @@
     <script th:src="@{/js/asideVersionScroll.js}"></script>
     <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.1.0/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/fixedheader/3.2.2/js/dataTables.fixedHeader.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.9/js/responsive.bootstrap.min.js"></script>
 
     <script>
 
@@ -91,7 +94,10 @@
 
         var listar = function(){
             var card_table = $("#card_table").DataTable({
+                responsive: true
             });
+            new $.fn.dataTable.FixedHeader( card_table );
+
             obtener_data("#card_table", card_table, "button.eliminar");
             obtener_data("#card_table", card_table, "button.editar");
         }
