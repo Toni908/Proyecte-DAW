@@ -21,9 +21,7 @@ function FullCalendarReservas(props) {
     const [date, setDate] = useState(false);
     const [time, setTime] = useState(false);
 
-    const {reservas, dia_minimo, aforo, id_restaurante} = props;
-
-    let ArrayReservas = getArrayReservas(reservas);
+    const {reservas, dia_minimo, aforo, restaurant, horario} = props;
 
     let result = reservas_anticipacion.getDateAnticipacion(dia_minimo);
     let lessResult = reservas_anticipacion.getDateLessAnticipacion(result)
@@ -66,9 +64,23 @@ function FullCalendarReservas(props) {
                     headerToolbar={{
                         center: 'dayGridMonth,timeGridWeek,timeGridDay',
                     }}
+                    dayCellDidMount={function (arg) {
+                        if (arg.date>=new Date(lessResult)) {
+                            // EN ROJO SI YA NO SE PUEDE HACER MAS RESERVAS
+                            if (!canClientReservar(arg.date, reservas,aforo)) {
+                                arg.el.style.border = "#db5858 solid 1px";
+                                arg.el.style.backgroundColor = "#ff8f8f";
+                            } else {
+                                arg.el.style.backgroundColor = "#D0F0C0";
+                                arg.el.style.border = "#7ed463 solid 1px";
+                            }
+                        } else {
+                            arg.el.style.border = "#db5858 solid 1px";
+                            arg.el.style.backgroundColor = "#ff8f8f";
+                        }
+                    }}
                     dateClick={(e) => {setShow(true); setDate(new Date(e.date)); setTime(getHoursDate(new Date(e.date)));}}
                     eventClick={(arg) => {setShow(true); setDate(arg.event.start); setTime(getHoursDate(new Date(arg.event.start)))}}
-                    events={ArrayReservas}
                 />
                 <div id={"success"} className={"message-success"} hidden={true}>Se a creado correctamente</div>
                 <div id={"error"} className={"message-error"} hidden={true}>El restaurante no se puede permitir tu aforo</div>
@@ -136,7 +148,7 @@ function FullCalendarReservas(props) {
                                                     {errors.lenguaje && <span className={"text-danger"}>This field is required</span>}
                                                 </div>
                                             </div>
-                                            <input hidden value={id_restaurante} {...register("id_restaurante", { required: true })} readOnly={true}/>
+                                            <input hidden value={restaurant.id_restaurante} {...register("id_restaurante", { required: true })} readOnly={true}/>
                                             <input type="submit"/>
                                         </form>
                                     </>}
@@ -255,6 +267,10 @@ function formatDateESSimple(date) {
     let result = new Date(date);
     return result.getDate()+"-"+(result.getMonth()+1)+"-"+result.getFullYear()+" "+result.getHours();
 }
+function formatDateES(date) {
+    let result = new Date(date);
+    return result.getDate()+"-"+(result.getMonth()+1)+"-"+result.getFullYear();
+}
 
 function changeHoursDate(date, time) {
     let newDate = new Date(date);
@@ -270,20 +286,21 @@ function changeHoursDateEN(date, time) {
     return new Date(realDate);
 }
 
-function getArrayReservas(reservas) {
-    let array = [];
 
-    // PUSH RESERVAS
-    for (let i = 0; i < reservas.length; i++) {
-        array.push({
-            title: "Disponibles",
-            start: reservas[i].fecha,
-            end: reservas_anticipacion.getNextHourDate(reservas[i].fecha),
-            color: "blue",
-            allDay: false
-        })
+function canClientReservar(date, reservas,aforoMax) {
+    var startDate = new Date(date);
+    var endDate = new Date(date);
+    endDate.setDate(endDate.getDate()+1);
+
+    var resultProductData = reservas.filter(a => {
+        var date = new Date(a.fecha);
+        return (date >= startDate && date <= endDate);
+    });
+    let personasTotal = 0;
+    for (let i = 0; i < resultProductData.length; i++) {
+        personasTotal += resultProductData[i].personas;
     }
-    return array;
+    return personasTotal < (aforoMax * 24);
 }
 
 export default FullCalendarReservas;

@@ -38,6 +38,7 @@ class Restaurant extends Component {
             comments: [],
             reservas: [],
             carta: [],
+            horario: [],
             isLoading: false,
             error: null,
         };
@@ -58,8 +59,9 @@ class Restaurant extends Component {
         const request3 = axios.get(ip+"/carta/"+id);
         const request4 = axios.get(ip+"/comments/"+id);
         const request5 = axios.get(ip+"/reservas/"+id);
+        const request6 = axios.get(ip+"/horario/"+id)
 
-        axios.all([request1, request2,request3,request4,request5])
+        axios.all([request1, request2,request3,request4,request5,request6])
             .then(axios.spread((...responses) =>
                 {if (this._isMounted) {this.setState({
                     restaurant: responses[0].data,
@@ -67,6 +69,7 @@ class Restaurant extends Component {
                     carta: responses[2].data,
                     comments: responses[3].data,
                     reservas: responses[4].data,
+                    horario: responses[5].data,
                     isLoading: false
                 })}}))
             .catch(error => this.setState({
@@ -80,7 +83,7 @@ class Restaurant extends Component {
 
 
     render() {
-        const {restaurant,infoAVG,comments,reservas,carta,isLoading, error} = this.state;
+        const {restaurant,infoAVG,comments,reservas,carta,horario,isLoading, error} = this.state;
         let reservas_dias = reservas_anticipacion.getDayAnticipacion(restaurant.dies_anticipacion_reservas);
 
         if (error) {
@@ -144,7 +147,7 @@ class Restaurant extends Component {
                         <section className={"w-100 m-0 p-0 pb-5 pt-2 px-lg-0 px-5"}>
                             <h3 className={"text-center py-4"}>¿Quieres realizar una reserva?</h3>
                             <div className={"text-center pb-3"}>Haz click el dia en el que quieres hacer la reserva y rellena el formulario!<br/> Ten encuenta que el restaurante <div className={"text-warning"}>solo acepta reservas desde el dia {reservas_dias}</div></div>
-                            {restaurant.dies_anticipacion_reservas !==undefined && restaurant.aforo !==undefined && restaurant.id_restaurante !==undefined && <FullCalendarReservas reservas={reservas} dia_minimo={restaurant.dies_anticipacion_reservas} aforo={restaurant.aforo} id_restaurante={restaurant.id_restaurante}/>}
+                            {restaurant.dies_anticipacion_reservas !==undefined && restaurant.aforo !==undefined && restaurant.id_restaurante !==undefined && <FullCalendarReservas reservas={reservas} dia_minimo={restaurant.dies_anticipacion_reservas} aforo={restaurant.aforo} horario={horario} restaurant={restaurant}/>}
                         </section>
                         <hr className={"mx-3 mx-lg-0"}/>
                         <section id={"location"} className={"w-100 m-0 p-0 row pb-5 pt-2 px-lg-0 px-5"}>
