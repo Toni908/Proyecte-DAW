@@ -8,6 +8,7 @@ import AboutUs from "./AboutUs";
 import Comment from "./Comment";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import Email from "./Email";
 import CartaRepresentar from "./CartaRepresentar";
 
 import './App.css';
@@ -48,6 +49,7 @@ class App extends Component {
                 <Route path="/comment/:id" element={<Comment className="bg-white"/>} />
                 <Route path="/reserva/:id" element={<AboutUs />} />
                 <Route path="/restaurant/:id" element={<Restaurant />} />
+                <Route path="/email" element={<Email />} />
               </Routes>
             </div>
           
