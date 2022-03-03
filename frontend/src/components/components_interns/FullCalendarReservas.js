@@ -74,11 +74,11 @@ function FullCalendarReservas(props) {
                     dayCellDidMount={function (arg) {
                         if (arg.date>=new Date(lessResult)) {
                             // EN ROJO SI YA NO SE PUEDE HACER MAS RESERVAS
-                            if (!canClientReservar(arg.date, reservas,aforo)) {
+                            if (!canClientReservar(arg.date, reservas,horario,aforo)) {
                                 arg.el.style.border = "#db5858 solid 1px";
                                 arg.el.style.backgroundColor = "#ff8f8f";
                             } else {
-                                if (isClosed(arg.date, horario)) {
+                                if (isClosed(arg.date, horario,reservas,aforo)) {
                                     arg.el.style.border = "#db5858 solid 1px";
                                     arg.el.style.backgroundColor = "#ff8f8f";
                                 } else {
@@ -116,24 +116,24 @@ function FullCalendarReservas(props) {
                         {new Date(date) > lessResult &&
                             <>
                                 <div className={"d-flex flex-row justify-content-center align-self-center pb-3"}>
-                                    <div className={"pt-2"}>La reserva se realizara el {formatDateESExtraSimple(date)} -</div>
+                                    <div className={"pt-2"}>La reserva se realizara el {formatDateES(date)} -</div>
                                     <SelectHorario date={date} horario={horario} onChange={handleChange}/>
                                 </div>
 
                                 {filterArrayFromDate(reservas, date, time) >= aforo &&
                                     <>
-                                        <div>Ya no permite mas aforo el restaurante en la fecha {formatDateESExtraSimple(date)} {getHoursDate(date)}</div>
+                                        <div>Ya no permite mas aforo el restaurante en la fecha {formatDateES(date)} {getHoursDate(date)}</div>
                                     </>
                                 }
                                 {filterArrayFromDate(reservas, date, time) < aforo &&
                                     <>
                                         {new Date(periodos[0].fecha_fin)>date &&
                                             <>
-                                                {isClosed(date, horario) &&
+                                                {isClosed(date, horario,reservas,aforo) &&
                                                 <>
                                                     Esta cerrado este dia
                                                 </>}
-                                                {!isClosed(date, horario) &&
+                                                {!isClosed(date, horario,reservas,aforo) &&
                                                 <>
                                                     {time==="" &&
                                                     <>
@@ -282,7 +282,6 @@ function filterArrayFromDate(array, date,time) {
     if (time===""){
         time = "00:00:00";
     }
-    console.log(time)
     let newDate = formatDateEN(date,time);
     const result = array.filter(item => formatDateESSimple(new Date(item.fecha)) === formatDateESSimple(new Date(newDate)));
     let personasTotal = 0;
@@ -304,10 +303,6 @@ function formatDateEN(date, time) {
     let resultTime = time.split(":");
     return result.getFullYear()+"-"+(result.getMonth()+1)+"-"+result.getDate()+" "+resultTime[0]+":"+resultTime[1]+":"+resultTime[2];
 }
-function formatDateESExtraSimple(date) {
-    let result = new Date(date);
-    return result.getDate()+"-"+(result.getMonth()+1)+"-"+result.getFullYear();
-}
 function formatDateESSimple(date) {
     let result = new Date(date);
     return result.getDate()+"-"+(result.getMonth()+1)+"-"+result.getFullYear()+" "+result.getHours();
@@ -317,7 +312,7 @@ function formatDateES(date) {
     return result.getDate()+"-"+(result.getMonth()+1)+"-"+result.getFullYear();
 }
 
-function canClientReservar(date, reservas,aforoMax) {
+function canClientReservar(date, reservas,horario, aforo) {
     var startDate = new Date(date);
     var endDate = new Date(date);
     endDate.setDate(endDate.getDate()+1);
@@ -330,20 +325,40 @@ function canClientReservar(date, reservas,aforoMax) {
     for (let i = 0; i < resultProductData.length; i++) {
         personasTotal += resultProductData[i].personas;
     }
-    return personasTotal < (aforoMax * 24);
+    return personasTotal < (aforo * getHoursNumberFromDate(date,horario));
 }
 
-function isClosed(date, horario) {
+function getHoursNumberFromDate(date, horario) {
+    let arrayHorario = 0;
     if (!Array.isArray(horario)) {
         horario = Object.values(horario)
     }
+
     for (let i = 0; i < horario.length; i++) {
         let number = schedule.getDayNumber(horario[i].day);
+        if (number===date.getDay()) {
+            let hora_fin = parseInt(horario[i].hora_fin.split(":")[0]);
+            let hora_inicio = parseInt(horario[i].hora_inicio.split(":")[0]);
+            for (let x = hora_inicio; x < hora_fin; x++) {
+                arrayHorario++;
+            }
+        }
+    }
+    return arrayHorario;
+}
+
+function isClosed(date, horario,reservas,aforo) {
+    let newHorario = [];
+    if (!Array.isArray(horario)) {
+        newHorario = Object.values(horario)
+    }
+    for (let i = 0; i < newHorario.length; i++) {
+        let number = schedule.getDayNumber(newHorario[i].day);
         if (number===date.getDay()) {
             return false;
         }
     }
-    return true;
+    return canClientReservar(date, reservas, horario, aforo);
 }
 
 export default FullCalendarReservas;

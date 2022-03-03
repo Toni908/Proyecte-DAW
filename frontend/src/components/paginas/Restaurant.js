@@ -24,6 +24,7 @@ import "./restaurant.css";
 import "./menu.css";
 
 import icon_person from "../../img/icon_person.png";
+import schedule from "../components_interns/utilities/schedule";
 
 
 class Restaurant extends Component {
@@ -259,38 +260,7 @@ class Restaurant extends Component {
 
 function formatDate(fecha) {
     let date = new Date(fecha);
-    return getMonthString(date.getMonth())+" del "+date.getFullYear();
-}
-
-function getMonthString(month) {
-    switch (month) {
-        case 0:
-            return 'enero';
-        case 1:
-            return 'febrero';
-        case 2:
-            return 'marzo';
-        case 3:
-            return 'abril';
-        case 4:
-            return 'mayo';
-        case 5:
-            return 'junio';
-        case 6:
-            return 'julio';
-        case 7:
-            return 'agosto';
-        case 8:
-            return 'septiembre';
-        case 9:
-            return 'octubre';
-        case 10:
-            return 'noviembre';
-        case 11:
-            return 'diciembre';
-        default:
-            return null;
-    }
+    return schedule.getMonthString(date.getMonth())+" del "+date.getFullYear();
 }
 
 function valoraciones(comments) {
@@ -302,7 +272,6 @@ function valoraciones(comments) {
     } else {
         return 0;
     }
-
 }
 
 export default Restaurant

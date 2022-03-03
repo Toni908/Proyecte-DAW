@@ -9,8 +9,6 @@ const options = [
 
 function SelectHorario(props) {
     function handleChange(event) {
-        // Here, we invoke the callback with the new value
-        console.log(event)
         props.onChange(event.value);
     }
     return(<Select options={getHorarioFromDate(props.date,props.horario)} onChange={handleChange}/>)
