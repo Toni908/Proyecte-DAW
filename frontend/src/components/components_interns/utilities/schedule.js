@@ -5,6 +5,10 @@ class schedule {
     static textHeader(horario) {
         return textHeader(horario);
     }
+
+    static getDayNumber(number) {
+        return getDayNumber(number);
+    }
 }
 function isTodayOpen(horario) {
     // Lunes a domingo

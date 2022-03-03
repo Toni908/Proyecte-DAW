@@ -23,7 +23,7 @@ class Menu extends Component {
                                             <div key={key} className="col-lg-6 col-12 pt-4 pb-2">
                                                 <h4 className="m-0 d-flex justify-content-between">
                                                     <span className={"pe-2"}>{plato.nombre}</span>
-                                                    <span>${plato.precio}</span>
+                                                    <span>{plato.precio}€</span>
                                                 </h4>
                                                 <div className="menu-item-description">
                                                     {plato.descripcion!==undefined && <>{plato.descripcion}</>}

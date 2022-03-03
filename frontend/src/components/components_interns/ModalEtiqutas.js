@@ -20,7 +20,7 @@ function ModalEtiquetas(props) {
                     aria-labelledby="modalEtiquetas"
                 >
                     <Modal.Header closeButton>
-                        <Modal.Title id="modalEtiquetas">
+                        <Modal.Title id="modalEtiquetas" className={"w-100 text-center pt-3"}>
                             <div className={"fw-bold pb-2 text-capitalize"}>¿Que etiquetas tiene?</div>
                         </Modal.Title>
                     </Modal.Header>
@@ -36,6 +36,11 @@ function ModalEtiquetas(props) {
                                 )
                             })}
                         </div>}
+                        {props.etiquetas.length===0 &&
+                            <div>
+                                Lo lamentamos mucho, no tiene ninguna etiqueta activa
+                            </div>
+                        }
                     </Modal.Body>
                 </Modal>
             </div>

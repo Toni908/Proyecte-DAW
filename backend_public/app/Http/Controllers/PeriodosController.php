@@ -2,11 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Horario;
 use App\Models\Periodo;
-use App\Models\Restaurante;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Date;
 
 class PeriodosController extends Controller
 {
