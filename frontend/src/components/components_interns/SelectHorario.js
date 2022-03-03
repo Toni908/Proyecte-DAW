@@ -19,9 +19,13 @@ class SelectHorario extends Component {
     }
 
     handleChange = (selectedOption) => {
+        let { time } = this.props;
+
         this.setState({ selectedOption }, () =>
-            console.log(`Option selected:`, this.state.selectedOption)
+            time = this.state.selectedOption.label
         );
+
+        console.log(time)
     };
 
     render() {

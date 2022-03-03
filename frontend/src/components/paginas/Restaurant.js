@@ -64,17 +64,31 @@ class Restaurant extends Component {
         const request7 = axios.get(ip+"/periodo/"+id)
 
         axios.all([request1, request2,request3,request4,request5,request6,request7])
-            .then(axios.spread((...responses) =>
-                {if (this._isMounted) {this.setState({
-                    restaurant: responses[0].data,
-                    infoAVG: responses[1].data["info"],
-                    carta: responses[2].data,
-                    comments: responses[3].data,
-                    reservas: responses[4].data,
-                    horario: responses[5].data,
-                    periodo: responses[6].data,
-                    isLoading: false
-                })}}))
+            .then(axios.spread((...responses) => {
+                if (responses[1].data["info"]!==undefined) {
+                    this.setState({
+                        restaurant: responses[0].data,
+                        infoAVG: responses[1].data["info"],
+                        carta: responses[2].data,
+                        comments: responses[3].data,
+                        reservas: responses[4].data,
+                        horario: responses[5].data,
+                        periodo: responses[6].data,
+                        isLoading: false
+                    })
+                } else {
+                    this.setState({
+                        restaurant: responses[0].data,
+                        infoAVG: null,
+                        carta: responses[2].data,
+                        comments: responses[3].data,
+                        reservas: responses[4].data,
+                        horario: responses[5].data,
+                        periodo: responses[6].data,
+                        isLoading: false
+                    })
+                }
+            }))
             .catch(error => this.setState({
                 error: error,
             }))
@@ -103,8 +117,8 @@ class Restaurant extends Component {
                     <div className={"d-flex flex-column main-width-restaurant ps-lg-0 m-0"}>
                         <section id={"start"} className={"d-flex flex-column text-lg-start text-center pb-3"}>
                             <h3 className={"w-100"}><i className="bi bi-building pe-3"/>{restaurant.nombre}</h3>
-                            <div className={"d-flex flex-lg-row flex-column justify-content-lg-between justify-content-center"}>
-                                <div className={"d-flex flex-row justify-content-lg-start justify-content-center"}>
+                            <div className={infoAVG ? "d-flex flex-lg-row flex-column justify-content-lg-between justify-content-center" : "d-flex flex-lg-row flex-column justify-content-lg-end justify-content-center"}>
+                                {infoAVG!==null && <div className={"d-flex flex-row justify-content-lg-start justify-content-center"}>
                                     <i className="bi bi-star-fill text-color-TYPE-1 pe-2"/>
                                     <div className={"pe-1"}>{valoraciones(infoAVG)}</div>
                                     ·
@@ -113,7 +127,7 @@ class Restaurant extends Component {
                                     <div className={"px-1"}>{restaurant.nombre_localidad}</div>
                                     ·
                                     <div className={"ps-1"}>{restaurant.nombre_municipio}</div>
-                                </div>
+                                </div>}
                                 <div className={"pe-lg-5 p-lg-0 pt-2"}>
                                     <ModalShare restaurant={restaurant}/>
                                 </div>
@@ -163,8 +177,8 @@ class Restaurant extends Component {
                             {<SimpleMap class={"w-100 map-height"} lat={restaurant.latitud} lng={restaurant.longitud} zoom={11}/>}
                         </section>
                         <hr className={"mx-3 mx-lg-0"}/>
-                        <section id={"comments"} className={"w-100 m-0 px-lg-4 px-4 pb-5 pt-2"}>
-                            <div className={"d-flex flex-row justify-content-lg-start justify-content-center align-self-center"}>
+                        {infoAVG!==null && <section id={"comments"} className={"w-100 m-0 px-lg-4 px-4 pb-5 pt-2"}>
+                             <div className={"d-flex flex-row justify-content-lg-start justify-content-center align-self-center"}>
                                 <i className="bi bi-star-fill fs-4 text-color-TYPE-1 pe-2"/>
                                 <div className={"pe-1 fs-4"}>{valoraciones(infoAVG)}</div>
                                 <div className={"fs-4 h-100 align-self-center"}>·</div>
@@ -217,7 +231,12 @@ class Restaurant extends Component {
                                     )
                                 })}
                             </div>
-                        </section>
+                        </section>}
+                        {infoAVG === null &&
+                            <div>
+                                No tiene comentarios XD
+                            </div>
+                        }
                         <hr className={"mx-3 mx-lg-0"}/>
                         <section id={"user"} className={"w-100 m-0 p-0 pb-5 pt-2 px-lg-0 px-5"}>
                             <div className={"d-flex flex-row fs-5 pb-4"}>
@@ -275,10 +294,16 @@ function getMonthString(month) {
 }
 
 function valoraciones(comments) {
-    let sitio = parseFloat(comments["valoracion_sitio"]);
-    let servicio = parseFloat(comments["valoracion_servicio"]);
-    let comida = parseFloat(comments["valoracion_comida"]);
-    return ((sitio+servicio+comida)/3).toPrecision(3);
+    console.log(comments!==null)
+    if (comments!==null) {
+        let sitio = parseFloat(comments["valoracion_sitio"]);
+        let servicio = parseFloat(comments["valoracion_servicio"]);
+        let comida = parseFloat(comments["valoracion_comida"]);
+        return ((sitio+servicio+comida)/3).toPrecision(3);
+    } else {
+        return 0;
+    }
+
 }
 
 export default Restaurant
