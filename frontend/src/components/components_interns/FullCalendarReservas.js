@@ -92,8 +92,8 @@ function FullCalendarReservas(props) {
                             arg.el.style.backgroundColor = "#ff8f8f";
                         }
                     }}
-                    dateClick={(e) => {setShow(true); setDate(new Date(e.date)); setTime(getHoursDate(new Date(e.date)));}}
-                    eventClick={(arg) => {setShow(true); setDate(arg.event.start); setTime(getHoursDate(new Date(arg.event.start)))}}
+                    dateClick={(e) => {setShow(true); setDate(new Date(e.date));}}
+                    eventClick={(arg) => {setShow(true); setDate(arg.event.start);}}
                 />
                 <div id={"success"} className={"message-success"} hidden={true}>Se a creado correctamente</div>
                 <div id={"error"} className={"message-error"} hidden={true}>El restaurante no se puede permitir tu aforo</div>
@@ -114,7 +114,7 @@ function FullCalendarReservas(props) {
                                 <div className={"d-flex flex-row justify-content-center align-self-center pb-3"}>
                                     <div className={"pt-2"}>La reserva se realizara el {formatDateESExtraSimple(date)} -</div>
                                     {/*<TimeField className={"ms-2 w-25 form-input"} onChange={(event, time) => {setTime(time); setDate(changeHoursDate(date, time))}} value={time} colon=":" showSeconds={true}/>*/}
-                                    <SelectHorario date={date} horario={horario}/>
+                                    <SelectHorario date={date} horario={horario} time={time}/>
                                 </div>
 
                                 {filterArrayFromDate(reservas, date) >= aforo &&

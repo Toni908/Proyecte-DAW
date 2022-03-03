@@ -32,8 +32,10 @@ public class LoginController {
     }
 
     @GetMapping("/logout")
-    public String logout(HttpSession request) throws ServletException {
+    public String logout(HttpSession request, Model model) throws ServletException {
         request.invalidate();
+        Useracount useracount = new Useracount();
+        model.addAttribute("user", useracount);
         return "login";
     }
 
