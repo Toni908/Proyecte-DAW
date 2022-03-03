@@ -4,6 +4,7 @@ import "./HeaderRestaurant.css"
 import { HashLink } from 'react-router-hash-link';
 import { Nav } from 'react-bootstrap';
 import HorarioRestaurant from "../components_interns/HorarioRestaurant";
+import Translate from "../../locales/Translate";
 
 class HeaderRestaurant extends Component {
     constructor(props) {
@@ -58,17 +59,15 @@ class HeaderRestaurant extends Component {
 
         if (visible) {
             return (
-                <Nav
-                    className="mb-3 border-bottom bg-white font-family-header-restaurant w-100 position-fixed top-0 z-index-10">
+                <Nav className="mb-3 border-bottom bg-white font-family-header-restaurant w-100 position-fixed top-0 z-index-10">
                     <div className={"d-flex flex-row justify-content-center w-100"}>
                         <div className={"row main-width-restaurant ps-lg-0 m-0"}>
                             <ul className="nav col-lg-10 col-12 d-flex flex-row justify-content-center justify-content-lg-start px-4">
-                                <li><HashLink to="#photos" className="nav-link p-3 header-select">Fotos</HashLink></li>
-                                <li><HashLink to="#menu" className="nav-link p-3 header-select">Carta</HashLink></li>
-                                <li><HashLink to="#location" className="nav-link p-3 header-select">Ubicacion</HashLink>
-                                </li>
-                                <li><HashLink to="#comments"
-                                              className="nav-link p-3 header-select">Valoraciones</HashLink></li>
+                                <li><HashLink to="#photos" className="nav-link p-3 header-select"><Translate string={"restaurant-header-photos"} /></HashLink></li>
+                                <li><HashLink to="#menu" className="nav-link p-3 header-select"><Translate string={"restaurant-header-cart"} /></HashLink></li>
+                                <li><HashLink to="#bookings" className="nav-link p-3 header-select"><Translate string={"restaurant-header-bookings"} /></HashLink></li>
+                                <li><HashLink to="#location" className="nav-link p-3 header-select"><Translate string={"restaurant-header-location"} /></HashLink></li>
+                                <li><HashLink to="#comments" className="nav-link p-3 header-select"><Translate string={"restaurant-header-comments"} /></HashLink></li>
                             </ul>
                             {horario &&
                             <div className={"col-lg-2 col-12 py-2"}>

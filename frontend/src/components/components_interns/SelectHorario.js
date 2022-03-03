@@ -1,12 +1,6 @@
 import Select from 'react-select'
 import schedule from "./utilities/schedule";
 
-const options = [
-    { value: 'chocolate', label: 'Chocolate' },
-    { value: 'strawberry', label: 'Strawberry' },
-    { value: 'vanilla', label: 'Vanilla' }
-]
-
 function SelectHorario(props) {
     function handleChange(event) {
         props.onChange(event.value);

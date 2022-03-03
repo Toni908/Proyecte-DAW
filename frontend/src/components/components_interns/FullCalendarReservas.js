@@ -1,7 +1,8 @@
 import React, {useState} from "react";
 import { useForm } from "react-hook-form";
 import { LocaleContext } from "../../LocaleContext.js";
-
+import {Modal} from "react-bootstrap";
+import axios from "axios";
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -9,12 +10,13 @@ import interactionPlugin from "@fullcalendar/interaction" // needed for dayClick
 import es from '@fullcalendar/core/locales/es';
 import ca from '@fullcalendar/core/locales/ca';
 
-import reservas_anticipacion from "./utilities/reservas_anticipacion";
-import {Button, Modal} from "react-bootstrap";
-import axios from "axios";
-import "./FullCalendarReservas.css";
-import schedule from "./utilities/schedule";
 import SelectHorario from "./SelectHorario";
+
+import schedule from "./utilities/schedule";
+import reservas_anticipacion from "./utilities/reservas_anticipacion";
+
+import "./FullCalendarReservas.css";
+
 
 function FullCalendarReservas(props) {
     const { register, handleSubmit, formState: { errors } } = useForm();
@@ -63,6 +65,7 @@ function FullCalendarReservas(props) {
         return (
             <>
                 <FullCalendar
+                    height={"100vh"}
                     locale={es}
                     initialDate={result}
                     plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
@@ -70,31 +73,34 @@ function FullCalendarReservas(props) {
                     nowIndicator={true}
                     headerToolbar={{
                         center: 'dayGridMonth,timeGridWeek,timeGridDay',
+                        end: "prev,next"
+                    }}
+                    dayHeaderDidMount={function (arg) {
+                        arg.el.innerHTML = "<div class='text-center text-black'>"+arg.el.innerText+"</div>";
                     }}
                     dayCellDidMount={function (arg) {
+                        arg.el.innerHTML = "<div class='d-flex flex-row justify-content-end pe-2 pt-2'>"+arg.el.innerText+"</div>";
                         if (arg.date>=new Date(lessResult)) {
                             // EN ROJO SI YA NO SE PUEDE HACER MAS RESERVAS
                             if (!canClientReservar(arg.date, reservas,horario,aforo)) {
-                                arg.el.style.border = "#db5858 solid 1px";
-                                arg.el.style.backgroundColor = "#ff8f8f";
+                                arg.el.style.backgroundColor = "rgba(216,230,242,1)";
                             } else {
+                                // ESTA CERRADO ESE DIA?
                                 if (isClosed(arg.date, horario,reservas,aforo)) {
-                                    arg.el.style.border = "#db5858 solid 1px";
-                                    arg.el.style.backgroundColor = "#ff8f8f";
+                                    arg.el.style.backgroundColor = "rgba(216,230,242,1)";
                                 } else {
+                                    // HA TERMINADO LA TEMPORADA
                                     if (new Date(periodos[0].fecha_fin)<arg.date) {
-                                        arg.el.style.border = "#db5858 solid 1px";
-                                        arg.el.style.backgroundColor = "#ff8f8f";
+                                        arg.el.style.backgroundColor = "rgba(216,230,242,1)";
                                     } else {
-                                        arg.el.style.backgroundColor = "#D0F0C0";
-                                        arg.el.style.border = "#7ed463 solid 1px";
+                                        // arg.el.style.backgroundColor = "#749EE3";
                                     }
                                 }
                             }
                         } else {
-                            arg.el.style.border = "#db5858 solid 1px";
-                            arg.el.style.backgroundColor = "#ff8f8f";
+                            arg.el.style.backgroundColor = "rgba(216,230,242,1)";
                         }
+                        arg.el.style.border = "ECFBFF solid 2px";
                     }}
                     dateClick={(e) => {setShow(true); setDate(new Date(e.date));}}
                     eventClick={(arg) => {setShow(true); setDate(arg.event.start);}}
@@ -103,101 +109,158 @@ function FullCalendarReservas(props) {
                 <div id={"error"} className={"message-error"} hidden={true}>El restaurante no se puede permitir tu aforo</div>
                 <Modal
                     show={show}
-                    onHide={() => {setShow(false); setDate(new Date(date))}}
+                    onHide={() => {setShow(false); setDate(new Date(date)); setTime(""); return false}}
                     dialogClassName="modal-80w"
                     aria-labelledby="modalReserva"
                 >
                     <Modal.Header closeButton>
                         <Modal.Title id="modalReserva" className={"w-100"}>
-                            <div className={"text-center"}>Realizar una reserva</div>
+                            <div className={"text-center"}>Bienvenido a {restaurant.nombre}!</div>
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         {new Date(date) > lessResult &&
                             <>
-                                <div className={"d-flex flex-row justify-content-center align-self-center pb-3"}>
-                                    <div className={"pt-2"}>La reserva se realizara el {formatDateES(date)} -</div>
-                                    <SelectHorario date={date} horario={horario} onChange={handleChange}/>
-                                </div>
+                                {time==="" && canClientReservar(date, reservas,horario,aforo) &&
+                                    <>
+                                        <h5 className={"w-100 text-center pb-1"}>Elige una hora!</h5>
+                                        <div className={"d-flex flex-row justify-content-center align-self-center pb-3"}>
+                                            <div className={"pt-2 pe-1"}>Realizar reserva para el {formatDateES(date)} -</div>
+                                            <SelectHorario date={date} horario={horario} onChange={handleChange}/>
+                                        </div>
+                                    </>
+                                }
+
+                                {!canClientReservar(date, reservas,horario,aforo) && !isClosed(date,horario) &&
+                                <div className={"text-center pb-3"}>
+                                    <h5>Reserva no disponible!</h5>
+                                </div>}
+                                {isClosed(date,horario) &&
+                                <div className={"text-center pb-3"}>
+                                    <h5>Reserva no disponible!</h5>
+                                </div>}
+
+
+
 
                                 {filterArrayFromDate(reservas, date, time) >= aforo &&
                                     <>
-                                        <div>Ya no permite mas aforo el restaurante en la fecha {formatDateES(date)} {getHoursDate(date)}</div>
+                                        <div className={"fw-bold"}>
+                                            <i className="bi bi-info-circle pe-2 text-danger"/>
+                                            Ya no permite mas aforo el restaurante en la fecha {formatDateES(date)} {getHoursDate(date)}
+                                        </div>
                                     </>
                                 }
                                 {filterArrayFromDate(reservas, date, time) < aforo &&
                                     <>
                                         {new Date(periodos[0].fecha_fin)>date &&
                                             <>
-                                                {isClosed(date, horario,reservas,aforo) &&
+                                                {isClosed(date, horario) &&
                                                 <>
-                                                    Esta cerrado este dia
+                                                    <div className={"fw-bold"}>
+                                                        <i className="bi bi-info-circle pe-2 text-danger"/>
+                                                        No es posible realizar la reserva, el restaurante estara cerrado!
+                                                    </div>
                                                 </>}
-                                                {!isClosed(date, horario,reservas,aforo) &&
+                                                {!isClosed(date, horario) &&
                                                 <>
-                                                    {time==="" &&
-                                                    <>
-                                                        Elige una hora!!
-                                                    </>}
-                                                    {time!=="" &&
-                                                    <>
-                                                        Aforo restante a las {time.split(":")[0]}h es {aforo-filterArrayFromDate(reservas, date, time)}
-                                                        <form onSubmit={handleSubmit(onSubmit)}>
-                                                            <div className={"row"}>
-                                                                <div className={"col-lg-6 col-12 py-2"}>
-                                                                    <div className={""}>Personas:</div>
-                                                                    <label className={"w-100"}>
-                                                                        <input className={"w-100 form-input"} type="number" {...register("personas", { min: 1, max: aforo-filterArrayFromDate(reservas, date, time), required: true})} />
-                                                                    </label>
-                                                                    {errors.personas && <span className={"text-danger"}>El minimo es 1 y maximo es {aforo-filterArrayFromDate(reservas, date,time)}</span>}
-                                                                </div>
-                                                                <div className={"col-lg-6 col-12 py-2"}>
-                                                                    <div className={""}>Email:</div>
-                                                                    <label className={"w-100"}>
-                                                                        <input className={"w-100 form-input"} {...register("email", { pattern: "/^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$/" , max:40, required: true })} />
-                                                                    </label>
-                                                                    {errors.email && <span className={"text-danger"}>Debe ser un correo electronico</span>}
-                                                                </div>
-                                                                <div className={"col-lg-6 col-12 py-2"}>
-                                                                    <div className={""}>Telefono:</div>
-                                                                    <label className={"w-100"}>
-                                                                        <input className={"w-100 form-input"} type={"number"} {...register("telefono", { minLength: 7, required: true })} />
-                                                                    </label>
-                                                                    {errors.telefono && <span className={"text-danger"}>Longitud minima es 7</span>}
-                                                                </div>
-                                                                <div className={"col-lg-6 col-12 py-2"}>
-                                                                    <div className={""}>Nombre:</div>
-                                                                    <label className={"w-100"}>
-                                                                        <input className={"w-100 form-input"} {...register("nombre", { max: 40, required: true })} />
-                                                                    </label>
-                                                                    {errors.nombre && <span className={"text-danger"}>Longitud maxima es 40</span>}
-                                                                </div>
-                                                                <div className={"col-lg-6 col-12 py-2"}>
-                                                                    <div className={""}>Lenguaje:</div>
-                                                                    <label className={"w-100"}>
-                                                                        <input className={"w-100 form-input"} {...register("lenguaje", { max: 2, min: 2, required: true })} />
-                                                                    </label>
-                                                                    {errors.lenguaje && <span className={"text-danger"}>This field is required</span>}
-                                                                </div>
+                                                    {!canClientReservar(date, reservas,horario,aforo) &&
+                                                        <>
+                                                            <div className={"fw-bold"}>
+                                                                <i className="bi bi-info-circle pe-2 text-danger"/>
+                                                                Lo lamentamos mucho no es posible realizar mas reservas el dia {formatDateES(date)}
                                                             </div>
-                                                            <input hidden value={restaurant.id_restaurante} {...register("id_restaurante", { required: true })} readOnly={true}/>
-                                                            <input type="submit"/>
-                                                        </form>
-                                                    </>}
+                                                        </>
+                                                    }
+                                                    {canClientReservar(date, reservas,horario,aforo) &&
+                                                        <>
+                                                            {time==="" &&
+                                                                <>
+                                                                    <div className={"px-3 text-secondary font-size-simple"}>
+                                                                        <i className="bi bi-info-circle pe-2 text-warning"/>
+                                                                        Para seguir con la realizacion de la reserva selecione una hora de las posibles situada arriba a la derecha de la fecha
+                                                                    </div>
+                                                                </>}
+                                                            {time!=="" &&
+                                                            <>
+                                                                <h5 className={"w-100 text-center pb-1"}>Ralizar una reserva!</h5>
+                                                                <div className={"d-flex flex-row justify-content-center align-self-center pb-3"}>
+                                                                    <div className={"pt-2 pe-1"}>Realizar reserva para el {formatDateES(date)} -</div>
+                                                                    <SelectHorario date={date} horario={horario} onChange={handleChange}/>
+                                                                </div>
+                                                                <div className={"px-3 text-secondary font-size-simple"}>
+                                                                    <i className="bi bi-info-circle pe-2 text-warning"/>
+                                                                    Personas restante a las {time.split(":")[0]}h es {aforo-filterArrayFromDate(reservas, date, time)}
+                                                                </div>
+                                                                <form onSubmit={handleSubmit(onSubmit)}>
+                                                                    <div className={"row"}>
+                                                                        <div className={"col-lg-6 col-12 py-2"}>
+                                                                            <div className={""}>Personas:</div>
+                                                                            <label className={"w-100"}>
+                                                                                <input className={"w-100 form-input"} type="number" {...register("personas", { min: 1, max: aforo-filterArrayFromDate(reservas, date, time), required: true})} />
+                                                                            </label>
+                                                                            {errors.personas && <span className={"text-danger"}>El minimo es 1 y maximo es {aforo-filterArrayFromDate(reservas, date,time)}</span>}
+                                                                        </div>
+                                                                        <div className={"col-lg-6 col-12 py-2"}>
+                                                                            <div className={""}>Email:</div>
+                                                                            <label className={"w-100"}>
+                                                                                <input className={"w-100 form-input"} {...register("email", { pattern: "/^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$/" , max:40, required: true })} />
+                                                                            </label>
+                                                                            {errors.email && <span className={"text-danger"}>Debe ser un correo electronico</span>}
+                                                                        </div>
+                                                                        <div className={"col-lg-6 col-12 py-2"}>
+                                                                            <div className={""}>Telefono:</div>
+                                                                            <label className={"w-100"}>
+                                                                                <input className={"w-100 form-input"} type={"number"} {...register("telefono", { minLength: 7, required: true })} />
+                                                                            </label>
+                                                                            {errors.telefono && <span className={"text-danger"}>Longitud minima es 7</span>}
+                                                                        </div>
+                                                                        <div className={"col-lg-6 col-12 py-2"}>
+                                                                            <div className={""}>Nombre:</div>
+                                                                            <label className={"w-100"}>
+                                                                                <input className={"w-100 form-input"} {...register("nombre", { max: 40, required: true })} />
+                                                                            </label>
+                                                                            {errors.nombre && <span className={"text-danger"}>Longitud maxima es 40</span>}
+                                                                        </div>
+                                                                        <div className={"col-lg-6 col-12 py-2"}>
+                                                                            <div className={""}>Lenguaje:</div>
+                                                                            <label className={"w-100"}>
+                                                                                <input className={"w-100 form-input"} {...register("lenguaje", { max: 2, min: 2, required: true })} />
+                                                                            </label>
+                                                                            {errors.lenguaje && <span className={"text-danger"}>This field is required</span>}
+                                                                        </div>
+                                                                    </div>
+                                                                    <input hidden value={restaurant.id_restaurante} {...register("id_restaurante", { required: true })} readOnly={true}/>
+                                                                    <input type="submit" className={"btn btn-outline-dark"}/>
+                                                                </form>
+                                                            </>}
+                                                        </>}
                                                 </>}
                                             </>}
                                         {new Date(periodos[0].fecha_fin) < date &&
                                             <>
-                                                La temporada a cerrado no es posible reservar
+                                                <div className={"fw-bold pb-3"}>
+                                                    <i className="bi bi-info-circle pe-2 fw-bold text-danger"/>
+                                                    No puedes realizar reservas, la temporada habra terminado
+                                                </div>
                                             </>
                                         }
                                     </>}
                             </>}
                         {new Date(date) < lessResult &&
-                        <div>
-                            No es posible realizar la reserva el dia {formatDateES(date)}
+                        <div className={"text-center"}>
+                            <div className={"text-center"}>
+                                <h5>Reserva no disponible!</h5>
+                            </div>
                             <br/>
-                            Ten encuenta que el restaurante solo acepta reservas desde el dia {formatDateES(result)}
+                            <div className={"fw-bold pb-3"}>
+                                <i className="bi bi-info-circle pe-2 fw-bold text-danger"/>
+                                No es posible realizar la reserva el dia {formatDateES(date)}
+                            </div>
+                            <div className={"px-3 text-secondary font-size-simple"}>
+                                <i className="bi bi-info-circle pe-2 fw-bold text-warning"/>
+                                Ten encuenta que el restaurante solo acepta reservas desde el dia {formatDateES(result)}
+                            </div>
                         </div>}
                     </Modal.Body>
                 </Modal>
@@ -347,7 +410,7 @@ function getHoursNumberFromDate(date, horario) {
     return arrayHorario;
 }
 
-function isClosed(date, horario,reservas,aforo) {
+function isClosed(date, horario) {
     let newHorario = [];
     if (!Array.isArray(horario)) {
         newHorario = Object.values(horario)
@@ -358,7 +421,7 @@ function isClosed(date, horario,reservas,aforo) {
             return false;
         }
     }
-    return canClientReservar(date, reservas, horario, aforo);
+    return true;
 }
 
 export default FullCalendarReservas;

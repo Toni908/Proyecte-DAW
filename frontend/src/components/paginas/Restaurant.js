@@ -6,26 +6,25 @@ import Slider from "../components_interns/Slider";
 import ModalShare from "../components_interns/ModalShare";
 import ModalEtiquetas from "../components_interns/ModalEtiqutas";
 import ModalUser from "../components_interns/ModalUser";
+import FullCalendarReservas from "../components_interns/FullCalendarReservas";
 
+import icon_person from "../../img/icon_person.png";
+import schedule from "../components_interns/utilities/schedule";
 import GalleryRestaurant from "../components_interns/GalleryRestaurant";
 import Loading from "../components_interns/Loading";
 import Menu from "./Menu";
 import HeaderRestaurant from "./HeaderRestaurant";
 import reservas_anticipacion from "../components_interns/utilities/reservas_anticipacion";
-import FullCalendarReservas from "../components_interns/FullCalendarReservas";
 import SimpleMap from "../components_interns/SimpleMap";
 import ImageRestaurant from "../components_interns/ImageRestaurant";
 import HorarioScroll from "../components_interns/HorarioScroll";
+import Translate from "../../locales/Translate";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "photoswipe/dist/photoswipe.css";
 import "photoswipe/dist/default-skin/default-skin.css";
 import "./restaurant.css";
 import "./menu.css";
-
-import icon_person from "../../img/icon_person.png";
-import schedule from "../components_interns/utilities/schedule";
-
 
 class Restaurant extends Component {
     _isMounted = false;
@@ -101,12 +100,9 @@ class Restaurant extends Component {
 
 
     render() {
-        const {restaurant,infoAVG,comments,reservas,carta,horario,periodo,isLoading, error} = this.state;
+        const {restaurant,infoAVG,comments,reservas,carta,horario,periodo,isLoading} = this.state;
         let reservas_dias = reservas_anticipacion.getDayAnticipacion(restaurant.dies_anticipacion_reservas);
 
-        if (error) {
-            return <p>{error.message}</p>;
-        }
         if (isLoading) {
             return <Loading />;
         }
@@ -120,10 +116,10 @@ class Restaurant extends Component {
                             <h3 className={"w-100"}><i className="bi bi-building pe-3"/>{restaurant.nombre}</h3>
                             <div className={infoAVG ? "d-flex flex-lg-row flex-column justify-content-lg-between justify-content-center" : "d-flex flex-lg-row flex-column justify-content-lg-end justify-content-center"}>
                                 {infoAVG!==null && <div className={"d-flex flex-row justify-content-lg-start justify-content-center"}>
-                                    <i className="bi bi-star-fill text-color-TYPE-1 pe-2"/>
+                                    <i className="bi bi-star-fill color-TYPE-3 pe-2"/>
                                     <div className={"pe-1"}>{valoraciones(infoAVG)}</div>
                                     ·
-                                    <HashLink to="#comments" className="px-1 text-black">{infoAVG["count"]} valoraciones</HashLink>
+                                    <HashLink to="#comments" className="px-1 text-black">{infoAVG["count"]} <Translate string={"ratings"}/></HashLink>
                                     ·
                                     <div className={"px-1"}>{restaurant.nombre_localidad}</div>
                                     ·
@@ -135,11 +131,12 @@ class Restaurant extends Component {
                             </div>
                         </section>
                         <GalleryRestaurant restaurant={restaurant} imgs={restaurant.imgs}/>
+                        {/*TRADUCIDO DESDE AQUI PARA ARRIBA*/}
                         {restaurant.id_restaurante!==undefined &&
                         <section id={"menu"} className={"w-100 p-0 m-0 row pt-5 px-lg-0 px-5"}>
                             {carta["carta"]!==undefined &&
                             <div className={"col-lg-8 col-12"}>
-                                <h2 className={"text-center pb-2"}>{carta["carta"].nombre}</h2>
+                                <h2 className={"text-center py-2"}>{carta["carta"].nombre}</h2>
                                 {!carta["carta"].usa_img && <Menu carta={carta["carta"]}/>}
                                 {carta["carta"].usa_img===1 && <img className={"w-100 h-auto p-2"} src={process.env.REACT_APP_API_URL+"/image/"+restaurant.id_restaurante+"/"+carta["carta"].url_img} alt={carta["carta"].nombre}/>}
                                 <hr className={"mx-3 mx-lg-0"}/>
@@ -161,14 +158,14 @@ class Restaurant extends Component {
                             </div>}
                             <HorarioScroll restaurant={restaurant} />
                         </section>}
-                        <hr className={"mx-3 mx-lg-0"}/>
-                        <section className={"w-100 m-0 p-0 pb-5 pt-2 px-lg-0 px-5"}>
+                        <hr id={"bookings"} className={"mx-3 mx-lg-0"}/>
+                        <section className={"w-100 m-0 p-0 pb-5 pt-4 px-lg-0 px-5"}>
                             <h3 className={"text-center py-4"}>¿Quieres realizar una reserva?</h3>
-                            <div className={"text-center pb-3"}>Haz click el dia en el que quieres hacer la reserva y rellena el formulario!<br/> Ten encuenta que el restaurante <div className={"text-warning"}>solo acepta reservas desde el dia {reservas_dias}</div></div>
+                            <div className={"text-center pb-3"}>Haz click el dia en el que quieres hacer la reserva y rellena el formulario!<br/> Ten encuenta que el restaurante solo acepta reservas desde el dia {reservas_dias}</div>
                             {restaurant.dies_anticipacion_reservas !==undefined && restaurant.aforo !==undefined && restaurant.id_restaurante !==undefined && <FullCalendarReservas reservas={reservas} dia_minimo={restaurant.dies_anticipacion_reservas} aforo={restaurant.aforo} periodo={periodo} horario={horario} restaurant={restaurant}/>}
                         </section>
-                        <hr className={"mx-3 mx-lg-0"}/>
-                        <section id={"location"} className={"w-100 m-0 p-0 row pb-5 pt-2 px-lg-0 px-5"}>
+                        <hr id={"location"} className={"mx-3 mx-lg-0"}/>
+                        <section className={"w-100 m-0 p-0 row pb-5 pt-4 px-lg-0 px-5"}>
                             <h4 className={"pt-4"}>¿Donde se encuentra el restaurante?</h4>
                             <div className={"d-flex flex-row justify-content-lg-start justify-content-center pb-4"}>
                                 <div className={"px-1"}>{restaurant.nombre_localidad}</div>
@@ -177,8 +174,8 @@ class Restaurant extends Component {
                             </div>
                             {<SimpleMap class={"w-100 map-height"} lat={restaurant.latitud} lng={restaurant.longitud} zoom={11}/>}
                         </section>
-                        <hr className={"mx-3 mx-lg-0"}/>
-                        {infoAVG!==null && <section id={"comments"} className={"w-100 m-0 px-lg-4 px-4 pb-5 pt-2"}>
+                        <hr id={"comments"} className={"mx-3 mx-lg-0"}/>
+                        {infoAVG!==null && <section className={"w-100 m-0 px-lg-4 px-4 py-5"}>
                              <div className={"d-flex flex-row justify-content-lg-start justify-content-center align-self-center"}>
                                 <i className="bi bi-star-fill fs-4 text-color-TYPE-1 pe-2"/>
                                 <div className={"pe-1 fs-4"}>{valoraciones(infoAVG)}</div>
