@@ -4,6 +4,7 @@ import CaruselRestaurant from "./CaruselRestaurant";
 import ListRestaurant from "./ListRestaurant";
 import Buscador from "./Buscador";
 import Loading from "./Loading";
+import Resultados from "./Resultados";
 import {Card} from "react-bootstrap";
 import city1 from "../../img/city1.jpeg"
 import city3 from "../../img/city2.jpg"
@@ -23,6 +24,11 @@ class Main extends Component {
             bestCapitals: [],
             isLoading: false,
             error: null,
+            buscador: 0,
+            restaurantes:[],
+            etiqueta: null,
+            sitio: null,
+            precio: null
         };
     }
 
@@ -42,6 +48,55 @@ class Main extends Component {
         }))
     }
 
+    changeEtiqueta(e){
+        this.setState({buscador: 1});
+        if(e.target.value === "null"){
+            this.setState({etiqueta: null});
+        }else{
+            this.setState({etiqueta: e.target.value});
+        }
+    }
+    changeSitio(e){
+        this.setState({buscador: 1});
+        if(e.target.value === "null"){
+            this.setState({sitio: null});
+        }else{
+            this.setState({sitio: e.target.value});
+        }
+    }
+    changePrecio(e){
+        this.setState({buscador: 1});
+        if(e.target.value === "null"){
+            this.setState({precio: null});
+        }else{
+            this.setState({precio: e.target.value});
+        }
+    }
+    filter(){
+        this.setState({buscador: 1});
+        var data = {
+            etiqueta: this.state.etiqueta,
+            lugar: this.state.sitio,
+            precio: this.state.precio
+        }
+
+        var ip = process.env.REACT_APP_API_URL;
+
+        axios({
+            method: 'post',
+            url: ip + '/filtrar',
+            data: data
+        })
+        .then((response) => {
+            console.log(response);
+            this.setState({restaurantes: response.data});
+        })
+        .catch((error) => {
+            console.log(error); 
+        });
+        
+    }
+
     render() {
         const { BestRestaurants, EconomicRestaurants, isLoading, error } = this.state;
 
@@ -55,8 +110,12 @@ class Main extends Component {
         return (
             <section className={"font-main"}>
                 <div className={"d-md-block d-none"}>
-                    <Buscador />
+                    <Buscador changeEtiqueta={this.changeEtiqueta.bind(this)} 
+                    changeSitio={this.changeSitio.bind(this)}
+                    changePrecio={this.changePrecio.bind(this)}
+                    filter={this.filter.bind(this)}/>
                 </div>
+                {this.state.buscador === 0 &&
                 <div className={"d-flex flex-row justify-content-center w-100"}>
                     <div className={"d-flex flex-column main-width"}>
                         <CaruselRestaurant restaurants={BestRestaurants}/>
@@ -115,7 +174,10 @@ class Main extends Component {
                             </section>
                         </section>
                     </div>
-                </div>
+                </div>}
+                {this.state.buscador === 1 &&
+                    <Resultados restaurants={this.state.restaurantes}/>
+                }
             </section>
 
         )
