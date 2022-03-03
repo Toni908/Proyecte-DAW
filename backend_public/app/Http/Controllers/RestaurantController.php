@@ -123,10 +123,12 @@ class RestaurantController extends Controller
 
         $restaurant = Restaurante::with('localidad','imgs','etiquetas','periodos')->select('restaurante.*')
         ->join('carta', 'carta.id_restaurante', '=', 'restaurante.id_restaurante')
-        ->join('restaurante_etiquetas', 'restaurante_etiquetas.id_restaurante', '=', 'restaurante.id_restaurante')
-        ->join('etiquetas', 'etiquetas.id_etiqueta', '=', 'restaurante_etiquetas.id_etiqueta')
+        ->leftJoin('restaurante_etiquetas', 'restaurante.id_restaurante', '=', 'restaurante_etiquetas.id_restaurante')
+        ->leftJoin('etiquetas', 'restaurante_etiquetas.id_etiqueta', '=', 'etiquetas.id_etiqueta')
         ->join('localidad', 'localidad.id_localidad', '=', 'restaurante.id_localidad')
         ->join('municipio', 'municipio.nombre_municipio', '=', 'localidad.nombre_municipio')
+        ->leftJoin('categoria_platos', 'carta.id_carta', '=', 'categoria_platos.id_carta')
+        ->leftJoin('platos', 'categoria_platos.id_categoria', '=', 'platos.id_categoria')
         ->where('restaurante.validated', '=', 1)
         ->where('restaurante.visible', '=', 1)
         ->where('carta.visible', '=', 1);

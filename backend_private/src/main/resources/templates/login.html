@@ -36,7 +36,7 @@
                                          <h5 class="fw-normal mb-3 pb-3 letter-space" th:text="#{login.title}"></h5>
 
                                          <div class="form-outline mb-4">
-                                             <input type="email" name="correo" id="form2Example17" class="form-control form-control-lg" />
+                                             <input type="email" name="correo" id="form2Example17" th:value="${user.correo}" class="form-control form-control-lg" />
                                              <label class="form-label" for="form2Example17" th:text="#{login.email}"></label>
                                              <div th:if="${errorc != null}" th:text="${errorc}" class="error-validation"></div>
                                          </div>

@@ -24,7 +24,7 @@ class CartaRepresentar extends Component {
 
         var ip = process.env.REACT_APP_API_URL;
 
-        var url = ip + '/carta/'+ id;
+        url = ip + '/carta/'+ id;
 
         console.log(url);
 
