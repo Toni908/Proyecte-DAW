@@ -103,18 +103,30 @@ class HorarioRestaurant extends Component {
                 )
             }
         } else {
-            return (
-                <Accordion className={"bg-white"}>
-                    <Accordion.Item eventKey="0">
-                        <Accordion.Header>{header}</Accordion.Header>
-                        <Accordion.Body>
+            if (this.props.onlyHeader) {
+                return (
+                    <section className={"bg-white"}>
+                        <div className={"d-flex flex-column gap-2"}>
                             {body.map(function (item, key) {
                                 return (<div key={key} className={"text-black"}>{item}</div>)
                             })}
-                        </Accordion.Body>
-                    </Accordion.Item>
-                </Accordion>
-            )
+                        </div>
+                    </section>
+                )
+            } else {
+                return (
+                    <Accordion className={"bg-white"}>
+                        <Accordion.Item eventKey="0">
+                            <Accordion.Header>{header}</Accordion.Header>
+                            <Accordion.Body>
+                                {body.map(function (item, key) {
+                                    return (<div key={key} className={"text-black"}>{item}</div>)
+                                })}
+                            </Accordion.Body>
+                        </Accordion.Item>
+                    </Accordion>
+                )
+            }
         }
     }
 }

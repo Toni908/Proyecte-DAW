@@ -8,13 +8,14 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from "@fullcalendar/interaction" // needed for dayClick
 import es from '@fullcalendar/core/locales/es';
 import ca from '@fullcalendar/core/locales/ca';
-import TimeField from 'react-simple-timefield';
 
 import reservas_anticipacion from "./utilities/reservas_anticipacion";
 import {Button, Modal} from "react-bootstrap";
 import axios from "axios";
 import "./FullCalendarReservas.css";
 import schedule from "./utilities/schedule";
+import HorarioRestaurant from "./HorarioRestaurant";
+import SelectHorario from "./SelectHorario";
 
 function FullCalendarReservas(props) {
     const { register, handleSubmit, formState: { errors } } = useForm();
@@ -104,16 +105,18 @@ function FullCalendarReservas(props) {
                 >
                     <Modal.Header closeButton>
                         <Modal.Title id="modalReserva" className={"w-100"}>
-                            <div className={"pt-2 text-center w-100"}>Realizar una reserva</div>
+                            <div className={"text-center"}>Realizar una reserva</div>
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         {new Date(date) > lessResult &&
                             <>
-                                <div className={"align-self-center text-center"}>
-                                    La reserva se realizara el {formatDateESExtraSimple(date)} -
-                                    <TimeField className={"ms-2 w-25 form-input"} onChange={(event, time) => {setTime(time); setDate(changeHoursDate(date, time))}} value={time} colon=":" showSeconds={true}/>
+                                <div className={"d-flex flex-row justify-content-center align-self-center pb-3"}>
+                                    <div className={"pt-2"}>La reserva se realizara el {formatDateESExtraSimple(date)} -</div>
+                                    {/*<TimeField className={"ms-2 w-25 form-input"} onChange={(event, time) => {setTime(time); setDate(changeHoursDate(date, time))}} value={time} colon=":" showSeconds={true}/>*/}
+                                    <SelectHorario date={date} horario={horario}/>
                                 </div>
+
                                 {filterArrayFromDate(reservas, date) >= aforo &&
                                     <>
                                         <div>Ya no permite mas aforo el restaurante en la fecha {formatDateESExtraSimple(date)} {getHoursDate(date)}</div>
@@ -172,8 +175,7 @@ function FullCalendarReservas(props) {
                                                         <input type="submit"/>
                                                     </form>
                                                 </>}
-                                            </>
-                                        }
+                                            </>}
                                         {new Date(periodos[0].fecha_fin) < date &&
                                             <>
                                                 La temporada a cerrado no es posible reservar
@@ -298,20 +300,6 @@ function formatDateESSimple(date) {
 function formatDateES(date) {
     let result = new Date(date);
     return result.getDate()+"-"+(result.getMonth()+1)+"-"+result.getFullYear();
-}
-
-function changeHoursDate(date, time) {
-    let newDate = new Date(date);
-    let resultTime = time.split(":");
-    let realDate = (newDate.getMonth()+1)+"-"+newDate.getDate()+"-"+newDate.getFullYear()+" "+resultTime[0]+":"+resultTime[1]+":"+resultTime[2];
-    return new Date(realDate);
-}
-
-function changeHoursDateEN(date, time) {
-    let newDate = new Date(date);
-    let resultTime = time.split(":");
-    let realDate = newDate.getFullYear()+"-"+(newDate.getMonth()+1)+"-"+newDate.getDate()+" "+resultTime[0]+":"+resultTime[1]+":"+resultTime[2];
-    return new Date(realDate);
 }
 
 function canClientReservar(date, reservas,aforoMax) {

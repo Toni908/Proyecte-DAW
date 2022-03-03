@@ -4,6 +4,10 @@
     padding: 5px;
 }
 
+.font-size-simple {
+    font-size: 15px;
+}
+
 .message-success {
     position: fixed;
     top: 40%;
