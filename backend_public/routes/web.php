@@ -7,6 +7,7 @@ header("Allow: GET, POST, OPTIONS, PUT, DELETE");
 use App\Http\Controllers\HorarioController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\LocalidadController;
+use App\Http\Controllers\PeriodosController;
 use App\Http\Controllers\ReservasController;
 use App\Http\Controllers\UseracountController;
 use Illuminate\Support\Facades\Route;
@@ -48,11 +49,6 @@ Route::get('/reservas/avg/{id}',[RestaurantController::class,'AVGReservasRestaur
 Route::get('/carta/{id}',[CartaController::class,'show']);
 
 Route::post('/reserva',[ReservasController::class, 'create']);
-Route::get('/sui/{id}/{day}/{month}/{year}/{hour}',[ReservasController::class, 'showDate']);
-
-// PRUEBA
-
-Route::get('/sui/{id}/{day}/{month}/{year}',[ReservasController::class, 'showDate']);
 
 // IMAGES
 Route::get('/image/{id_restaurant}/{name}',[ImageController::class,'show']);
@@ -76,3 +72,5 @@ Route::get('/localidad',[MunicipioController::class, 'showAll']);
 Route::get('/capitales',[MunicipioController::class, 'showMunicipios']);
 
 Route::get('/economic',[RestaurantController::class, 'cheapest']);
+
+Route::get('/periodo/{id}',[PeriodosController::class, 'show']);

@@ -28,7 +28,7 @@ function ModalShare(props) {
             >
                 <Modal.Header closeButton>
                     <Modal.Title id="modalShare">
-                        <div className={"ps-2 pt-2"}>Comparte este restaurante con tus amigos y familiares</div>
+                        <div className={"ps-2 pt-2"}>Comparte el restaurante {props.restaurant.nombre} con tus amigos y familiares</div>
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
