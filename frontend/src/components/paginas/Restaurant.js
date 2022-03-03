@@ -294,7 +294,6 @@ function getMonthString(month) {
 }
 
 function valoraciones(comments) {
-    console.log(comments!==null)
     if (comments!==null) {
         let sitio = parseFloat(comments["valoracion_sitio"]);
         let servicio = parseFloat(comments["valoracion_servicio"]);
