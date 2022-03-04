@@ -6,20 +6,26 @@ import axios from "axios";
 import SelectHorario from "./SelectHorario";
 
 import bookings from "./utilities/bookings.js";
+import Translate from "../../locales/Translate";
 
 function ModalFullCalendar(props) {
 
+    // EL FALSE ES PARA QUE NO ME REDIRIGA AL # (HASH) SI HAY ALGUNA EN LA URL
     function handleShow(value) {
         props.onShow(value);
+        return false
     }
     function handleDate(value) {
         props.onDate(value);
+        return false
     }
     function handleTime(value) {
         props.onTime(value);
+        return false
     }
     function handleChange(time) {
         props.onTime(time);
+        return false
     }
 
     let ip = process.env.REACT_APP_API_URL;
@@ -59,7 +65,7 @@ function ModalFullCalendar(props) {
             >
                 <Modal.Header closeButton>
                     <Modal.Title id="modalReserva" className={"w-100"}>
-                        <div className={"text-center"}>Bienvenido a {props.restaurant.nombre}!</div>
+                        <div className={"text-center"}><Translate string={"welcome-to"}/>{props.restaurant.nombre}!</div>
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
@@ -67,29 +73,29 @@ function ModalFullCalendar(props) {
                     <>
                         {props.time==="" && bookings.canClientReservar(props.date,props.reservas,props.horario,props.aforo) && new Date(props.periodos[0].fecha_fin) >= props.date &&
                         <>
-                            <h5 className={"w-100 text-center pb-1"}>Elige una hora!</h5>
+                            <h5 className={"w-100 text-center pb-1"}><Translate string={"choose-hour"}/></h5>
                             <div className={"d-flex flex-row justify-content-center align-self-center pb-3"}>
-                                <div className={"pt-2 pe-1"}>Realizar reserva para el {bookings.formatDateES(props.date)} -</div>
+                                <div className={"pt-2 pe-1"}><Translate string={"booking-at"}/> {bookings.formatDateES(props.date)} -</div>
                                 <SelectHorario date={props.date} horario={props.horario} onChange={handleChange}/>
                             </div>
                         </>
                         }
                         {bookings.filterArrayFromDate(props.reservas, props.date, props.time) >= props.aforo &&
                         <>
-                            <h5 className={"w-100 text-center pb-1"}>Elige una hora!</h5>
+                            <h5 className={"w-100 text-center pb-1"}><Translate string={"choose-hour"}/></h5>
                             <div className={"d-flex flex-row justify-content-center align-self-center pb-3"}>
-                                <div className={"pt-2 pe-1"}>Realizar reserva para el {bookings.formatDateES(props.date)} -</div>
+                                <div className={"pt-2 pe-1"}><Translate string={"booking-at"}/> {bookings.formatDateES(props.date)} -</div>
                                 <SelectHorario date={props.date} horario={props.horario} onChange={handleChange}/>
                             </div>
                         </>}
 
                         {!bookings.canClientReservar(props.date, props.reservas,props.horario,props.aforo) && !bookings.isClosed(props.date,props.horario) &&
                         <div className={"text-center pb-3"}>
-                            <h5>Reserva no disponible!</h5>
+                            <h5><Translate string={"no-available-booking"}/></h5>
                         </div>}
                         {bookings.isClosed(props.date,props.horario) &&
                         <div className={"text-center pb-3"}>
-                            <h5>Reserva no disponible!</h5>
+                            <h5><Translate string={"no-available-booking"}/></h5>
                         </div>}
 
 
@@ -97,7 +103,7 @@ function ModalFullCalendar(props) {
                         <>
                             <div className={"fw-bold"}>
                                 <i className="bi bi-info-circle pe-2 text-danger"/>
-                                Ya no permite mas aforo el restaurante en la fecha {bookings.formatDateES(props.date)} {bookings.getHoursDate(props.date)}
+                                <Translate string={"capacity-max-booking"}/> {bookings.formatDateES(props.date)} {bookings.getHoursDate(props.date)}
                             </div>
                         </>
                         }
@@ -109,7 +115,7 @@ function ModalFullCalendar(props) {
                                 <>
                                     <div className={"fw-bold"}>
                                         <i className="bi bi-info-circle pe-2 text-danger"/>
-                                        No es posible realizar la reserva, el restaurante estara cerrado!
+                                        <Translate string={"closed-booking"}/>
                                     </div>
                                 </>}
                                 {!bookings.isClosed(props.date, props.horario) &&
@@ -118,7 +124,8 @@ function ModalFullCalendar(props) {
                                     <>
                                         <div className={"fw-bold"}>
                                             <i className="bi bi-info-circle pe-2 text-danger"/>
-                                            Lo lamentamos mucho no es posible realizar mas reservas el dia {bookings.formatDateES(props.date)}
+                                            <Translate string={"max-capacity-day-booking"}/>
+                                            {bookings.formatDateES(props.date)}
                                         </div>
                                     </>
                                     }
@@ -128,56 +135,56 @@ function ModalFullCalendar(props) {
                                         <>
                                             <div className={"px-3 text-secondary font-size-simple"}>
                                                 <i className="bi bi-info-circle pe-2 text-warning"/>
-                                                Para seguir con la realizacion de la reserva selecione una hora de las posibles situada arriba a la derecha de la fecha
+                                                <Translate string={"select-hour-booking"}/>
                                             </div>
                                         </>}
                                         {props.time!=="" &&
                                         <>
-                                            <h5 className={"w-100 text-center pb-1"}>Ralizar una reserva!</h5>
+                                            <h5 className={"w-100 text-center pb-1"}><Translate string={"make-booking"}/></h5>
                                             <div className={"d-flex flex-row justify-content-center align-self-center pb-3"}>
-                                                <div className={"pt-2 pe-1"}>Realizar reserva para el {bookings.formatDateES(props.date)} -</div>
+                                                <div className={"pt-2 pe-1"}><Translate string={"make-booking-on"}/> {bookings.formatDateES(props.date)} -</div>
                                                 <SelectHorario date={props.date} horario={props.horario} onChange={handleChange}/>
                                             </div>
                                             <div className={"px-3 text-secondary font-size-simple"}>
                                                 <i className="bi bi-info-circle pe-2 text-warning"/>
-                                                Personas restante a las {props.time.split(":")[0]}h es {props.aforo-bookings.filterArrayFromDate(props.reservas, props.date,props.time)}
+                                                <Translate string={"capacity-rest"}/>{props.time.split(":")[0]}h <Translate string={"is"}/> {props.aforo-bookings.filterArrayFromDate(props.reservas, props.date,props.time)}
                                             </div>
                                             <form onSubmit={handleSubmit(onSubmit)}>
                                                 <div className={"row"}>
                                                     <div className={"col-lg-6 col-12 py-2"}>
-                                                        <div className={""}>Personas:</div>
+                                                        <div className={""}><Translate string={"form-booking-person"}/></div>
                                                         <label className={"w-100"}>
                                                             <input className={"w-100 form-input"} type="number" {...register("personas", { min: 1, max: props.aforo-bookings.filterArrayFromDate(props.reservas, props.date, props.time), required: true})} />
                                                         </label>
-                                                        {errors.personas && <span className={"text-danger"}>El minimo es 1 y maximo es {props.aforo-bookings.filterArrayFromDate(props.reservas, props.date,props.time)}</span>}
+                                                        {errors.personas && <span className={"text-danger"}><Translate string={"form-booking-person-error"}/>{props.aforo-bookings.filterArrayFromDate(props.reservas, props.date,props.time)}</span>}
                                                     </div>
                                                     <div className={"col-lg-6 col-12 py-2"}>
-                                                        <div className={""}>Email:</div>
+                                                        <div className={""}><Translate string={"form-booking-email"}/></div>
                                                         <label className={"w-100"}>
                                                             <input className={"w-100 form-input"} {...register("email", { pattern: "/^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$/" , max:40, required: true })} />
                                                         </label>
-                                                        {errors.email && <span className={"text-danger"}>Debe ser un correo electronico</span>}
+                                                        {errors.email && <span className={"text-danger"}><Translate string={"form-booking-email-error"}/></span>}
                                                     </div>
                                                     <div className={"col-lg-6 col-12 py-2"}>
-                                                        <div className={""}>Telefono:</div>
+                                                        <div className={""}><Translate string={"form-booking-phone"}/></div>
                                                         <label className={"w-100"}>
                                                             <input className={"w-100 form-input"} type={"number"} {...register("telefono", { minLength: 7, required: true })} />
                                                         </label>
-                                                        {errors.telefono && <span className={"text-danger"}>Longitud minima es 7</span>}
+                                                        {errors.telefono && <span className={"text-danger"}><Translate string={"form-booking-phone-error"}/></span>}
                                                     </div>
                                                     <div className={"col-lg-6 col-12 py-2"}>
-                                                        <div className={""}>Nombre:</div>
+                                                        <div className={""}><Translate string={"form-booking-name"}/></div>
                                                         <label className={"w-100"}>
                                                             <input className={"w-100 form-input"} {...register("nombre", { maxLength: 30, required: true })} />
                                                         </label>
-                                                        {errors.nombre && <span className={"text-danger"}>Longitud maxima es 40</span>}
+                                                        {errors.nombre && <span className={"text-danger"}><Translate string={"form-booking-name-error"}/></span>}
                                                     </div>
                                                     <div className={"col-lg-6 col-12 py-2"}>
-                                                        <div className={""}>Lenguaje:</div>
+                                                        <div className={""}><Translate string={"form-booking-lenguaje"}/></div>
                                                         <label className={"w-100"}>
                                                             <input className={"w-100 form-input"} {...register("lenguaje", { max: 2, min: 2, required: true })} />
                                                         </label>
-                                                        {errors.lenguaje && <span className={"text-danger"}>This field is required</span>}
+                                                        {errors.lenguaje && <span className={"text-danger"}><Translate string={"form-booking-lenguaje-error"}/></span>}
                                                     </div>
                                                 </div>
                                                 <input hidden value={props.restaurant.id_restaurante} {...register("id_restaurante", { required: true })} readOnly={true}/>
@@ -191,7 +198,7 @@ function ModalFullCalendar(props) {
                             <>
                                 <div className={"fw-bold pb-3"}>
                                     <i className="bi bi-info-circle pe-2 fw-bold text-danger"/>
-                                    No puedes realizar reservas, la temporada habra terminado
+                                    <Translate string={"season-finished"}/>
                                 </div>
                             </>
                             }
@@ -200,16 +207,16 @@ function ModalFullCalendar(props) {
                     {new Date(props.date) < props.lessResult &&
                     <div className={"text-center"}>
                         <div className={"text-center"}>
-                            <h5>Reserva no disponible!</h5>
+                            <h5><Translate string={"booking-no-available"}/></h5>
                         </div>
                         <br/>
                         <div className={"fw-bold pb-3"}>
                             <i className="bi bi-info-circle pe-2 fw-bold text-danger"/>
-                            No es posible realizar la reserva el dia {bookings.formatDateES(props.date)}
+                            <Translate string={"booking-no-available-on"}/>{bookings.formatDateES(props.date)}
                         </div>
                         <div className={"px-3 text-secondary font-size-simple"}>
                             <i className="bi bi-info-circle pe-2 fw-bold text-warning"/>
-                            Ten encuenta que el restaurante solo acepta reservas desde el dia {bookings.formatDateES(props.result)}
+                            <Translate string={"booking-only-accepts-bookings-after"}/>{bookings.formatDateES(props.result)}
                         </div>
                     </div>}
                 </Modal.Body>
@@ -218,13 +225,13 @@ function ModalFullCalendar(props) {
                 <div className="row pb-2">
                     <div className="col-2 box-color background-TYPE-5"/>
                     <div className="col-10">
-                        No puedes realizar la reserva
+                        <Translate string={"lejenda-cant"}/>
                     </div>
                 </div>
                 <div className="row pb-2">
                     <div className="col-2 box-color bg-white"/>
                     <div className="col-10">
-                        Reservas disponibles
+                        <Translate string={"lejenda-can"}/>
                     </div>
                 </div>
             </aside>

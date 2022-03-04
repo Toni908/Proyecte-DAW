@@ -1,6 +1,6 @@
 import {Component} from "react";
 import GoogleMapReact from 'google-map-react';
-import marker from "../../img/output-onlinepngtools.png";
+import marker from "../../img/output-onlinepngtools.webp";
 
 class SimpleMap extends Component {
     constructor() {

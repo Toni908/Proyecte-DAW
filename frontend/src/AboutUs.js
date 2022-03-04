@@ -5,7 +5,7 @@ import { Button } from 'react-bootstrap';
 
 import './AboutUs.css';
 
-import decoracion from './img/decoracion.png'
+import decoracion from './img/decoracion.webp'
 
 class AboutUs extends Component {
     render() {

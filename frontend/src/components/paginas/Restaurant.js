@@ -9,7 +9,7 @@ import ModalUser from "../components_interns/ModalUser";
 import FullCalendarReservas from "../components_interns/FullCalendarReservas";
 import {useParams} from "react-router";
 
-import icon_person from "../../img/icon_person.png";
+import icon_person from "../../img/icon_person.webp";
 import schedule from "../components_interns/utilities/schedule";
 import GalleryRestaurant from "../components_interns/GalleryRestaurant";
 import Loading from "../components_interns/Loading";
@@ -26,7 +26,6 @@ import "photoswipe/dist/photoswipe.css";
 import "photoswipe/dist/default-skin/default-skin.css";
 import "./restaurant.css";
 import "./menu.css";
-import {LocaleContext} from "../../LocaleContext";
 
 export default (props) => (
     <Restaurant
@@ -73,8 +72,6 @@ class Restaurant extends Component {
             .then(result => this.changeId(result.data))
             .catch((error) => console.log(error))
 
-
-        console.log(this.state.id)
         const request1 = axios.get(ip+"/restaurant/"+this.state.id);
         const request2 = axios.get(ip+"/reservas/avg/"+this.state.id);
         const request3 = axios.get(ip+"/carta/"+this.state.id);
@@ -180,12 +177,11 @@ class Restaurant extends Component {
                                 <Translate string={"bookings-info-2"}/>
                                 {reservas_dias}
                             </div>
-                            {/*TRADUCIDO DESDE AQUI PARA ARRIBA*/}
                             {restaurant.dies_anticipacion_reservas !==undefined && restaurant.aforo !==undefined && restaurant.id_restaurante !==undefined && <FullCalendarReservas reservas={reservas} dia_minimo={restaurant.dies_anticipacion_reservas} aforo={restaurant.aforo} periodo={periodo} horario={horario} restaurant={restaurant}/>}
                         </section>
                         <hr id={"location"} className={"mx-3 mx-lg-0"}/>
                         <section className={"w-100 m-0 p-0 row pb-5 pt-4 px-lg-0 px-5"}>
-                            <h4 className={"pt-4"}>¿Donde se encuentra el restaurante?</h4>
+                            <h4 className={"pt-4"}><Translate string={"location-restaurant"}/></h4>
                             <div className={"d-flex flex-row justify-content-lg-start justify-content-center pb-4"}>
                                 <div className={"px-1"}>{restaurant.nombre_localidad}</div>
                                 ·
@@ -199,12 +195,13 @@ class Restaurant extends Component {
                                 <i className="bi bi-star-fill fs-4 text-color-TYPE-1 pe-2"/>
                                 <div className={"pe-1 fs-4"}>{valoraciones(avg)}</div>
                                 <div className={"fs-4 h-100 align-self-center"}>·</div>
-                                <HashLink to="#comments" className="px-1 text-black fs-4">{avg["count"]} valoraciones</HashLink>
+                                <HashLink to="#comments" className="px-1 text-black fs-4">{avg["count"]} <Translate string={"ratings"}/></HashLink>
                             </div>
+                            {/*TRADUCIDO DESDE AQUI PARA ARRIBA*/}
                             <div className={"row w-100 px-3 fs-5 pt-3"}>
                                 <div className={"col-lg-6 col-12"}>
                                     <div className={"d-flex flex-row justify-content-between px-2"}>
-                                        Comida
+                                        <Translate string={"ratings-eat"}/>
                                         <div className={"w-100 d-flex flex-row justify-content-end align-self-center h-100"}>
                                             <Slider min={0} max={5} value={avg["valoracion_comida"]}/>
                                             <div className={"ps-2 align-self-center text-secondary fw-bold font-avg"}>{avg["valoracion_comida"]}</div>
@@ -213,7 +210,7 @@ class Restaurant extends Component {
                                 </div>
                                 <div className={"col-lg-6 col-12"}>
                                     <div className={"d-flex flex-row justify-content-between px-2"}>
-                                        Servicio
+                                        <Translate string={"ratings-service"}/>
                                         <div className={"w-100 d-flex flex-row justify-content-end align-self-center h-100"}>
                                             <Slider min={0} max={5} value={avg["valoracion_servicio"]}/>
                                             <div className={"ps-2 align-self-center text-secondary fw-bold font-avg"}>{avg["valoracion_servicio"]}</div>
@@ -222,7 +219,7 @@ class Restaurant extends Component {
                                 </div>
                                 <div className={"col-lg-6 col-12"}>
                                     <div className={"d-flex flex-row justify-content-between px-2 align-self-center h-100"}>
-                                        Sitio
+                                        <Translate string={"ratings-location"}/>
                                         <div className={"w-100 d-flex flex-row justify-content-end"}>
                                             <Slider min={0} max={5} value={avg["valoracion_sitio"]}/>
                                             <div className={"ps-2 align-self-center text-secondary fw-bold font-avg"}>{avg["valoracion_sitio"]}</div>
@@ -250,17 +247,18 @@ class Restaurant extends Component {
                             </div>
                         </section>}
                         {avg === null &&
-                            <div>
-                                No tiene comentarios XD
-                            </div>
+                        <div className={"fw-bold pb-3"}>
+                            <i className="bi bi-info-circle pe-2 fw-bold text-danger"/>
+                            <Translate string={"no-comments"}/>
+                        </div>
                         }
                         <hr className={"mx-3 mx-lg-0"}/>
                         <section id={"user"} className={"w-100 m-0 p-0 pb-5 pt-2 px-lg-0 px-5"}>
                             <div className={"d-flex flex-row fs-5 pb-4"}>
                                 <ImageRestaurant class={"icon rounded-circle"} restaurante={restaurant}/>
                                 <div className={"d-flex flex-column ps-3 align-self-center h-100"}>
-                                    <div className={"fw-bold text-start"}>Gerente: {restaurant.username}</div>
-                                    <div className={"text-secondary text-start"}>Telefono: {restaurant.userphone}</div>
+                                    <div className={"fw-bold text-start"}><Translate string={"manager"}/> {restaurant.username}</div>
+                                    <div className={"text-secondary text-start"}><Translate string={"form-booking-phone"}/> {restaurant.userphone}</div>
                                 </div>
                             </div>
                             <div className={"py-4"}>

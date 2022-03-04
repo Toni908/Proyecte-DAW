@@ -13,6 +13,7 @@ import reservas_anticipacion from "./utilities/reservas_anticipacion";
 import bookings from "./utilities/bookings.js";
 
 import "./FullCalendarReservas.css";
+import Translate from "../../locales/Translate";
 
 
 function FullCalendarReservas(props) {
@@ -78,8 +79,8 @@ function FullCalendarReservas(props) {
                     dateClick={(e) => {setShow(true); setDate(new Date(e.date));}}
                     eventClick={(arg) => {setShow(true); setDate(arg.event.start);}}
                 />
-                <div id={"success"} className={"message-success"} hidden={true}>Se a creado correctamente</div>
-                <div id={"error"} className={"message-error"} hidden={true}>El restaurante no se puede permitir tu aforo</div>
+                <div id={"success"} className={"message-success"} hidden={true}><Translate string={"message-success"}/></div>
+                <div id={"error"} className={"message-error"} hidden={true}><Translate string={"message-error"}/></div>
                 <ModalFullCalendar restaurant={restaurant} date={date} time={time} periodos={periodos} result={result} lessResult={lessResult} reservas={reservas} horario={horario} aforo={aforo} show={show} onShow={handleShow} onDate={handleDate} onTime={handleTime}/>
             </>
         )
@@ -125,8 +126,8 @@ function FullCalendarReservas(props) {
                     dateClick={(e) => {setShow(true); setDate(new Date(e.date));}}
                     eventClick={(arg) => {setShow(true); setDate(arg.event.start);}}
                 />
-                <div id={"success"} className={"message-success"} hidden={true}>Se a creado correctamente</div>
-                <div id={"error"} className={"message-error"} hidden={true}>El restaurante no se puede permitir tu aforo</div>
+                <div id={"success"} className={"message-success"} hidden={true}><Translate string={"message-success"}/></div>
+                <div id={"error"} className={"message-error"} hidden={true}><Translate string={"message-error"}/></div>
                 <ModalFullCalendar restaurant={restaurant} date={date} time={time} periodos={periodos} lessResult={lessResult} reservas={reservas} horario={horario} aforo={aforo} show={show} onShow={handleShow} onDate={handleDate} onTime={handleTime}/>
             </>
         )
@@ -168,11 +169,11 @@ function FullCalendarReservas(props) {
                         }
                         arg.el.style.border = "ECFBFF solid 2px";
                     }}
-                    dateClick={(e) => {setShow(true); setDate(new Date(e.date));}}
-                    eventClick={(arg) => {setShow(true); setDate(arg.event.start);}}
+                    dateClick={(e) => {setShow(true); setDate(new Date(e.date)); return false}}
+                    eventClick={(arg) => {setShow(true); setDate(arg.event.start); return false}}
                 />
-                <div id={"success"} className={"message-success"} hidden={true}>Se a creado correctamente</div>
-                <div id={"error"} className={"message-error"} hidden={true}>El restaurante no se puede permitir tu aforo</div>
+                <div id={"success"} className={"message-success"} hidden={true}><Translate string={"message-success"}/></div>
+                <div id={"error"} className={"message-error"} hidden={true}><Translate string={"message-error"}/></div>
                 <ModalFullCalendar restaurant={restaurant} date={date} time={time} periodos={periodos} lessResult={lessResult} reservas={reservas} horario={horario} aforo={aforo} show={show} onShow={handleShow} onDate={handleDate} onTime={handleTime}/>
             </>
         )
