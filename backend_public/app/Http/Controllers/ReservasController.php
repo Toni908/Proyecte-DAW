@@ -50,7 +50,7 @@ class ReservasController extends Controller
                     return $reservas;
                 } else {
                     $reserva->save();
-                    return "OKEY";
+                    return ["message" => "OKEY", "id" => $reserva->id_reserva, "correo" => $reserva->correo];
                 }
             }
         }

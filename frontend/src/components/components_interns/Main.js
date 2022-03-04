@@ -6,10 +6,10 @@ import Buscador from "./Buscador";
 import Loading from "./Loading";
 import Resultados from "./Resultados";
 import {Card} from "react-bootstrap";
-import city1 from "../../img/city1.jpeg"
-import city3 from "../../img/city2.jpg"
-import city2 from "../../img/city3.jpg"
-import city4 from "../../img/city4.jpg"
+import city1 from "../../img/city1.webp"
+import city3 from "../../img/city2.webp"
+import city2 from "../../img/city3.webp"
+import city4 from "../../img/city4.webp"
 
 import './Buscador.css';
 import './main.css';

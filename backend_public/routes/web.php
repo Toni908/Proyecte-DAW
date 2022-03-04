@@ -35,6 +35,7 @@ Route::get('/', function () {
 Route::get('/card/{id}', [CartaController::class, 'showCard']);
 
 Route::get('/cheapest',[RestaurantController::class, 'cheapest']);
+Route::get('/restaurant/name/{name}',[RestaurantController::class, 'showName']);
 Route::get('/restaurant/{id}',[RestaurantController::class, 'show']);
 Route::get('/restaurants',[RestaurantController::class, 'showRestaurantsWithMembresia']);
 Route::get('/aforo/{id}',[RestaurantController::class,'aforo']);
