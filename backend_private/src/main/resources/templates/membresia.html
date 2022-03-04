@@ -29,57 +29,12 @@
                         <div class="border border-secondary border-1 mt-5 p-4 box-container">
                             <h4 class="fw-normal text-start text-black QuickSand" th:text="#{membership.subscription}"></h4>
                             <p class="paraf_form text-start fw-normal" th:text="#{membership.data.paraf}"></p>
-                            <div class="container pt-3 m-0 w-100 px-0">
-                                <div class="row">
-                                    <div class="col-sm p-0">
-                                        <div th:text="#{membership.form.number}"></div>
-                                        <label class="w-100 ps-2 pe-3">
-                                            <input type="number" class="input-text validateDiasAnticipacionResponse">
-                                        </label>
-                                        <div></div>
-                                    </div>
-                                    <div class="col-sm p-0">
-                                        <div th:text="#{membership.form.address}"></div>
-                                        <label class="w-100 pe-2 ps-3">
-                                            <input type="text" name="dirrecion" class="input-text validateDireccion" required>
-                                        </label>
-                                        <div></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="validateNameResponse"></div>
-                            <div class="container pt-3 m-0 w-100 px-0">
-                                <div class="row">
-                                    <div class="col-sm p-0">
-                                        <div th:text="#{membership.form.titular}"></div>
-                                        <label class="w-100 ps-2 pe-3">
-                                            <input type="text" class="input-text validateDiasAnticipacionResponse">
-                                        </label>
-                                        <div id="validateDiasAnticipacionResponse"></div>
-                                    </div>
-                                    <div class="col-sm p-0">
-                                        <div th:text="#{membership.form.date.end}"></div>
-                                        <label class="w-100 pe-2 ps-3">
-                                            <input type="text" class="input-text validateTelefonoResponse">
-                                        </label>
-                                        <div id="validateTelefonoResponse"></div>
-                                    </div>
-                                    <div class="col-sm p-0">
-                                        <div th:text="#{membership.form.secret.number}"></div>
-                                        <label class="w-100 pe-2 ps-3">
-                                            <input type="number" class="input-text validateAforo">
-                                        </label>
-                                        <div id="validateAforo"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <hr>
-                            <p class="paraf_form text-start fw-normal pt-3" th:text="#{membership.title.select}"></p>
+                            <p class="paraf_form text-start fw-normal pt-3" ></p>
                             <div class="container pt-3 m-0 w-100 px-0">
                                 <div class="row">
                                     <div class="col-sm p-0">
                                         <label class="w-100 ps-2 pe-3">
-                                            Programas:
+                                            <div th:text="#{membership.title.select}"></div>
                                             <select class="input-text" name="duracion">
                                                 <option value="1" th:text="#{membership.one.month}"></option>
                                                 <option value="3" th:text="#{membership.three.month}"></option>
@@ -90,6 +45,13 @@
                                             </select>
                                         </label>
                                         <div id="validateDireccion"></div>
+                                    </div>
+                                    <div class="col-sm p-0">
+                                        <div th:text="#{membership.form.address}"></div>
+                                        <label class="w-100 pe-2 ps-3">
+                                            <input type="text" name="dirrecion" class="input-text validateDireccion" required>
+                                        </label>
+                                        <div></div>
                                     </div>
                                 </div>
                             </div>

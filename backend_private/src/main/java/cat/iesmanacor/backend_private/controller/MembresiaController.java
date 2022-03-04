@@ -68,7 +68,9 @@ public class MembresiaController {
         Membresia membresia = new Membresia();
         Factura factura = new Factura();
 
-        factura.setNum_factura(randomCode()+id);
+        String numFactura = randomCode()+id;
+
+        factura.setNum_factura(numFactura);
         factura.setDireccion(request.getParameter("dirrecion"));
         int duracion = Integer.parseInt(request.getParameter("duracion"));
         String importe;
@@ -111,7 +113,7 @@ public class MembresiaController {
         restaurant.get().setMembresia(membresia);
         restaurantService.saveRestaurant(restaurant.get());
 
-        return "redirect:/restaurant/update/" + id;
+        return "redirect:/redsys/enviar?price=" + importe + "00&fac="+numFactura;
     }
 
     public String randomCode() {
