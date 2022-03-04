@@ -9,6 +9,7 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from "@fullcalendar/interaction" // needed for dayClick
 import es from '@fullcalendar/core/locales/es';
 import ca from '@fullcalendar/core/locales/ca';
+import emailjs from "@emailjs/browser";
 
 import SelectHorario from "./SelectHorario";
 
@@ -50,6 +51,7 @@ function FullCalendarReservas(props) {
                 setShow(false);
                 document.getElementById("success").hidden = false;
                 setTimeout(function (){document.getElementById("success").hidden = true;},2000);
+                sendEmail({reply_to: "militaxx5@gmail.com", ruta: "ruta"})
                 setTimeout(function (){window.location.reload()},2100);
             } else {
                 setShow(false);
@@ -93,7 +95,7 @@ function FullCalendarReservas(props) {
                                     if (new Date(periodos[0].fecha_fin)<arg.date) {
                                         arg.el.style.backgroundColor = "rgba(216,230,242,1)";
                                     } else {
-                                        // arg.el.style.backgroundColor = "#749EE3";
+                                        arg.el.innerHTML = "<div class='d-flex flex-row justify-content-end pe-2 pt-2'><i class=\"bi bi-check\"></i>"+arg.el.innerText+"</div>";
                                     }
                                 }
                             }
@@ -409,6 +411,17 @@ function getHoursNumberFromDate(date, horario) {
     }
     return arrayHorario;
 }
+
+function sendEmail(e) {
+    console.log(e)
+    emailjs.sendForm('service_1oq8hpi', 'template_d3g3uye', e, '8MM4-J8FO99oHPBq9')
+        .then((result) => {
+            console.log(result.text);
+        }, (error) => {
+            console.log(error.text);
+        });
+}
+
 
 function isClosed(date, horario) {
     let newHorario = [];

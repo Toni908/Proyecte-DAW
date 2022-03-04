@@ -31,7 +31,6 @@ function isTodayOpen(horario) {
         textMake(week, horario, arrayHorario, days);
     }
     arrayHorario = orderWeek(arrayHorario, days);
-    console.log(arrayHorario)
     return (
         arrayHorario
     )
@@ -175,7 +174,6 @@ function textMake(week, horario, array, days) {
     while (hasFalse(week)) {
         horario.forEach(function (hora, key) {
             days.push(hora.day);
-            console.log(hora.day)
             array.push(<div key={key} className={"hora_day"}>{traductionsDayBBDD(hora.day)}: {fixedDate(hora.hora_inicio)}-{fixedDate(hora.hora_fin)}</div>);
             changeWeekStatus(hora.day, week);
         })
