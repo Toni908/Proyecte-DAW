@@ -1,5 +1,6 @@
 package cat.iesmanacor.backend_private.controller;
 
+import org.springframework.ui.Model;
 import org.springframework.web.context.request.WebRequest;
 import sis.redsys.api.ApiMacSha256;
 import org.springframework.stereotype.Controller;
@@ -30,7 +31,7 @@ public class RedSysController {
         }
 
         @PostMapping("enviar")
-        public String enviar(WebRequest request){
+        public String enviar(WebRequest request, Model model){
 
             ApiMacSha256 apiMacSha256 = new ApiMacSha256();
 
@@ -44,8 +45,8 @@ public class RedSysController {
             apiMacSha256.setParameter("DS_MERCHANT_URLOK", "http://"+ urlw +":8080/redsys/urlOK");
             apiMacSha256.setParameter("DS_MERCHANT_URLKO", "http://"+ urlw +":8080/redsys/urlKO");
 
-            String params;
-            String firma;
+            String params = "";
+            String firma = "";
 
             try {
                 params = apiMacSha256.createMerchantParameters();
@@ -56,12 +57,12 @@ public class RedSysController {
                 e.getMessage();
             }
 
-            <form action="https://sis-t.redsys.es:25443/sis/realizarPago" method="POST" target="_blank">
-                <input type="text" name="Ds_SignatureVersion" value="HMAC_SHA256_V1"/>
-                <input type="text" name="Ds_MerchantParameters" value= "<%= params %>"/>
-                <input type="text" name="Ds_Signature" value= "<%= firma %>"/>
-                <input type="submit" value= "Realizar Pago"/>
-            </form>
+            model.addAttribute("firma", firma);
+            model.addAttribute("params", params);
+
+            return "pago";
+
+
         }
     }
 }

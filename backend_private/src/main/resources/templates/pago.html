@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <main>
+        <form id="form" action="https://sis-t.redsys.es:25443/sis/realizarPago" method="POST" target="_blank">
+            <input type="text" name="Ds_SignatureVersion" value="HMAC_SHA256_V1"/>
+            <input type="text" name="Ds_MerchantParameters" th:value="${params}" />
+            <input type="text" name="Ds_Signature" th:value="${firma}"/>
+        </form>
+    </main>
+    <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
+    <script>
+        $(document).ready(function() {
+            $("#form").submit();
+        });
+    </script>
+</body>
+</html>
