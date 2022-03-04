@@ -27,6 +27,15 @@ class RestaurantController extends Controller
         return null;
     }
 
+    public function showName($name) {
+        $data = Restaurante::with("imgs","etiquetas")->select("user_acount.nombre as username","user_acount.correo as usercorreo","user_acount.telefono as userphone","restaurante.*","restaurante.direccion as direccion_restaurante", "localidad.*")
+            ->join("user_acount","user_acount.id_user","=","restaurante.id_user")
+            ->join("localidad","localidad.id_localidad","=","restaurante.id_localidad")
+            ->where("restaurante.nombre","=",$name)
+            ->get();
+        return $data[0]->id_restaurante;
+    }
+
     public function showRestaurantsWithMembresia()
     {
         $restaurant = Restaurante::with('localidad','imgs','etiquetas','periodos')

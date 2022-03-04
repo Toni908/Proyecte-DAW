@@ -66,7 +66,7 @@ function FullCalendarReservas(props) {
         return (
             <>
                 <FullCalendar
-                    height={"100vh"}
+                    height={"700px"}
                     locale={es}
                     initialDate={result}
                     plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
@@ -382,10 +382,13 @@ function canClientReservar(date, reservas,horario, aforo) {
     var endDate = new Date(date);
     endDate.setDate(endDate.getDate()+1);
 
+    // IS RESERVAS BETWEEN TEMPORADA
     var resultProductData = reservas.filter(a => {
         var date = new Date(a.fecha);
         return (date >= startDate && date <= endDate);
     });
+
+    // SUM TOTAL
     let personasTotal = 0;
     for (let i = 0; i < resultProductData.length; i++) {
         personasTotal += resultProductData[i].personas;
@@ -395,10 +398,13 @@ function canClientReservar(date, reservas,horario, aforo) {
 
 function getHoursNumberFromDate(date, horario) {
     let arrayHorario = 0;
+
+    horario = change0000(horario);
+
     if (!Array.isArray(horario)) {
         horario = Object.values(horario)
     }
-
+    
     for (let i = 0; i < horario.length; i++) {
         let number = schedule.getDayNumber(horario[i].day);
         if (number===date.getDay()) {
@@ -433,6 +439,8 @@ function sendEmail(correo, ruta) {
         // ERROR
     });
 }
+
+
 function isClosed(date, horario) {
     let newHorario = [];
     if (!Array.isArray(horario)) {
@@ -440,11 +448,22 @@ function isClosed(date, horario) {
     }
     for (let i = 0; i < newHorario.length; i++) {
         let number = schedule.getDayNumber(newHorario[i].day);
-        if (number===date.getDay()) {
+        if (number!==date.getDay()) {
             return false;
         }
     }
     return true;
+}
+
+function change0000(date, newHorario) {
+    let horario = []
+    for (let i = 0; i < newHorario.length; i++) {
+        if (newHorario[i].hora_fin==="00:00:00") {
+            newHorario[i].hora_fin = "24:00:00";
+        }
+        horario.push(newHorario[i])
+    }
+    return horario;
 }
 
 export default FullCalendarReservas;

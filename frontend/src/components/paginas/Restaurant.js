@@ -42,6 +42,7 @@ class Restaurant extends Component {
         super();
 
         this.state = {
+            id: null,
             restaurant: {},
             infoAVG: [],
             comments: [],
@@ -52,49 +53,49 @@ class Restaurant extends Component {
             isLoading: false,
             error: null,
         };
+
+        this.changeId = this.changeId.bind(this);
     }
 
-    componentDidMount() {
+    async changeId(id) {
+        await this.setState({id: id});
+    }
+
+    async componentDidMount() {
         this._isMounted = true;
 
         let ip = process.env.REACT_APP_API_URL;
         this.setState({ isLoading: true });
-        const { id } = this.props.params;
+        const { name } = this.props.params;
 
-        const request1 = axios.get(ip+"/restaurant/"+id);
-        const request2 = axios.get(ip+"/reservas/avg/"+id);
-        const request3 = axios.get(ip+"/carta/"+id);
-        const request4 = axios.get(ip+"/comments/"+id);
-        const request5 = axios.get(ip+"/reservas/"+id);
-        const request6 = axios.get(ip+"/horario/"+id)
-        const request7 = axios.get(ip+"/periodo/"+id)
+        const url = ip+"/restaurant/name/" + name;
+        await axios.get(url)
+            .then(result => this.changeId(result.data))
+            .catch((error) => console.log(error))
+
+
+        console.log(this.state.id)
+        const request1 = axios.get(ip+"/restaurant/"+this.state.id);
+        const request2 = axios.get(ip+"/reservas/avg/"+this.state.id);
+        const request3 = axios.get(ip+"/carta/"+this.state.id);
+        const request4 = axios.get(ip+"/comments/"+this.state.id);
+        const request5 = axios.get(ip+"/reservas/"+this.state.id);
+        const request6 = axios.get(ip+"/horario/"+this.state.id)
+        const request7 = axios.get(ip+"/periodo/"+this.state.id)
 
         axios.all([request1, request2,request3,request4,request5,request6,request7])
-            .then(axios.spread((...responses) => {
-                if (responses[1].data["info"]!==undefined) {
-                    this.setState({
-                        restaurant: responses[0].data,
-                        infoAVG: responses[1].data["info"],
-                        carta: responses[2].data,
-                        comments: responses[3].data,
-                        reservas: responses[4].data,
-                        horario: responses[5].data,
-                        periodo: responses[6].data,
-                        isLoading: false
-                    })
-                } else {
-                    this.setState({
-                        restaurant: responses[0].data,
-                        infoAVG: null,
-                        carta: responses[2].data,
-                        comments: responses[3].data,
-                        reservas: responses[4].data,
-                        horario: responses[5].data,
-                        periodo: responses[6].data,
-                        isLoading: false
-                    })
-                }
-            }))
+            .then(axios.spread((...responses) =>
+                this.setState({
+                    restaurant: responses[0].data,
+                    infoAVG: responses[1].data["info"],
+                    carta: responses[2].data,
+                    comments: responses[3].data,
+                    reservas: responses[4].data,
+                    horario: responses[5].data,
+                    periodo: responses[6].data,
+                    isLoading: false
+                })
+            ))
             .catch(error => this.setState({
                 error: error,
             }))
@@ -106,9 +107,17 @@ class Restaurant extends Component {
 
 
     render() {
-        const {restaurant,infoAVG,comments,reservas,carta,horario,periodo,isLoading} = this.state;
+        const {restaurant,infoAVG,comments,reservas,carta,horario,periodo,isLoading,error} = this.state;
         let reservas_dias = reservas_anticipacion.getDayAnticipacion(restaurant.dies_anticipacion_reservas);
 
+        let avg = null;
+        if (infoAVG!==null || true) {
+            avg = infoAVG;
+        }
+
+        if (error) {
+            return <p>{error.message}</p>;
+        }
         if (isLoading) {
             return <Loading />;
         }
@@ -119,12 +128,12 @@ class Restaurant extends Component {
                     <div className={"d-flex flex-column main-width-restaurant ps-lg-0 m-0"}>
                         <section id={"start"} className={"d-flex flex-column text-lg-start text-center pb-3"}>
                             <h3 className={"w-100"}><i className="bi bi-building pe-3"/>{restaurant.nombre}</h3>
-                            <div className={infoAVG ? "d-flex flex-lg-row flex-column justify-content-lg-between justify-content-center" : "d-flex flex-lg-row flex-column justify-content-lg-end justify-content-center"}>
-                                {infoAVG!==null && <div className={"d-flex flex-row justify-content-lg-start justify-content-center"}>
+                            <div className={avg ? "d-flex flex-lg-row flex-column justify-content-lg-between justify-content-center" : "d-flex flex-lg-row flex-column justify-content-lg-end justify-content-center"}>
+                                {avg!==null && <div className={"d-flex flex-row justify-content-lg-start justify-content-center"}>
                                     <i className="bi bi-star-fill color-TYPE-3 pe-2"/>
-                                    <div className={"pe-1"}>{valoraciones(infoAVG)}</div>
+                                    <div className={"pe-1"}>{valoraciones(avg)}</div>
                                     ·
-                                    <HashLink to="#comments" className="px-1 text-black">{infoAVG["count"]} <Translate string={"ratings"}/></HashLink>
+                                    <HashLink to="#comments" className="px-1 text-black">{avg["count"]} <Translate string={"ratings"}/></HashLink>
                                     ·
                                     <div className={"px-1"}>{restaurant.nombre_localidad}</div>
                                     ·
@@ -185,20 +194,20 @@ class Restaurant extends Component {
                             {<SimpleMap class={"w-100 map-height"} lat={restaurant.latitud} lng={restaurant.longitud} zoom={11}/>}
                         </section>
                         <hr id={"comments"} className={"mx-3 mx-lg-0"}/>
-                        {infoAVG!==null && <section className={"w-100 m-0 px-lg-4 px-4 py-5"}>
+                        {avg!==null && <section className={"w-100 m-0 px-lg-4 px-4 py-5"}>
                              <div className={"d-flex flex-row justify-content-lg-start justify-content-center align-self-center"}>
                                 <i className="bi bi-star-fill fs-4 text-color-TYPE-1 pe-2"/>
-                                <div className={"pe-1 fs-4"}>{valoraciones(infoAVG)}</div>
+                                <div className={"pe-1 fs-4"}>{valoraciones(avg)}</div>
                                 <div className={"fs-4 h-100 align-self-center"}>·</div>
-                                <HashLink to="#comments" className="px-1 text-black fs-4">{infoAVG["count"]} valoraciones</HashLink>
+                                <HashLink to="#comments" className="px-1 text-black fs-4">{avg["count"]} valoraciones</HashLink>
                             </div>
                             <div className={"row w-100 px-3 fs-5 pt-3"}>
                                 <div className={"col-lg-6 col-12"}>
                                     <div className={"d-flex flex-row justify-content-between px-2"}>
                                         Comida
                                         <div className={"w-100 d-flex flex-row justify-content-end align-self-center h-100"}>
-                                            <Slider min={0} max={5} value={infoAVG["valoracion_comida"]}/>
-                                            <div className={"ps-2 align-self-center text-secondary fw-bold font-avg"}>{infoAVG["valoracion_comida"]}</div>
+                                            <Slider min={0} max={5} value={avg["valoracion_comida"]}/>
+                                            <div className={"ps-2 align-self-center text-secondary fw-bold font-avg"}>{avg["valoracion_comida"]}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -206,8 +215,8 @@ class Restaurant extends Component {
                                     <div className={"d-flex flex-row justify-content-between px-2"}>
                                         Servicio
                                         <div className={"w-100 d-flex flex-row justify-content-end align-self-center h-100"}>
-                                            <Slider min={0} max={5} value={infoAVG["valoracion_servicio"]}/>
-                                            <div className={"ps-2 align-self-center text-secondary fw-bold font-avg"}>{infoAVG["valoracion_servicio"]}</div>
+                                            <Slider min={0} max={5} value={avg["valoracion_servicio"]}/>
+                                            <div className={"ps-2 align-self-center text-secondary fw-bold font-avg"}>{avg["valoracion_servicio"]}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -215,8 +224,8 @@ class Restaurant extends Component {
                                     <div className={"d-flex flex-row justify-content-between px-2 align-self-center h-100"}>
                                         Sitio
                                         <div className={"w-100 d-flex flex-row justify-content-end"}>
-                                            <Slider min={0} max={5} value={infoAVG["valoracion_sitio"]}/>
-                                            <div className={"ps-2 align-self-center text-secondary fw-bold font-avg"}>{infoAVG["valoracion_sitio"]}</div>
+                                            <Slider min={0} max={5} value={avg["valoracion_sitio"]}/>
+                                            <div className={"ps-2 align-self-center text-secondary fw-bold font-avg"}>{avg["valoracion_sitio"]}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -240,7 +249,7 @@ class Restaurant extends Component {
                                 })}
                             </div>
                         </section>}
-                        {infoAVG === null &&
+                        {avg === null &&
                             <div>
                                 No tiene comentarios XD
                             </div>
@@ -264,7 +273,6 @@ class Restaurant extends Component {
         );
     }
 }
-
 
 function formatDate(fecha) {
     let date = new Date(fecha);
