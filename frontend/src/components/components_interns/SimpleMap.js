@@ -18,19 +18,23 @@ class SimpleMap extends Component {
             lat: this.props.lat,
             lng: this.props.lng
         }
+        const greatPlaceStyle = {
+            position: 'absolute',
+            transform: 'translate(-50%, -50%)'
+        }
 
         const Marker = props => {
-            return (<img className={"marker-map"} src={marker} alt={"Restaurant"}/>)
+            return (<img style={greatPlaceStyle} className={"marker-map"} src={marker} alt={"Restaurant"}/>)
         }
 
         return (
             <div className={this.props.class} style={{ height: height, width: width }}>
                 <GoogleMapReact
                     bootstrapURLKeys={{ key: "AIzaSyBCKiIqCdZGrVxx06LSbe7uG3zXOq1Cz5k" }}
-                    defaultCenter={center}
-                    defaultZoom={this.props.zoom}
+                    center={center}
+                    zoom={this.props.zoom}
                 >
-                    <Marker lat={this.props.lat} lng={this.props.lng} />
+                    <Marker lat={this.props.lat} lng={this.props.lng} iconAnchor={[17, 46]} />
                 </GoogleMapReact>
             </div>
         );

@@ -79,7 +79,7 @@ class GalleryRestaurant extends Component {
                                                     } else if (key===4) {
                                                         return (
                                                             <span key={key}>
-                                                            <GalleryItem unique_key={key} id_restaurante={restaurant.id_restaurante} img={img} classes={"border-right-bottom p-lg-0 image-cover pt-lg-1 p-2 px-lg-1 width-image2"}/>
+                                                            <GalleryItem key={key} id_restaurante={restaurant.id_restaurante} img={img} classes={"border-right-bottom p-lg-0 image-cover pt-lg-1 p-2 px-lg-1 width-image2"}/>
                                                         </span>
                                                         )
                                                     } else {

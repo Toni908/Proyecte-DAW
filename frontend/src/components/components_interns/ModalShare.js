@@ -8,16 +8,22 @@ import {
     TwitterIcon,
     TwitterShareButton
 } from "react-share";
+
+import Translate from "../../locales/Translate";
+
 import "./ModalShare.css";
+
 
 function ModalShare(props) {
     const [show, setShow] = useState(false);
     const [copy, setCopy] = useState(false);
+    let url = process.env.REACT_APP_API_URL;
 
     return (
         <div className={"modal-80w"}>
             <a href="#home" className={"button-share"} onClick={() => {setShow(true); setCopy(false)}}>
-                <i className="bi bi-box-arrow-up pe-2 text-black"/>Compartir
+                <i className="bi bi-box-arrow-up pe-2 text-black"/>
+                <Translate string={"share"}/>
             </a>
 
             <Modal
@@ -28,7 +34,11 @@ function ModalShare(props) {
             >
                 <Modal.Header closeButton>
                     <Modal.Title id="modalShare">
-                        <div className={"ps-2 pt-2"}>Comparte el restaurante {props.restaurant.nombre} con tus amigos y familiares</div>
+                        <div className={"ps-2 pt-2"}>
+                            <Translate string={"share-message"}/>
+                            {props.restaurant.nombre}
+                            <Translate string={"share-message-friends"}/>
+                        </div>
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
@@ -42,13 +52,15 @@ function ModalShare(props) {
                             <section className={"col-lg-6 col-12 px-2 pb-2"} onClick={copyOnClipBoard}>
                                 <div className={"box_icon text-center d-flex flex-row"} onClick={() => setCopy(true)}>
                                     <i className="ps-2 bi bi-clipboard fs-3"/>
-                                    <div className={"ps-4 fw-bold align-self-center"}>Copiar enlace</div>
+                                    <div className={"ps-4 fw-bold align-self-center"}>
+                                        <Translate string={"copy-link"}/>
+                                    </div>
                                 </div>
                             </section>}
                         {props.restaurant.id_restaurante !== undefined &&
                         <EmailShareButton
                             title={props.restaurant.nombre}
-                            url={"https://www.mallorcarestaurant.me/restaurant/"+props.restaurant.id_restaurante}
+                            url={url+"/restaurant/"+props.restaurant.id_restaurante}
                             className={"col-lg-6 col-12 px-2 pb-2"}>
                             <div className={"box_icon text-center d-flex flex-row"}>
                                 <EmailIcon size={40} round={false} borderRadius={10}/>
@@ -58,7 +70,7 @@ function ModalShare(props) {
                         {props.restaurant.id_restaurante !== undefined &&
                         <LineShareButton
                             title={props.restaurant.nombre}
-                            url={"https://www.mallorcarestaurant.me/restaurant/"+props.restaurant.id_restaurante}
+                            url={url+"/restaurant/"+props.restaurant.id_restaurante}
                             className={"col-lg-6 col-12 px-2 pb-2"}>
                             <div className={"box_icon text-center d-flex flex-row"}>
                                 <LineIcon size={40} round={false} borderRadius={10}/>
@@ -67,7 +79,7 @@ function ModalShare(props) {
                         </LineShareButton>}
                         {props.restaurant.id_restaurante !== undefined &&
                         <FacebookShareButton
-                            url={"https://www.mallorcarestaurant.me/restaurant/" + props.restaurant.id_restaurante}
+                            url={url+"/restaurant/" + props.restaurant.id_restaurante}
                             quote={"Mallorca Restaurant Facebook"}
                             hashtag={["#mallorcarestaurant"]} className={"col-lg-6 col-12 px-2 pb-2"}>
                             <div className={"box_icon text-center d-flex flex-row"}>
@@ -77,7 +89,7 @@ function ModalShare(props) {
                         </FacebookShareButton>}
                         {<TwitterShareButton
                             title={props.restaurant.nombre}
-                            url={"https://www.mallorcarestaurant.me/restaurant/" + props.restaurant.id_restaurante}
+                            url={url+"/restaurant/" + props.restaurant.id_restaurante}
                             hashtags={[QuitarSpaceHashTags(props.restaurant.nombre), QuitarSpaceHashTags(props.restaurant.nombre_localidad)]}
                             className={"col-lg-6 col-12 px-2 pb-2"}>
                             <div className={"box_icon text-center d-flex flex-row"}>
@@ -88,7 +100,7 @@ function ModalShare(props) {
                         {props.restaurant.id_restaurante !== undefined &&
                         <OKShareButton
                             title={props.restaurant.nombre}
-                            url={"https://www.mallorcarestaurant.me/restaurant/"+props.restaurant.id_restaurante}
+                            url={url+"/restaurant/"+props.restaurant.id_restaurante}
                             className={"col-lg-6 col-12 px-2 pb-2"}>
                             <div className={"box_icon text-center d-flex flex-row"}>
                                 <OKIcon size={40} round={false} borderRadius={10}/>
@@ -100,7 +112,7 @@ function ModalShare(props) {
                             <div className={"w-auto px-3 p-2 border box-copied align-self-center d-flex flex-row justify-content-center"}>
                                 <i className="bi bi-check text-success fs-5"/>
                                 <div className={"align-self-center"}>
-                                    Enlace copiado
+                                    <Translate string={"copied-link"}/>
                                 </div>
                             </div>
                         </section>}
@@ -118,7 +130,6 @@ function copyOnClipBoard() {
     dummy.select();
     document.execCommand('copy');
     document.body.removeChild(dummy);
-
 }
 
 function QuitarSpaceHashTags(nombre) {
