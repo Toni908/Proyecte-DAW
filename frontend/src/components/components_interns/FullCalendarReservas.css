@@ -7,11 +7,11 @@
 .font-size-simple {
     font-size: 15px;
 }
-
-/*.isDisabled {*/
-/*    display: none;*/
-/*}*/
-
+.box-color {
+    border: 4px solid lightgrey;
+    width: 25px;
+    height: 25px;
+}
 .message-success {
     position: fixed;
     top: 40%;

@@ -1,6 +1,5 @@
 import React from "react";
 import Translate from "../../../locales/Translate";
-import {LocaleContext} from "../../../LocaleContext";
 
 class schedule {
     static isTodayOpen(horario) {
