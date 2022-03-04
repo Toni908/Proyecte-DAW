@@ -115,6 +115,7 @@ class Restaurant extends Component {
         if (error) {
             return <p>{error.message}</p>;
         }
+
         if (isLoading) {
             return <Loading />;
         }
@@ -142,6 +143,7 @@ class Restaurant extends Component {
                             </div>
                         </section>
                         <GalleryRestaurant restaurant={restaurant} imgs={restaurant.imgs}/>
+                        {/*TRADUCIDO DESDE AQUI PARA ARRIBA*/}
                         {restaurant.id_restaurante!==undefined &&
                         <section id={"menu"} className={"w-100 p-0 m-0 row pt-5 px-lg-0 px-5"}>
                             {carta["carta"]!==undefined &&
