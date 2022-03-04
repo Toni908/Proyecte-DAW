@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull;
 import java.math.BigInteger;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Data
 @Entity
@@ -29,6 +30,9 @@ public class Membresia {
     @JoinColumn(name = "num_factura")
     @NotNull(message = "num_factura cant be null")
     private Factura factura;
+
+    @OneToMany(fetch = FetchType.LAZY,  mappedBy = "membresia")
+    private List<Restaurant> restaurants;
 
     public Membresia(BigInteger id_membresia, Date fecha_inicio, Date fecha_fin, Factura factura) {
         this.id_membresia = id_membresia;

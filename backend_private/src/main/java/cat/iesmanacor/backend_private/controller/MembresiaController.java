@@ -18,12 +18,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.request.WebRequest;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.math.BigInteger;
 import java.nio.charset.Charset;
 import java.sql.Date;
-import java.util.Calendar;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 
 import static cat.iesmanacor.backend_private.componentes.User.getUser;
 
@@ -112,6 +111,10 @@ public class MembresiaController {
 
         restaurant.get().setMembresia(membresia);
         restaurantService.saveRestaurant(restaurant.get());
+
+        HttpSession session = requesthttp.getSession(false);
+        session.setAttribute("membresia", restaurant.get());
+
 
         return "redirect:/redsys/enviar?price=" + importe + "00&fac="+numFactura;
     }

@@ -1,5 +1,12 @@
 package cat.iesmanacor.backend_private.controller;
 
+import cat.iesmanacor.backend_private.entities.Factura;
+import cat.iesmanacor.backend_private.entities.Membresia;
+import cat.iesmanacor.backend_private.entities.Restaurant;
+import cat.iesmanacor.backend_private.services.FacturaService;
+import cat.iesmanacor.backend_private.services.MembresiaService;
+import cat.iesmanacor.backend_private.services.RestaurantService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.context.request.WebRequest;
@@ -8,11 +15,20 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping("/redsys")
 public class RedSysController {
 
     public static String urlw;
+
+    @Autowired
+    private RestaurantService restaurantService;
+
+    @Autowired
+    private FacturaService facturaService;
 
         @PostMapping("/urlNotificacion")
         public void notification(){
@@ -25,7 +41,20 @@ public class RedSysController {
         }
 
         @GetMapping("/urlKO")
-        public String ko(){
+        public String ko(HttpServletRequest requesthttp){
+            HttpSession session = requesthttp.getSession(false);
+            Restaurant restaurant = new Restaurant();
+            try{
+                restaurant = (Restaurant) session.getAttribute("membresia");
+            }catch (NullPointerException e){
+
+            }
+            Membresia membresia = restaurant.getMembresia();
+            Factura factura = membresia.getFactura();
+            restaurant.setMembresia(null);
+            restaurantService.saveRestaurant(restaurant);
+            facturaService.deleteFactura(factura.getNum_factura());
+
             return "redirect:/login";
         }
 
