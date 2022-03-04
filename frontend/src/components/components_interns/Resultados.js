@@ -32,7 +32,7 @@ class Resultados extends Component {
             <div className="d-flex flex-row flex-wrap">
               {restaurants.map(function(item, key) {
                         return (
-                            <CardRestaurant className={"col-3 border-0 mb-2 px-2"} key={key} restaurant={item} localidad={item.localidad}/>
+                            <CardRestaurant className={"col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3 border-0 mb-2 px-2"} key={key} restaurant={item} localidad={item.localidad}/>
                         )
                     })}
             </div>}

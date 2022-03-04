@@ -36,8 +36,6 @@ class Header extends Component {
                   </Dropdown.Menu>
                 </Dropdown>
 
-                <button aria-label='traduccions'>dsg</button>
-
                 <div className="text-end">
                 
                   <a href={"http://admin." + process.env.REACT_APP_URL + ":8080/login"}>
