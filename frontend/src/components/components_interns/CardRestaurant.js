@@ -4,7 +4,7 @@ import React, {Component} from "react";
 import './image.css'
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import HorarioRestaurant from "./HorarioRestaurant";
-import "./cardrestaurant.css";
+import "./CardRestaurant.css";
 import {Link} from "react-router-dom";
 
 class CardRestaurant extends Component {

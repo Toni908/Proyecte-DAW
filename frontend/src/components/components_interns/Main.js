@@ -12,7 +12,7 @@ import city2 from "../../img/city3.webp"
 import city4 from "../../img/city4.webp"
 
 import './Buscador.css';
-import './main.css';
+import './Main.css';
 import {Link} from "react-router-dom";
 
 class Main extends Component {

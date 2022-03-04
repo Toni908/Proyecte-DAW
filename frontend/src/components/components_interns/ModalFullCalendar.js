@@ -10,22 +10,17 @@ import Translate from "../../locales/Translate";
 
 function ModalFullCalendar(props) {
 
-    // EL FALSE ES PARA QUE NO ME REDIRIGA AL # (HASH) SI HAY ALGUNA EN LA URL
     function handleShow(value) {
         props.onShow(value);
-        return false
     }
     function handleDate(value) {
         props.onDate(value);
-        return false
     }
     function handleTime(value) {
         props.onTime(value);
-        return false
     }
     function handleChange(time) {
         props.onTime(time);
-        return false
     }
 
     let ip = process.env.REACT_APP_API_URL;

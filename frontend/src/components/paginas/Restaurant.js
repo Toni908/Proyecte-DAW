@@ -24,8 +24,8 @@ import Translate from "../../locales/Translate";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "photoswipe/dist/photoswipe.css";
 import "photoswipe/dist/default-skin/default-skin.css";
-import "./restaurant.css";
-import "./menu.css";
+import "./Restaurant.css";
+import "./Menu.css";
 
 export default (props) => (
     <Restaurant

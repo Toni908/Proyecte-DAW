@@ -12,7 +12,7 @@ import Email from "./Email";
 import CartaRepresentar from "./CartaRepresentar";
 
 import './App.css';
-import './components/components_interns/main.css'
+import './components/components_interns/Main.css'
 import Restaurant from "./components/paginas/Restaurant";
 
 class App extends Component {
