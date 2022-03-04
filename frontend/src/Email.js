@@ -19,21 +19,14 @@ class Email extends Component {
             data: JSON.stringify(data),
             contentType: 'application/json'
         }).done(function() {
-            alert('Your mail is sent!');
+            console.log("email send")
         }).fail(function(error) {
-            alert('Oops... ' + JSON.stringify(error));
+            console.log('Oops... ' + JSON.stringify(error));
         });
       }
 
     render() {
     return(
-        /*<div className='' >
-            <form onSubmit={this.sendEmail} onLoad={this.onSubmit}>
-                <input type="text" name="reply_to" value="tlovesc908@gmail.com"></input>
-                <input type="text" name="ruta"></input>
-                <input type="submit"></input>
-            </form>
-        </div>*/
         <div>
             <button onClick={this.sendEmail}>click</button>
         </div>
