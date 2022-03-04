@@ -25,6 +25,7 @@ import "photoswipe/dist/photoswipe.css";
 import "photoswipe/dist/default-skin/default-skin.css";
 import "./restaurant.css";
 import "./menu.css";
+import {LocaleContext} from "../../LocaleContext";
 
 class Restaurant extends Component {
     _isMounted = false;
@@ -106,7 +107,6 @@ class Restaurant extends Component {
         if (isLoading) {
             return <Loading />;
         }
-
         return(
             <section className={"font-restaurant"} >
                 <HeaderRestaurant restaurant={restaurant} />
@@ -131,7 +131,6 @@ class Restaurant extends Component {
                             </div>
                         </section>
                         <GalleryRestaurant restaurant={restaurant} imgs={restaurant.imgs}/>
-                        {/*TRADUCIDO DESDE AQUI PARA ARRIBA*/}
                         {restaurant.id_restaurante!==undefined &&
                         <section id={"menu"} className={"w-100 p-0 m-0 row pt-5 px-lg-0 px-5"}>
                             {carta["carta"]!==undefined &&
@@ -142,14 +141,14 @@ class Restaurant extends Component {
                                 <hr className={"mx-3 mx-lg-0"}/>
                                 {restaurant.etiquetas!==undefined &&
                                 <div id={"info"} className={"py-2"}>
-                                    <h3>Que necesitas saber de {restaurant.nombre}</h3>
+                                    <h3><Translate string={"information-title"}/>{restaurant.nombre}</h3>
                                     <div className={"row w-100 p-4"}>
-                                        {restaurant.direccion!=="" && <div className={"py-2 col-lg-6 col-12 align-self-center"}><i className="bi bi-signpost pe-3"/>Direccion: {restaurant.direccion}</div>}
-                                        <div className={"py-2 col-lg-6 col-12"}><i className="bi bi-house-door pe-3"/>Localidad: {restaurant.nombre_localidad}</div>
-                                        <div className={"py-2 col-lg-6 col-12"}><i className="bi bi-building pe-3"/>Municipio: {restaurant.nombre_municipio}</div>
-                                        <div className={"py-2 col-lg-6 col-12"}><i className="bi bi-mailbox pe-3"/>Codigo Postal: {restaurant.codigo_postal}</div>
-                                        <div className={"py-2 col-lg-6 col-12"}><i className="bi bi-telephone-fill pe-3"/>Telefono: {restaurant.telefono_restaurante}</div>
-                                        <div className={"py-2 col-lg-6 col-12"}><i className="bi bi-people-fill pe-3"/>Aforo max:{restaurant.aforo}</div>
+                                        {restaurant.direccion!=="" && <div className={"py-2 col-lg-6 col-12 align-self-center"}><i className="bi bi-signpost pe-3"/><Translate string={"address"}/>: {restaurant.direccion_restaurante}</div>}
+                                        <div className={"py-2 col-lg-6 col-12"}><i className="bi bi-house-door pe-3"/><Translate string={"locality"}/>: {restaurant.nombre_localidad}</div>
+                                        <div className={"py-2 col-lg-6 col-12"}><i className="bi bi-building pe-3"/><Translate string={"municipality"}/>: {restaurant.nombre_municipio}</div>
+                                        <div className={"py-2 col-lg-6 col-12"}><i className="bi bi-mailbox pe-3"/><Translate string={"postal-code"}/>: {restaurant.codigo_postal}</div>
+                                        <div className={"py-2 col-lg-6 col-12"}><i className="bi bi-telephone-fill pe-3"/><Translate string={"phone"}/>: {restaurant.telefono_restaurante}</div>
+                                        <div className={"py-2 col-lg-6 col-12"}><i className="bi bi-people-fill pe-3"/><Translate string={"capacity-max"}/>: {restaurant.aforo}</div>
                                     </div>
                                     <div className={"py-4"}>
                                         <ModalEtiquetas etiquetas={restaurant.etiquetas}/>
@@ -160,8 +159,14 @@ class Restaurant extends Component {
                         </section>}
                         <hr id={"bookings"} className={"mx-3 mx-lg-0"}/>
                         <section className={"w-100 m-0 p-0 pb-5 pt-4 px-lg-0 px-5"}>
-                            <h3 className={"text-center py-4"}>¿Quieres realizar una reserva?</h3>
-                            <div className={"text-center pb-3"}>Haz click el dia en el que quieres hacer la reserva y rellena el formulario!<br/> Ten encuenta que el restaurante solo acepta reservas desde el dia {reservas_dias}</div>
+                            <h3 className={"text-center py-4"}><Translate string={"bookings-title"}/></h3>
+                            <div className={"text-center pb-3"}>
+                                <Translate string={"bookings-info"}/>
+                                <br/>
+                                <Translate string={"bookings-info-2"}/>
+                                {reservas_dias}
+                            </div>
+                            {/*TRADUCIDO DESDE AQUI PARA ARRIBA*/}
                             {restaurant.dies_anticipacion_reservas !==undefined && restaurant.aforo !==undefined && restaurant.id_restaurante !==undefined && <FullCalendarReservas reservas={reservas} dia_minimo={restaurant.dies_anticipacion_reservas} aforo={restaurant.aforo} periodo={periodo} horario={horario} restaurant={restaurant}/>}
                         </section>
                         <hr id={"location"} className={"mx-3 mx-lg-0"}/>
@@ -255,9 +260,10 @@ class Restaurant extends Component {
     }
 }
 
+
 function formatDate(fecha) {
     let date = new Date(fecha);
-    return schedule.getMonthString(date.getMonth())+" del "+date.getFullYear();
+    return <div>{schedule.getMonthString(date.getMonth())} del {date.getFullYear()}</div>
 }
 
 function valoraciones(comments) {

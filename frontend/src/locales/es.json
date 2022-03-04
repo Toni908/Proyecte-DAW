@@ -69,5 +69,18 @@
     "share-message": "Comparte el restaurante ",
     "share-message-friends": " con tus amigos y familiares",
     "copy-link": "Copiar enlace",
-    "copied-link": "Enlace copiado"
+    "copied-link": "Enlace copiado",
+    "information-title": "Que necesitas saber de ",
+    "address": "Dirección",
+    "locality": "Localidad",
+    "municipality": "Municipio",
+    "postal-code": "Código Postal",
+    "phone": "Teléfono",
+    "capacity-max": "Aforo por hora máximo",
+    "show-tags": "Mostrar Las Etiquetas",
+    "show-tags-title": "¿Que etiquetas tiene?",
+    "show-no-tags": "Lo lamentamos mucho, el restaurante no tiene ninguna etiqueta activa",
+    "bookings-title": "¿Quieres realizar una reserva?",
+    "bookings-info": "Haz clic el dia en el que quieres hacer la reserva y rellena el formulario!",
+    "bookings-info-2": "Ten encuenta que el restaurante solo acepta reservas desde el dia"
 }

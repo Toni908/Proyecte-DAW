@@ -69,5 +69,18 @@
     "share-message": "Comparteix el restaurant ",
     "share-message-friends": " amb els teus amics i familiars",
     "copy-link": "Copiar enllaç ",
-    "copied-link": "Enllaç copiat "
+    "copied-link": "Enllaç copiat ",
+    "information-title": "Que necessites saber de ",
+    "address": "Adreça",
+    "locality": "Localitat",
+    "municipality": "Municipi",
+    "postal-code": "Codi postal",
+    "phone": "Telèfon",
+    "capacity-max": "Aforament per hora màxim",
+    "show-tags": "Mostra Les Etiquetes",
+    "show-tags-title": "Quines etiquetes té?",
+    "show-no-tags": "Ho lamentem molt, el restaurant no té cap etiqueta activa",
+    "bookings-title": "Vols fer una reserva?",
+    "bookings-info": "Fes clic el dia en què vols fer la reserva i omple el formulari!",
+    "bookings-info-2": "Tingues que el restaurant només accepta reserves des del dia"
 }

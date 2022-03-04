@@ -69,5 +69,18 @@
     "share-message": "Share restaurant ",
     "share-message-friends": " with your friends and family",
     "copy-link": "Copy link",
-    "copied-link": "Copied link"
+    "copied-link": "Copied link",
+    "information-title": "What do you need to know about ",
+    "address": "Direction",
+    "locality": "Location",
+    "municipality": "Municipality",
+    "postal-code": "Postal Code",
+    "phone": "Telephone",
+    "capacity-max": "Maximum capacity per hour",
+    "show-tags": "Show Tags",
+    "show-tags-title": "What tags does it have?",
+    "show-no-tags": "We are very sorry, the restaurant do not have any active tag",
+    "bookings-title": "Do you want to make a reservation?",
+    "bookings-info": "Click on the day you want to make the reservation and fill out the form!",
+    "bookings-info-2": "Keep in mind that the restaurant only accepts reservations from the day"
 }

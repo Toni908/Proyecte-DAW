@@ -9,7 +9,6 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from "@fullcalendar/interaction" // needed for dayClick
 import es from '@fullcalendar/core/locales/es';
 import ca from '@fullcalendar/core/locales/ca';
-import emailjs from "@emailjs/browser";
 
 import SelectHorario from "./SelectHorario";
 
@@ -17,6 +16,7 @@ import schedule from "./utilities/schedule";
 import reservas_anticipacion from "./utilities/reservas_anticipacion";
 
 import "./FullCalendarReservas.css";
+import $ from "jquery";
 
 
 function FullCalendarReservas(props) {
@@ -46,12 +46,11 @@ function FullCalendarReservas(props) {
         id_restaurante: data.id_restaurante
     })
         .then((result) => {
-            // console.log(result) // ESTO ES UNA AYUDA PARA SABER LO QUE ME A MANDADO EL CONTROLLER DE LARAVEL
-            if (result.data==="OKEY") {
+            if (result.data["message"]==="OKEY") {
                 setShow(false);
                 document.getElementById("success").hidden = false;
                 setTimeout(function (){document.getElementById("success").hidden = true;},2000);
-                sendEmail({reply_to: "militaxx5@gmail.com", ruta: "ruta"})
+                sendEmail(result.data["correo"],"https://www."+process.env.REACT_APP_URL+"/comment/"+result.data["id"])
                 setTimeout(function (){window.location.reload()},2100);
             } else {
                 setShow(false);
@@ -72,6 +71,7 @@ function FullCalendarReservas(props) {
                     initialDate={result}
                     plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
                     initialView="dayGridMonth"
+                    fixedWeekCount={false}
                     nowIndicator={true}
                     headerToolbar={{
                         center: 'dayGridMonth,timeGridWeek,timeGridDay',
@@ -95,7 +95,7 @@ function FullCalendarReservas(props) {
                                     if (new Date(periodos[0].fecha_fin)<arg.date) {
                                         arg.el.style.backgroundColor = "rgba(216,230,242,1)";
                                     } else {
-                                        arg.el.innerHTML = "<div class='d-flex flex-row justify-content-end pe-2 pt-2'><i class=\"bi bi-check\"></i>"+arg.el.innerText+"</div>";
+                                        arg.el.innerHTML = "<div class='h-100 pe-2 pt-2 text-success'><i class=\"bi bi-check fs-4 d-flex flex-row justify-content-end\"/><div class='d-flex flex-row justify-content-end'>"+arg.el.innerText+"</div></div>";
                                     }
                                 }
                             }
@@ -412,17 +412,27 @@ function getHoursNumberFromDate(date, horario) {
     return arrayHorario;
 }
 
-function sendEmail(e) {
-    console.log(e)
-    emailjs.sendForm('service_1oq8hpi', 'template_d3g3uye', e, '8MM4-J8FO99oHPBq9')
-        .then((result) => {
-            console.log(result.text);
-        }, (error) => {
-            console.log(error.text);
-        });
+function sendEmail(correo, ruta) {
+    var data = {
+        service_id: 'service_1oq8hpi',
+        template_id: 'template_d3g3uye',
+        user_id: '8MM4-J8FO99oHPBq9',
+        template_params: {
+            'reply_to': correo,
+            'ruta': ruta
+        }
+    };
+
+    $.ajax('https://api.emailjs.com/api/v1.0/email/send', {
+        type: 'POST',
+        data: JSON.stringify(data),
+        contentType: 'application/json'
+    }).done(function() {
+        // FUNCIONA
+    }).fail(function(error) {
+        // ERROR
+    });
 }
-
-
 function isClosed(date, horario) {
     let newHorario = [];
     if (!Array.isArray(horario)) {

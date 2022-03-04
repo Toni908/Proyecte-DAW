@@ -8,6 +8,10 @@
     font-size: 15px;
 }
 
+/*.isDisabled {*/
+/*    display: none;*/
+/*}*/
+
 .message-success {
     position: fixed;
     top: 40%;
