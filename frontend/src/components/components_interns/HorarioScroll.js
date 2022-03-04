@@ -35,7 +35,7 @@ class HorarioScroll extends Component {
         let menu = MenuHeight-InfoHeight;
 
         // HORARIO TOP
-        if (window.scrollY<(menu+galleryHeight+startHeight)) {
+        if (window.scrollY<(menu+galleryHeight+startHeight-50)) {
 
             if (window.innerWidth<1500) {
 
