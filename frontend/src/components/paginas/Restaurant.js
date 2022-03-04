@@ -7,6 +7,7 @@ import ModalShare from "../components_interns/ModalShare";
 import ModalEtiquetas from "../components_interns/ModalEtiqutas";
 import ModalUser from "../components_interns/ModalUser";
 import FullCalendarReservas from "../components_interns/FullCalendarReservas";
+import {useParams} from "react-router";
 
 import icon_person from "../../img/icon_person.png";
 import schedule from "../components_interns/utilities/schedule";
@@ -26,6 +27,13 @@ import "photoswipe/dist/default-skin/default-skin.css";
 import "./restaurant.css";
 import "./menu.css";
 import {LocaleContext} from "../../LocaleContext";
+
+export default (props) => (
+    <Restaurant
+        {...props}
+        params={useParams()}
+    />
+);
 
 class Restaurant extends Component {
     _isMounted = false;
@@ -51,10 +59,7 @@ class Restaurant extends Component {
 
         let ip = process.env.REACT_APP_API_URL;
         this.setState({ isLoading: true });
-        let url = window.location.href;
-        let l = url.split('/');
-        let d = l.length-1;
-        let id = l[d];
+        const { id } = this.props.params;
 
         const request1 = axios.get(ip+"/restaurant/"+id);
         const request2 = axios.get(ip+"/reservas/avg/"+id);
@@ -276,5 +281,3 @@ function valoraciones(comments) {
         return 0;
     }
 }
-
-export default Restaurant
