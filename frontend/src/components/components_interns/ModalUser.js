@@ -14,9 +14,9 @@ function ModalUser(props) {
     if (props.user!==undefined) {
         return (
             <div className={"modal-80w"}>
-                <HashLink to="#user" className="button-share show-more" onClick={() => setShow(true)}>
+                <button className="button-share show-more" onClick={() => setShow(true)}>
                     <Translate string={"contact-manager"}/>
-                </HashLink>
+                </button>
 
                 <Modal
                     show={show}
