@@ -122,5 +122,13 @@
     "contact-manager": "Contactar con el Gerente",
     "question-manager": "Cómo contactar con el Gerente?",
     "copy-email": "Copiar correo",
-    "copied-email": "Correo copiado"
+    "copied-email": "Correo copiado",
+
+    "carusel-title": "¿No tienes claro dónde ir?",
+    "carusel-button": "Visitar",
+    "list-municipality": "Municipios más buscados",
+    "search-municipality": "Busca restaurantes en ",
+    "title-of-list-restaurants": "Descubre Restaurantes",
+    "best-restaurants": "Los Mejores Restaurantes",
+    "cheapest-restaurants": "Los Más Económicos"
 }

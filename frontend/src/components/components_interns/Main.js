@@ -1,18 +1,21 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import {Card} from "react-bootstrap";
+
+import {Link} from "react-router-dom";
+
 import CaruselRestaurant from "./CaruselRestaurant";
 import ListRestaurant from "./ListRestaurant";
 import Buscador from "./Buscador";
 import Loading from "./Loading";
-import {Card} from "react-bootstrap";
 import city1 from "../../img/city1.webp"
 import city3 from "../../img/city2.webp"
 import city2 from "../../img/city3.webp"
 import city4 from "../../img/city4.webp"
+import Translate from "../../locales/Translate";
 
 import './Buscador.css';
 import './Main.css';
-import {Link} from "react-router-dom";
 
 class Main extends Component {
     constructor() {
@@ -62,7 +65,7 @@ class Main extends Component {
             window.location.href = ("/search/precio/"+e.target.value)
         }
     }
-    
+
     filter() {
         window.location.href = ("/search");
     }
@@ -88,7 +91,7 @@ class Main extends Component {
                 <div className={"d-flex flex-row justify-content-center w-100"}>
                     <div className={"d-flex flex-column main-width"}>
                         <CaruselRestaurant restaurants={BestRestaurants}/>
-                        <h3 className={"pt-5 mt-5 ps-1 title-principal"}>Municipos mas buscados</h3>
+                        <h3 className={"pt-5 mt-5 ps-1 title-principal"}><Translate string={"list-municipality"}/></h3>
                         <section className={"w-100 pt-4"}>
                             <section className={"w-100 m-0 p-0 max-w-full"}>
                                 <div className={"row w-100 m-0"}>
@@ -98,7 +101,7 @@ class Main extends Component {
                                                 <img className={'card-section-municipio w-100 round-card-top object-cover'} src={city1} alt={"Municipio"}/>
                                                 <section className={"round-card card-section-municipio background-TYPE-2 w-100 ps-4 pt-4"}>
                                                     <h3 className={"text-white"}>Manacor</h3>
-                                                    <p className={"text-white"}>Busca tu restaurante en Manacor</p>
+                                                    <p className={"text-white"}><Translate string={"search-municipality"}/> Manacor</p>
                                                 </section>
                                             </Card>
                                         </Link>
@@ -109,7 +112,7 @@ class Main extends Component {
                                                 <img className={'card-section-municipio w-100 round-card-top object-cover'} src={city2} alt={"Municipio"}/>
                                                 <section className={"round-card card-section-municipio background-TYPE-4 w-100 ps-4 pt-4"}>
                                                     <h3 className={"text-white"}>Palma</h3>
-                                                    <p className={"text-white"}>Busca tu restaurante en Palma</p>
+                                                    <p className={"text-white"}><Translate string={"search-municipality"}/> Palma</p>
                                                 </section>
                                             </Card>
                                         </Link>
@@ -120,7 +123,7 @@ class Main extends Component {
                                                 <img className={'card-section-municipio w-100 round-card-top object-cover'} src={city3} alt={"Municipio"}/>
                                                 <section className={"round-card card-section-municipio background-TYPE-1 w-100 ps-4 pt-4"}>
                                                     <h3 className={"text-white"}>Inca</h3>
-                                                    <p className={"text-white"}>Busca tu restaurante en Inca</p>
+                                                    <p className={"text-white"}><Translate string={"search-municipality"}/> Inca</p>
                                                 </section>
                                             </Card>
                                         </Link>
@@ -131,21 +134,20 @@ class Main extends Component {
                                                 <img className={'card-section-municipio w-100 round-card-top object-cover'} src={city4} alt={"Municipio"}/>
                                                 <section className={"round-card card-section-municipio background-TYPE-3 w-100 ps-4 pt-4"}>
                                                     <h3 className={"text-white"}>Arta</h3>
-                                                    <p className={"text-white"}>Busca tu restaurante en Arta</p>
+                                                    <p className={"text-white"}><Translate string={"search-municipality"}/> Arta</p>
                                                 </section>
                                             </Card>
                                         </Link>
                                     </article>
                                 </div>
-                                <h2 className={"pt-5 mt-5 ps-1 title-principal fw-bold text-center w-100"}>Descubre Restaurantes</h2>
-                                <ListRestaurant idList={"1"} title={"Los Mejores Restaurantes"} restaurants={BestRestaurants}/>
-                                <ListRestaurant idList={"2"} title={"Los Mas Economicos"} restaurants={EconomicRestaurants}/>
+                                <h2 className={"pt-5 mt-5 ps-1 title-principal fw-bold text-center w-100"}><Translate string={"title-of-list-restaurants"}/></h2>
+                                <ListRestaurant idList={"1"} title={<Translate string={"best-restaurants"}/>} restaurants={BestRestaurants}/>
+                                <ListRestaurant idList={"2"} title={<Translate string={"cheapest-restaurants"}/>} restaurants={EconomicRestaurants}/>
                             </section>
                         </section>
                     </div>
                 </div>
             </section>
-
         )
     }
 }

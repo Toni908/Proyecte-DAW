@@ -34,7 +34,7 @@ function ModalEtiquetas(props) {
                                 return (
                                     <div className={"col-4 border-color-TYPE-1 text-center rounded-pill"} key={key}>
                                         <a className={"text-decoration-none"}
-                                           href={"/search?etiqueta=" + item.nombre}>{item.nombre}</a>
+                                           href={"/search/etiquetas/" + item.nombre}>{item.nombre}</a>
                                     </div>
                                 )
                             })}

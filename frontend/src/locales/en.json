@@ -122,5 +122,13 @@
     "contact-manager": "Contact Manager",
     "question-manager": "¿How to contact the Manager?",
     "copy-email": "copy mail",
-    "copied-email": "copied mail"
+    "copied-email": "copied mail",
+
+    "carusel-title": "Not sure where to go?",
+    "carusel-button": "Visit",
+    "list-municipality": "Most wanted municipalities¡",
+    "search-municipality": "Find restaurants in",
+    "title-of-list-restaurants": "Discover Restaurants",
+    "best-restaurants": "The best restaurants",
+    "cheapest-restaurants": "The Cheapest"
 }
