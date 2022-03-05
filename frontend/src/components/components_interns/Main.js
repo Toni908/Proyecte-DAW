@@ -37,7 +37,7 @@ class Main extends Component {
         this.setState({ isLoading: true });
 
         const request1 = axios.get(ip+"/restaurants");
-        const request2 = axios.get(ip+"/economic");
+        const request2 = axios.get(ip+"/cheapest");
 
         axios.all([request1, request2]).then(axios.spread((...responses) => this.setState({
             BestRestaurants: responses[0].data,
