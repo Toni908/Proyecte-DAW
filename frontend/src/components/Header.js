@@ -6,7 +6,7 @@ import { FaGlobe } from 'react-icons/fa';
 
 import { Button, Nav, Dropdown } from 'react-bootstrap';
 import Translate from "../locales/Translate";
-import trobalo from "../img/trobalot.png";
+import trobalo from "../img/trobalot.webp";
 import "./Header.css";
 
 class Header extends Component {
