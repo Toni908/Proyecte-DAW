@@ -21,10 +21,10 @@ function ModalShare(props) {
 
     return (
         <div className={"modal-80w"}>
-            <a href="#home" className={"button-share"} onClick={() => {setShow(true); setCopy(false)}}>
+            <button className={"button-share"} onClick={() => {setShow(true); setCopy(false)}}>
                 <i className="bi bi-box-arrow-up pe-2 text-black"/>
                 <Translate string={"share"}/>
-            </a>
+            </button>
 
             <Modal
                 show={show}
