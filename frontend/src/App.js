@@ -12,7 +12,7 @@ import Email from "./Email";
 import CartaRepresentar from "./CartaRepresentar";
 
 import './App.css';
-import './components/components_interns/main.css'
+import './components/components_interns/Main.css'
 import Restaurant from "./components/paginas/Restaurant";
 
 class App extends Component {
@@ -44,6 +44,7 @@ class App extends Component {
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/search" element={<BuscadorAvanzado />} />
+                <Route path="/search/:type/:name" element={<BuscadorAvanzado />} />
                 <Route path="/us" element={<AboutUs />} />
                 <Route path="/carta/:id" element={<CartaRepresentar />} />
                 <Route path="/comment/:id" element={<Comment className="bg-white"/>} />

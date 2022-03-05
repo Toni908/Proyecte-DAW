@@ -24,8 +24,8 @@ import Translate from "../../locales/Translate";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "photoswipe/dist/photoswipe.css";
 import "photoswipe/dist/default-skin/default-skin.css";
-import "./restaurant.css";
-import "./menu.css";
+import "./Restaurant.css";
+import "./Menu.css";
 
 export default (props) => (
     <Restaurant
@@ -74,7 +74,7 @@ class Restaurant extends Component {
 
         const request1 = axios.get(ip+"/restaurant/"+this.state.id);
         const request2 = axios.get(ip+"/reservas/avg/"+this.state.id);
-        const request3 = axios.get(ip+"/carta/"+this.state.id);
+        const request3 = axios.get(ip+"/card/"+this.state.id);
         const request4 = axios.get(ip+"/comments/"+this.state.id);
         const request5 = axios.get(ip+"/reservas/"+this.state.id);
         const request6 = axios.get(ip+"/horario/"+this.state.id)

@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {UncontrolledPopover} from "reactstrap";
 import {PopoverHeader} from "react-bootstrap";
-import "./popover.css";
+import "./Popover.css";
 
 class PopoverMunicipio extends Component {
     render() {

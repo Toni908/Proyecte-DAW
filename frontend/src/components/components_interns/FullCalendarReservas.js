@@ -44,7 +44,7 @@ function FullCalendarReservas(props) {
         return (
             <>
                 <FullCalendar
-                    height={"700px"}
+                    height={"800px"}
                     locale={es}
                     initialDate={result}
                     plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
@@ -56,7 +56,7 @@ function FullCalendarReservas(props) {
                         end: "prev,next"
                     }}
                     dayCellDidMount={function (arg) {
-                        arg.el.innerHTML = "<div class='d-flex flex-row justify-content-end pe-2 py-4'>"+arg.el.innerText+"</div>";
+                        arg.el.innerHTML = "<div class='d-flex flex-row justify-content-end pe-2 py-4' style='height: 130px'>"+arg.el.innerText+"</div>";
                         if (arg.date>=new Date(lessResult)) {
                             // EN ROJO SI YA NO SE PUEDE HACER MAS RESERVAS
                             if (!bookings.canClientReservar(arg.date, reservas,horario,aforo)) {

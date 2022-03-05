@@ -77,7 +77,7 @@ class RestaurantController extends Controller
         return $restaurant->toJson();
     }
 
-    public function AVGReservasRestaurant($id){
+    public function showAvg($id){
         $restaurant["info"] = Restaurante::select("restaurante.id_restaurante",DB::raw('Round(AVG(comentarios.valoracion_sitio),2) as valoracion_sitio'),DB::raw('Round(AVG(comentarios.valoracion_servicio),2) as valoracion_servicio'),DB::raw('Round(AVG(comentarios.valoracion_comida),2) as valoracion_comida'),DB::raw('Count(comentarios.id_reserva) as count'))
             ->join("reserva","restaurante.id_restaurante","=","reserva.id_restaurante")
             ->join('comentarios', 'reserva.id_reserva', '=', 'comentarios.id_reserva')

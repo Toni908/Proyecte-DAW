@@ -1,4 +1,4 @@
-import "./menu.css";
+import "./Menu.css";
 import {Component} from "react";
 
 class Menu extends Component {

@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import CardRestaurant from "./CardRestaurant";
-import "./list_restaurants.css"
+import "./ListRestaurants.css"
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import {ButtonGroupSimple} from "./Arrows";

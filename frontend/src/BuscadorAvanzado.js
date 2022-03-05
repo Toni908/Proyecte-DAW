@@ -4,8 +4,16 @@ import axios from "axios";
 import Buscador from "./components/components_interns/Buscador";
 import Resultados from "./components/components_interns/Resultados";
 import './components/components_interns/Buscador.css';
+import {useParams} from "react-router";
 
-class BuscadorAvanzado extends Component {
+const BuscadorAvanzado = (props) => {
+    return <BuscadorAva
+        {...props}
+        params={useParams()}
+    />
+};
+
+class BuscadorAva extends Component {
 
     constructor() {
 
@@ -26,7 +34,11 @@ class BuscadorAvanzado extends Component {
     }
 
     componentDidMount(){
-        
+        const { type, name } = this.props.params;
+
+        if (type==="etiquetas" || type==="sitio" || type==="precio") {
+            this.getFilter(type, name)
+        }
     }
 
     changeEtiqueta(e){
@@ -50,6 +62,40 @@ class BuscadorAvanzado extends Component {
             this.setState({precio: e.target.value});
         }
     }
+
+    getFilter(type, name) {
+        var data = {
+            etiqueta: this.state.etiqueta,
+            lugar: this.state.sitio,
+            precio: this.state.precio
+        }
+
+        if (type==="etiquetas") {
+            data.etiqueta = name;
+        }
+        if (type==="sitio") {
+            data.lugar = name;
+        }
+        if (type==="precio") {
+            data.precio = name;
+        }
+
+        var ip = process.env.REACT_APP_API_URL;
+
+        axios({
+            method: 'post',
+            url: ip + '/filtrar',
+            data: data
+        })
+            .then((response) => {
+                console.log(response);
+                this.setState({restaurantes: response.data});
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+
     filter(){
         var data = {
             etiqueta: this.state.etiqueta,
