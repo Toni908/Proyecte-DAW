@@ -209,10 +209,11 @@ function ModalFullCalendar(props) {
                             <i className="bi bi-info-circle pe-2 fw-bold text-danger"/>
                             <Translate string={"booking-no-available-on"}/> {formatDateES(props.date)}
                         </div>
+                        {props.result!==undefined &&
                         <div className={"px-3 text-secondary font-size-simple"}>
                             <i className="bi bi-info-circle pe-2 fw-bold text-warning"/>
                             <Translate string={"booking-only-accepts-bookings-after"}/> {formatDateES(props.result)}
-                        </div>
+                        </div>}
                     </div>}
                 </Modal.Body>
             </Modal>
