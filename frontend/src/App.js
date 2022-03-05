@@ -44,6 +44,7 @@ class App extends Component {
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/search" element={<BuscadorAvanzado />} />
+                <Route path="/search/:type/:name" element={<BuscadorAvanzado />} />
                 <Route path="/us" element={<AboutUs />} />
                 <Route path="/carta/:id" element={<CartaRepresentar />} />
                 <Route path="/comment/:id" element={<Comment className="bg-white"/>} />

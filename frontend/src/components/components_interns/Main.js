@@ -4,7 +4,6 @@ import CaruselRestaurant from "./CaruselRestaurant";
 import ListRestaurant from "./ListRestaurant";
 import Buscador from "./Buscador";
 import Loading from "./Loading";
-import Resultados from "./Resultados";
 import {Card} from "react-bootstrap";
 import city1 from "../../img/city1.webp"
 import city3 from "../../img/city2.webp"
@@ -24,7 +23,7 @@ class Main extends Component {
             bestCapitals: [],
             isLoading: false,
             error: null,
-            buscador: 0,
+            buscador: false,
             restaurantes:[],
             etiqueta: null,
             sitio: null,
@@ -49,52 +48,23 @@ class Main extends Component {
     }
 
     changeEtiqueta(e){
-        this.setState({buscador: 1});
-        if(e.target.value === "null"){
-            this.setState({etiqueta: null});
-        }else{
-            this.setState({etiqueta: e.target.value});
+        if(e.target.value !== "null"){
+            window.location.href = ("/search/etiquetas/"+e.target.value)
         }
     }
     changeSitio(e){
-        this.setState({buscador: 1});
-        if(e.target.value === "null"){
-            this.setState({sitio: null});
-        }else{
-            this.setState({sitio: e.target.value});
+        if(e.target.value !== "null"){
+            window.location.href = ("/search/sitio/"+e.target.value)
         }
     }
     changePrecio(e){
-        this.setState({buscador: 1});
-        if(e.target.value === "null"){
-            this.setState({precio: null});
-        }else{
-            this.setState({precio: e.target.value});
+        if(e.target.value !== "null"){
+            window.location.href = ("/search/precio/"+e.target.value)
         }
     }
-    filter(){
-        this.setState({buscador: 1});
-        var data = {
-            etiqueta: this.state.etiqueta,
-            lugar: this.state.sitio,
-            precio: this.state.precio
-        }
-
-        var ip = process.env.REACT_APP_API_URL;
-
-        axios({
-            method: 'post',
-            url: ip + '/filtrar',
-            data: data
-        })
-        .then((response) => {
-            console.log(response);
-            this.setState({restaurantes: response.data});
-        })
-        .catch((error) => {
-            console.log(error); 
-        });
-        
+    
+    filter() {
+        window.location.href = ("/search");
     }
 
     render() {
@@ -110,12 +80,11 @@ class Main extends Component {
         return (
             <section className={"font-main"}>
                 <div className={"d-md-block d-none"}>
-                    <Buscador changeEtiqueta={this.changeEtiqueta.bind(this)} 
+                    <Buscador changeEtiqueta={this.changeEtiqueta.bind(this)}
                     changeSitio={this.changeSitio.bind(this)}
                     changePrecio={this.changePrecio.bind(this)}
                     filter={this.filter.bind(this)}/>
                 </div>
-                {this.state.buscador === 0 &&
                 <div className={"d-flex flex-row justify-content-center w-100"}>
                     <div className={"d-flex flex-column main-width"}>
                         <CaruselRestaurant restaurants={BestRestaurants}/>
@@ -124,7 +93,7 @@ class Main extends Component {
                             <section className={"w-100 m-0 p-0 max-w-full"}>
                                 <div className={"row w-100 m-0"}>
                                     <article className={"col-lg-3 col-12 p-2"}>
-                                        <Link to={"/search?name=Manacor"} style={{ textDecoration: 'none' }}>
+                                        <Link to={"/search/sitio/Manacor"} style={{ textDecoration: 'none' }}>
                                             <Card className={"border-0"}>
                                                 <img className={'card-section-municipio w-100 round-card-top object-cover'} src={city1} alt={"Municipio"}/>
                                                 <section className={"round-card card-section-municipio background-TYPE-2 w-100 ps-4 pt-4"}>
@@ -135,7 +104,7 @@ class Main extends Component {
                                         </Link>
                                     </article>
                                     <article className={"col-lg-3 col-12 p-2"}>
-                                        <Link to={"/search?name=Palma"} style={{ textDecoration: 'none' }}>
+                                        <Link to={"/search/sitio/Palma"} style={{ textDecoration: 'none' }}>
                                             <Card className={"border-0"}>
                                                 <img className={'card-section-municipio w-100 round-card-top object-cover'} src={city2} alt={"Municipio"}/>
                                                 <section className={"round-card card-section-municipio background-TYPE-4 w-100 ps-4 pt-4"}>
@@ -146,7 +115,7 @@ class Main extends Component {
                                         </Link>
                                     </article>
                                     <article className={"col-lg-3 col-12 p-2"}>
-                                        <Link to={"/search?name=Inca"} style={{ textDecoration: 'none' }}>
+                                        <Link to={"/search/sitio/Inca"} style={{ textDecoration: 'none' }}>
                                             <Card className={"border-0"}>
                                                 <img className={'card-section-municipio w-100 round-card-top object-cover'} src={city3} alt={"Municipio"}/>
                                                 <section className={"round-card card-section-municipio background-TYPE-1 w-100 ps-4 pt-4"}>
@@ -157,7 +126,7 @@ class Main extends Component {
                                         </Link>
                                     </article>
                                     <article className={"col-lg-3 col-12 p-2"}>
-                                        <Link to={"/search?name=Arta"} style={{ textDecoration: 'none' }}>
+                                        <Link to={"/search/sitio/Pollença"} style={{ textDecoration: 'none' }}>
                                             <Card className={"border-0"}>
                                                 <img className={'card-section-municipio w-100 round-card-top object-cover'} src={city4} alt={"Municipio"}/>
                                                 <section className={"round-card card-section-municipio background-TYPE-3 w-100 ps-4 pt-4"}>
@@ -174,10 +143,7 @@ class Main extends Component {
                             </section>
                         </section>
                     </div>
-                </div>}
-                {this.state.buscador === 1 &&
-                    <Resultados restaurants={this.state.restaurantes}/>
-                }
+                </div>
             </section>
 
         )
