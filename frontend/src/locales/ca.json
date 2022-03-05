@@ -122,5 +122,13 @@
     "contact-manager": "Contactar amb el Gerent",
     "question-manager": "Com contactar amb el Gerent?",
     "copy-email": "Copiar correu",
-    "copied-email": "Correu copiat"
+    "copied-email": "Correu copiat",
+
+    "carusel-title": "¿No tens clar on anar?",
+    "carusel-button": "Visitar",
+    "list-municipality": "Municipis més cercats",
+    "search-municipality": "Cerca restaurants a",
+    "title-of-list-restaurants": "Descobreix Restaurants",
+    "best-restaurants": "Els Millors Restaurants",
+    "cheapest-restaurants": "Els Més Econòmics"
 }

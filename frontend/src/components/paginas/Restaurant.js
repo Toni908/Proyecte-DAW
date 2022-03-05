@@ -27,14 +27,14 @@ import "photoswipe/dist/default-skin/default-skin.css";
 import "./Restaurant.css";
 import "./Menu.css";
 
-export default (props) => (
-    <Restaurant
+const Restaurant = (props) => {
+    return <Restaurante
         {...props}
         params={useParams()}
     />
-);
+};
 
-class Restaurant extends Component {
+class Restaurante extends Component {
     _isMounted = false;
 
     constructor() {
@@ -289,3 +289,5 @@ function valoraciones(comments) {
         return 0;
     }
 }
+
+export default Restaurant
