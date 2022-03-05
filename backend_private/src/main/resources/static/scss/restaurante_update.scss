@@ -1,12 +1,10 @@
 .img-block input {
   display: none;
 }
-
 .img-block input:checked + label {
   opacity: 1;
   box-shadow: 0 0 0 3px red;
 }
-
 .img-block input:checked + label img {
   filter: none;
 }
@@ -33,47 +31,37 @@
   width: 70%;
   color: #808080;
 }
-
 .length {
   width: 70%;
 }
-
 .paraf_form {
   font-size: small;
   color: #808080;
 }
-
 .box-container {
   border-radius: 15px;
 }
-
 .QuickSand {
-  font-family: "Quicksand", sans-serif;
+  font-family: 'Quicksand', sans-serif;
 }
-
 .image-contain-length {
   object-fit: contain;
   height: 500px;
 }
-
 .img-size-sm {
   height: 120px;
 }
-
 .googleMap {
   z-index: 0;
   height: 300px;
 }
-
 .width-form {
   width: 50%;
 }
-
 @media only screen and (max-width: 800px) {
   .length {
     width: 90%;
   }
-
   .width-form {
     width: 100%;
   }

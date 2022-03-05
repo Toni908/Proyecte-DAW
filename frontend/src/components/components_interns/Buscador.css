@@ -1,24 +1,25 @@
 .inputBuscador{
-    background-color: lightgray;
-    padding-right: 50px;
-    border-radius: 6;
+    background-color: #D8E6F2 !important;
+    padding-right: 50px !important;
+    color: black !important;
+    border-radius: 6 !important;
 }
 
 .buscarTitulo{
-    color: #ADC5d9;
+    color: #ADC5d9 !important;
 }
 
 .buscarletra{
-    font-size: 18px;
-    font-weight: 400;
-    color: white;
-    background-color: #ADC5d9;
-    border-width: 2px;
-    border-color: transparent;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
-    border-bottom-left-radius: 5px;
+    font-size: 18px !important;
+    font-weight: 400 !important; 
+    color: white !important;
+    background-color: #ADC5d9 !important;
+    border-width: 2px !important;
+    border-color: transparent !important;
+    border-top-left-radius: 5px !important;
+    border-top-right-radius: 5px !important;
+    border-bottom-right-radius: 5px !important;
+    border-bottom-left-radius: 5px !important;
 }
 
 .buscarletra:hover{
@@ -28,10 +29,11 @@
 }
 
 .inputBuscador{
-    border-width: 2px;
-    border-color: rgb(168,169,236);
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
-    border-bottom-left-radius: 10px;
+    border-width: 2px !important;
+    border-color: rgb(168,169,236) !important;
+    ;
+    border-top-left-radius: 10px !important;
+    border-top-right-radius: 10px !important;
+    border-bottom-right-radius: 10px !important;
+    border-bottom-left-radius: 10px !important;
 }

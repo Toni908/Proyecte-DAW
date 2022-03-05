@@ -29,6 +29,8 @@ import static cat.iesmanacor.backend_private.componentes.User.getUser;
 @RequestMapping("/")
 public class CardController {
 
+    public static String urlw;
+
     @Autowired
     private AlergenoService alergenoService;
     @Autowired
@@ -54,7 +56,7 @@ public class CardController {
             return "redirect:/error/401";
         }
 
-        String qr = "https://www.trobalo.me/carta/" + id;
+        String qr = "https://"+ urlw +"/carta/" + id;
         // String path = "./src/main/resources/static/imgqr/"+id+".png";
 
         try {

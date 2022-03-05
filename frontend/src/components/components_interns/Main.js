@@ -49,7 +49,6 @@ class Main extends Component {
     }
 
     changeEtiqueta(e){
-        this.setState({buscador: 1});
         if(e.target.value === "null"){
             this.setState({etiqueta: null});
         }else{
@@ -57,7 +56,6 @@ class Main extends Component {
         }
     }
     changeSitio(e){
-        this.setState({buscador: 1});
         if(e.target.value === "null"){
             this.setState({sitio: null});
         }else{
@@ -65,7 +63,6 @@ class Main extends Component {
         }
     }
     changePrecio(e){
-        this.setState({buscador: 1});
         if(e.target.value === "null"){
             this.setState({precio: null});
         }else{
