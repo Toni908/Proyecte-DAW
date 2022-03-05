@@ -18225,28 +18225,6 @@ $color-seach: black;
   font-weight: 400;
 }
 
-.principal {
-  object-fit: cover;
-  z-index: -1;
-}
-
-.title_principal {
-  font-family: "Source Sans Pro", sans-serif;
-  font-size: xxx-large;
-}
-
-.text-shadow-white {
-  text-shadow: 2px 0 0 #fff, -2px 0 0 #fff, 0 2px 0 #fff, 0 -2px 0 #fff, 1px 1px #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;
-}
-
-.gradient-black {
-  background: linear-gradient(0deg, white 50%, black 50%);
-}
-
-.paraf_form {
-  font-family: "Outfit", sans-serif;
-}
-
 .object-cover {
   object-fit: cover;
 }

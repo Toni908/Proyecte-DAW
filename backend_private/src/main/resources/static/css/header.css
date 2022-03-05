@@ -1,0 +1,143 @@
+/* BEFORE
+$color-primary: #1F1F1F;
+$color-secondary-1: white;
+$color-secondary-2: #535BF8;
+$color-hover-1: grey;
+$color-hover-2: #EBEBEB;
+$color-seach: black;
+ */
+#header2 {
+  height: 110px;
+}
+
+.size-header1 {
+  font-family: "Raleway", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+#header1 {
+  background: #1F1F1F;
+  height: 40px;
+}
+
+.margin-nav-header1 {
+  margin-right: 15%;
+}
+
+.border-e-grey {
+  border-right: solid grey 2px;
+}
+
+@media only screen and (max-width: 600px) {
+  .size-header1 {
+    font-size: 10px;
+  }
+}
+@media only screen and (max-width: 990px) {
+  .margin-nav-header1 {
+    margin-right: 0;
+  }
+
+  .border-e-grey {
+    border: 0;
+  }
+}
+.nav-header-text-1 {
+  text-decoration-line: none;
+  color: black;
+}
+.nav-header-text-1:hover {
+  color: grey;
+}
+.nav-header-text-2 {
+  text-decoration-line: none;
+  color: white;
+}
+.nav-header-text-2:hover {
+  color: grey;
+}
+.nav-header-bg-1 {
+  background: black;
+}
+.nav-header-bg-2 {
+  background: white;
+}
+
+.navbar-toggler-t1 {
+  padding-left: 11px;
+  padding-right: 11px;
+  width: 50px;
+  height: 50px;
+  background-color: white;
+  border: black solid 2px;
+}
+.navbar-toggler-t1 .line {
+  width: 100%;
+  float: left;
+  height: 2px;
+  margin-bottom: 5px;
+  background-color: black;
+}
+.navbar-toggler-t2 {
+  padding-left: 11px;
+  padding-right: 11px;
+  width: 50px;
+  height: 50px;
+  background-color: black;
+  border-color: white;
+}
+.navbar-toggler-t2 .line {
+  width: 100%;
+  float: left;
+  height: 2px;
+  margin-bottom: 5px;
+  background-color: white;
+}
+
+#buscador {
+  width: 50%;
+}
+
+.background-search {
+  background: white;
+}
+
+@media only screen and (max-width: 1500px) {
+  #buscador {
+    width: 75%;
+  }
+}
+.border-grey-100 {
+  border: #FFFFFF;
+}
+
+.button-search-s1 {
+  background: white;
+}
+
+.bg-items:hover {
+  background: #EBEBEB;
+  border-radius: 50rem !important;
+}
+
+.container_search {
+  padding: 14px 24px;
+  white-space: nowrap;
+}
+
+.title_search {
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  padding-bottom: 2px;
+  color: #1F1F1F;
+}
+
+.description_search {
+  font-size: 14px;
+  line-height: 18px;
+  color: #717171;
+  font-weight: 400;
+}

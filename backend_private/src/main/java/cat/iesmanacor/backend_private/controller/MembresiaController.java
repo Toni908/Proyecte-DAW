@@ -18,12 +18,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.request.WebRequest;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.math.BigInteger;
 import java.nio.charset.Charset;
 import java.sql.Date;
-import java.util.Calendar;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 
 import static cat.iesmanacor.backend_private.componentes.User.getUser;
 
@@ -68,7 +67,9 @@ public class MembresiaController {
         Membresia membresia = new Membresia();
         Factura factura = new Factura();
 
-        factura.setNum_factura(randomCode()+id);
+        String numFactura = randomCode()+id;
+
+        factura.setNum_factura(numFactura);
         factura.setDireccion(request.getParameter("dirrecion"));
         int duracion = Integer.parseInt(request.getParameter("duracion"));
         String importe;
@@ -111,7 +112,11 @@ public class MembresiaController {
         restaurant.get().setMembresia(membresia);
         restaurantService.saveRestaurant(restaurant.get());
 
-        return "redirect:/restaurant/update/" + id;
+        HttpSession session = requesthttp.getSession(false);
+        session.setAttribute("membresia", restaurant.get());
+
+
+        return "redirect:/redsys/enviar?price=" + importe + "00&fac="+numFactura;
     }
 
     public String randomCode() {

@@ -1,91 +1,94 @@
 .ui-datepicker {
-    background: #389DA6 -webkit-linear-gradient(top,white 0%, ghostwhite 100%);
-    font-size:11px;
-    padding:10px;
-    width: 330px;
-    height: 300px;
+  background: #389DA6 -webkit-linear-gradient(top, white 0%, ghostwhite 100%);
+  font-size: 11px;
+  padding: 10px;
+  width: 330px;
+  height: 300px;
 }
+
 @media only screen and (max-width: 1105px) {
-    .ui-datepicker {
-        width: 100%;
-        height: 300px;
-    }
+  .ui-datepicker {
+    width: 100%;
+    height: 300px;
+  }
 }
 .ui-datepicker {
-    padding: 0;
-    border: 0;
-    font-size: large;
+  padding: 0;
+  border: 0;
+  font-size: large;
 }
+
 .ui-datepicker table td {
-    text-align:center;
+  text-align: center;
 }
 
 .ui-datepicker a {
-    cursor:pointer;
-    text-decoration:none;
+  cursor: pointer;
+  text-decoration: none;
 }
 
 .ui-datepicker-next {
-    float:right;
+  float: right;
 }
 
 .ui-datepicker-title {
-    text-align: center;
-    font-weight:bold;
+  text-align: center;
+  font-weight: bold;
 }
 
-.ui-widget.ui-widget-content{
-    border: 2px solid #0C7078;
-    height: auto;
+.ui-widget.ui-widget-content {
+  border: 2px solid #0C7078;
+  height: auto;
 }
 
 .ui-datepicker th {
-    /*padding: .7em .3em;*/
-    text-align: center;
-    font-weight: bold;
-    border: 0;
-    color: white;
-    background-color: #389DA6;
+  /*padding: .7em .3em;*/
+  text-align: center;
+  font-weight: bold;
+  border: 0;
+  color: white;
+  background-color: #389DA6;
 }
 
 .ui-state-default,
 .ui-widget-content .ui-state-default,
-.ui-widget-header .ui-state-default{
-    text-align: center;
-    background: white;
-    font-weight: normal;
-    color: black;
-    padding: 10px;
+.ui-widget-header .ui-state-default {
+  text-align: center;
+  background: white;
+  font-weight: normal;
+  color: black;
+  padding: 10px;
 }
 
-a.ui-state-default:hover{
-    background: #45979E;
-    font-weight: bold;
-    color: black;
+a.ui-state-default:hover {
+  background: #45979E;
+  font-weight: bold;
+  color: black;
 }
 
 .ui-state-active, .ui-widget-content .ui-state-active,
 .ui-widget-header .ui-state-active {
-    background: #33777C;
-    font-weight: bold;
-    color: black;
+  background: #33777C;
+  font-weight: bold;
+  color: black;
 }
+
 .ui-state-active, .ui-widget-content .ui-state-active {
-    border: 0;
+  border: 0;
 }
 
 .ui-state-highlight,
 .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight {
-    border: 1px solid #dad55e;
-    background: #fffa90;
-    color: black;
+  border: 1px solid #dad55e;
+  background: #fffa90;
+  color: black;
 }
 
 .ui-widget-header {
-    font-size: 20px;
-    border: 0;
-    border-radius: 0;
-    background: #056E77;
-    color: white;
-    font-weight: bold;
+  font-size: 20px;
+  border: 0;
+  border-radius: 0;
+  background: #056E77;
+  color: white;
+  font-weight: bold;
 }
