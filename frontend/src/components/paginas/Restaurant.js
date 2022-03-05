@@ -10,7 +10,7 @@ import FullCalendarReservas from "../components_interns/FullCalendarReservas";
 import {useParams} from "react-router";
 
 import icon_person from "../../img/icon_person.webp";
-import schedule from "../components_interns/utilities/schedule";
+import {getMonthString} from "../components_interns/utilities/schedule";
 import GalleryRestaurant from "../components_interns/GalleryRestaurant";
 import Loading from "../components_interns/Loading";
 import Menu from "./Menu";
@@ -276,7 +276,7 @@ class Restaurante extends Component {
 
 function formatDate(fecha) {
     let date = new Date(fecha);
-    return <div>{schedule.getMonthString(date.getMonth())} del {date.getFullYear()}</div>
+    return <div>{getMonthString(date.getMonth())} del {date.getFullYear()}</div>
 }
 
 function valoraciones(comments) {

@@ -1,23 +1,8 @@
 import React from "react";
 import Translate from "../../../locales/Translate";
 
-class schedule {
-    static isTodayOpen(horario) {
-        return isTodayOpen(horario);
-    }
-    static textHeader(horario) {
-        return textHeader(horario);
-    }
 
-    static getDayNumber(number) {
-        return getDayNumber(number);
-    }
-
-    static getMonthString(month) {
-        return getMonthString(month);
-    }
-}
-function isTodayOpen(horario) {
+export function isTodayOpen(horario) {
     // Lunes a domingo
     var week = [false, false, false, false, false, false, false]
     let days = [];
@@ -36,7 +21,7 @@ function isTodayOpen(horario) {
     )
 }
 
-function textHeader(horario) {
+export function textHeader(horario) {
     let today = new Date();
     if (!Array.isArray(horario)) {
         horario = Object.values(horario)
@@ -211,7 +196,7 @@ function traductionsDayBBDD(day) {
     }
 }
 
-function getMonthString(month) {
+export function getMonthString(month) {
     switch (month) {
         case 0:
             return <Translate string={"january"}/>;
@@ -242,7 +227,7 @@ function getMonthString(month) {
     }
 }
 
-function getDayNumber(number) {
+export function getDayNumber(number) {
     // DAY BBDD NO IMPORTA TRADUCIR
     switch (number) {
         case 'Lunes':
@@ -437,5 +422,3 @@ function addTimeMore(actual, week) {
 function fixedDate(date) {
     return date.toString().slice(0, 5);
 }
-
-export default schedule

@@ -5,7 +5,7 @@ import axios from "axios";
 
 import SelectHorario from "./SelectHorario";
 
-import bookings from "./utilities/bookings.js";
+import {formatDateEN,sendEmail,canClientReservar,formatDateES,filterArrayFromDate,isClosed, getHoursDate} from "./utilities/bookings.js";
 import Translate from "../../locales/Translate";
 
 function ModalFullCalendar(props) {
@@ -30,7 +30,7 @@ function ModalFullCalendar(props) {
         telefono: data.telefono,
         nombre: data.nombre,
         lenguaje: data.lenguaje,
-        fecha: bookings.formatDateEN(props.date,props.time),
+        fecha: formatDateEN(props.date,props.time),
         id_restaurante: data.id_restaurante
     })
         .then((result) => {
@@ -38,7 +38,7 @@ function ModalFullCalendar(props) {
                 handleShow(false);
                 document.getElementById("success").hidden = false;
                 setTimeout(function (){document.getElementById("success").hidden = true;},2000);
-                // bookings.sendEmail(result.data["correo"],"https://www."+process.env.REACT_APP_URL+"/comment/"+result.data["id"])
+                sendEmail(result.data["correo"],"https://www."+process.env.REACT_APP_URL+"/comment/"+result.data["id"])
                 setTimeout(function (){window.location.reload()},2100);
             } else {
                 handleShow(false);
@@ -60,98 +60,98 @@ function ModalFullCalendar(props) {
             >
                 <Modal.Header closeButton>
                     <Modal.Title id="modalReserva" className={"w-100"}>
-                        <div className={"text-center"}><Translate string={"welcome-to"}/>{props.restaurant.nombre}!</div>
+                        <div className={"text-center"}><Translate string={"welcome-to"}/> {props.restaurant.nombre}!</div>
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     {new Date(props.date) > props.lessResult &&
                     <>
-                        {props.time==="" && bookings.canClientReservar(props.date,props.reservas,props.horario,props.aforo) && new Date(props.periodos[0].fecha_fin) >= props.date &&
+                        {props.time==="" && canClientReservar(props.date,props.reservas,props.horario,props.aforo) && new Date(props.periodos[0].fecha_fin) >= props.date &&
                         <>
                             <h5 className={"w-100 text-center pb-1"}><Translate string={"choose-hour"}/></h5>
                             <div className={"d-flex flex-row justify-content-center align-self-center pb-3"}>
-                                <div className={"pt-2 pe-1"}><Translate string={"booking-at"}/> {bookings.formatDateES(props.date)} -</div>
+                                <div className={"pt-2 pe-1"}><Translate string={"booking-at"}/> {formatDateES(props.date)} -</div>
                                 <SelectHorario date={props.date} horario={props.horario} onChange={handleChange}/>
                             </div>
                         </>
                         }
-                        {bookings.filterArrayFromDate(props.reservas, props.date, props.time) >= props.aforo &&
+                        {filterArrayFromDate(props.reservas, props.date, props.time) >= props.aforo &&
                         <>
                             <h5 className={"w-100 text-center pb-1"}><Translate string={"choose-hour"}/></h5>
                             <div className={"d-flex flex-row justify-content-center align-self-center pb-3"}>
-                                <div className={"pt-2 pe-1"}><Translate string={"booking-at"}/> {bookings.formatDateES(props.date)} -</div>
+                                <div className={"pt-2 pe-1"}><Translate string={"booking-at"}/> {formatDateES(props.date)} -</div>
                                 <SelectHorario date={props.date} horario={props.horario} onChange={handleChange}/>
                             </div>
                         </>}
 
-                        {!bookings.canClientReservar(props.date, props.reservas,props.horario,props.aforo) && !bookings.isClosed(props.date,props.horario) &&
+                        {!canClientReservar(props.date, props.reservas,props.horario,props.aforo) && !isClosed(props.date,props.horario) &&
                         <div className={"text-center pb-3"}>
                             <h5><Translate string={"no-available-booking"}/></h5>
                         </div>}
-                        {bookings.isClosed(props.date,props.horario) &&
+                        {isClosed(props.date,props.horario) &&
                         <div className={"text-center pb-3"}>
                             <h5><Translate string={"no-available-booking"}/></h5>
                         </div>}
 
 
-                        {bookings.filterArrayFromDate(props.reservas, props.date, props.time) >= props.aforo &&
+                        {filterArrayFromDate(props.reservas, props.date, props.time) >= props.aforo &&
                         <>
                             <div className={"fw-bold"}>
                                 <i className="bi bi-info-circle pe-2 text-danger"/>
-                                <Translate string={"capacity-max-booking"}/> {bookings.formatDateES(props.date)} {bookings.getHoursDate(props.date)}
+                                <Translate string={"capacity-max-booking"}/> {formatDateES(props.date)} {getHoursDate(props.date)}
                             </div>
                         </>
                         }
-                        {bookings.filterArrayFromDate(props.reservas, props.date, props.time) < props.aforo &&
+                        {filterArrayFromDate(props.reservas, props.date, props.time) < props.aforo &&
                         <>
                             {new Date(props.periodos[0].fecha_fin)>props.date &&
                             <>
-                                {bookings.isClosed(props.date, props.horario) &&
+                                {isClosed(props.date, props.horario) &&
                                 <>
                                     <div className={"fw-bold"}>
                                         <i className="bi bi-info-circle pe-2 text-danger"/>
                                         <Translate string={"closed-booking"}/>
                                     </div>
                                 </>}
-                                {!bookings.isClosed(props.date, props.horario) &&
+                                {!isClosed(props.date, props.horario) &&
                                 <>
-                                    {!bookings.canClientReservar(props.date, props.reservas,props.horario,props.aforo) &&
+                                    {!canClientReservar(props.date, props.reservas,props.horario,props.aforo) &&
                                     <>
                                         <div className={"fw-bold"}>
                                             <i className="bi bi-info-circle pe-2 text-danger"/>
                                             <Translate string={"max-capacity-day-booking"}/>
-                                            {bookings.formatDateES(props.date)}
+                                             {formatDateES(props.date)}
                                         </div>
                                     </>
                                     }
-                                    {bookings.canClientReservar(props.date, props.reservas,props.horario,props.aforo) &&
+                                    {canClientReservar(props.date, props.reservas,props.horario,props.aforo) &&
                                     <>
                                         {props.time==="" &&
                                         <>
                                             <div className={"px-3 text-secondary font-size-simple"}>
                                                 <i className="bi bi-info-circle pe-2 text-warning"/>
-                                                <Translate string={"select-hour-booking"}/>
+                                                 <Translate string={"select-hour-booking"}/>
                                             </div>
                                         </>}
                                         {props.time!=="" &&
                                         <>
                                             <h5 className={"w-100 text-center pb-1"}><Translate string={"make-booking"}/></h5>
                                             <div className={"d-flex flex-row justify-content-center align-self-center pb-3"}>
-                                                <div className={"pt-2 pe-1"}><Translate string={"make-booking-on"}/> {bookings.formatDateES(props.date)} -</div>
+                                                <div className={"pt-2 pe-1"}><Translate string={"make-booking-on"}/> {formatDateES(props.date)} -</div>
                                                 <SelectHorario date={props.date} horario={props.horario} onChange={handleChange}/>
                                             </div>
                                             <div className={"px-3 text-secondary font-size-simple"}>
                                                 <i className="bi bi-info-circle pe-2 text-warning"/>
-                                                <Translate string={"capacity-rest"}/>{props.time.split(":")[0]}h <Translate string={"is"}/> {props.aforo-bookings.filterArrayFromDate(props.reservas, props.date,props.time)}
+                                                <Translate string={"capacity-rest"}/> {props.time.split(":")[0]}h <Translate string={"is"}/> {props.aforo-filterArrayFromDate(props.reservas, props.date,props.time)}
                                             </div>
                                             <form onSubmit={handleSubmit(onSubmit)}>
                                                 <div className={"row"}>
                                                     <div className={"col-lg-6 col-12 py-2"}>
                                                         <div className={""}><Translate string={"form-booking-person"}/></div>
                                                         <label className={"w-100"}>
-                                                            <input className={"w-100 form-input"} type="number" {...register("personas", { min: 1, max: props.aforo-bookings.filterArrayFromDate(props.reservas, props.date, props.time), required: true})} />
+                                                            <input className={"w-100 form-input"} type="number" {...register("personas", { min: 1, max: props.aforo-filterArrayFromDate(props.reservas, props.date, props.time), required: true})} />
                                                         </label>
-                                                        {errors.personas && <span className={"text-danger"}><Translate string={"form-booking-person-error"}/>{props.aforo-bookings.filterArrayFromDate(props.reservas, props.date,props.time)}</span>}
+                                                        {errors.personas && <span className={"text-danger"}><Translate string={"form-booking-person-error"}/>{props.aforo-filterArrayFromDate(props.reservas, props.date,props.time)}</span>}
                                                     </div>
                                                     <div className={"col-lg-6 col-12 py-2"}>
                                                         <div className={""}><Translate string={"form-booking-email"}/></div>
@@ -207,11 +207,11 @@ function ModalFullCalendar(props) {
                         <br/>
                         <div className={"fw-bold pb-3"}>
                             <i className="bi bi-info-circle pe-2 fw-bold text-danger"/>
-                            <Translate string={"booking-no-available-on"}/>{bookings.formatDateES(props.date)}
+                            <Translate string={"booking-no-available-on"}/> {formatDateES(props.date)}
                         </div>
                         <div className={"px-3 text-secondary font-size-simple"}>
                             <i className="bi bi-info-circle pe-2 fw-bold text-warning"/>
-                            <Translate string={"booking-only-accepts-bookings-after"}/>{bookings.formatDateES(props.result)}
+                            <Translate string={"booking-only-accepts-bookings-after"}/> {formatDateES(props.result)}
                         </div>
                     </div>}
                 </Modal.Body>
