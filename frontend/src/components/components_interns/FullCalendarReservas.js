@@ -129,7 +129,7 @@ function FullCalendarReservas(props) {
                 />
                 <div id={"success"} className={"message-success"} hidden={true}><Translate string={"message-success"}/></div>
                 <div id={"error"} className={"message-error"} hidden={true}><Translate string={"message-error"}/></div>
-                <ModalFullCalendar restaurant={restaurant} date={date} time={time} periodos={periodos} lessResult={lessResult} reservas={reservas} horario={horario} aforo={aforo} show={show} onShow={handleShow} onDate={handleDate} onTime={handleTime}/>
+                <ModalFullCalendar restaurant={restaurant} date={date} time={time} periodos={periodos} lessResult={lessResult} result={result} reservas={reservas} horario={horario} aforo={aforo} show={show} onShow={handleShow} onDate={handleDate} onTime={handleTime}/>
             </>
         )
     } else {
@@ -175,7 +175,7 @@ function FullCalendarReservas(props) {
                 />
                 <div id={"success"} className={"message-success"} hidden={true}><Translate string={"message-success"}/></div>
                 <div id={"error"} className={"message-error"} hidden={true}><Translate string={"message-error"}/></div>
-                <ModalFullCalendar restaurant={restaurant} date={date} time={time} periodos={periodos} lessResult={lessResult} reservas={reservas} horario={horario} aforo={aforo} show={show} onShow={handleShow} onDate={handleDate} onTime={handleTime}/>
+                <ModalFullCalendar restaurant={restaurant} date={date} time={time} periodos={periodos} lessResult={lessResult} result={result} reservas={reservas} horario={horario} aforo={aforo} show={show} onShow={handleShow} onDate={handleDate} onTime={handleTime}/>
             </>
         )
     }

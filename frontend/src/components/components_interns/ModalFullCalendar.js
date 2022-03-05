@@ -7,6 +7,7 @@ import SelectHorario from "./SelectHorario";
 
 import {formatDateEN,sendEmail,canClientReservar,formatDateES,filterArrayFromDate,isClosed, getHoursDate} from "./utilities/bookings.js";
 import Translate from "../../locales/Translate";
+import reservas_anticipacion from "./utilities/reservas_anticipacion";
 
 function ModalFullCalendar(props) {
 
@@ -119,8 +120,7 @@ function ModalFullCalendar(props) {
                                     <>
                                         <div className={"fw-bold"}>
                                             <i className="bi bi-info-circle pe-2 text-danger"/>
-                                            <Translate string={"max-capacity-day-booking"}/>
-                                             {formatDateES(props.date)}
+                                            <Translate string={"max-capacity-day-booking"}/> {formatDateES(props.date)}
                                         </div>
                                     </>
                                     }
@@ -129,8 +129,7 @@ function ModalFullCalendar(props) {
                                         {props.time==="" &&
                                         <>
                                             <div className={"px-3 text-secondary font-size-simple"}>
-                                                <i className="bi bi-info-circle pe-2 text-warning"/>
-                                                 <Translate string={"select-hour-booking"}/>
+                                                <i className="bi bi-info-circle pe-2 text-warning"/> <Translate string={"select-hour-booking"}/>
                                             </div>
                                         </>}
                                         {props.time!=="" &&

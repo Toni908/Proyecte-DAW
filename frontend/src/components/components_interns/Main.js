@@ -95,7 +95,7 @@ class Main extends Component {
                         <section className={"w-100 pt-4"}>
                             <section className={"w-100 m-0 p-0 max-w-full"}>
                                 <div className={"row w-100 m-0"}>
-                                    <article className={"col-lg-3 col-12 p-2"}>
+                                    <article className={"col-lg-3 col-12 p-2 px-lg-2 px-4"}>
                                         <Link to={"/search/sitio/Manacor"} style={{ textDecoration: 'none' }}>
                                             <Card className={"border-0"}>
                                                 <img className={'card-section-municipio w-100 round-card-top object-cover'} src={city1} alt={"Municipio"}/>
@@ -106,7 +106,7 @@ class Main extends Component {
                                             </Card>
                                         </Link>
                                     </article>
-                                    <article className={"col-lg-3 col-12 p-2"}>
+                                    <article className={"col-lg-3 col-12 p-2 px-lg-2 px-4"}>
                                         <Link to={"/search/sitio/Palma"} style={{ textDecoration: 'none' }}>
                                             <Card className={"border-0"}>
                                                 <img className={'card-section-municipio w-100 round-card-top object-cover'} src={city2} alt={"Municipio"}/>
@@ -117,7 +117,7 @@ class Main extends Component {
                                             </Card>
                                         </Link>
                                     </article>
-                                    <article className={"col-lg-3 col-12 p-2"}>
+                                    <article className={"col-lg-3 col-12 p-2 px-lg-2 px-4"}>
                                         <Link to={"/search/sitio/Inca"} style={{ textDecoration: 'none' }}>
                                             <Card className={"border-0"}>
                                                 <img className={'card-section-municipio w-100 round-card-top object-cover'} src={city3} alt={"Municipio"}/>
@@ -128,7 +128,7 @@ class Main extends Component {
                                             </Card>
                                         </Link>
                                     </article>
-                                    <article className={"col-lg-3 col-12 p-2"}>
+                                    <article className={"col-lg-3 col-12 p-2 px-lg-2 px-4"}>
                                         <Link to={"/search/sitio/Pollença"} style={{ textDecoration: 'none' }}>
                                             <Card className={"border-0"}>
                                                 <img className={'card-section-municipio w-100 round-card-top object-cover'} src={city4} alt={"Municipio"}/>

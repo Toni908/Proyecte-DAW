@@ -176,8 +176,7 @@ class Restaurante extends Component {
                             <div className={"text-center pb-3"}>
                                 <Translate string={"bookings-info"}/>
                                 <br/>
-                                <Translate string={"bookings-info-2"}/>
-                                {reservas_dias}
+                                <Translate string={"bookings-info-2"}/> {reservas_dias}
                             </div>
                             {restaurant.dies_anticipacion_reservas !==undefined && restaurant.aforo !==undefined && restaurant.id_restaurante !==undefined && <FullCalendarReservas reservas={reservas} dia_minimo={restaurant.dies_anticipacion_reservas} aforo={restaurant.aforo} periodo={periodo} horario={horario} restaurant={restaurant}/>}
                         </section>
