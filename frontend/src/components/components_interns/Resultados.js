@@ -28,14 +28,13 @@ class Resultados extends Component {
             <section>
                 <div className="container">
                     <div className='row'>
-                        {restaurants!==undefined &&
                         <div className="d-flex flex-row flex-wrap">
                             {restaurants.map(function(item, key) {
                                 return (
                                     <CardRestaurant className={"col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3 border-0 mb-2 px-2"} key={key} restaurant={item} localidad={item.localidad}/>
                                 )
                             })}
-                        </div>}
+                        </div>
                     </div>
                 </div>
             </section>
