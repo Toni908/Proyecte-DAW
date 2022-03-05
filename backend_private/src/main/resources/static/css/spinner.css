@@ -1,8 +1,10 @@
 .spinner {
-    display: none;top: 30%; left: 0;
+  display: none;
+  top: 30%;
+  left: 0;
 }
 
 .spinner-lg {
-    width: 6em;
-    height: 6em
+  width: 6em;
+  height: 6em;
 }

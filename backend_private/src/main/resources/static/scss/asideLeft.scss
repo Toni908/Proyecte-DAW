@@ -1,11 +1,11 @@
-@import url("https://fonts.googleapis.com/css2?family=Quicksand&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
+
 .float-info {
   margin-top: 20px;
   position: fixed;
   left: 0;
   top: 150px;
 }
-
 .body-info {
   background-color: white;
   width: 75%;
@@ -15,12 +15,10 @@
 .max-content {
   height: 60vh;
 }
-
 @media only screen and (max-width: 1105px) {
   .float-info {
     display: none;
   }
-
   .body-info {
     width: 100%;
   }
@@ -34,7 +32,6 @@
   align-items: center;
   gap: 20px;
 }
-
 .select-info:hover {
   background-color: lightgrey;
   border-end-end-radius: 20px;

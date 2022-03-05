@@ -11,7 +11,7 @@ function defaultTask(cb) {
 }
 
 function buildStyles() {
-    return gulp.src('./src/main/resources/static/scss/custom.scss')
+    return gulp.src('./src/main/resources/static/scss/*.scss')
         .pipe(sass().on('error', sass.logError))
         .pipe(gulp.dest('./src/main/resources/static/css'));
 }

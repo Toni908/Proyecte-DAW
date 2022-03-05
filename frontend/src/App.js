@@ -50,7 +50,7 @@ class App extends Component {
                 <Route path="/comment/:id" element={<Comment className="bg-white"/>} />
                 <Route path="/reserva/:id" element={<AboutUs />} />
                 <Route path="/restaurant/:name" element={<Restaurant />} />
-                <Route path="/email" element={<Email />} />
+
               </Routes>
             </div>
           

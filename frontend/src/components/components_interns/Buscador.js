@@ -70,7 +70,7 @@ class Buscador extends Component {
       }
 
       return (
-        <div className="mb-3">
+        <div className="mb-3 prueba">
             <div className='d-none'>
                 <span id="et"><Translate string={'etiquetas'}/></span>
                 <span id="lu"><Translate string={'lugar'}/></span>
@@ -78,17 +78,25 @@ class Buscador extends Component {
             </div>
             <h1 className="text-center buscarTitulo"> <Translate string={'buscar'}/></h1>
             <div className="text-center mt-4">
-                <div className="d-flex w-50 justify-content-center mx-auto">
-                    <select name="labels" className="form-select mx-4 inputBuscador w-auto" aria-label="Default select example" onChange={this.props.changeEtiqueta}>
+                <div className="container">
+                <div className='row'>
+                <div className="d-flex w-auto justify-content-center mx-auto">
+                <div className="container">
+                <div className='row'>
+                <div className="d-flex flex-row flex-wrap">
+                    <div className='col-12 col-sm-12 col-md-4 p-2'>
+                    <select name="labels" className="form-select inputBuscador w-80" aria-label="Default select example" onChange={this.props.changeEtiqueta}>
                         <option id="oet" value="null" defaultValue></option>
                     {etiquetas.map(elemento=>(
-                            <option key={elemento.id_etiqueta} value={elemento.nombre}>{elemento.nombre}</option>
+                            <option className="prueba" key={elemento.id_etiqueta} value={elemento.nombre}>{elemento.nombre}</option>
                         )
 
                         )}
                     </select>
+                    </div>
 
-                    <select name="municipality" className="form-select mx-4 inputBuscador w-auto" aria-label="Default select example" onChange={this.props.changeSitio}>
+                    <div className='col-12 col-sm-12 col-md-4 p-2'>
+                    <select name="municipality" className="form-select inputBuscador w-80" aria-label="Default select example" onChange={this.props.changeSitio}>
                         <option id="olu" value="null" defaultValue></option>
                         {municipios.map(elemento=>(
                             <option key={elemento.nombre_municipio} value={elemento.nombre_municipio}>{elemento.nombre_municipio}</option>
@@ -96,18 +104,27 @@ class Buscador extends Component {
 
                         )}
                     </select>
+                    </div>
 
-                    <select name="price" className="form-select mx-4 inputBuscador w-auto" aria-label="Default select example" onChange={this.props.changePrecio}>
+                    <div className='col-12 col-sm-12 col-md-4 p-2'>
+                    <select name="price" className="form-select inputBuscador w-80" aria-label="Default select example" onChange={this.props.changePrecio}>
                         <option  id="opre" value="null" defaultValue></option>
-                        <option value="1">$</option>
-                        <option value="2">$$</option>
-                        <option value="3">$$$</option>
+                        <option value="1">0€ - 15€</option>
+                        <option value="2">15€ - 60€</option>
+                        <option value="3">60€+</option>
                     </select>
+                    </div>
+                    </div>
+                    </div>
 
                 </div>
-                    <button className="text-center py-1 px-3 mt-4 buscarletra" onClick={this.props.filter}> Buscar </button>
+                </div>
+                </div>
+                    </div>
+                    <button className="text-center py-1 px-3 mt-4 w-auto buscarletra" onClick={this.props.filter}> Buscar </button>
             </div>
-        </div>
+            </div>
+            
     );
   }
 }
