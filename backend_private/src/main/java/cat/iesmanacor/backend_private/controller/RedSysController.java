@@ -4,7 +4,6 @@ import cat.iesmanacor.backend_private.entities.Factura;
 import cat.iesmanacor.backend_private.entities.Membresia;
 import cat.iesmanacor.backend_private.entities.Restaurant;
 import cat.iesmanacor.backend_private.services.FacturaService;
-import cat.iesmanacor.backend_private.services.MembresiaService;
 import cat.iesmanacor.backend_private.services.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
