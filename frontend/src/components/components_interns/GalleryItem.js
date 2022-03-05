@@ -15,7 +15,7 @@ class GalleryItem extends Component {
                              ref={ref}
                              onClick={open}
                              src={process.env.REACT_APP_API_URL+"/image/"+this.props.id_restaurante+"/"+this.props.img.url}
-                             alt={"is a item"}
+                             alt={"restaurant photo"}
                         />
                     )}
                 </Item>

@@ -1,40 +1,11 @@
-import {Component} from "react";
 import Select from 'react-select'
 import schedule from "./utilities/schedule";
 
-const options = [
-    { value: 'chocolate', label: 'Chocolate' },
-    { value: 'strawberry', label: 'Strawberry' },
-    { value: 'vanilla', label: 'Vanilla' }
-]
-
-class SelectHorario extends Component {
-
-    constructor() {
-        super();
-
-        this.state = {
-            selectedOption: null,
-        }
+function SelectHorario(props) {
+    function handleChange(event) {
+        props.onChange(event.value);
     }
-
-    handleChange = (selectedOption) => {
-        let { time } = this.props;
-
-        this.setState({ selectedOption }, () =>
-            time = this.state.selectedOption.label
-        );
-
-        console.log(time)
-    };
-
-    render() {
-        const { selectedOption } = this.state;
-
-        return(
-            <Select options={getHorarioFromDate(this.props.date,this.props.horario)} value={selectedOption} onChange={this.handleChange}/>
-        )
-    }
+    return(<Select options={getHorarioFromDate(props.date,props.horario)} onChange={handleChange}/>)
 }
 
 export default SelectHorario

@@ -11,7 +11,7 @@ class CardRestaurant extends Component {
     render() {
         return (
                 <Card className={this.props.className}>
-                    <Link to={"/restaurant/"+this.props.restaurant.id_restaurante} style={{ textDecoration: 'none' }}>
+                    <Link to={"/restaurant/"+this.props.restaurant.nombre} style={{ textDecoration: 'none' }}>
                         <ImageRestaurant class={'border-image d-block w-100 object-cover image-height'} restaurante={this.props.restaurant}/>
                         {this.props.restaurant.etiquetas!==undefined &&
                         <Card.Body>

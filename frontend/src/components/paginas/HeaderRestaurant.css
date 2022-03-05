@@ -11,6 +11,6 @@
     color: black;
 }
 .header-select:hover {
-    color: black;
-    border-bottom: black 2px solid;
+    color: #373DB0;
+    border-bottom: #373DB0 2px solid;
 }

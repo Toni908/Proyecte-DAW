@@ -1,7 +1,10 @@
 import React, {Component} from "react";
 import {Accordion} from "react-bootstrap";
 import axios from "axios";
+
 import schedule from "./utilities/schedule.js";
+import Translate from "../../locales/Translate";
+
 import "./HorarioRestaurant.css";
 
 class HorarioRestaurant extends Component {
@@ -54,7 +57,7 @@ class HorarioRestaurant extends Component {
                         <section className={"shadow-box p-4 bg-white"}>
                             <div className={"d-flex flex-column gap-2"}>
                                 <div className={"d-flex flex-row justify-content-center"}>
-                                   <div className={"py-1"}>Loading...<br/></div>
+                                   <div className={"py-1"}><Translate string={"loading"}/><br/></div>
                                 </div>
                             </div>
                             <hr/>
@@ -69,7 +72,7 @@ class HorarioRestaurant extends Component {
                     )
                 }
             }
-            return (<p>Loading...</p>)
+            return (<p><Translate string={"loading"}/></p>)
         }
 
         if (this.props.isSimple) {

@@ -50,7 +50,7 @@ class ReservasController extends Controller
                     return $reservas;
                 } else {
                     $reserva->save();
-                    return "OKEY";
+                    return ["message" => "OKEY", "id" => $reserva->id_reserva, "correo" => $reserva->correo];
                 }
             }
         }
@@ -59,7 +59,7 @@ class ReservasController extends Controller
 
     public function showDate($id, $date) {
         $date_start = date("Y-m-d H:i:s",strtotime($date.":"."00:00"));
-        $date_end = date("Y-m-d H:i:s",strtotime($date_start. ' + 1 hour'));
+        $date_end = date("Y-m-d H:i:s",strtotime($date_start. ' + 59 minutes'));
 
         $reservas = Reserva::select(DB::raw('sum(reserva.personas) as aforo'))
             ->join("restaurante","restaurante.id_restaurante","=","reserva.id_restaurante")

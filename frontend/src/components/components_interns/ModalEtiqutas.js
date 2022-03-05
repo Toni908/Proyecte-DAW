@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import {Modal} from "react-bootstrap";
 import "./ModalShare.css";
 import {HashLink} from "react-router-hash-link";
+import Translate from "../../locales/Translate";
 
 function ModalEtiquetas(props) {
     const [show, setShow] = useState(false);
@@ -10,7 +11,7 @@ function ModalEtiquetas(props) {
         return (
             <div className={"modal-80w"}>
                 <HashLink to="#etiquetas" className="button-share show-more" onClick={() => setShow(true)}>
-                    Mostrar Las Etiquetas
+                    <Translate string={"show-tags"}/>
                 </HashLink>
 
                 <Modal
@@ -21,7 +22,9 @@ function ModalEtiquetas(props) {
                 >
                     <Modal.Header closeButton>
                         <Modal.Title id="modalEtiquetas" className={"w-100 text-center pt-3"}>
-                            <div className={"fw-bold pb-2 text-capitalize"}>¿Que etiquetas tiene?</div>
+                            <div className={"fw-bold pb-2 text-capitalize"}>
+                                <Translate string={"show-tags-title"}/>
+                            </div>
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
@@ -37,16 +40,16 @@ function ModalEtiquetas(props) {
                             })}
                         </div>}
                         {props.etiquetas.length===0 &&
-                            <div>
-                                Lo lamentamos mucho, no tiene ninguna etiqueta activa
-                            </div>
-                        }
+                        <div className={"fw-bold"}>
+                            <i className="bi bi-info-circle pe-2 text-danger"/>
+                            <Translate string={"show-no-tags"}/>
+                        </div>}
                     </Modal.Body>
                 </Modal>
             </div>
         );
     } else {
-        return("<div>Loading...</div>")
+        return(<Translate string={"loading"}/>)
     }
 }
 

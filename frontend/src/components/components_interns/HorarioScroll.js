@@ -35,7 +35,7 @@ class HorarioScroll extends Component {
         let menu = MenuHeight-InfoHeight;
 
         // HORARIO TOP
-        if (window.scrollY<(menu+galleryHeight+startHeight-100)) {
+        if (window.scrollY<(menu+galleryHeight+startHeight)) {
 
             if (window.innerWidth<1500) {
 
@@ -56,7 +56,11 @@ class HorarioScroll extends Component {
             }
 
         } else {
-            this.setState({ hideTop: false });
+            if (window.innerWidth < 1500) {
+                this.setState({hideTop: true, header: true, hideResize: false});
+            } else {
+                this.setState({hideTop: false, header: true, hideResize: true});
+            }
         }
     };
 
