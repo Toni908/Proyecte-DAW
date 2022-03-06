@@ -464,6 +464,8 @@ public class RestaurantController {
             model.addAttribute("error",traductions.getTraductionLocale(request));
             return model;
         }
+        Traductions traductions = new Traductions("Cambio realizado","Change done it","Canvi fet");
+        model.addAttribute("success",traductions.getTraductionLocale(request));
         updateRestaurant(restaurant);
         return model;
     }
