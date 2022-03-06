@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
     <title>OFFCAVAS</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
 </head>
 <body>
 <div th:fragment="modelAside(restaurant)">
@@ -68,7 +67,7 @@
 </div>
 
 <div th:fragment="modelUser">
-    <div class="offcanvas offcanvas-start" tabindex="-1" id="asideHeader" aria-labelledby="asideHeaderLabel">
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="asideHeader" aria-labelledby="asideHeaderLabel">
         <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="asideHeaderLabel" th:text="#{model.title}"></h5>
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>

@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
     <title th:text="#{user.update.meta}+' '+${session.user.nombre_usuario}"></title>
     <link th:href="@{/css/custom.css}" rel="stylesheet">
     <link th:href="@{/css/form.css}" rel="stylesheet">
     <link th:href="@{/css/asideLeft.css}" rel="stylesheet">
     <link th:href="@{/css/restaurante_update.css}" rel="stylesheet">
     <link th:href="@{/css/reservas.css}" rel="stylesheet">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
 </head>
 <body>
 <div th:insert="shared/headerVersion1 :: header"></div>
@@ -54,7 +53,9 @@
                 <div class="d-flex flex-row justify-content-center">
                     <div class="d-flex flex-column justify-content-center length">
                         <div class="border border-secondary border-1 mt-5 p-4 box-container">
-                            <input type="hidden" th:field="*{id_user}" hidden>
+                            <label class="w-100">
+                                <input type="hidden" th:field="*{id_user}" hidden>
+                            </label>
                             <h4 class="fw-normal text-start text-black QuickSand" th:text="#{user.update.info}"></h4>
                             <div class="paraf_form text-center pt-3" th:text="#{user.update.info.paraf}"></div>
                             <div class="paraf_form text-danger text-center pb-2" th:text="#{user.update.info.paraf.red}"></div>
@@ -67,22 +68,22 @@
                                 <div class="row">
                                     <div class="col-sm p-0">
                                         <div class="ps-3 paraf_form" th:text="#{user.update.name}"></div>
-                                        <label class="w-100 ps-2 pe-3">
-                                            <input type="text" class="input-text validateNombre" th:field="*{nombre}" required>
+                                        <label for="nombre" class="w-100 ps-2 pe-3">
+                                            <input type="text" class="input-text validateNombre" id="nombre" th:field="*{nombre}" required>
                                         </label>
                                         <div id="validateNombre"></div>
                                     </div>
                                     <div class="col-sm p-0">
                                         <div class="ps-3 paraf_form" th:text="#{user.update.surname1}"></div>
-                                        <label class="w-100 pe-2 ps-3">
-                                            <input type="text" class="input-text validateApellido1" th:field="*{apellido1}" required>
+                                        <label for="apellido1" class="w-100 pe-2 ps-3">
+                                            <input type="text" class="input-text validateApellido1" id="apellido1" th:field="*{apellido1}" required>
                                         </label>
                                         <div id="validateApellido1"></div>
                                     </div>
                                     <div class="col-sm p-0">
                                         <div class="ps-3 paraf_form" th:text="#{user.update.surname2}"></div>
-                                        <label class="w-100 pe-2 ps-3">
-                                            <input type="text" class="input-text validateApellido2" th:field="*{apellido2}">
+                                        <label for="apellido2" class="w-100 pe-2 ps-3">
+                                            <input type="text" class="input-text validateApellido2" id="apellido2" th:field="*{apellido2}">
                                         </label>
                                     </div>
                                 </div>
@@ -92,8 +93,8 @@
                                 <div class="row">
                                     <div class="col-sm p-0">
                                         <div class="ps-3 paraf_form" th:text="#{user.update.phone}"></div>
-                                        <label class="w-100 ps-2 pe-3">
-                                            <input type="text" class="input-text validateTelefono" th:field="*{telefono}" required>
+                                        <label for="telefono" class="w-100 ps-2 pe-3">
+                                            <input type="text" class="input-text validateTelefono" id="telefono" th:field="*{telefono}" required>
                                         </label>
                                         <div id="validateTelefono"></div>
                                     </div>
@@ -123,14 +124,14 @@
                                     <div class="row">
                                         <div class="col-sm p-0">
                                             <div class="ps-3 paraf_form" th:text="#{user.update.dni}"></div>
-                                            <label class="w-100 pe-2 ps-3">
-                                                <input type="text" class="input-text" th:value="${user.dni}" readonly>
+                                            <label for="dni" class="w-100 pe-2 ps-3">
+                                                <input type="text" class="input-text" id="dni" th:value="${user.dni}" readonly>
                                             </label>
                                         </div>
                                         <div class="col-sm p-0">
                                             <div class="ps-3 paraf_form" th:text="#{user.update.correo}"></div>
-                                            <label class="w-100 pe-2 ps-3">
-                                                <input type="text" class="input-text" th:value="${user.correo}" readonly>
+                                            <label for="correo" class="w-100 pe-2 ps-3">
+                                                <input type="text" class="input-text" id="correo" th:value="${user.correo}" readonly>
                                             </label>
                                         </div>
                                     </div>
@@ -138,8 +139,8 @@
                                 <div th:if="${user.isAdmin()}" class="container pt-3 m-0 w-100 px-0">
                                     <div class="form-check form-switch d-flex flex-row justify-content-center pt-4">
                                         <div class="ps-3 paraf_form" th:text="#{user.update.admin}"></div>
-                                        <label class="w-100 d-flex flex-row justify-content-center">
-                                            <input class="form-check-input m-0 fs-3" type="checkbox" readonly>
+                                        <label for="admin" class="w-100 d-flex flex-row justify-content-center">
+                                            <input class="form-check-input m-0 fs-3" id="admin" type="checkbox" readonly>
                                         </label>
                                     </div>
                                 </div>
@@ -148,7 +149,7 @@
                                 <form class="container pt-3 m-0 w-100 px-0" th:action="@{/user/verified}" method="POST">
                                     <div class="col-sm p-0">
                                         <div class="ps-3 paraf_form" th:text="#{user.update.password}"></div>
-                                        <label class="w-100 pe-2 ps-3">
+                                        <label for="verified" class="w-100 pe-2 ps-3">
                                             <input type="password" class="input-text" id="verified" name="verified" required>
                                         </label>
                                     </div>
@@ -179,7 +180,7 @@
                                 <div class="row">
                                     <div class="col-sm p-0">
                                         <div class="ps-3 paraf_form" th:text="#{user.update.password.now}"></div>
-                                        <label class="w-100 pe-2 ps-3">
+                                        <label for="password_actual" class="w-100 pe-2 ps-3">
                                             <input type="password" class="input-text" id="password_actual" name="password_actual" required>
                                         </label>
                                         <div class="password_actual"></div>
@@ -188,14 +189,14 @@
                                 <div class="row">
                                     <div class="col-sm p-0">
                                         <div class="ps-3 paraf_form" th:text="#{user.update.password.change}"></div>
-                                        <label class="w-100 pe-2 ps-3">
+                                        <label for="password_change" class="w-100 pe-2 ps-3">
                                             <input type="password" class="input-text" id="password_change" name="password_change" required>
                                         </label>
                                         <div class="password_change"></div>
                                     </div>
                                     <div class="col-sm p-0">
                                         <div class="ps-3 paraf_form" th:text="#{user.update.password.change.confirm}"></div>
-                                        <label class="w-100 pe-2 ps-3">
+                                        <label for="password_change_confirm" class="w-100 pe-2 ps-3">
                                             <input type="password" class="input-text" id="password_change_confirm" name="password_change_confirm" required>
                                         </label>
                                         <div class="password_change_confirm"></div>
@@ -240,7 +241,7 @@
                                 <div class="row">
                                     <div class="col-sm p-0">
                                         <div class="ps-3 paraf_form" th:text="#{user.update.password.code.verify}"></div>
-                                        <label class="w-100 pe-2 ps-3">
+                                        <label for="codigo_email" class="w-100 pe-2 ps-3">
                                             <input type="text" class="text-center input-text" id="codigo_email" name="codigo_email" required>
                                         </label>
                                         <div class="codigo_email"></div>
@@ -249,14 +250,14 @@
                                 <div class="row">
                                     <div class="col-sm p-0">
                                         <div class="ps-3 paraf_form" th:text="#{user.update.password.change}"></div>
-                                        <label class="w-100 pe-2 ps-3">
+                                        <label for="password_change_recuperar" class="w-100 pe-2 ps-3">
                                             <input type="password" class="input-text" id="password_change_recuperar" name="password_change_recuperar" required>
                                         </label>
                                         <div class="password_change_recuperar"></div>
                                     </div>
                                     <div class="col-sm p-0">
                                         <div class="ps-3 paraf_form" th:text="#{user.update.password.change.confirm}"></div>
-                                        <label class="w-100 pe-2 ps-3">
+                                        <labe for="password_change_confirm_recuperar" class="w-100 pe-2 ps-3">
                                             <input type="password" class="input-text" id="password_change_confirm_recuperar" name="password_change_confirm_recuperar" required>
                                         </label>
                                         <div class="password_change_confirm_recuperar"></div>
@@ -328,7 +329,7 @@
                                         <div class="ps-3 paraf_form" th:text="#{user.update.password.code.verify}"></div>
                                         <div class="d-flex flex-lg-row flex-column">
                                             <div class="w-25"></div>
-                                            <label class="width-form pe-2 ps-3">
+                                            <label for="code" class="width-form pe-2 ps-3">
                                                 <input type="text" class="text-center input-text" id="code" name="code" required>
                                             </label>
                                             <div class="code"></div>
@@ -340,7 +341,7 @@
                                     <div class="col-sm p-0">
                                         <div class="ps-3 paraf_form pt-3" th:text="#{user.delete.text_confirmation}"></div>
                                         <div class="d-flex flex-row justify-content-center pb-3">
-                                            <label class="w-50 pe-2 ps-3">
+                                            <label for="code_confirmation" class="w-50 pe-2 ps-3">
                                                 <input type="text" class="text-center text-center input-text QuickSand" id="code_confirmation" th:value="'DELETE-'+${session.user.nombre_usuario}" required>
                                             </label>
                                         </div>
@@ -351,7 +352,7 @@
                                 <div class="row">
                                     <div class="col-sm p-0">
                                         <div class="ps-3 paraf_form pt-3" th:text="#{user.delete.result}"></div>
-                                        <label class="w-100 pe-2 ps-3">
+                                        <label for="text_confirmation" class="w-100 pe-2 ps-3">
                                             <input type="text" class="text-center input-text" id="text_confirmation" name="text_confirmation" required>
                                         </label>
                                         <div class="text_confirmation"></div>

@@ -25,4 +25,8 @@ public interface ComentariosService {
     Integer countComidaFromRestaurantValorationAndTime(BigInteger id,int valoracion);
     Integer countServicioFromRestaurantValorationAndTime(BigInteger id,int valoracion);
     Integer countSitioFromRestaurantValorationAndTime(BigInteger id,int valoracion);
+
+    Integer countComidaFromRestaurant(BigInteger id);
+    Integer countServicioFromRestaurant(BigInteger id);
+    Integer countSitioFromRestaurant(BigInteger id);
 }

@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {Accordion} from "react-bootstrap";
 import axios from "axios";
 
-import schedule from "./utilities/schedule.js";
+import {textHeader, isTodayOpen} from "./utilities/schedule.js";
 import Translate from "../../locales/Translate";
 
 import "./HorarioRestaurant.css";
@@ -47,8 +47,8 @@ class HorarioRestaurant extends Component {
             return <p>{error.message}</p>;
         }
 
-        let header = schedule.textHeader(horario);
-        let body = schedule.isTodayOpen(horario);
+        let header = textHeader(horario);
+        let body = isTodayOpen(horario);
 
         if (isLoading) {
             if (this.props.isSimple) {

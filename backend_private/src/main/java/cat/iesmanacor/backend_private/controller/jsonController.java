@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.math.BigInteger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -153,5 +154,20 @@ public class jsonController {
     @GetMapping(value = "/comentarios/sum/sitio/{stars}/{id}",produces = { "application/json" })
     public Integer sumSitioDayValoration(@PathVariable int stars, @PathVariable BigInteger id){
         return comentariosService.countSitioFromRestaurantValorationAndTime(id,stars);
+    }
+
+
+    // BARS
+    @GetMapping(value = "/comentarios/sum/sitio/{id}",produces = { "application/json" })
+    public Integer getsumSitio(@PathVariable BigInteger id){
+        return comentariosService.countSitioFromRestaurant(id);
+    }
+    @GetMapping(value = "/comentarios/sum/servicio/{id}",produces = { "application/json" })
+    public Integer getsumServicio(@PathVariable BigInteger id){
+        return comentariosService.countServicioFromRestaurant(id);
+    }
+    @GetMapping(value = "/comentarios/sum/comida/{id}",produces = { "application/json" })
+    public Integer getsumComida(@PathVariable BigInteger id){
+        return comentariosService.countComidaFromRestaurant(id);
     }
 }
