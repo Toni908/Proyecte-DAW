@@ -7,7 +7,6 @@ import SelectHorario from "./SelectHorario";
 
 import {formatDateEN,sendEmail,canClientReservar,formatDateES,filterArrayFromDate,isClosed, getHoursDate} from "./utilities/bookings.js";
 import Translate from "../../locales/Translate";
-import reservas_anticipacion from "./utilities/reservas_anticipacion";
 
 function ModalFullCalendar(props) {
 
