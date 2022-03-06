@@ -27,32 +27,32 @@
                                         <h5 class="fw-normal mb-3 pb-3 letter-space" th:text="#{user.create.title}"></h5>
 
                                         <div class="form-outline mb-4">
-                                            <input type="email" id="form2Example17" name="correo" th:value="${user.correo}" class="form-control form-control-lg" />
-                                            <label class="form-label" for="form2Example17" required th:text="#{user.update.correo}"></label>
+                                            <input type="email" id="form2Example17" name="correo" th:value="${user.correo}" class="form-control form-control-lg" required/>
+                                            <label class="form-label" for="form2Example17" th:text="#{user.update.correo}"></label>
                                             <div th:if="${error != null && error.containsKey('correo')}" th:text="${error.correo}" class="error-validation"></div>
                                         </div>
 
                                         <div class="form-outline mb-4">
-                                            <input type="password" id="form2Example27" name="password" class="form-control form-control-lg" />
-                                            <label class="form-label" for="form2Example27" required th:text="#{user.update.password}"></label>
+                                            <input type="password" id="form2Example27" name="password" class="form-control form-control-lg" required/>
+                                            <label class="form-label" for="form2Example27" th:text="#{user.update.password}"></label>
                                             <div th:if="${error != null && error.containsKey('password')}" th:text="${error.password}" class="error-validation"></div>
                                         </div>
 
                                         <div class="form-outline mb-4">
-                                            <input type="text" name="nombre_usuario" id="form2Example37" th:value="${user.nombre_usuario}" class="form-control form-control-lg" />
-                                            <label class="form-label" for="form2Example37" required th:text="#{user.update.username}"></label>
+                                            <input type="text" name="nombre_usuario" id="form2Example37" th:value="${user.nombre_usuario}" class="form-control form-control-lg" required/>
+                                            <label class="form-label" for="form2Example37" th:text="#{user.update.username}"></label>
                                             <div th:if="${error != null && error.containsKey('nombre_usuario')}" th:text="${error.nombre_usuario}" class="error-validation"></div>
                                         </div>
 
                                         <div class="form-outline mb-4">
-                                            <input type="text" name="nombre" id="form2Example47" th:value="${user.nombre}" class="form-control form-control-lg" />
-                                            <label class="form-label" for="form2Example47" required th:text="#{user.update.name}"></label>
+                                            <input type="text" name="nombre" id="form2Example47" th:value="${user.nombre}" class="form-control form-control-lg" required/>
+                                            <label class="form-label" for="form2Example47" th:text="#{user.update.name}"></label>
                                             <div th:if="${error != null && error.containsKey('nombre')}" th:text="${error.nombre}" class="error-validation"></div>
                                         </div>
 
                                         <div class="form-outline mb-4">
-                                            <input type="text" name="apellido1" id="form2Example57" th:value="${user.apellido1}" class="form-control form-control-lg" />
-                                            <label class="form-label" for="form2Example57" required th:text="#{user.update.surname1}"></label>
+                                            <input type="text" name="apellido1" id="form2Example57" th:value="${user.apellido1}" class="form-control form-control-lg" required/>
+                                            <label class="form-label" for="form2Example57" th:text="#{user.update.surname1}"></label>
                                             <div th:if="${error != null && error.containsKey('apellido1')}" th:text="${error.apellido1}" class="error-validation"></div>
                                         </div>
 
@@ -63,14 +63,14 @@
                                         </div>
 
                                         <div class="form-outline mb-4">
-                                            <input type="text" name="telefono" id="form2Example77" th:value="${user.telefono}" class="form-control form-control-lg" />
-                                            <label class="form-label" for="form2Example77" required th:text="#{user.update.phone}"></label>
+                                            <input type="text" name="telefono" id="form2Example77" th:value="${user.telefono}" class="form-control form-control-lg" required/>
+                                            <label class="form-label" for="form2Example77" th:text="#{user.update.phone}"></label>
                                             <div th:if="${error != null && error.containsKey('telefono')}" th:text="${error.telefono}" class="error-validation"></div>
                                         </div>
 
                                         <div class="form-outline mb-4">
-                                            <input type="text" name="dni" id="form2Example87" th:value="${user.dni}" class="form-control form-control-lg" />
-                                            <label class="form-label" for="form2Example87" required th:text="#{user.update.dni}"></label>
+                                            <input type="text" name="dni" id="form2Example87" th:value="${user.dni}" class="form-control form-control-lg" required/>
+                                            <label class="form-label" for="form2Example87" th:text="#{user.update.dni}"></label>
                                             <div th:if="${error != null && error.containsKey('dni')}" th:text="${error.dni}" class="error-validation"></div>
                                         </div>
 
