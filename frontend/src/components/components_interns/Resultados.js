@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import CardRestaurant from "./CardRestaurant";
+import Translate from "../../locales/Translate";
 import "./ListRestaurants.css"
 
 class Resultados extends Component {
@@ -51,10 +52,10 @@ class Resultados extends Component {
                                         <div className="card-body p-4 p-lg-5 text-black w-100">
                                             <div className="w-100">
                                                 <div className="d-flex align-items-center mb-3 pb-1">
-                                                    <span className="h1 fw-bold mb-0">No hay resultados</span>
+                                                    <span className="h1 fw-bold mb-0"><Translate string={"no_results"}/></span>
                                                 </div>
 
-                                                <h5 className="fw-normal mb-3 pb-3 letter-space"> No hay ningun resultado dados los filtros especificados, intenta buscar otra cosa!</h5>
+                                                <h5 className="fw-normal mb-3 pb-3 letter-space"><Translate string={"no_results_desc"}/> </h5>
                                             </div>
                                         </div>
                                     </div>

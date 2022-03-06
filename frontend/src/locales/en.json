@@ -130,5 +130,9 @@
     "search-municipality": "Find restaurants in",
     "title-of-list-restaurants": "Discover Restaurants",
     "best-restaurants": "The best restaurants",
-    "cheapest-restaurants": "The Cheapest"
+    "cheapest-restaurants": "The Cheapest",
+
+    "no_results_desc": "There are no results given the specified filters, try searching for something else!",
+    "no_results": "No results",
+    "buscar_button": "Search"
 }

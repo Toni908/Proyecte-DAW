@@ -130,5 +130,9 @@
     "search-municipality": "Cerca restaurants a",
     "title-of-list-restaurants": "Descobreix Restaurants",
     "best-restaurants": "Els Millors Restaurants",
-    "cheapest-restaurants": "Els Més Econòmics"
+    "cheapest-restaurants": "Els Més Econòmics",
+
+    "no_results_desc": "No hi ha cap resultat donats els filtres especificats, intenta buscar una altra cosa!",
+    "no_results": "No hi ha resultats",
+    "buscar_button": "Cercar"
 }
