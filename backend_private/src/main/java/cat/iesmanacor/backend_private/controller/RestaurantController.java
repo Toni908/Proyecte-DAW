@@ -76,6 +76,7 @@ public class RestaurantController {
             model.addAttribute("restaurantesUser", restaurantService.findRestaurantByUseracount(useracount.getId_user()));
             model.addAttribute("ImgImages", imagesIsEmpties(useracount));
             model.addAttribute("user", simpleUserDTO);
+            model.addAttribute("isNotLista",false);
             return "lista_restaurants";
         }
         return "redirect:/error/401";
