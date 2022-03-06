@@ -73,4 +73,19 @@ public class ComentariosServiceImpl implements ComentariosService {
     public Integer countSitioFromRestaurantValorationAndTime(BigInteger id, int valoracion) {
         return comentariosRepository.countSitioFromRestaurantValorationAndTime(id, valoracion);
     }
+
+    @Override
+    public Integer countComidaFromRestaurant(BigInteger id) {
+        return comentariosRepository.countComidaFromRestaurant(id);
+    }
+
+    @Override
+    public Integer countServicioFromRestaurant(BigInteger id) {
+        return comentariosRepository.countServicioFromRestaurant(id);
+    }
+
+    @Override
+    public Integer countSitioFromRestaurant(BigInteger id) {
+        return comentariosRepository.countSitioFromRestaurant(id);
+    }
 }

@@ -6,6 +6,12 @@ $color-hover-1: grey;
 $color-hover-2: #EBEBEB;
 $color-seach: black;
  */
+.logo {
+  width: 134px;
+  height: 105px;
+  object-fit: cover;
+}
+
 #header2 {
   height: 110px;
 }
@@ -41,6 +47,12 @@ $color-seach: black;
 
   .border-e-grey {
     border: 0;
+  }
+
+  .logo {
+    width: 114px;
+    height: 97px;
+    object-fit: cover;
   }
 }
 .nav-header-text-1 {

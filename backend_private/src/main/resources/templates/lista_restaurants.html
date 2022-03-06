@@ -14,24 +14,22 @@
         <div th:text="#{list.restaurants.sub.title}"></div>
         <div th:text="' '+${restaurantesUser.size()}"></div>
     </div>
-    <div class="d-flex justify-content-center">
+    <div class="d-flex justify-content-center pb-5">
         <div th:if="${restaurantesUser.size()}!=0" class="container_restaurants">
             <article class="single_restaurant pt-5" th:each="restaurante, iteration : ${restaurantesUser}">
                 <a class="text-decoration-none text-black" th:href="@{'/restaurant/update/'+${restaurante.id_restaurante}}">
                     <div class="card">
-                        <div th:each="imageSingle, iterationImg : ${ImgImages}">
-                            <div th:if="${restaurante.id_restaurante}==${imageSingle.id_restaurant}">
-                                <div th:if="${imageSingle.isEmpty()} == false">
-                                    <img class="img-restaurant p-3 w-100" th:src="@{${restaurante.getPhotosImagePath()}+${imageSingle.getImgs()[0].url}}" th:alt="#{list.restaurants.image.no.found}">
-                                </div>
-                                <div th:if="${imageSingle.isEmpty()} == true">
-                                    <img class="img-restaurant p-3 w-100" th:src="@{/img/no-photo-available.jpg}" th:alt="#{list.restaurants.image.no.found}">
-                                </div>
+                        <div th:each="imageSingle, iterationImg : ${ImgImages}" th:if="${restaurante.id_restaurante}==${imageSingle.id_restaurant}">
+                            <div th:if="${imageSingle.isEmpty()} == false">
+                                <img class="img-restaurant p-3 w-100 pb-1" th:src="@{${restaurante.getPhotosImagePath()}+${imageSingle.getImgs()[0].url}}" th:alt="#{list.restaurants.image.no.found}">
+                            </div>
+                            <div th:if="${imageSingle.isEmpty()} == true">
+                                <img class="img-restaurant p-3 w-100 pb-1" th:src="@{/img/no-photo-available.jpg}" th:alt="#{list.restaurants.image.no.found}">
                             </div>
                         </div>
                         <div class="container">
                             <div class="d-flex flex-row justify-content-center">
-                                <h4 class="text-center" th:text="${restaurante.nombre}"></h4>
+                                <div class="text-center fw-bold fs-5 p-0 pb-2" th:text="${restaurante.nombre}"></div>
                             </div>
                             <div class="container">
                                 <div class="row" th:each="carta : ${cartas}" th:if="${carta.restaurant.id_restaurante}==${restaurante.id_restaurante}">
@@ -53,19 +51,13 @@
                                     </div>
                                 </div>
                                 <div class="row pt-3">
-                                    <div class="col-lg-6 d-flex flex-row gap-2 fw-bold">
-                                        <div th:text="#{restaurant.form.capacity}"></div>
-                                        <p class="mb-1 fw-normal" th:text="${restaurante.aforo}"></p>
-                                    </div>
-                                    <div class="col-lg-6 d-flex flex-row gap-2 fw-bold">
-                                        <div th:text="#{restaurant.form.phone}"></div>
-                                        <p class="mb-1 fw-normal" th:text="${restaurante.telefono_restaurante}"></p>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="d-flex flex-row gap-2 fw-bold">
+                                    <div class="col-12 d-flex flex-row gap-2 fw-bold">
                                         <div th:text="#{restaurant.form.location}"></div>
                                         <p class="mb-1 fw-normal" th:text="${restaurante.localidad.nombre_localidad}"></p>
+                                    </div>
+                                    <div class="col-12 d-flex flex-row gap-2 fw-bold">
+                                        <div th:text="#{restaurant.form.phone}"></div>
+                                        <p class="mb-1 fw-normal" th:text="${restaurante.telefono_restaurante}"></p>
                                     </div>
                                 </div>
                             </div>

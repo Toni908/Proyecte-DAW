@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
     <title th:text="${restaurant.nombre}"></title>
     <link rel=icon th:if="${imagesRestaurant.size()}!=0" th:href="@{${restaurant.getPhotosImagePath()}+${imagesRestaurant.get(0).url}}" sizes="16x16" type="image/png">
     <link rel=icon th:if="${imagesRestaurant.size()}==0" th:href="@{/img/no-photo-available.jpg}" sizes="16x16" type="image/png">
@@ -9,7 +8,7 @@
     <link th:href="@{/css/form.css}" rel="stylesheet">
     <link th:href="@{/css/asideLeft.css}" rel="stylesheet">
     <link th:href="@{/css/restaurante_update.css}" rel="stylesheet">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
 </head>
 <body>
 <div th:insert="shared/headerVersion2 :: header(${restaurant})"></div>
@@ -252,7 +251,7 @@
                     <div class="d-flex flex-column justify-content-center length">
                         <div class="border border-secondary border-1 mt-2 p-4 box-container">
                             <div id="imagesCarusel" class="carousel slide" data-bs-ride="carousel">
-                                <div class="carousel-indicators">
+                                <div class="carousel-indicators" th:if="${imagesRestaurant.size()}<1">
                                     <button th:each="image, iteration : ${imagesRestaurant}" type="button" data-bs-target="#imagesCarusel" th:data-bs-slide-to="${iteration.index}" th:class="${iteration.index} == 0 ? 'active' : ''"></button>
                                 </div>
                                 <div class="carousel-inner">
