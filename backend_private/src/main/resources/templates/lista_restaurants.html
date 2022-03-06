@@ -8,7 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body class="d-flex flex-column min-vh-100">
-<header th:insert="shared/headerVersion1 :: header" class="sticky-top top-0"></header>
+    <div th:insert="shared/headerVersion1 :: header" class="sticky-top top-0"></div>
+
     <h2 class="text-center pt-5 fw-bold title_principal" th:text="#{list.restaurants.title}+' '+${user.nombre_usuario}"></h2>
     <div class="d-flex flex-row justify-content-center w-100 gap-3 fw-bold sub_comment_title">
         <div th:text="#{list.restaurants.sub.title}"></div>
@@ -29,12 +30,12 @@
                         </div>
                         <div class="container">
                             <div class="d-flex flex-row justify-content-center">
-                                <div class="text-center fw-bold fs-5 p-0 pb-2" th:text="${restaurante.nombre}"></div>
+                                <h5 class="text-center fw-bold p-0" th:text="${restaurante.nombre}"></h5>
                             </div>
                             <div class="container">
                                 <div class="row" th:each="carta : ${cartas}" th:if="${carta.restaurant.id_restaurante}==${restaurante.id_restaurante}">
-                                    <div class="col-12">
-                                        <div th:if="${carta.hasVisible}==true" class="d-flex flex-row justify-content-center fw-bold gap-2">
+                                    <div th:if="${carta.hasVisible}==true" class="col-12">
+                                        <div class="d-flex flex-row justify-content-center fw-bold gap-2">
                                             <div th:text="#{list.restaurants.active.card}"></div>
                                             <p class="mb-1 fw-normal" th:each="carta1 : ${carta.restaurant.cartas}" th:if="${carta1.visible}==true" th:text="${carta1.nombre}"></p>
                                         </div>
@@ -80,7 +81,7 @@
             <div th:insert="shared/noRestaurante :: norestaurant"></div>
         </div>
     </div>
-<footer th:insert="shared/footer :: footer" class="mt-auto fot"></footer>
+<div th:insert="shared/footer :: footer" class="mt-auto fot"></div>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
 </body>
