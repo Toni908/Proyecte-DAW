@@ -60,14 +60,14 @@ $color-seach: black;
   color: black;
 }
 .nav-header-text-1:hover {
-  color: grey;
+  color: #787878;
 }
 .nav-header-text-2 {
   text-decoration-line: none;
   color: white;
 }
 .nav-header-text-2:hover {
-  color: grey;
+  color: #787878;
 }
 .nav-header-bg-1 {
   background: black;
