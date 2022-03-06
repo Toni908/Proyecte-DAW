@@ -62,23 +62,6 @@
                 <i class="bi bi-shop fs-3"></i>
                 <div th:text="#{aside.list.restaurants}"></div>
             </a>
-            <hr>
-            <div class="btn-group dropstart white-hover-grey">
-                <a href="/login" class="dropdown-toggle text-white" id="loginDropdown" data-bs-toggle="dropdown" aria-expanded="false" role="button"><i class="bi bi-person-fill fs-3 pe-xl-5 pe-3 align-self-center"></i></a>
-                <ul th:if="${session.user}!=null" class="dropdown-menu" aria-labelledby="loginDropdown">
-                    <li th:if="${session.user.isAdmin()}"><a class="dropdown-item" href="/restaurante/configuration/admin" th:text="#{header.user.admin.validation}"></a></li>
-                    <li><a class="dropdown-item" href="/user" th:text="#{header.user.update}+' '+${session.user.nombre_usuario}"></a></li>
-                    <li><a class="dropdown-item" href="/logout" th:text="#{header.user.logout}"></a></li>
-                </ul>
-            </div>
-            <div class="btn-group dropstart">
-                <a class="dropdown-toggle white-hover-grey" id="idiomaDropdown" data-bs-toggle="dropdown" aria-expanded="false" role="button"><i class="bi bi-globe fs-3 pe-xl-5 pe-3 align-self-center"></i></a>
-                <ul class="dropdown-menu" aria-labelledby="idiomaDropdown">
-                    <li><a class="dropdown-item" href="/lista/restaurantes/?lang=es" th:text="#{header.lang.es}"></a></li>
-                    <li><a class="dropdown-item" href="/lista/restaurantes/?lang=ca" th:text="#{header.lang.ca}"></a></li>
-                    <li><a class="dropdown-item" href="/lista/restaurantes/?lang=en" th:text="#{header.lang.en}"></a></li>
-                </ul>
-            </div>
         </div>
     </div>
 </div>
