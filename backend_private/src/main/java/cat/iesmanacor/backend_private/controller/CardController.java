@@ -71,7 +71,6 @@ public class CardController {
             carta.setUrl_img();
         }*/
         model.addAttribute("restaurant", restaurant.get());
-
         return "cards";
     }
 

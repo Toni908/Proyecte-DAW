@@ -49,11 +49,11 @@
         <a class="" id="e2" th:href="@{'/restaurant/update/' + ${restaurant.id_restaurante}}"><button class="btn btn-secondary mt-2" th:text="#{button.return}"></button></a>
     </div>
 
-    <div th:insert="shared/modals/modal_eliminar :: section"/>
+    <div th:insert="shared/modals/modal_eliminar :: modal_eliminar"/>
 
 </main>
 
-<footer th:insert="shared/footer :: body" class="mt-auto fot"></footer>
+<div th:insert="shared/footer :: footer" class="mt-auto fot"></div>
 
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
