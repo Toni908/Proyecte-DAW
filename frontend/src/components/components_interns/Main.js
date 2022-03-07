@@ -16,6 +16,7 @@ import Translate from "../../locales/Translate";
 
 import './Buscador.css';
 import './Main.css';
+import ErrorNotFound from "./ErrorNotFound";
 
 class Main extends Component {
     constructor() {
@@ -84,13 +85,8 @@ class Main extends Component {
     render() {
         const { BestRestaurants, EconomicRestaurants, isLoading, error } = this.state;
 
-        console.log(BestRestaurants);
-
-
-        console.log(BestRestaurants);
-
         if (error) {
-            return <p>{error.message}</p>;
+            return <ErrorNotFound error={error}/>;
         }
         if (isLoading) {
             return <Loading />;

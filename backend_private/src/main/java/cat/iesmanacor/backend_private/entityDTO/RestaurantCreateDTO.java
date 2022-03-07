@@ -1,5 +1,6 @@
 package cat.iesmanacor.backend_private.entityDTO;
 
+import cat.iesmanacor.backend_private.controller.CardController;
 import cat.iesmanacor.backend_private.entities.Localidad;
 
 import javax.validation.constraints.NotNull;

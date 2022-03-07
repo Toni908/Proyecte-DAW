@@ -44,7 +44,7 @@ class HorarioRestaurant extends Component {
         const {horario, isLoading, error} = this.state;
 
         if (error) {
-            return <p>{error.message}</p>;
+            return <p>NOT FOUND</p>;
         }
 
         let header = textHeader(horario);

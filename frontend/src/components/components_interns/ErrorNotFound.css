@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@700&display=swap');
+
+.font-family-not-found {
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
+.notfound-width {
+    width: 1000px;
+}
+
+@media only screen and (max-width: 1000px) {
+    .notfound-width {
+        width: 90% !important;
+    }
+    .image-notFound {
+        width: 100% !important;
+        height: 400px !important;
+        object-fit: cover;
+    }
+}
+.title-not-found {
+    font-size: 50px;
+}
+.image-notFound {
+    width: 400px;
+    height: 600px;
+}

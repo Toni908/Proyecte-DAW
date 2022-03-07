@@ -54,7 +54,7 @@ function FullCalendarReservas(props) {
                         end: "prev,next"
                     }}
                     dayCellDidMount={function (arg) {
-                        arg.el.innerHTML = "<div class='d-flex flex-row justify-content-end pe-2 py-4' style='height: 130px'>"+arg.el.innerText+"</div>";
+                        arg.el.innerHTML = "<div class='d-flex flex-row justify-content-end pe-2 py-4' style='height: 110px'>"+arg.el.innerText+"</div>";
                         if (arg.date>=new Date(lessResult)) {
                             // EN ROJO SI YA NO SE PUEDE HACER MAS RESERVAS
                             if (!canClientReservar(arg.date, reservas,horario,aforo)) {
@@ -68,7 +68,7 @@ function FullCalendarReservas(props) {
                                     if (new Date(periodos[0].fecha_fin)<arg.date) {
                                         arg.el.style.backgroundColor = "rgba(216,230,242,1)";
                                     } else {
-                                        arg.el.innerHTML = "<div class='h-100 pe-2 pt-2 text-success'><i class=\"bi bi-check fs-4 d-flex flex-row justify-content-end\"/><div class='d-flex flex-row justify-content-end'>"+arg.el.innerText+"</div></div>";
+                                        arg.el.innerHTML = "<div class='pe-2 pt-2 text-success' style='height: 110px'><i class=\"bi bi-check fs-4 d-flex flex-row justify-content-end\"/><div class='d-flex flex-row justify-content-end'>"+arg.el.innerText+"</div></div>";
                                     }
                                 }
                             }
@@ -101,7 +101,7 @@ function FullCalendarReservas(props) {
                         end: "prev,next"
                     }}
                     dayCellDidMount={function (arg) {
-                        arg.el.innerHTML = "<div class='d-flex flex-row justify-content-end pe-2 py-4'>"+arg.el.innerText+"</div>";
+                        arg.el.innerHTML = "<div class='d-flex flex-row justify-content-end pe-2 py-4' style='height: 110px'>"+arg.el.innerText+"</div>";
                         if (arg.date>=new Date(lessResult)) {
                             // EN ROJO SI YA NO SE PUEDE HACER MAS RESERVAS
                             if (!canClientReservar(arg.date, reservas,horario,aforo)) {
@@ -115,7 +115,7 @@ function FullCalendarReservas(props) {
                                     if (new Date(periodos[0].fecha_fin)<arg.date) {
                                         arg.el.style.backgroundColor = "rgba(216,230,242,1)";
                                     } else {
-                                        arg.el.innerHTML = "<div class='h-100 pe-2 pt-2 text-success'><i class=\"bi bi-check fs-4 d-flex flex-row justify-content-end\"/><div class='d-flex flex-row justify-content-end'>"+arg.el.innerText+"</div></div>";
+                                        arg.el.innerHTML = "<div class='h-100 pe-2 pt-2 text-success' style='height: 110px'><i class=\"bi bi-check fs-4 d-flex flex-row justify-content-end\"/><div class='d-flex flex-row justify-content-end'>"+arg.el.innerText+"</div></div>";
                                     }
                                 }
                             }
@@ -147,7 +147,7 @@ function FullCalendarReservas(props) {
                         end: "prev,next"
                     }}
                     dayCellDidMount={function (arg) {
-                        arg.el.innerHTML = "<div class='d-flex flex-row justify-content-end pe-2 py-4'>"+arg.el.innerText+"</div>";
+                        arg.el.innerHTML = "<div class='d-flex flex-row justify-content-end pe-2 py-4' style='height: 110px'>"+arg.el.innerText+"</div>";
                         if (arg.date>=new Date(lessResult)) {
                             // EN ROJO SI YA NO SE PUEDE HACER MAS RESERVAS
                             if (!canClientReservar(arg.date, reservas,horario,aforo)) {
@@ -161,7 +161,7 @@ function FullCalendarReservas(props) {
                                     if (new Date(periodos[0].fecha_fin)<arg.date) {
                                         arg.el.style.backgroundColor = "rgba(216,230,242,1)";
                                     } else {
-                                        arg.el.innerHTML = "<div class='h-100 pe-2 pt-2 text-success'><i class=\"bi bi-check fs-4 d-flex flex-row justify-content-end\"/><div class='d-flex flex-row justify-content-end'>"+arg.el.innerText+"</div></div>";
+                                        arg.el.innerHTML = "<div class='h-100 pe-2 pt-2 text-success' style='height: 110px'><i class=\"bi bi-check fs-4 d-flex flex-row justify-content-end\"/><div class='d-flex flex-row justify-content-end'>"+arg.el.innerText+"</div></div>";
                                     }
                                 }
                             }

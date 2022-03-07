@@ -20,6 +20,7 @@ import SimpleMap from "../components_interns/SimpleMap";
 import ImageRestaurant from "../components_interns/ImageRestaurant";
 import HorarioScroll from "../components_interns/HorarioScroll";
 import Translate from "../../locales/Translate";
+import ErrorNotFound from "../components_interns/ErrorNotFound";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "photoswipe/dist/photoswipe.css";
@@ -111,11 +112,9 @@ class Restaurante extends Component {
         if (infoAVG!==null || true) {
             avg = infoAVG;
         }
-
         if (error) {
-            return <p>{error.message}</p>;
+            return <ErrorNotFound error={error} />;
         }
-
         if (isLoading) {
             return <Loading />;
         }
@@ -143,7 +142,6 @@ class Restaurante extends Component {
                             </div>
                         </section>
                         <GalleryRestaurant restaurant={restaurant} imgs={restaurant.imgs}/>
-                        {/*TRADUCIDO DESDE AQUI PARA ARRIBA*/}
                         {restaurant.id_restaurante!==undefined &&
                         <section id={"menu"} className={"w-100 p-0 m-0 row pt-5 px-lg-0 px-5"}>
                             {carta["carta"]!==undefined &&
@@ -198,7 +196,6 @@ class Restaurante extends Component {
                                 <div className={"fs-4 h-100 align-self-center"}>·</div>
                                 <HashLink to="#comments" className="px-1 text-black fs-4">{avg["count"]} <Translate string={"ratings"}/></HashLink>
                             </div>
-                            {/*TRADUCIDO DESDE AQUI PARA ARRIBA*/}
                             <div className={"row w-100 px-3 fs-5 pt-3"}>
                                 <div className={"col-lg-6 col-12"}>
                                     <div className={"d-flex flex-row justify-content-between px-2"}>

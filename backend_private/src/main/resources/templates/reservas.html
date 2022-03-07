@@ -75,10 +75,10 @@
                 <i class="bi bi-shop fs-3"></i>
                 <div th:text="#{reservas.aside.list.restaurant}"></div>
             </a>
-            <a th:each="restaurant : ${restaurantesUser}" th:for="${restaurant.nombre}" th:name="${restaurant.id_restaurante}" class="restaurantes w-100 d-flex flex-row select-info text-decoration-none text-black ps-5">
+            <div th:each="restaurant : ${restaurantesUser}" th:for="${restaurant.nombre}" th:name="${restaurant.id_restaurante}" class="restaurantes w-100 d-flex flex-row select-info text-decoration-none text-black ps-5">
                 <i class="bi bi-journal-text fs-3"></i>
                 <div th:text="${restaurant.nombre}"></div>
-            </a>
+            </div>
             <hr>
             <a class="w-100 select-info text-decoration-none text-black ps-5" th:href="@{/user}">
                 <i class="bi bi-person-square fs-3"></i>
@@ -104,34 +104,34 @@
                 <i class="bi bi-arrow-left fs-3"></i>
                 <div th:text="#{reservas.aside.list.restaurant.return}"></div>
             </a>
-            <a th:if="${actualRestaurant.id_restaurante}==${restaurant.id_restaurante}" th:each="restaurant : ${restaurantesUser}" th:for="${restaurant.nombre}" th:name="${restaurant.id_restaurante}" class="restaurantes activeRest d-flex flex-row select-info text-decoration-none text-black ps-5">
+            <div th:if="${actualRestaurant.id_restaurante}==${restaurant.id_restaurante}" th:each="restaurant : ${restaurantesUser}" th:for="${restaurant.nombre}" th:name="${restaurant.id_restaurante}" class="restaurantes activeRest d-flex flex-row select-info text-decoration-none text-black ps-5">
                 <i class="bi bi-journal-text fs-3"></i>
                 <div th:text="${restaurant.nombre}"></div>
-            </a>
-            <a th:if="${actualRestaurant.id_restaurante}!=${restaurant.id_restaurante}" th:each="restaurant : ${restaurantesUser}" th:for="${restaurant.nombre}" th:name="${restaurant.id_restaurante}" class="restaurantes d-flex flex-row select-info text-decoration-none text-black ps-5">
+            </div>
+            <div th:if="${actualRestaurant.id_restaurante}!=${restaurant.id_restaurante}" th:each="restaurant : ${restaurantesUser}" th:for="${restaurant.nombre}" th:name="${restaurant.id_restaurante}" class="restaurantes d-flex flex-row select-info text-decoration-none text-black ps-5">
                 <i class="bi bi-journal-text fs-3"></i>
                 <div th:text="${restaurant.nombre}"></div>
-            </a>
+            </div>
         </div>
-        <a th:if="${actualRestaurant}==null" th:each="restaurant : ${restaurantesUser}" th:for="${restaurant.nombre}" th:name="${restaurant.id_restaurante}" class="restaurantes d-flex flex-row select-info text-decoration-none text-black ps-5">
+        <div th:if="${actualRestaurant}==null" th:each="restaurant : ${restaurantesUser}" th:for="${restaurant.nombre}" th:name="${restaurant.id_restaurante}" class="restaurantes d-flex flex-row select-info text-decoration-none text-black ps-5">
             <i class="bi bi-journal-text fs-3"></i>
             <div th:text="${restaurant.nombre}"></div>
-        </a>
+        </div>
     </div>
 </aside>
 <main class="container-100">
     <section class="d-flex flex-column justify-content-center w-100">
-        <section class="pt-5 w-100 d-flex flex-row justify-content-center">
+        <div class="pt-5 w-100 d-flex flex-row justify-content-center">
             <div>
                 <h1 id="title" class="pb-3" th:if="${restaurantesUser.size()}!=0"></h1>
                 <h1 class="pb-3" th:if="${restaurantesUser.size()}==0" th:text="#{reservas.no.restaurnt}"></h1>
                 <h3 class="text-center" id="titleTime"></h3>
             </div>
-        </section>
+        </div>
         <div th:if="${restaurantesUser.size()}==0" class="container_restaurants">
             <div th:insert="shared/noRestaurante :: norestaurant"></div>
         </div>
-        <section th:if="${restaurantesUser.size()}!=0" class="w-100 d-flex flex-xxl-row flex-column justify-content-xxl-center pt-0">
+        <div th:if="${restaurantesUser.size()}!=0" class="w-100 d-flex flex-xxl-row flex-column justify-content-xxl-center pt-0">
             <div class="w-25"></div>
             <div class="table-container">
                 <table class="nowrap w-100" id="table">
@@ -148,7 +148,7 @@
                 </table>
             </div>
             <div class="check-datepicker">
-                <section class="w-100 d-flex flex-column justify-content-center p-lg-3 pt-0">
+                <div class="w-100 d-flex flex-column justify-content-center p-lg-3 pt-0">
                     <div class="form-check form-switch d-flex flex-column justify-content-center p-0 m-0">
                         <div class="w-100 text-center text-capitalize py-2" th:text="#{reservas.datepicker}"></div>
                         <label class="w-100 d-flex flex-row justify-content-center gap-4">
@@ -163,13 +163,13 @@
 
                         </div>
                     </div>
-                </section>
+                </div>
             </div>
-        </section>
+        </div>
     </section>
 </main>
 
-<footer th:insert="shared/footer :: footer"></footer>
+<div th:insert="shared/footer :: footer"></div>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
