@@ -45,7 +45,6 @@ class ListRestaurant extends Component {
     }
 
     render() {
-        const { restaurants } = this.state;
         const responsive = {
             desktop: {
                 breakpoint: { max: 3000, min: 1500 },
