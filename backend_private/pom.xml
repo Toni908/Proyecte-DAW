@@ -27,7 +27,7 @@
             <artifactId>apiSha256</artifactId>
             <scope>system</scope>
             <version>1.3.2</version>
-            <systemPath>apiSha256.jar</systemPath>
+            <systemPath>C:/Users/toni9/Desktop/dependencies/apiSha256.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>bcprov</groupId>
