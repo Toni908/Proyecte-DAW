@@ -105,22 +105,6 @@ function hasHoursAfter(hora_inicio, today) {
     return false;
 }
 
-function hasPassedTime(hora_inicio, hora_fin, today) {
-    let hora_i = hora_inicio.split(":")[0];
-    let hora_f = hora_fin.split(":")[0];
-    if (hora_i>hora_f) {
-        return true;
-    }
-    today = new Date()
-
-    for (let i = hora_i; i < hora_f; i++) {
-        if (today.getHours() === i) {
-            return true;
-        }
-    }
-    return false;
-}
-
 function isNearClose(hora_inicio,hora_fin, today) {
     let hora_i = hora_inicio.split(":")[0];
     let hora_f = hora_fin.split(":")[0];
@@ -318,7 +302,7 @@ function orderWeek(week, days) {
                         array[0] = <div><Translate string={"monday"}/>: {isThisTimeMoreAproxToday(array[0], week[i])}</div>;
                         hasPassed[0] = true;
                     } else {
-                        array[0] = addTimeMore(array[0], week[i]);
+                        array[0] = addTimeMore(array[0], week[i],1);
                     }
                     break;
                 }
@@ -330,7 +314,7 @@ function orderWeek(week, days) {
                         array[1] = <div><Translate string={"tuesday"}/>: {isThisTimeMoreAproxToday(array[1], week[i])}</div>;
                         hasPassed[1] = true;
                     } else {
-                        array[1] = addTimeMore(array[1], week[i]);
+                        array[1] = addTimeMore(array[1], week[i],2);
                     }
                     break;
                 }
@@ -342,7 +326,7 @@ function orderWeek(week, days) {
                         array[2] = <div><Translate string={"wednesday"}/>: {isThisTimeMoreAproxToday(array[2], week[i])}</div>;
                         hasPassed[2] = true;
                     } else {
-                        array[2] = addTimeMore(array[2], week[i]);
+                        array[2] = addTimeMore(array[2], week[i],3);
                     }
                     break;
                 }
@@ -354,7 +338,7 @@ function orderWeek(week, days) {
                         array[3] = <div><Translate string={"thursday"}/>: {isThisTimeMoreAproxToday(array[3], week[i])}</div>;
                         hasPassed[3] = true;
                     } else {
-                        array[3] = addTimeMore(array[3], week[i]);
+                        array[3] = addTimeMore(array[3], week[i],4);
                     }
                     break;
                 }
@@ -366,7 +350,7 @@ function orderWeek(week, days) {
                         array[4] = <div><Translate string={"friday"}/>: {isThisTimeMoreAproxToday(array[4], week[i])}</div>;
                         hasPassed[4] = true;
                     } else {
-                        array[4] = addTimeMore(array[4], week[i]);
+                        array[4] = addTimeMore(array[4], week[i],5);
                     }
                     break;
                 }
@@ -378,7 +362,7 @@ function orderWeek(week, days) {
                         array[5] = <div><Translate string={"saturday"}/>: {isThisTimeMoreAproxToday(array[5], week[i])}</div>;
                         hasPassed[5] = true;
                     } else {
-                        array[5] = addTimeMore(array[5], week[i]);
+                        array[5] = addTimeMore(array[5], week[i], 6);
                     }
                     break;
                 }
@@ -390,7 +374,7 @@ function orderWeek(week, days) {
                         array[6] = <div><Translate string={"sunday"}/>: {isThisTimeMoreAproxToday(array[6], week[i])}</div>;
                         hasPassed[6] = true;
                     } else {
-                        array[6] = addTimeMore(array[6], week[i]);
+                        array[6] = addTimeMore(array[6], week[i], 7);
                     }
                     break;
                 }
@@ -405,8 +389,28 @@ function isThisTimeMoreAproxToday(actual, week) {
     return actual.props.children[2] + "-" + actual.props.children[4] + " / " + week.props.children[2] + "-" + week.props.children[4];
 }
 
-function addTimeMore(actual, week) {
-    return actual + " / " + week.props.children[2] + "-" + week.props.children[4];
+function addTimeMore(actual, week, day) {
+    if (day===1) {
+        return <div><Translate string={"monday"}/>{": "+actual.props.children[2] + " / " + week.props.children[2] + "-" + week.props.children[4]}</div>
+    }
+    if (day===2) {
+        return <div><Translate string={"tuesday"}/>{": "+actual.props.children[2] + " / " + week.props.children[2] + "-" + week.props.children[4]}</div>
+    }
+    if (day===3) {
+        return <div><Translate string={"wednesday"}/>{": "+actual.props.children[2] + " / " + week.props.children[2] + "-" + week.props.children[4]}</div>
+    }
+    if (day===4) {
+        return <div><Translate string={"thursday"}/>{": "+actual.props.children[2] + " / " + week.props.children[2] + "-" + week.props.children[4]}</div>
+    }
+    if (day===5) {
+        return <div><Translate string={"friday"}/>{": "+actual.props.children[2] + " / " + week.props.children[2] + "-" + week.props.children[4]}</div>
+    }
+    if (day===6) {
+        return <div><Translate string={"saturday"}/>{": "+actual.props.children[2] + " / " + week.props.children[2] + "-" + week.props.children[4]}</div>
+    }
+    if (day===7) {
+        return <div><Translate string={"sunday"}/>{": "+actual.props.children[2] + " / " + week.props.children[2] + "-" + week.props.children[4]}</div>
+    }
 }
 
 function fixedDate(date) {

@@ -16,7 +16,6 @@ import Translate from "../../locales/Translate";
 
 import './Buscador.css';
 import './Main.css';
-import {HashLink} from "react-router-hash-link";
 
 class Main extends Component {
     constructor() {
