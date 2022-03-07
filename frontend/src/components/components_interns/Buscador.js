@@ -4,6 +4,7 @@ import Translate from "../../locales/Translate";
 
 import './Buscador.css';
 import Loading from "./Loading";
+import ErrorNotFound from "./ErrorNotFound";
 
 class Buscador extends Component {
     _isMounted = false;
@@ -63,7 +64,7 @@ class Buscador extends Component {
       const {etiquetas,municipios,isLoading,error} = this.state;
 
       if (error) {
-          return <p>{error.message}</p>;
+          return <ErrorNotFound error={error} />;
       }
       if (isLoading) {
           return <Loading />;
