@@ -19,9 +19,9 @@
     <div class="row h-100 w-100 p-0">
       <div class="d-xl-none d-block h-100 col-lg-4 col-3 d-flex flex-row justify-content-center">
         <button id="navbar-button-header" class="navbar-toggler-t2 align-self-center border-white" aria-label="Lista" rel="noopener" data-bs-toggle="offcanvas" data-bs-target="#asideHeader" aria-controls="asideHeader">
-          <span class="line"></span>
-          <span class="line"></span>
-          <span class="line mb-0"></span>
+          <span class="line"><!-- --></span>
+          <span class="line"><!-- --></span>
+          <span class="line mb-0"><!-- --></span>
         </button>
       </div>
       <div class="col-xl-3 col-sm-4 col-6 h-100">
@@ -38,7 +38,7 @@
       </div>
       <div class="col-lg-3 col-4 d-flex flex-row d-lg-block d-none justify-content-lg-start">
         <div class="btn-group dropstart white-hover-grey h-100">
-          <a href="/login" class="dropdown-toggle text-white align-self-center" id="loginDropdown" aria-label="User" target="_self" rel="noopener" data-bs-toggle="dropdown" aria-expanded="false" role="button"><i class="bi bi-person-fill fs-3 pe-xl-5 pe-3 align-self-center"></i></a>
+          <a href="/login" class="dropdown-toggle text-white align-self-center" id="loginDropdown" aria-label="User" target="_self" rel="noopener" data-bs-toggle="dropdown" aria-expanded="false" role="button"><i class="bi bi-person-fill fs-3 pe-xl-5 pe-3 align-self-center"><!-- --></i></a>
           <ul th:if="${session.user}!=null" class="dropdown-menu" aria-label="Lenguaje" rel="noopener" aria-labelledby="loginDropdown">
             <li th:if="${session.user.isAdmin()}"><a class="dropdown-item" href="/restaurante/configuration/admin" th:text="#{header.user.admin.validation}"></a></li>
             <li><a class="dropdown-item" href="/user" th:text="#{header.user.update}+' '+${session.user.nombre_usuario}"></a></li>
@@ -46,7 +46,7 @@
           </ul>
         </div>
         <div class="btn-group dropstart">
-          <a class="dropdown-toggle white-hover-grey" id="idiomaDropdown" data-bs-toggle="dropdown" aria-label="Cambiar idioma" aria-expanded="false" role="button"><i class="bi bi-globe fs-3 pe-xl-5 pe-3 align-self-center"></i></a>
+          <a class="dropdown-toggle white-hover-grey" id="idiomaDropdown" data-bs-toggle="dropdown" aria-label="Cambiar idioma" aria-expanded="false" role="button"><i class="bi bi-globe fs-3 pe-xl-5 pe-3 align-self-center"><!-- --></i></a>
           <ul class="dropdown-menu" aria-labelledby="idiomaDropdown" aria-label="Cambiar idioma">
             <li><a class="dropdown-item" href="/lista/restaurantes/?lang=es" th:text="#{header.lang.es}"></a></li>
             <li><a class="dropdown-item" href="/lista/restaurantes/?lang=ca" th:text="#{header.lang.ca}"></a></li>

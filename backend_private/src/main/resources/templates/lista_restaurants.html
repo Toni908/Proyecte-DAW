@@ -8,7 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body class="d-flex flex-column min-vh-100">
-<header th:insert="shared/headerVersion1 :: header" class="sticky-top top-0"></header>
+    <div th:insert="shared/headerVersion1 :: header" class="sticky-top top-0"></div>
+
     <h2 class="text-center pt-5 fw-bold title_principal" th:text="#{list.restaurants.title}+' '+${user.nombre_usuario}"></h2>
     <div class="d-flex flex-row justify-content-center w-100 gap-3 fw-bold sub_comment_title">
         <div th:text="#{list.restaurants.sub.title}"></div>
@@ -29,12 +30,12 @@
                         </div>
                         <div class="container">
                             <div class="d-flex flex-row justify-content-center">
-                                <div class="text-center fw-bold fs-5 p-0 pb-2" th:text="${restaurante.nombre}"></div>
+                                <h5 class="text-center fw-bold p-0" th:text="${restaurante.nombre}"></h5>
                             </div>
                             <div class="container">
                                 <div class="row" th:each="carta : ${cartas}" th:if="${carta.restaurant.id_restaurante}==${restaurante.id_restaurante}">
-                                    <div class="col-12">
-                                        <div th:if="${carta.hasVisible}==true" class="d-flex flex-row justify-content-center fw-bold gap-2">
+                                    <div th:if="${carta.hasVisible}==true" class="col-12">
+                                        <div class="d-flex flex-row justify-content-center fw-bold gap-2">
                                             <div th:text="#{list.restaurants.active.card}"></div>
                                             <p class="mb-1 fw-normal" th:each="carta1 : ${carta.restaurant.cartas}" th:if="${carta1.visible}==true" th:text="${carta1.nombre}"></p>
                                         </div>
@@ -62,11 +63,13 @@
                                 </div>
                             </div>
 
-                            <div th:if="${restaurante} != null" class="d-flex flex-row justify-content-center gap-2 w-100">
-                                <i th:if="${restaurante.isVisible()} == true" class="text-success align-self-center bi bi-eye-fill fs-3"></i>
-                                <i th:if="${restaurante.isVisible()} == false" class="text-secondary align-self-center bi bi-eye-slash-fill fs-3"></i>
-                                <i th:if="${restaurante.getMembresia()}!=null" class="text-success align-self-center bi bi-inboxes fs-3"></i>
-                                <i th:if="${restaurante.getMembresia()}==null" class="text-secondary align-self-center bi bi-inboxes fs-3"></i>
+                            <div th:if="${restaurante} != null" class="w-100 pb-3">
+                                <div class="d-flex flex-row justify-content-between">
+                                    <i th:if="${restaurante.isVisible()} == true" class="text-success bi bi-eye-fill fs-5 p-5"> Visible</i>
+                                    <i th:if="${restaurante.isVisible()} == false" class="text-secondary bi bi-eye-slash-fill fs-5 p-5"> Visible</i>
+                                    <i th:if="${restaurante.getMembresia()}!=null" class="text-success bi bi-inboxes fs-5 p-5"> Membresia</i>
+                                    <i th:if="${restaurante.getMembresia()}==null" class="text-secondary bi bi-inboxes fs-5 p-5"> Membresia</i>
+                                </div>
                             </div>
 
                         </div>
@@ -78,8 +81,8 @@
             <div th:insert="shared/noRestaurante :: norestaurant"></div>
         </div>
     </div>
-</body>
-<footer th:insert="shared/footer :: body" class="mt-auto fot"></footer>
+<div th:insert="shared/footer :: footer" class="mt-auto fot"></div>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
+</body>
 </html>

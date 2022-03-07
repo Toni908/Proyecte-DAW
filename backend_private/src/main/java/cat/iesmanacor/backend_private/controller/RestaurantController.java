@@ -131,6 +131,7 @@ public class RestaurantController {
                     model.addAttribute("restaurant", restaurant);
                     model.addAttribute("etiqueta", new Etiquetas());
                     model.addAttribute("etiquetas", etiquetasService.findAllEtiquetas());
+                    model.addAttribute("isNotLista",false);
                     return "formularios/restaurante-create";
                 }
             }
