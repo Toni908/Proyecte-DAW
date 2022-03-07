@@ -56,7 +56,7 @@ public class CardController {
             return "redirect:/error/401";
         }
 
-        String qr = "https://"+ urlw +"/carta/" + id;
+        String qr = "https://"+ urlw +"/card/" + id;
         // String path = "./src/main/resources/static/imgqr/"+id+".png";
 
         try {

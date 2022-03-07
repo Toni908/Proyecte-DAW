@@ -41,10 +41,10 @@ class Header extends Component {
 
                 <div className="text-end">
                 
-                  <a href={"http://admin." + process.env.REACT_APP_URL + ":8080/login"}>
+                  <a href={"http://admin." + process.env.REACT_APP_URL + "/login"}>
                     <Button className="me-2 login"><Translate string={'aceder'}/></Button>
                   </a>
-                  <a href={"http://admin." + process.env.REACT_APP_URL + ":8080/register"}>
+                  <a href={"http://admin." + process.env.REACT_APP_URL + "/register"}>
                     <Button className="login"><Translate string={'registrar'}/></Button>
                   </a>
                 </div>

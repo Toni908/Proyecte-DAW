@@ -1,10 +1,18 @@
 import React, { Component } from 'react';
 import Menu from './components/paginas/Menu';
 import axios from "axios";
+import {useParams} from "react-router";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
-class CartaRepresentar extends Component {
+const CartaRepresentar = (props) => {
+    return <Carta
+        {...props}
+        params={useParams()}
+    />
+};
+
+class Carta extends Component {
     constructor(props) {
         super(props);
   
@@ -16,15 +24,12 @@ class CartaRepresentar extends Component {
       }
   
       componentDidMount(){
-        var url = window.location.href;
-        var l = url.split('/');
-        var d = l.length-1;
-        var id = l[d];
+        const { id } = this.props.params;
         this.setState({id: id});
 
         var ip = process.env.REACT_APP_API_URL;
 
-        url = ip + '/carta/'+ id;
+        var url = ip + '/card/'+ id;
 
         console.log(url);
 
