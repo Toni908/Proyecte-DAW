@@ -1,6 +1,5 @@
 import React, {useState} from "react";
 import {Modal} from "react-bootstrap";
-import {HashLink} from "react-router-hash-link";
 import {EmailIcon, EmailShareButton} from "react-share";
 
 import Translate from "../../locales/Translate";

@@ -10,7 +10,7 @@ import FullCalendarReservas from "../components_interns/FullCalendarReservas";
 import {useParams} from "react-router";
 
 import icon_person from "../../img/icon_person.webp";
-import schedule from "../components_interns/utilities/schedule";
+import {getMonthString} from "../components_interns/utilities/schedule";
 import GalleryRestaurant from "../components_interns/GalleryRestaurant";
 import Loading from "../components_interns/Loading";
 import Menu from "./Menu";
@@ -176,8 +176,7 @@ class Restaurante extends Component {
                             <div className={"text-center pb-3"}>
                                 <Translate string={"bookings-info"}/>
                                 <br/>
-                                <Translate string={"bookings-info-2"}/>
-                                {reservas_dias}
+                                <Translate string={"bookings-info-2"}/> {reservas_dias}
                             </div>
                             {restaurant.dies_anticipacion_reservas !==undefined && restaurant.aforo !==undefined && restaurant.id_restaurante !==undefined && <FullCalendarReservas reservas={reservas} dia_minimo={restaurant.dies_anticipacion_reservas} aforo={restaurant.aforo} periodo={periodo} horario={horario} restaurant={restaurant}/>}
                         </section>
@@ -276,7 +275,7 @@ class Restaurante extends Component {
 
 function formatDate(fecha) {
     let date = new Date(fecha);
-    return <div>{schedule.getMonthString(date.getMonth())} del {date.getFullYear()}</div>
+    return <div>{getMonthString(date.getMonth())} del {date.getFullYear()}</div>
 }
 
 function valoraciones(comments) {

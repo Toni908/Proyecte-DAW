@@ -16,6 +16,7 @@ import Translate from "../../locales/Translate";
 
 import './Buscador.css';
 import './Main.css';
+import {HashLink} from "react-router-hash-link";
 
 class Main extends Component {
     constructor() {
@@ -28,7 +29,7 @@ class Main extends Component {
             error: null,
             buscador: false,
             restaurantes:[],
-            etiqueta: null,
+            etiquetas: null,
             sitio: null,
             precio: null
         };
@@ -50,24 +51,31 @@ class Main extends Component {
         }))
     }
 
-    changeEtiqueta(e){
+    async changeEtiqueta(e){
         if(e.target.value !== "null"){
-            window.location.href = ("/search/etiquetas/"+e.target.value)
+            document.getElementById('click_redirect').hidden = false;
+            await this.setState({etiquetas: e.target.value})
+            document.getElementById('etiquetas').click();
         }
     }
-    changeSitio(e){
+    async changeSitio(e){
         if(e.target.value !== "null"){
-            window.location.href = ("/search/sitio/"+e.target.value)
+            document.getElementById('click_redirect').hidden = false;
+            await this.setState({sitio: e.target.value})
+            document.getElementById('sitio').click();
         }
     }
-    changePrecio(e){
+    async changePrecio(e){
         if(e.target.value !== "null"){
-            window.location.href = ("/search/precio/"+e.target.value)
+            document.getElementById('click_redirect').hidden = false;
+            await this.setState({precio: e.target.value})
+            document.getElementById('precio').click();
         }
     }
 
     filter() {
-        window.location.href = ("/search");
+        document.getElementById('click_redirect').hidden = false;
+        document.getElementById('buscar').click();
     }
 
     render() {
@@ -95,7 +103,7 @@ class Main extends Component {
                         <section className={"w-100 pt-4"}>
                             <section className={"w-100 m-0 p-0 max-w-full"}>
                                 <div className={"row w-100 m-0"}>
-                                    <article className={"col-lg-3 col-12 p-2"}>
+                                    <article className={"col-lg-3 col-12 p-2 px-lg-2 px-4"}>
                                         <Link to={"/search/sitio/Manacor"} style={{ textDecoration: 'none' }}>
                                             <Card className={"border-0"}>
                                                 <img className={'card-section-municipio w-100 round-card-top object-cover'} src={city1} alt={"Municipio"}/>
@@ -106,7 +114,7 @@ class Main extends Component {
                                             </Card>
                                         </Link>
                                     </article>
-                                    <article className={"col-lg-3 col-12 p-2"}>
+                                    <article className={"col-lg-3 col-12 p-2 px-lg-2 px-4"}>
                                         <Link to={"/search/sitio/Palma"} style={{ textDecoration: 'none' }}>
                                             <Card className={"border-0"}>
                                                 <img className={'card-section-municipio w-100 round-card-top object-cover'} src={city2} alt={"Municipio"}/>
@@ -117,7 +125,7 @@ class Main extends Component {
                                             </Card>
                                         </Link>
                                     </article>
-                                    <article className={"col-lg-3 col-12 p-2"}>
+                                    <article className={"col-lg-3 col-12 p-2 px-lg-2 px-4"}>
                                         <Link to={"/search/sitio/Inca"} style={{ textDecoration: 'none' }}>
                                             <Card className={"border-0"}>
                                                 <img className={'card-section-municipio w-100 round-card-top object-cover'} src={city3} alt={"Municipio"}/>
@@ -128,7 +136,7 @@ class Main extends Component {
                                             </Card>
                                         </Link>
                                     </article>
-                                    <article className={"col-lg-3 col-12 p-2"}>
+                                    <article className={"col-lg-3 col-12 p-2 px-lg-2 px-4"}>
                                         <Link to={"/search/sitio/Pollença"} style={{ textDecoration: 'none' }}>
                                             <Card className={"border-0"}>
                                                 <img className={'card-section-municipio w-100 round-card-top object-cover'} src={city4} alt={"Municipio"}/>
@@ -146,6 +154,12 @@ class Main extends Component {
                             </section>
                         </section>
                     </div>
+                </div>
+                <div id={"click_redirect"} hidden>
+                    <Link id={"etiquetas"} to={"/search/etiquetas/"+this.state.etiquetas}>Redirect</Link>
+                    <Link id={"sitio"} to={"/search/sitio/"+this.state.sitio}>Redirect</Link>
+                    <Link id={"precio"} to={"/search/precio/"+this.state.precio}>Redirect</Link>
+                    <Link id={"buscar"} to={"/search"}>Redirect</Link>
                 </div>
             </section>
         )

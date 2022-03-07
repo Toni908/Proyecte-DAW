@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
     <title th:text="${restaurant.nombre}"></title>
     <link rel=icon th:if="${imagesRestaurant.size()}!=0" th:href="@{${restaurant.getPhotosImagePath()}+${imagesRestaurant.get(0).url}}" sizes="16x16" type="image/png">
     <link rel=icon th:if="${imagesRestaurant.size()}==0" th:href="@{/img/no-photo-available.jpg}" sizes="16x16" type="image/png">
@@ -16,11 +15,10 @@
 <div th:if="${error}!=null" th:text="${error}" class="message_error"></div>
 <div th:if="${success}!=null" th:text="${success}" class="message_success"></div>
 <div id="error" class="message_error"></div>
-
 <main class="w-100 p-0 m-0">
     <aside th:insert="shared/asideList :: aside"></aside>
     <form id="restauranteFixed" class="d-flex flex-row justify-content-center" onsubmit="return validateGeneral()" th:action="@{/restaurant/put}" method="POST" th:object="${restaurant}">
-        <main class="d-flex flex-column justify-content-center body-info">
+        <div class="d-flex flex-column justify-content-center body-info">
             <section class="pt-5">
                 <h3 class="title_section-info" th:text="#{restaurant.update.title}"></h3>
                 <div class="d-flex flex-row justify-content-center pt-2">
@@ -29,7 +27,9 @@
                 <div class="d-flex flex-row justify-content-center">
                     <div class="d-flex flex-column justify-content-center length">
                         <div class="border border-secondary border-1 mt-5 p-4 box-container">
-                            <input type="text" th:field="*{id_restaurante}" hidden>
+                            <label for="id_r">
+                                <input class="d-none" type="text" id="id_r" th:field="*{id_restaurante}">
+                            </label>
                             <h4 class="fw-normal text-start text-black QuickSand" th:text="#{restaurant.update.info.general}"></h4>
                             <p class="paraf_form text-start fw-normal" th:text="#{restaurant.update.info.general.paraf}"></p>
                             <div class="ps-3 text-lg-start text-center" th:text="#{restaurant.form.name}"></div>
@@ -79,9 +79,9 @@
 
                                             </select>
                                         </label>
-                                        <div id="validateLocalidadResponse"></div>
+                                        <div id="validateLocalidadResponse"><!-- --></div>
                                     </div>
-                                    <label for='myLocalidadChanged'></label><input type='text' id='myLocalidadChanged' name='myLocalidadChanged' hidden/>
+                                    <label for='myLocalidadChanged'><input type='text' class="d-none" id='myLocalidadChanged' name='myLocalidadChanged'/></label>
                                 </div>
                                 <div class="row" id="localidadMunicipioActual">
                                     <div class="col-sm">
@@ -101,7 +101,7 @@
                             <div class="form-check form-switch d-flex flex-row justify-content-center pt-4">
                                 <div class="d-flex flex-column w-100">
                                     <div class="text-center" th:text="#{restaurant.update.question.checkbox}"></div>
-                                    <label class="pt-3 w-100 d-flex flex-row justify-content-center">
+                                    <label for="changeLocalidad" class="pt-3 w-100 d-flex flex-row justify-content-center">
                                         <input class="form-check-input m-0 fs-3" type="checkbox" id="changeLocalidad">
                                     </label>
                                 </div>
@@ -112,22 +112,22 @@
                                 <div class="container pt-3 m-0 w-100 px-0">
                                     <div class="col-sm p-0">
                                         <div class="ps-3 text-start" th:text="#{restaurant.form.address}"></div>
-                                        <label class="w-100 pe-2 ps-3">
-                                            <input type="text" class="input-text" th:field="*{direccion}">
+                                        <label for="direccion" class="w-100 pe-2 ps-3">
+                                            <input type="text" class="input-text" id="direccion" th:field="*{direccion}">
                                         </label>
                                     </div>
                                 </div>
                                 <div class="container-responsive-form d-flex justify-content-center flex-row">
                                     <div class="p-0 form_2 pe-2 w-40">
                                         <div class="ps-3 paraf_form text-secondary" th:text="#{restaurant.form.longitude}"></div>
-                                        <label class="w-100 field_form_section">
-                                            <input type="number" step="any" id="longitud" class="input-text text-secondary" th:field="*{longitud}" name="longitud" readonly>
+                                        <label for="longitud" class="w-100 field_form_section">
+                                            <input type="number" step="any" id="longitud" class="input-text" th:field="*{longitud}" name="longitud" readonly>
                                         </label>
                                     </div>
                                     <div class="p-0 form_2 ps-2 w-40">
                                         <div class="ps-3 paraf_form text-secondary" th:text="#{restaurant.form.latitude}"></div>
-                                        <label class="w-100 field_form_section">
-                                            <input type="number" step="any" id="latitud" class="input-text text-secondary" th:field="*{latitud}" name="latitud" readonly>
+                                        <label for="latitud" class="w-100 field_form_section">
+                                            <input type="number" step="any" id="latitud" class="input-text" th:field="*{latitud}" name="latitud" readonly>
                                         </label>
                                     </div>
                                 </div>
@@ -147,10 +147,10 @@
                     </div>
                 </div>
             </section>
-        </main>
+        </div>
     </form>
     <form id="privacidadFixed" class="d-flex flex-row justify-content-center" th:action="@{/restaurant/visibility}" method="POST">
-        <main class="d-flex flex-column justify-content-center body-info">
+        <div class="d-flex flex-column justify-content-center body-info">
             <section class="pt-5">
                 <h3 class="title_section-info" th:text="#{restaurant.update.privacy}"></h3>
                 <div class="d-flex flex-row justify-content-center pt-2">
@@ -163,12 +163,12 @@
                         <div class="border border-secondary border-1 mt-2 p-4 box-container">
                             <h4 class="fw-normal text-start text-black QuickSand" th:text="#{restaurant.update.privacy.info}"></h4>
                             <p class="paraf_form text-start fw-normal" th:text="#{restaurant.update.privacy.paraf}"></p>
-                            <label><input type='number' name='idRestaurante' th:value="${restaurant.id_restaurante}" hidden/></label>
+                            <label><input type='number' class="d-none" name='idRestaurante' th:value="${restaurant.id_restaurante}"/></label>
                             <div class="container pt-3 m-0 w-100 px-0">
                                 <div class="form-check form-switch d-flex flex-row justify-content-center pt-4">
-                                    <label class="w-100 d-flex flex-row justify-content-center">
-                                        <input th:if="${restaurant.visible} == true" type="checkbox" name="visibilty" class="form-check-input m-0 fs-3" checked>
-                                        <input th:if="${restaurant.visible} == false" type="checkbox" name="visibilty" class="form-check-input m-0 fs-3">
+                                    <label for="visibilty" class="w-100 d-flex flex-row justify-content-center">
+                                        <input th:if="${restaurant.visible} == true" type="checkbox" id="visibilty" name="visibilty" class="form-check-input m-0 fs-3" checked>
+                                        <input th:if="${restaurant.visible} == false" type="checkbox" id="visibilty" name="visibilty" class="form-check-input m-0 fs-3">
                                     </label>
                                 </div>
                             </div>
@@ -179,10 +179,10 @@
                     </div>
                 </div>
             </section>
-        </main>
+        </div>
     </form>
     <form id="etiquetasFixed" class="d-flex flex-row justify-content-center" onsubmit="return validateEtiquetas()" th:action="@{/etiquetas/save}" method="POST">
-        <main class="d-flex flex-column justify-content-center body-info">
+        <div class="d-flex flex-column justify-content-center body-info">
             <section class="pt-5">
                 <h3 class="title_section-info" th:text="#{restaurant.update.tags}"></h3>
                 <div class="d-flex flex-row justify-content-center pt-2">
@@ -195,18 +195,18 @@
                             <p class="paraf_form text-start fw-normal" th:text="#{restaurant.update.tags.title.paraf}">
                                 <a class="text-decoration-none text-danger" th:text="#{restaurant.update.tags.title.paraf.red}"></a>
                             </p>
-                            <label><input type='number' name='idRestaurante' th:value="${restaurant.id_restaurante}" hidden/></label>
+                            <label for="idRestaurante"><input type='number' class="d-none" id="idRestaurante" name='idRestaurante' th:value="${restaurant.id_restaurante}"/></label>
                             <div class="container pt-3 m-0 w-100 px-0">
                                 <div class="row">
                                     <div class="col-sm">
                                         <div class="ps-3 paraf_form text-secondary" th:text="#{restaurant.form.tags}"></div>
-                                        <label class="text-center w-100">
+                                        <label for="selectText" class="text-center w-100">
                                             <input id="selectText" class="input-text" type="text">
                                         </label>
                                     </div>
                                     <div class="col-sm">
                                         <div class="ps-3 paraf_form text-secondary" th:text="#{restaurant.create.js.search}"></div>
-                                        <label class="text-center w-100">
+                                        <label for="selectEtiquetas" class="text-center w-100">
                                             <select class="input-text" id="selectEtiquetas">
                                             </select>
                                             <input class="input-text p-3 border border-2 border-success" id="create_etiqueta" onclick="addEtiqueta()" type="hidden" value="Create">
@@ -218,16 +218,16 @@
                         <!-- BOX OF ETIQUETAS SELECTED -->
                         <div class="align-self-center mt-4 pt-2 w-100">
                             <div class="text-center paraf_form" th:text="#{restaurant.form.tags.selected}"></div>
-                            <section class="h-100 p-4 h-auto" th:if="${etiquetas}!=null">
+                            <div class="h-100 p-4 h-auto" th:if="${etiquetas}!=null">
                                 <div class="d-flex flex-row justify-content-center flex-wrap gap-2" id="etiquetas_box">
                                     <div class="border border-2 w-auto box-container" th:each="etiqueta : ${etiquetas}" onclick='deleteEtiqueta(this)'>
-                                        <i class='bi bi-tag ps-2'></i>
-                                        <label class="w-auto">
-                                            <input name='etiquetas' class='singleEtiqueta border-0 ps-2 box-container' th:value="${etiqueta.nombre}" readonly/>
+                                        <i class='bi bi-tag ps-2'><!-- --></i>
+                                        <label for="etiquetas" class="w-auto">
+                                            <input id="etiquetas" name='etiquetas' class='singleEtiqueta border-0 ps-2 box-container' th:value="${etiqueta.nombre}" readonly/>
                                         </label>
                                     </div>
                                 </div>
-                            </section>
+                            </div>
                         </div>
                         <div class="d-flex flex-row justify-content-center pt-4">
                             <button type="submit" class="btn btn-dark" th:text="#{button.save}"></button>
@@ -235,10 +235,10 @@
                     </div>
                 </div>
             </section>
-        </main>
+        </div>
     </form>
     <form id="imagenesFixed" onsubmit="return validateImage()" class="d-flex flex-row justify-content-center" th:style="${imagesRestaurant.size()} == 0 ? 'margin-bottom: 50px' : ''" th:action="@{/imagen/saveMultiple}" enctype="multipart/form-data" method="POST">
-        <main class="d-flex flex-column justify-content-center body-info">
+        <div class="d-flex flex-column justify-content-center body-info">
             <section class="pt-5">
                 <h3 class="title_section-info" th:text="#{restaurant.update.images}"></h3>
                 <div class="d-flex flex-row justify-content-center pt-2">
@@ -252,7 +252,7 @@
                     <div class="d-flex flex-column justify-content-center length">
                         <div class="border border-secondary border-1 mt-2 p-4 box-container">
                             <div id="imagesCarusel" class="carousel slide" data-bs-ride="carousel">
-                                <div class="carousel-indicators">
+                                <div class="carousel-indicators" th:if="${imagesRestaurant.size()}<1">
                                     <button th:each="image, iteration : ${imagesRestaurant}" type="button" data-bs-target="#imagesCarusel" th:data-bs-slide-to="${iteration.index}" th:class="${iteration.index} == 0 ? 'active' : ''"></button>
                                 </div>
                                 <div class="carousel-inner">
@@ -266,8 +266,8 @@
                             </div>
                             <div class="mb-3 p-0 mt-3">
                                 <div class="ps-3 paraf_form" th:text="#{restaurant.update.images.insert}"></div>
-                                <label class="w-100 field_form_principal">
-                                    <input id="saveMultiple" class="input-text validateImagenResponse" name="saveMultiple" multiple accept="image/jpeg, image/jpg, image/png, image/gif" type="file" maxlength="80" placeholder="URL" required>
+                                <label for="saveMultiple" class="w-100 field_form_principal">
+                                    <input id="saveMultiple" class="input-text validateImagenResponse" name="saveMultiple" multiple accept="image/jpeg, image/jpg, image/png, image/gif" type="file" required>
                                 </label>
                                 <div id="validateImagenResponse"></div>
                             </div>
@@ -278,10 +278,10 @@
                     </div>
                 </div>
             </section>
-        </main>
+        </div>
     </form>
     <form onsubmit="return validateImages()" th:if="${imagesRestaurant.size()} != 0" class="d-flex flex-row justify-content-center mb-5" th:action="@{/imagen/delete}" enctype="multipart/form-data" method="POST">
-        <main class="d-flex flex-column justify-content-center body-info">
+        <div class="d-flex flex-column justify-content-center body-info">
             <section class="pt-5">
                 <h3 class="title_section-info" th:text="#{restaurant.update.images.manage}"></h3>
                 <input type="hidden" name="idRestaurante" th:value="${restaurant.id_restaurante}" hidden>
@@ -304,20 +304,20 @@
                     </div>
                 </div>
             </section>
-        </main>
+        </div>
     </form>
     <form th:if="${codeEliminar}!=null" class="d-flex flex-row justify-content-center mb-5" th:action="@{/restaurant/delete/}" method="POST">
-        <main class="d-flex flex-column justify-content-center body-info">
+        <div class="d-flex flex-column justify-content-center body-info">
             <section class="pt-5">
                 <h3 class="title_section-info" th:text="#{button.delete}+' '+#{restaurants.admin.title}"></h3>
                 <div class="d-flex flex-row justify-content-center">
                     <div class="d-flex flex-column justify-content-center length">
-                        <input type="text" class="input-text p-3 border border-2 border-success" id="id" th:value="${restaurant.id_restaurante}" name="id" hidden>
+                        <label for="id_restaurante"></label><input type="text" class="input-text p-3 border border-2 border-success" id="id_restaurante" th:value="${restaurant.id_restaurante}" name="id" hidden>
                         <div class="border border-secondary border-1 mt-2 p-4 box-container">
                             <p class="paraf_form" th:text="#{restaurant.update.delete.paraf}"><a class="text-decoration-none text-danger" th:text="#{restaurant.update.delete.paraf.red}"></a></p>
                             <div class="col-sm">
                                 <div class="ps-3 paraf_form" th:text="#{user.update.password.code.verify}"></div>
-                                <label class="text-center w-100">
+                                <label for="code" class="text-center w-100">
                                     <input type="text" class="input-text p-3 border border-2 border-success" id="code" name="code">
                                 </label>
                             </div>
@@ -329,13 +329,13 @@
                     </div>
                 </div>
             </section>
-        </main>
+        </div>
     </form>
 </main>
-<footer th:insert="shared/footer :: footer"></footer>
+<div th:insert="shared/footer :: footer"></div>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBCKiIqCdZGrVxx06LSbe7uG3zXOq1Cz5k&callback"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBCKiIqCdZGrVxx06LSbe7uG3zXOq1Cz5k"></script>
 <script th:inline="javascript">
     /*<![CDATA[*/
 

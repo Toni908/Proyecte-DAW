@@ -1,6 +1,8 @@
 .button-share {
     color: black;
+    background-color: white;
     padding: 4px 8px;
+    border-radius: 7px;
 }
 
 .button-share:hover {

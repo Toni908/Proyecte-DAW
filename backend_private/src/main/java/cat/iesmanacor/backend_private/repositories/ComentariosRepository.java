@@ -19,4 +19,13 @@ public interface ComentariosRepository extends JpaRepository<Comentarios, BigInt
 
     @Query(value = "select count(valoracion_sitio) from comentarios inner join reserva where reserva.id_restaurante = ?1 and comentarios.valoracion_sitio = ?2 and reserva.id_reserva = comentarios.id_reserva and fecha<=current_timestamp();",nativeQuery = true)
     Integer countSitioFromRestaurantValorationAndTime(BigInteger id,int valoracion);
+
+    @Query(value = "select sum(valoracion_comida) from comentarios inner join reserva where reserva.id_restaurante = ?1 and reserva.id_reserva = comentarios.id_reserva  and fecha<=current_timestamp()",nativeQuery = true)
+    Integer countComidaFromRestaurant(BigInteger id);
+
+    @Query(value = "select sum(valoracion_servicio) from comentarios inner join reserva where reserva.id_restaurante = ?1 and reserva.id_reserva = comentarios.id_reserva and fecha<=current_timestamp()",nativeQuery = true)
+    Integer countServicioFromRestaurant(BigInteger id);
+
+    @Query(value = "select sum(valoracion_servicio) from comentarios inner join reserva where reserva.id_restaurante = ?1 and reserva.id_reserva = comentarios.id_reserva and fecha<=current_timestamp()",nativeQuery = true)
+    Integer countSitioFromRestaurant(BigInteger id);
 }

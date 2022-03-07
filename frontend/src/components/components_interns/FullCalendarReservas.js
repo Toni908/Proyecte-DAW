@@ -7,13 +7,11 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from "@fullcalendar/interaction" // needed for dayClick
 import es from '@fullcalendar/core/locales/es';
 import ca from '@fullcalendar/core/locales/ca';
-import emailjs from "@emailjs/browser";
 
-import SelectHorario from "./SelectHorario";
 import ModalFullCalendar from "./ModalFullCalendar";
 
 import reservas_anticipacion from "./utilities/reservas_anticipacion";
-import bookings from "./utilities/bookings.js";
+import {canClientReservar, isClosed} from "./utilities/bookings.js";
 
 import "./FullCalendarReservas.css";
 import Translate from "../../locales/Translate";
@@ -59,11 +57,11 @@ function FullCalendarReservas(props) {
                         arg.el.innerHTML = "<div class='d-flex flex-row justify-content-end pe-2 py-4' style='height: 130px'>"+arg.el.innerText+"</div>";
                         if (arg.date>=new Date(lessResult)) {
                             // EN ROJO SI YA NO SE PUEDE HACER MAS RESERVAS
-                            if (!bookings.canClientReservar(arg.date, reservas,horario,aforo)) {
+                            if (!canClientReservar(arg.date, reservas,horario,aforo)) {
                                 arg.el.style.backgroundColor = "rgba(216,230,242,1)";
                             } else {
                                 // ESTA CERRADO ESE DIA?
-                                if (bookings.isClosed(arg.date, horario,reservas,aforo)) {
+                                if (isClosed(arg.date, horario,reservas,aforo)) {
                                     arg.el.style.backgroundColor = "rgba(216,230,242,1)";
                                 } else {
                                     // HA TERMINADO LA TEMPORADA
@@ -106,11 +104,11 @@ function FullCalendarReservas(props) {
                         arg.el.innerHTML = "<div class='d-flex flex-row justify-content-end pe-2 py-4'>"+arg.el.innerText+"</div>";
                         if (arg.date>=new Date(lessResult)) {
                             // EN ROJO SI YA NO SE PUEDE HACER MAS RESERVAS
-                            if (!bookings.canClientReservar(arg.date, reservas,horario,aforo)) {
+                            if (!canClientReservar(arg.date, reservas,horario,aforo)) {
                                 arg.el.style.backgroundColor = "rgba(216,230,242,1)";
                             } else {
                                 // ESTA CERRADO ESE DIA?
-                                if (bookings.isClosed(arg.date, horario,reservas,aforo)) {
+                                if (isClosed(arg.date, horario,reservas,aforo)) {
                                     arg.el.style.backgroundColor = "rgba(216,230,242,1)";
                                 } else {
                                     // HA TERMINADO LA TEMPORADA
@@ -131,7 +129,7 @@ function FullCalendarReservas(props) {
                 />
                 <div id={"success"} className={"message-success"} hidden={true}><Translate string={"message-success"}/></div>
                 <div id={"error"} className={"message-error"} hidden={true}><Translate string={"message-error"}/></div>
-                <ModalFullCalendar restaurant={restaurant} date={date} time={time} periodos={periodos} lessResult={lessResult} reservas={reservas} horario={horario} aforo={aforo} show={show} onShow={handleShow} onDate={handleDate} onTime={handleTime}/>
+                <ModalFullCalendar restaurant={restaurant} date={date} time={time} periodos={periodos} lessResult={lessResult} result={result} reservas={reservas} horario={horario} aforo={aforo} show={show} onShow={handleShow} onDate={handleDate} onTime={handleTime}/>
             </>
         )
     } else {
@@ -152,11 +150,11 @@ function FullCalendarReservas(props) {
                         arg.el.innerHTML = "<div class='d-flex flex-row justify-content-end pe-2 py-4'>"+arg.el.innerText+"</div>";
                         if (arg.date>=new Date(lessResult)) {
                             // EN ROJO SI YA NO SE PUEDE HACER MAS RESERVAS
-                            if (!bookings.canClientReservar(arg.date, reservas,horario,aforo)) {
+                            if (!canClientReservar(arg.date, reservas,horario,aforo)) {
                                 arg.el.style.backgroundColor = "rgba(216,230,242,1)";
                             } else {
                                 // ESTA CERRADO ESE DIA?
-                                if (bookings.isClosed(arg.date, horario,reservas,aforo)) {
+                                if (isClosed(arg.date, horario,reservas,aforo)) {
                                     arg.el.style.backgroundColor = "rgba(216,230,242,1)";
                                 } else {
                                     // HA TERMINADO LA TEMPORADA
@@ -177,7 +175,7 @@ function FullCalendarReservas(props) {
                 />
                 <div id={"success"} className={"message-success"} hidden={true}><Translate string={"message-success"}/></div>
                 <div id={"error"} className={"message-error"} hidden={true}><Translate string={"message-error"}/></div>
-                <ModalFullCalendar restaurant={restaurant} date={date} time={time} periodos={periodos} lessResult={lessResult} reservas={reservas} horario={horario} aforo={aforo} show={show} onShow={handleShow} onDate={handleDate} onTime={handleTime}/>
+                <ModalFullCalendar restaurant={restaurant} date={date} time={time} periodos={periodos} lessResult={lessResult} result={result} reservas={reservas} horario={horario} aforo={aforo} show={show} onShow={handleShow} onDate={handleDate} onTime={handleTime}/>
             </>
         )
     }

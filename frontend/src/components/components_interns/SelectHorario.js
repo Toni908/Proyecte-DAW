@@ -1,5 +1,5 @@
 import Select from 'react-select'
-import schedule from "./utilities/schedule";
+import {getDayNumber} from "./utilities/schedule";
 
 function SelectHorario(props) {
     function handleChange(event) {
@@ -17,7 +17,7 @@ function getHorarioFromDate(date, horario) {
     }
 
     for (let i = 0; i < horario.length; i++) {
-        let number = schedule.getDayNumber(horario[i].day);
+        let number = getDayNumber(horario[i].day);
         if (number===date.getDay()) {
             let hora_fin = parseInt(horario[i].hora_fin.split(":")[0]);
             let hora_inicio = parseInt(horario[i].hora_inicio.split(":")[0]);

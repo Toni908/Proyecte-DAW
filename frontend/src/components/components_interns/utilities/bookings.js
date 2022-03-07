@@ -1,33 +1,7 @@
-import schedule from "./schedule";
+import {getDayNumber} from "./schedule";
 import $ from "jquery";
 
-class bookings {
-    static canClientReservar(date, reservas,horario, aforo) {
-        return canClientReservar(date, reservas,horario, aforo);
-    }
-    static formatDateES(date) {
-        return formatDateES(date);
-    }
-    static isClosed(date, horario) {
-        return isClosed(date, horario);
-    }
-    static filterArrayFromDate(array, date,time) {
-        return filterArrayFromDate(array, date,time);
-    }
-    static getHoursDate(date) {
-        return getHoursDate(date);
-    }
-    static formatDateEN(date, time) {
-        return formatDateEN(date, time);
-    }
-    static sendEmail(correo, ruta) {
-        sendEmail(correo, ruta);
-    }
-}
-
-export default bookings
-
-function filterArrayFromDate(array, date,time) {
+export function filterArrayFromDate(array, date, time) {
     if (time===""){
         time = "00:00:00";
     }
@@ -40,14 +14,14 @@ function filterArrayFromDate(array, date,time) {
     return personasTotal;
 }
 
-function getHoursDate(date){
+export function getHoursDate(date){
     if (date.getHours()<10) {
         return 0+""+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();
     }
     return date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();
 }
 
-function formatDateEN(date, time) {
+export function formatDateEN(date, time) {
     let result = new Date(date);
     let resultTime = time.split(":");
     return result.getFullYear()+"-"+(result.getMonth()+1)+"-"+result.getDate()+" "+resultTime[0]+":"+resultTime[1]+":"+resultTime[2];
@@ -56,12 +30,12 @@ function formatDateESSimple(date) {
     let result = new Date(date);
     return result.getDate()+"-"+(result.getMonth()+1)+"-"+result.getFullYear()+" "+result.getHours();
 }
-function formatDateES(date) {
+export function formatDateES(date) {
     let result = new Date(date);
     return result.getDate()+"-"+(result.getMonth()+1)+"-"+result.getFullYear();
 }
 
-function canClientReservar(date, reservas,horario, aforo) {
+export function canClientReservar(date, reservas, horario, aforo) {
     var startDate = new Date(date);
     var endDate = new Date(date);
     endDate.setDate(endDate.getDate()+1);
@@ -90,7 +64,7 @@ function getHoursNumberFromDate(date, horario) {
     horario = change0000(horario);
 
     for (let i = 0; i < horario.length; i++) {
-        let number = schedule.getDayNumber(horario[i].day);
+        let number = getDayNumber(horario[i].day);
         if (number===date.getDay()) {
             let hora_fin = parseInt(horario[i].hora_fin.split(":")[0]);
             let hora_inicio = parseInt(horario[i].hora_inicio.split(":")[0]);
@@ -102,7 +76,7 @@ function getHoursNumberFromDate(date, horario) {
     return arrayHorario;
 }
 
-function sendEmail(correo, ruta) {
+export function sendEmail(correo, ruta) {
     var data = {
         service_id: 'service_1oq8hpi',
         template_id: 'template_d3g3uye',
@@ -125,14 +99,14 @@ function sendEmail(correo, ruta) {
 }
 
 
-function isClosed(date, horario) {
+export function isClosed(date, horario) {
     let newHorario = [];
     if (!Array.isArray(horario)) {
         newHorario = Object.values(horario)
     }
     // EN EL EL DIA DE LA SETMANA HAY ALGUNA FECHA === ESTA ABIERTO
     for (let i = 0; i < newHorario.length; i++) {
-        let number = schedule.getDayNumber(newHorario[i].day);
+        let number = getDayNumber(newHorario[i].day);
         if (number===date.getDay()) {
             return false;
         }

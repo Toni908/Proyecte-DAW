@@ -76,6 +76,7 @@ public class RestaurantController {
             model.addAttribute("restaurantesUser", restaurantService.findRestaurantByUseracount(useracount.getId_user()));
             model.addAttribute("ImgImages", imagesIsEmpties(useracount));
             model.addAttribute("user", simpleUserDTO);
+            model.addAttribute("isNotLista",false);
             return "lista_restaurants";
         }
         return "redirect:/error/401";
@@ -130,6 +131,7 @@ public class RestaurantController {
                     model.addAttribute("restaurant", restaurant);
                     model.addAttribute("etiqueta", new Etiquetas());
                     model.addAttribute("etiquetas", etiquetasService.findAllEtiquetas());
+                    model.addAttribute("isNotLista",false);
                     return "formularios/restaurante-create";
                 }
             }
@@ -463,6 +465,8 @@ public class RestaurantController {
             model.addAttribute("error",traductions.getTraductionLocale(request));
             return model;
         }
+        Traductions traductions = new Traductions("Cambio realizado","Change done it","Canvi fet");
+        model.addAttribute("success",traductions.getTraductionLocale(request));
         updateRestaurant(restaurant);
         return model;
     }
