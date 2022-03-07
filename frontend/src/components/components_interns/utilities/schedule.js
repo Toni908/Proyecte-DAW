@@ -33,6 +33,7 @@ function getResultHour(horario, today) {
         <div className={"d-flex flex-row gap-1"}><Translate string={"schedule-title"}/><div className={"text-danger"}><Translate string={"schedule-closed"}/></div></div>
         <div className={"paraf_info_horario"}><Translate string={"schedule-message-not-open"}/></div>
     </div>);
+    let firstHour = false;
 
     for (let i = 0; i < horario.length; i++) {
         //SI ES HOY
@@ -41,81 +42,67 @@ function getResultHour(horario, today) {
             if (horario[i].hora_fin === "00:00:00") {
                 hora_fin = "24:00:00";
             }
-            // LA HORA ES MENOR QUE EL HORARIO (NO = HAY HORAS ADELANTE) (SI = SEGUIR BUSCANDO)
-            if (isClosed(fixedDate(horario[i].hora_inicio), today)) {
-                result = (<div className={"d-flex flex-column"}>
-                    <div key={i} className={"d-flex flex-row gap-1"}>
-                        <Translate string={"schedule-title"}/>
-                        <div className={"text-warning"}>
-                            <Translate string={"schedule-closed"}/>
+
+            if (hasHoursAfter(horario[i], today)) {
+                if (!firstHour) {
+                    firstHour = true;
+                    result = (<div className={"d-flex flex-column"}>
+                        <div key={i} className={"d-flex flex-row gap-1"}>
+                            <Translate string={"schedule-title"}/>
+                            <div className={"text-warning"}>
+                                <Translate string={"schedule-closed"}/>
+                            </div>
                         </div>
-                    </div>
-                    <div className={"paraf_info_horario"}><Translate string={"schedule-message-open-on"}/>{fixedDate(horario[i].hora_inicio)}</div>
-                </div>);
-            } else {
-                // LA HORA +2 ES MAYOR QUE EL HORARIO (SI = APUNTO DE CERRAR) (NO = SEGUIR BUSCANDO)
+                        <div className={"paraf_info_horario"}><Translate string={"schedule-message-open-on"}/>{fixedDate(horario[i].hora_inicio)}</div>
+                    </div>);
+                }
+            }
+
+            if (isOpen(horario[i]) || hora_fin==="24:00:00") {
                 if (isNearClose(fixedDate(horario[i].hora_inicio),fixedDate(hora_fin), today)) {
-                    // ES TODO CORRECTO ?
-                    if (hasPassedTime(fixedDate(horario[i].hora_inicio), fixedDate(hora_fin), today)) {
-                        result = (<div className={"d-flex flex-column"}>
-                            <div key={i} className={"d-flex flex-row gap-1"}>
-                                <Translate string={"schedule-title"}/>
-                                <div className={"text-success"}>
-                                    <Translate string={"schedule-open"}/>
-                                </div>
+                    result = (<div className={"d-flex flex-column"}>
+                        <div key={i} className={"d-flex flex-row gap-1"}>
+                            <Translate string={"schedule-title"}/>
+                            <div className={"text-success"}>
+                                <Translate string={"schedule-open"}/>
                             </div>
-                            <div className={"paraf_info_horario"}>
-                                <i className="bi bi-info-circle pe-1 fw-bold text-warning"/>
-                                <Translate string={"schedule-message-near-closed"}/>
-                                {fixedDate(hora_fin)}
-                            </div>
-                        </div>);
-                        break;
-                    } else {
-                        result = (<div className={"d-flex flex-column"}>
-                            <div key={i} className={"d-flex flex-row gap-1"}>
-                                <Translate string={"schedule-title"}/>
-                                <div className={"text-danger"}>
-                                    <Translate string={"schedule-closed"}/>
-                                </div>
-                            </div>
-                            <div className={"paraf_info_horario text-secondary"}>
-                                <Translate string={"schedule-message-already-closed"}/>
-                            </div>
-                        </div>);
-                    }
+                        </div>
+                        <div className={"paraf_info_horario"}>
+                            <i className="bi bi-info-circle pe-1 fw-bold text-warning"/>
+                            <Translate string={"schedule-message-near-closed"}/>
+                            {fixedDate(hora_fin)}
+                        </div>
+                    </div>);
+                    break;
                 } else {
-                    if (hasPassedTime(fixedDate(horario[i].hora_inicio), fixedDate(hora_fin), today)) {
-                        result = (<div className={"d-flex flex-column"}>
-                            <div key={i} className={"d-flex flex-row gap-1"}>
-                                <Translate string={"schedule-title"}/>
-                                <div className={"text-success"}>
-                                    <Translate string={"schedule-open"}/>
-                                </div>
+                    result = (<div className={"d-flex flex-column"}>
+                        <div key={i} className={"d-flex flex-row gap-1"}>
+                            <Translate string={"schedule-title"}/>
+                            <div className={"text-success"}>
+                                <Translate string={"schedule-open"}/>
                             </div>
-                            <div className={"paraf_info_horario text-secondary"}>
-                                <Translate string={"schedule-message-closed-on"}/>
-                                {fixedDate(hora_fin)}
-                            </div>
-                        </div>);
-                    } else {
-                        result = (<div className={"d-flex flex-column"}>
-                            <div key={i} className={"d-flex flex-row gap-1"}>
-                                <Translate string={"schedule-title"}/>
-                                <div className={"text-danger"}>
-                                    <Translate string={"schedule-closed"}/>
-                                </div>
-                            </div>
-                            <div className={"paraf_info_horario text-secondary"}>
-                                <Translate string={"schedule-message-already-closed"}/>
-                            </div>
-                        </div>);
-                    }
+                        </div>
+                        <div className={"paraf_info_horario text-secondary"}>
+                            <Translate string={"schedule-message-closed-on"}/>
+                            {fixedDate(hora_fin)}
+                        </div>
+                    </div>);
+                    break;
                 }
             }
         }
     }
     return result;
+}
+
+function hasHoursAfter(hora_inicio, today) {
+    let hora_i = hora_inicio.hora_inicio.split(":")[0];
+    today = new Date()
+
+    if (parseInt(hora_i)>today.getHours()) {
+        return true;
+    }
+    return false;
 }
 
 function hasPassedTime(hora_inicio, hora_fin, today) {
@@ -141,18 +128,21 @@ function isNearClose(hora_inicio,hora_fin, today) {
         return false;
     }
     today = new Date()
-
-    let fin = new Date(today.getDate()+"/"+today.getMonth()+"/"+today.getFullYear()+" "+hora_fin)
-    today.setHours(today.getHours()+2)
-
-    return fin < today;
+    let fin = new Date(today);
+    return (hora_f - fin.getHours()) <= 2;
 }
 
-function isClosed(hora, today) {
-    hora = hora.split(":");
-    today = new Date()
+function isOpen(hora) {
+    let today = new Date();
+    let hora_fin = hora.hora_fin.split(":");
+    let hora_inicio = hora.hora_inicio.split(":");
 
-    return parseInt(hora[0]) > today.getHours();
+    if (parseInt(hora_inicio[0])<today.getHours()) {
+        if (parseInt(hora_fin[0])>today.getHours()) {
+            return true;
+        }
+    }
+    return false;
 }
 
 function textMake(week, horario, array, days) {
