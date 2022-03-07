@@ -27,28 +27,28 @@
             <artifactId>apiSha256</artifactId>
             <scope>system</scope>
             <version>1.3.2</version>
-            <systemPath>${basedir}/dependencies/apiSha256.jar</systemPath>
+            <systemPath>apiSha256.jar</systemPath>
         </dependency>
         <dependency>
-            <groupId>bcprov-jdk15on</groupId>
-            <artifactId>bcprov-jdk15on</artifactId>
+            <groupId>bcprov</groupId>
+            <artifactId>bcprov</artifactId>
             <scope>system</scope>
             <version>1.4.7</version>
-            <systemPath>${basedir}/dependencies/bcprov-jdk15on-1.4.7.jar</systemPath>
+            <systemPath>C:/Users/toni9/Desktop/dependencies/bcprov-jdk15on-1.4.7.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
             <scope>system</scope>
             <version>1.3</version>
-            <systemPath>${basedir}/dependencies/commons-codec-1.3.jar</systemPath>
+            <systemPath>C:/Users/toni9/Desktop/dependencies/commons-codec-1.3.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>org.json</artifactId>
             <scope>system</scope>
             <version>1.3.2</version>
-            <systemPath>${basedir}/dependencies/org.json.jar</systemPath>
+            <systemPath>C:/Users/toni9/Desktop/dependencies/org.json.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
