@@ -66,10 +66,12 @@ class ListRestaurant extends Component {
             }
         };
 
+        let restaurantes = Object.values(this.props.restaurants)
+
         return(
             <section className={"position-relative"}>
                 <h3 className={"pt-3 mt-5 ps-1 title-principal"}>{this.props.title}</h3>
-                {this.props.restaurants.length>this.state.quantity &&
+                {restaurantes.length>this.state.quantity &&
                 <Carousel
                     className={"sliderClass"}
                     arrows={false}
@@ -85,13 +87,13 @@ class ListRestaurant extends Component {
                         changeArrowState(currentSlide,slidesToShow,totalItems,this.state.idList)
                     }}>
 
-                    {restaurants.map(function(item, key) {
+                    {restaurantes.map(function(item, key) {
                         return (
                             <CardRestaurant className={"myCarusel border-0 mb-xxl-0 mb-4 OxigenFont"} key={key} restaurant={item} localidad={item.localidad}/>
                         )
                     })}
                 </Carousel>}
-                {this.props.restaurants.length<=this.state.quantity &&
+                {restaurantes.length<=this.state.quantity &&
                 <Carousel
                     className={"sliderClass"}
                     arrows={false}
@@ -105,7 +107,7 @@ class ListRestaurant extends Component {
                         changeArrowState(currentSlide,slidesToShow,totalItems,this.state.idList)
                     }}>
 
-                    {restaurants.map(function(item, key) {
+                    {restaurantes.map(function(item, key) {
                         return (
                             <CardRestaurant className={"myCarusel border-0 mb-xxl-0 mb-4 OxigenFont"} key={key} restaurant={item} localidad={item.localidad}/>
                         )

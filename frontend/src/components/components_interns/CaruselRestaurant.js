@@ -7,9 +7,12 @@ import CaruselCaption from "./CaruselCaption";
 class CaruselRestaurant extends Component {
 
     render() {
+        let restaurantes = Object.values(this.props.restaurants)
+
+        console.log(restaurantes);
         return (
             <Carousel className={"height-Carousel shadow-text-black w-100 mt-4 ps-lg-0 pe-lg-0 ps-2 pe-2"}>
-                {this.props.restaurants.map(function(item, key) {
+                {restaurantes.map(function(item, key) {
                     return (
                         <Carousel.Item key = {key}>
                             <ImageRestaurant class={"border-image d-block w-100 object-cover height-img"} restaurante={item}/>

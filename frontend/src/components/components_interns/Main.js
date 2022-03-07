@@ -49,6 +49,10 @@ class Main extends Component {
         }))).catch(error => this.setState({
             error: error,
         }))
+
+        if(!Array.isArray(this.state.BestRestaurants)){
+            this.setState({BestRestaurants: Array.from(this.state.BestRestaurants)}); 
+        }
     }
 
     async changeEtiqueta(e){
@@ -80,6 +84,11 @@ class Main extends Component {
 
     render() {
         const { BestRestaurants, EconomicRestaurants, isLoading, error } = this.state;
+
+        console.log(BestRestaurants);
+
+
+        console.log(BestRestaurants);
 
         if (error) {
             return <p>{error.message}</p>;
