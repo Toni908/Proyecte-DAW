@@ -100,7 +100,7 @@ class GalleryRestaurant extends Component {
                 )
             }
         } else {
-            return("<p id={\"photos\"}>Loading...</p>")
+            return("<p id={\"photos\"} hidden>No tienes ninguna imagen!!!</p>")
         }
     }
 }

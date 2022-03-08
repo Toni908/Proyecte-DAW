@@ -54,7 +54,7 @@
                 <i class="bi bi-person-square fs-3"><!-- --></i>
                 <div th:text="#{user.aside.person}"></div>
             </a>
-            <a class="w-100 select-info text-decoration-none text-black ps-5" th:href="@{'/restaurant/'+${restaurant.getId_restaurante()}}">
+            <a th:if="${restaurant.visible} == true" class="w-100 select-info text-decoration-none text-black ps-5" th:href="@{'/restaurant/'+${restaurant.getId_restaurante()}}">
                 <i class="bi bi-eye fs-3"><!-- --></i>
                 <div th:text="#{aside.show.restaurant}"></div>
             </a>
