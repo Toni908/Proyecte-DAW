@@ -65,10 +65,10 @@
 
                             <div th:if="${restaurante} != null" class="w-100 pb-3">
                                 <div class="d-flex flex-row justify-content-between">
-                                    <i th:if="${restaurante.isVisible()} == true" class="text-success bi bi-eye-fill fs-5 p-5"> Visible</i>
-                                    <i th:if="${restaurante.isVisible()} == false" class="text-secondary bi bi-eye-slash-fill fs-5 p-5"> Visible</i>
-                                    <i th:if="${restaurante.getMembresia()}!=null" class="text-success bi bi-inboxes fs-5 p-5"> Membresia</i>
-                                    <i th:if="${restaurante.getMembresia()}==null" class="text-secondary bi bi-inboxes fs-5 p-5"> Membresia</i>
+                                    <i th:if="${restaurante.isVisible()} == true" class="text-success bi bi-eye-fill fs-5"> Visible</i>
+                                    <i th:if="${restaurante.isVisible()} == false" class="text-secondary bi bi-eye-slash-fill fs-5"> Visible</i>
+                                    <i th:if="${restaurante.getMembresia()}!=null" class="text-success bi bi-inboxes fs-5"> Membresia</i>
+                                    <i th:if="${restaurante.getMembresia()}==null" class="text-secondary bi bi-inboxes fs-5"> Membresia</i>
                                 </div>
                             </div>
 
