@@ -370,7 +370,6 @@ public class RestaurantController {
         if (isUserCorrect(useracount, useracountService)) {
             if (useracount.isAdmin()) {
                 model.addAttribute("restaurantes", restaurantService.findAllRestaurants());
-                model.addAttribute("updateRestaurant", new Restaurant());
                 return "restaurantes_admin";
             }
         }

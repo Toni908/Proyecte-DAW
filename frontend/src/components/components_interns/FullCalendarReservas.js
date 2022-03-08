@@ -38,6 +38,14 @@ function FullCalendarReservas(props) {
     let result = reservas_anticipacion.getDateAnticipacion(dia_minimo);
     let lessResult = reservas_anticipacion.getDateLessAnticipacion(result)
 
+
+    /// EXPLICACION PORQUE LO HAGO CON IFS ->
+    /*
+        1-> EL LOCALE DE FULLCALENDAR ES UN ARCHIVO QUE SE IMPORTA SEGUN EL IDIOMA Y NO PUEDE SER UN STRING
+        2-> MAS PERSONALIZABLE, PUEDO HACER QUE EN ALGUNOS IDIOMAS PUEDA PERSONALIZAR O CAMBIAR COLORES
+
+        EL QUE ESTA MAL-> Pues es el mismo codigo o mismos plugings, y gasta mas recursos de lo que deberia
+     */
     if (LocaleContext._currentValue==="es") {
         return (
             <>
@@ -54,7 +62,7 @@ function FullCalendarReservas(props) {
                         end: "prev,next"
                     }}
                     dayCellDidMount={function (arg) {
-                        arg.el.innerHTML = "<div class='d-flex flex-row justify-content-end pe-2 py-4' style='height: 110px'>"+arg.el.innerText+"</div>";
+                        arg.el.innerHTML = "<div class='p-0 m-0'><div class='d-flex flex-row justify-content-end pe-2 py-4 height-from-cells'>"+arg.el.innerText+"</div></div>";
                         if (arg.date>=new Date(lessResult)) {
                             // EN ROJO SI YA NO SE PUEDE HACER MAS RESERVAS
                             if (!canClientReservar(arg.date, reservas,horario,aforo)) {
@@ -68,14 +76,14 @@ function FullCalendarReservas(props) {
                                     if (new Date(periodos[0].fecha_fin)<arg.date) {
                                         arg.el.style.backgroundColor = "rgba(216,230,242,1)";
                                     } else {
-                                        arg.el.innerHTML = "<div class='pe-2 pt-2 text-success' style='height: 110px'><i class=\"bi bi-check fs-4 d-flex flex-row justify-content-end\"/><div class='d-flex flex-row justify-content-end'>"+arg.el.innerText+"</div></div>";
+                                        arg.el.innerHTML = "<div class='pe-2 pt-2 text-success height-from-cells'><i class=\"bi bi-check fs-4 d-flex flex-row justify-content-end\"/><div class='d-flex flex-row justify-content-end'>"+arg.el.innerText+"</div></div>";
                                     }
                                 }
                             }
                         } else {
                             arg.el.style.backgroundColor = "rgba(216,230,242,1)";
                         }
-                        arg.el.style.border = "ECFBFF solid 2px";
+                        // arg.el.style.border = "#51718C solid 2px";
                     }}
                     dateClick={(e) => {setShow(true); setDate(new Date(e.date));}}
                     eventClick={(arg) => {setShow(true); setDate(arg.event.start);}}
@@ -101,7 +109,7 @@ function FullCalendarReservas(props) {
                         end: "prev,next"
                     }}
                     dayCellDidMount={function (arg) {
-                        arg.el.innerHTML = "<div class='d-flex flex-row justify-content-end pe-2 py-4' style='height: 110px'>"+arg.el.innerText+"</div>";
+                        arg.el.innerHTML = "<div class='d-flex flex-row justify-content-end pe-2 py-4 height-from-cells'>"+arg.el.innerText+"</div>";
                         if (arg.date>=new Date(lessResult)) {
                             // EN ROJO SI YA NO SE PUEDE HACER MAS RESERVAS
                             if (!canClientReservar(arg.date, reservas,horario,aforo)) {
@@ -115,7 +123,7 @@ function FullCalendarReservas(props) {
                                     if (new Date(periodos[0].fecha_fin)<arg.date) {
                                         arg.el.style.backgroundColor = "rgba(216,230,242,1)";
                                     } else {
-                                        arg.el.innerHTML = "<div class='h-100 pe-2 pt-2 text-success' style='height: 110px'><i class=\"bi bi-check fs-4 d-flex flex-row justify-content-end\"/><div class='d-flex flex-row justify-content-end'>"+arg.el.innerText+"</div></div>";
+                                        arg.el.innerHTML = "<div class='h-100 pe-2 pt-2 text-success height-from-cells'><i class=\"bi bi-check fs-4 d-flex flex-row justify-content-end\"/><div class='d-flex flex-row justify-content-end'>"+arg.el.innerText+"</div></div>";
                                     }
                                 }
                             }
@@ -147,7 +155,7 @@ function FullCalendarReservas(props) {
                         end: "prev,next"
                     }}
                     dayCellDidMount={function (arg) {
-                        arg.el.innerHTML = "<div class='d-flex flex-row justify-content-end pe-2 py-4' style='height: 110px'>"+arg.el.innerText+"</div>";
+                        arg.el.innerHTML = "<div class='d-flex flex-row justify-content-end pe-2 py-4 height-from-cells'>"+arg.el.innerText+"</div>";
                         if (arg.date>=new Date(lessResult)) {
                             // EN ROJO SI YA NO SE PUEDE HACER MAS RESERVAS
                             if (!canClientReservar(arg.date, reservas,horario,aforo)) {
@@ -161,7 +169,7 @@ function FullCalendarReservas(props) {
                                     if (new Date(periodos[0].fecha_fin)<arg.date) {
                                         arg.el.style.backgroundColor = "rgba(216,230,242,1)";
                                     } else {
-                                        arg.el.innerHTML = "<div class='h-100 pe-2 pt-2 text-success' style='height: 110px'><i class=\"bi bi-check fs-4 d-flex flex-row justify-content-end\"/><div class='d-flex flex-row justify-content-end'>"+arg.el.innerText+"</div></div>";
+                                        arg.el.innerHTML = "<div class='h-100 pe-2 pt-2 text-success height-from-cells'><i class=\"bi bi-check fs-4 d-flex flex-row justify-content-end\"/><div class='d-flex flex-row justify-content-end'>"+arg.el.innerText+"</div></div>";
                                     }
                                 }
                             }
