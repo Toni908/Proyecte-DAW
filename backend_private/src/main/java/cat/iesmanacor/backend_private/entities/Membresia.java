@@ -1,5 +1,6 @@
 package cat.iesmanacor.backend_private.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.ToString;
 
@@ -31,6 +32,7 @@ public class Membresia {
     @NotNull(message = "num_factura cant be null")
     private Factura factura;
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY,  mappedBy = "membresia")
     private List<Restaurant> restaurants;
 
