@@ -134,5 +134,10 @@
 
     "no_results_desc": "There are no results given the specified filters, try searching for something else!",
     "no_results": "No results",
-    "buscar_button": "Search"
+    "buscar_button": "Search",
+
+    "ops-not-found": "OOPS! PAGE",
+    "ops-not-found-2": "NOT FOUND.",
+    "text-not-found": "You must have picked the wrong door because I haven`t been able to lay my eve on the page you`ve been searching for.",
+    "button-back": "BACK TO HOME"
 }

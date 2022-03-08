@@ -134,5 +134,10 @@
 
     "no_results_desc": "No hay ningun resultado dados los filtros especificados, intenta buscar otra cosa!",
     "no_results": "No hay resultados",
-    "buscar_button": "Buscar"
+    "buscar_button": "Buscar",
+
+    "ops-not-found": "¡UPS! PÁGINA",
+    "ops-not-found-2": "NO ENCONTRADA.",
+    "text-not-found": "Debes haber elegido la puerta equivocada porque no he podido ubicar mi víspera en la página que has estado buscando.",
+    "button-back": "VOLVER AL INICIO"
 }
