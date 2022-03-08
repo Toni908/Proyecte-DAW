@@ -1,6 +1,5 @@
 package cat.iesmanacor.backend_private.entityDTO;
 
-import cat.iesmanacor.backend_private.controller.CardController;
 import cat.iesmanacor.backend_private.entities.*;
 
 import javax.persistence.Transient;
@@ -163,10 +162,5 @@ public class RestaurantSecureDTO {
 
     public void setPeriodos(List<Periodo> periodos) {
         this.periodos = periodos;
-    }
-
-    public String getUrl() {
-        if (id_restaurante == null) return null;
-        return "https://"+ CardController.urlw+"/restaurant/"+ id_restaurante;
     }
 }
