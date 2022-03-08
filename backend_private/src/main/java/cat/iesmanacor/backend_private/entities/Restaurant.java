@@ -1,6 +1,5 @@
 package cat.iesmanacor.backend_private.entities;
 
-import cat.iesmanacor.backend_private.controller.CardController;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.ToString;
@@ -77,11 +76,6 @@ public class Restaurant {
     public String getPhotosImagePath() {
         if (id_restaurante == null) return null;
         return "/restaurantes-photos/"+ id_restaurante + "/";
-    }
-
-    public String getUrl() {
-        if (id_restaurante == null) return null;
-        return "https://"+CardController.urlw+"/restaurant/"+ id_restaurante;
     }
 
     public Restaurant() {
