@@ -171,7 +171,7 @@ public class RestaurantController {
     @RequestMapping(value = "/restaurant/save")
     @Transactional()
     public RedirectView save(@ModelAttribute @Valid RestaurantCreateDTO restaurantDTO,
-                             @RequestParam("localidad") BigInteger localidad,
+                             @RequestParam("localidad") String localidad,
                              BindingResult errors,
                              RedirectAttributes model,
                              @RequestParam("saveMultiple") List<MultipartFile> multipartFile,
@@ -196,12 +196,12 @@ public class RestaurantController {
                     model.addFlashAttribute("error", traductions.getTraductionLocale(request));
                     return new RedirectView("/restaurant/create");
                 }
-                Optional<Localidad> localidadFind = localidadService.findLocalidadById(localidad);
+                List<Localidad> localidadFind = localidadService.findLocalidadByNombre_localidad(localidad);
                 if (localidadFind.isEmpty()) {
                     model.addFlashAttribute("error","Localidad no selecionada");
                     return new RedirectView("/restaurant/create");
                 } else {
-                    restaurant.setLocalidad(localidadFind.get());
+                    restaurant.setLocalidad(localidadFind.get(0));
                 }
 
                 if (restaurant.getLatitud()!=null || restaurant.getLongitud()!=null) {
