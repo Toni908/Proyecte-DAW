@@ -21,7 +21,7 @@ municipios.show();
 $.getJSON("/get/municipios/admin/json", function (data) {
     municipios.empty();
     $.each(data, function (key, object) {
-        $("#municipio").append("<option value='" + key + "'>" + object.nombre_municipio + "</option>")
+        $("#municipio").append("<option value='" + object.nombre_municipio + "'>" + object.nombre_municipio + "</option>")
     });
     municipios.prepend("<option value='' selected>"+traductions.municipality+"</option>");
 });
@@ -41,7 +41,7 @@ function showLocalidades() {
             $("#localidad").empty();
             $.each(dataLocalidad, function (key, object) {
                 if (object.nombre_municipio.nombre_municipio === municipioSelected) {
-                    $("#localidad").append("<option value='" + key + "'>" + object.nombre_localidad + "</option>")
+                    $("#localidad").append("<option value='" + object.nombre_localidad + "'>" + object.nombre_localidad + "</option>")
                 }
             });
         });
