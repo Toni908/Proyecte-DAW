@@ -1,5 +1,6 @@
 package cat.iesmanacor.backend_private.entities;
 
+import cat.iesmanacor.backend_private.controller.CardController;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.ToString;
@@ -111,5 +112,10 @@ public class Restaurant {
         this.aforo = aforo;
         this.direccion = direccion;
         this.visible = visible;
+    }
+
+    public String getUrl() {
+        if (nombre == null) return null;
+        return "https://"+ CardController.urlw+"/restaurant/"+ nombre;
     }
 }

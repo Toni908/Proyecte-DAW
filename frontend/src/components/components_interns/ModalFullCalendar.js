@@ -98,7 +98,7 @@ function ModalFullCalendar(props) {
                         <>
                             <div className={"fw-bold"}>
                                 <i className="bi bi-info-circle pe-2 text-danger"/>
-                                <Translate string={"capacity-max-booking"}/> {formatDateES(props.date)} {getHoursDate(props.date)}
+                                <Translate string={"capacity-max-booking"}/> {formatDateES(props.date)}}
                             </div>
                         </>
                         }
