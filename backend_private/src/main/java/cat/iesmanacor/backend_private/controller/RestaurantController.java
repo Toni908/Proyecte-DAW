@@ -214,14 +214,9 @@ public class RestaurantController {
                         for (MultipartFile url : multipartFile) {
                             if (ImgController.checkUrlisEmpty(url.getOriginalFilename(),imgService)) {
                                 if (StringUtils.cleanPath(Objects.requireNonNull(url.getOriginalFilename())).matches("^[\\S]+$")) {
-                                    if (StringUtils.cleanPath(Objects.requireNonNull(url.getOriginalFilename())).matches("\\.(jpg|png|gif)$")) {
-                                        boolean hasPassed = ImgController.saveImageRestaurant(url, restaurant, imgService);
-                                        if (!hasPassed) {
-                                            model.addFlashAttribute("error", "Error on save image, contact with our admins");
-                                        }
-                                    } else {
-                                        Traductions traductions = new Traductions("El formato de la imagen no es correcto","The format of the image is incorrect","La extensio de la imatge no es correcte");
-                                        model.addFlashAttribute("error", traductions.getTraductionLocale(request));
+                                    boolean hasPassed = ImgController.saveImageRestaurant(url, restaurant, imgService);
+                                    if (!hasPassed) {
+                                        model.addFlashAttribute("error", "Error on save image, contact with our admins");
                                     }
                                 } else {
                                     Traductions traductions = new Traductions("El nombre de la imagen no debe de contener espacios","The image name must not contain spaces","El nom de la imatge no ha de contenir espais");
