@@ -141,7 +141,7 @@ class Main extends Component {
                                         </Link>
                                     </article>
                                     <article className={"col-lg-3 col-12 p-2 px-lg-2 px-4"}>
-                                        <Link to={"/search/sitio/Pollença"} style={{ textDecoration: 'none' }}>
+                                        <Link to={"/search/sitio/Arta"} style={{ textDecoration: 'none' }}>
                                             <Card className={"border-0"}>
                                                 <img className={'card-section-municipio w-100 round-card-top object-cover'} src={city4} alt={"Municipio"}/>
                                                 <section className={"round-card card-section-municipio background-TYPE-3 w-100 ps-4 pt-4"}>

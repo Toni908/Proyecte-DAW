@@ -134,5 +134,10 @@
 
     "no_results_desc": "No hi ha cap resultat donats els filtres especificats, intenta buscar una altra cosa!",
     "no_results": "No hi ha resultats",
-    "buscar_button": "Cercar"
+    "buscar_button": "Cercar",
+
+    "ops-not-found": "UP! PÀGINA",
+    "ops-not-found-2": "NO TROBAT.",
+    "text-not-found": "Has d'haver escollit la porta equivocada perquè no he pogut posar la meva vigília a la pàgina que has estat buscant.",
+    "button-back": "TORNAR A L'INICI"
 }

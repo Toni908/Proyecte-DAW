@@ -92,7 +92,26 @@ class ListRestaurant extends Component {
                         )
                     })}
                 </Carousel>}
-                {restaurantes.length<=this.state.quantity &&
+                {restaurantes.length===this.state.quantity &&
+                <Carousel
+                    className={"sliderClass"}
+                    arrows={false}
+                    renderButtonGroupOutside={true}
+                    responsive={responsive}
+                    beforeChange={(nextSlide, { totalItems,slidesToShow, currentSlide }) => {
+                        changeArrowState(currentSlide,slidesToShow,totalItems,this.state.idList)
+                    }}
+                    afterChange={(previousSlide, { totalItems,slidesToShow,currentSlide }) => {
+                        changeArrowState(currentSlide,slidesToShow,totalItems,this.state.idList)
+                    }}>
+
+                    {restaurantes.map(function(item, key) {
+                        return (
+                            <CardRestaurant className={"myCarusel border-0 mb-xxl-0 mb-4 OxigenFont"} key={key} restaurant={item} localidad={item.localidad}/>
+                        )
+                    })}
+                </Carousel>}
+                {restaurantes.length<this.state.quantity &&
                 <Carousel
                     className={"sliderClass"}
                     arrows={false}
