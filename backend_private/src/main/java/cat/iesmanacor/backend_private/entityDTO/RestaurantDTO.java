@@ -1,7 +1,5 @@
 package cat.iesmanacor.backend_private.entityDTO;
 
-import cat.iesmanacor.backend_private.controller.CardController;
-
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -91,10 +89,5 @@ public class RestaurantDTO {
 
     public void setAforo(Long aforo) {
         this.aforo = aforo;
-    }
-
-    public String getUrl() {
-        if (id_restaurante == null) return null;
-        return "https://"+ CardController.urlw+"/restaurant/"+ id_restaurante;
     }
 }
