@@ -16,7 +16,7 @@ public class EmailServiceImpl implements EmailService {
 
     public void sendSimpleMessage(String to, String subject, String text) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("mallorcarestaurant@mallorcarestaurant.me");
+        message.setFrom("noreplay@restaurantemallorca.me");
         message.setTo(to);
         message.setSubject(subject);
         message.setText(text);
@@ -29,7 +29,7 @@ public class EmailServiceImpl implements EmailService {
         try {
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
-            helper.setFrom("mallorcarestaurant@mallorcarestaurant.me");
+            helper.setFrom("noreply@restaurantemallorca.me");
             helper.setTo(to);
             helper.setSubject(subject);
             helper.setText(htmlText(correo,codigo,title),true);
